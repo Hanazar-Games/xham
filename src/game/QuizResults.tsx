@@ -20,7 +20,7 @@ export function QuizResults({
   }, [])
   return (
     <div className="result-view">
-      <div className="result-trophy">
+      <div className="result-trophy" aria-hidden="true">
         <Icon name="trophy" size={54} />
         <span>✦</span>
         <span>✦</span>
@@ -75,14 +75,13 @@ export function QuizResults({
       <button
         className="review-toggle"
         aria-expanded={showReview}
-        aria-controls="answer-review"
         onClick={() => setShowReview((value) => !value)}
       >
         {showReview ? '收起答案回顾' : '查看答案与解析'}
         <Icon name="chevron" size={17} className={showReview ? 'rotate-up' : 'rotate-down'} />
       </button>
       {showReview && (
-        <section id="answer-review" className="answer-review" aria-label="答案回顾">
+        <section className="answer-review" aria-label="答案回顾">
           {quiz.questions.map((item, index) => {
             const answer = state.responses[index]
             return (

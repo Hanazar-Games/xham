@@ -22,7 +22,15 @@ const chords = [
   [55, 59, 62, 67],
 ]
 const melody = [0, -1, 2, -1, 1, 2, 3, -1, 2, -1, 1, 0, -1, 1, 2, -1]
-type Voice = { oscillator: OscillatorNode; envelope: GainNode; channel: 'music' | 'sfx' }
+type Voice = {
+  oscillator: OscillatorNode
+  envelope: GainNode
+  channel: 'music' | 'sfx'
+  time: number
+  duration: number
+  volume: number
+  stopping: boolean
+}
 
 export class AudioEngine {
   private context?: AudioContext
@@ -36,6 +44,8 @@ export class AudioEngine {
   private voices = new Set<Voice>()
   private step = 0
   private nextNote = 0
+  private transition?: Promise<boolean>
+  private pendingCue?: { cue: Cue; expires: number }
 
   constructor(private factory: () => AudioContext = () => new AudioContext()) {}
 
@@ -48,37 +58,42 @@ export class AudioEngine {
         this.music = this.context.createGain()
         this.sfx.connect(this.context.destination)
         this.music.connect(this.context.destination)
-        this.applyVolume()
+        this.applyVolume(true)
       }
-      if (this.context.state !== 'running') await this.context.resume()
-      if (this.disposed || !this.visible) return false
-      this.syncMusic()
-      return this.context.state === 'running'
+      return await this.reconcile()
     } catch {
       return false
     }
   }
 
   configure(options: Partial<AudioOptions>) {
+    if (this.disposed) return
     this.options = { ...this.options, ...options }
     this.options.volume = Number.isFinite(this.options.volume)
       ? Math.max(0, Math.min(1, this.options.volume))
       : defaultAudio.volume
     this.applyVolume()
-    if (!this.options.sfx || this.options.volume === 0) this.stopVoices('sfx')
+    if (!this.options.sfx || this.options.volume === 0) {
+      this.pendingCue = undefined
+      this.stopVoices('sfx')
+    }
     this.syncMusic()
   }
 
   play(cue: Cue) {
     if (
       !this.context ||
-      this.context.state !== 'running' ||
       this.disposed ||
       !this.visible ||
       !this.options.sfx ||
       !this.options.volume
     )
       return
+    if (this.context.state !== 'running' || this.transition) {
+      this.pendingCue = { cue, expires: performance.now() + 400 }
+      return
+    }
+    this.stopVoices('sfx')
     const time = this.context.currentTime + 0.01
     cues[cue].forEach((note, index) =>
       this.note(
@@ -93,39 +108,71 @@ export class AudioEngine {
 
   setPaused(paused: boolean) {
     this.paused = paused
+    if (paused) this.pendingCue = undefined
     this.syncMusic()
   }
 
   setVisible(visible: boolean) {
     this.visible = visible
     if (!visible) {
+      this.pendingCue = undefined
       this.stopMusic()
       this.stopVoices('sfx')
-      void this.context?.suspend().catch(() => {})
-    } else if (this.context) {
-      void this.unlock()
     }
+    if (this.context && !this.disposed) void this.reconcile()
   }
 
   dispose() {
+    if (this.disposed) return
     this.disposed = true
+    this.pendingCue = undefined
     this.stopMusic()
     this.stopVoices('sfx')
+    for (const voice of this.voices) {
+      voice.oscillator.disconnect()
+      voice.envelope.disconnect()
+    }
+    this.voices.clear()
     void this.context?.close().catch(() => {})
   }
 
-  private applyVolume() {
+  private reconcile(): Promise<boolean> {
+    if (this.transition) return this.transition
+    let visible = this.visible
+    const reconcile = async () => {
+      do {
+        visible = this.visible
+        if (this.disposed || !this.context) return false
+        if (visible && this.context.state !== 'running') await this.context.resume()
+        if (!visible && this.context.state !== 'suspended') await this.context.suspend()
+      } while (visible !== this.visible)
+      return !this.disposed && visible && this.context?.state === 'running'
+    }
+    this.transition = reconcile()
+      .catch(() => false)
+      .then((ready) => {
+        this.transition = undefined
+        if (!this.disposed && visible !== this.visible) return this.reconcile()
+        if (ready && !this.disposed && this.visible) {
+          this.syncMusic()
+          const pending = this.pendingCue
+          this.pendingCue = undefined
+          if (pending && pending.expires >= performance.now()) this.play(pending.cue)
+        }
+        return ready && !this.disposed
+      })
+    return this.transition
+  }
+
+  private applyVolume(initial = false) {
     if (!this.context || !this.sfx || !this.music) return
-    this.sfx.gain.setTargetAtTime(
-      this.options.sfx ? this.options.volume * 0.8 : 0,
-      this.context.currentTime,
-      0.025,
-    )
-    this.music.gain.setTargetAtTime(
-      this.options.music ? this.options.volume * 0.35 : 0,
-      this.context.currentTime,
-      0.04,
-    )
+    for (const [node, value] of [
+      [this.sfx, this.options.sfx ? this.options.volume * 0.8 : 0],
+      [this.music, this.options.music ? this.options.volume * 0.35 : 0],
+    ] as const) {
+      if (initial) node.gain.setValueAtTime(value, this.context.currentTime)
+      else node.gain.setTargetAtTime(value, this.context.currentTime, 0.025)
+    }
   }
 
   private note(
@@ -140,12 +187,13 @@ export class AudioEngine {
     const envelope = context.createGain()
     oscillator.type = 'sine'
     oscillator.frequency.setValueAtTime(440 * 2 ** ((midi - 69) / 12), time)
+    envelope.gain.setValueAtTime(0, context.currentTime)
     envelope.gain.setValueAtTime(0, time)
     envelope.gain.linearRampToValueAtTime(volume, time + 0.012)
     envelope.gain.linearRampToValueAtTime(0, time + duration)
     oscillator.connect(envelope)
     envelope.connect(channel === 'sfx' ? this.sfx! : this.music!)
-    const voice = { oscillator, envelope, channel }
+    const voice = { oscillator, envelope, channel, time, duration, volume, stopping: false }
     this.voices.add(voice)
     oscillator.onended = () => {
       oscillator.disconnect()
@@ -159,11 +207,27 @@ export class AudioEngine {
   private stopVoices(channel: Voice['channel']) {
     const now = this.context?.currentTime ?? 0
     for (const voice of this.voices) {
-      if (voice.channel !== channel) continue
+      if (voice.channel !== channel || voice.stopping) continue
+      voice.stopping = true
+      if (now <= voice.time) {
+        voice.oscillator.stop(now)
+        voice.oscillator.disconnect()
+        voice.envelope.disconnect()
+        this.voices.delete(voice)
+        continue
+      }
+      const elapsed = now - voice.time
+      const gain =
+        voice.volume *
+        Math.max(
+          0,
+          elapsed < 0.012 ? elapsed / 0.012 : (voice.duration - elapsed) / (voice.duration - 0.012),
+        )
       voice.envelope.gain.cancelScheduledValues(now)
-      voice.envelope.gain.setTargetAtTime(0, now, 0.008)
-      voice.oscillator.stop(now + 0.04)
-      this.voices.delete(voice)
+      // Preserve the canceled ramp up to the release point.
+      voice.envelope.gain.linearRampToValueAtTime(gain, now)
+      voice.envelope.gain.linearRampToValueAtTime(0, now + 0.015)
+      voice.oscillator.stop(now + 0.02)
     }
   }
 

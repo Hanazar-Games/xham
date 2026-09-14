@@ -10,6 +10,8 @@ import { summarize, type GameState } from './game/engine'
 import { QuizResults } from './game/QuizResults'
 import { AudioButton, AudioSettings } from './audio/AudioSettings'
 import { useAudio } from './audio/AudioProvider'
+import { ReleaseNotes } from './components/ReleaseNotes'
+import { currentRelease } from './data/releases'
 
 type View = 'discover' | 'saved' | 'results'
 const categoryIcons: Record<Category, IconName> = {
@@ -34,6 +36,7 @@ export default function App() {
   const [history, setHistory] = useState<GameState[]>([])
   const [reviewedGame, setReviewedGame] = useState<GameState | null>(null)
   const [audioOpen, setAudioOpen] = useState(false)
+  const [releaseOpen, setReleaseOpen] = useState(false)
   const { play } = useAudio()
   const search = query.trim()
   const onComplete = useCallback((state: GameState) => setHistory((items) => [state, ...items]), [])
@@ -57,7 +60,7 @@ export default function App() {
   }
   const exitGame = () => {
     setPlaying(null)
-    window.scrollTo({ top: 0 })
+    navigate('discover')
   }
   const toggleSave = (id: string) =>
     setSaved((items) => (items.includes(id) ? items.filter((item) => item !== id) : [...items, id]))
@@ -112,7 +115,10 @@ export default function App() {
         <main className="game-main">
           <QuizResults
             state={reviewedGame}
-            onExit={() => setReviewedGame(null)}
+            onExit={() => {
+              setReviewedGame(null)
+              navigate('discover')
+            }}
             onReplay={() => {
               openQuiz(reviewedGame.quiz)
               setReviewedGame(null)
@@ -228,7 +234,9 @@ export default function App() {
                   : view === 'saved'
                     ? '把喜欢的，留给下一次。'
                     : '每次挑战，都算数。'}
-                <span className="heading-spark">✳</span>
+                <span className="heading-spark" aria-hidden="true">
+                  ✳
+                </span>
               </h1>
               <p>
                 {view === 'discover'
@@ -256,6 +264,16 @@ export default function App() {
             )}
           </section>
 
+          {view === 'discover' && !search && (
+            <button className="release-banner" onClick={() => setReleaseOpen(true)}>
+              <Icon name="sparkles" size={21} />
+              <span className="release-banner-copy">
+                <strong>v{currentRelease.version} 更新公告</strong>
+                <span>{currentRelease.summary}</span>
+              </span>
+              <Icon name="chevron" size={17} />
+            </button>
+          )}
           {view === 'discover' && !search && (
             <section className="featured-row">
               <div className="hero">
@@ -344,7 +362,7 @@ export default function App() {
                   </select>
                 </label>
               </div>
-              <div className="category-tabs" aria-label="主题分类">
+              <div className="category-tabs" role="group" aria-label="主题分类">
                 {categories.map((item) => (
                   <button
                     key={item}
@@ -484,6 +502,9 @@ export default function App() {
             </section>
           )}
           <footer className="dashboard-footer">
+            <button className="release-link" onClick={() => setReleaseOpen(true)}>
+              版本公告 · v{currentRelease.version}
+            </button>
             <span>
               <Icon name="sparkles" size={15} />
               不必无所不知，只要保持好奇。
@@ -497,6 +518,7 @@ export default function App() {
         </main>
       </div>
 
+      {releaseOpen && <ReleaseNotes onClose={() => setReleaseOpen(false)} />}
       {audioOpen && <AudioSettings onClose={() => setAudioOpen(false)} />}
       {selected && (
         <Dialog title="准备好，让好奇心出发？" onClose={() => setSelected(null)}>

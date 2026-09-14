@@ -47,10 +47,12 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     const visibility = () => current.setVisible(!document.hidden)
     visibility()
     window.addEventListener('pointerdown', activate, true)
+    window.addEventListener('click', activate, true)
     window.addEventListener('keydown', activate, true)
     document.addEventListener('visibilitychange', visibility)
     return () => {
       window.removeEventListener('pointerdown', activate, true)
+      window.removeEventListener('click', activate, true)
       window.removeEventListener('keydown', activate, true)
       document.removeEventListener('visibilitychange', visibility)
       current.dispose()

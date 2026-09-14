@@ -112,7 +112,7 @@ h1:focus {
 .sidebar-label {
   font-size: 10px;
   letter-spacing: 2px;
-  color: #90958c;
+  color: #626b5a;
   margin: 15px 0 35px 5px;
 }
 .main-nav {
@@ -125,7 +125,7 @@ h1:focus {
   align-items: center;
   gap: 12px;
   border-radius: 9px;
-  color: #7c817b;
+  color: #65705c;
   font-size: 13px;
   white-space: nowrap;
   text-align: left;
@@ -181,7 +181,7 @@ h1:focus {
 .curiosity-card p {
   font-size: 11px;
   line-height: 1.9;
-  color: #969a8e;
+  color: #637053;
 }
 .curiosity-card button {
   display: flex;
@@ -201,7 +201,7 @@ h1:focus {
   align-items: center;
   gap: 10px;
   padding: 14px 6px;
-  color: #777e74;
+  color: #637053;
   font-size: 12px;
   width: 100%;
 }
@@ -211,7 +211,7 @@ h1:focus {
 .sidebar-footnote {
   font-size: 7px;
   letter-spacing: 1px;
-  color: #b3b7ad;
+  color: #66715e;
   padding: 20px 4px 0;
   border-top: 1px solid #eff0eb;
   margin-top: 12px;
@@ -241,10 +241,10 @@ h1:focus {
   gap: 15px;
   align-items: center;
   font-size: 11px;
-  color: #9b9f99;
+  color: #65715b;
 }
 .breadcrumb > span {
-  color: #cbd0c7;
+  color: #65715b;
 }
 .breadcrumb strong {
   font-weight: 500;
@@ -262,7 +262,7 @@ h1:focus {
   display: flex;
   align-items: center;
   gap: 7px;
-  color: #92988b;
+  color: #65715b;
   font-size: 10px;
 }
 .mode-label i {
@@ -281,7 +281,7 @@ h1:focus {
   border: 4px solid #f4f5ee;
   border-radius: 50%;
   background: #e9edcf;
-  color: #7e8a57;
+  color: #4d5d34;
   font-size: 13px;
   font-weight: 700;
 }
@@ -471,7 +471,7 @@ h1:focus {
 .hero-note {
   display: block;
   font-size: 8px;
-  color: #93a17b;
+  color: #5b6b44;
   margin-top: 10px;
   letter-spacing: 0.5px;
 }
@@ -495,12 +495,12 @@ h1:focus {
   bottom: 29px;
   left: 25%;
   font-size: 8px;
-  color: #657746;
+  color: #536536;
   letter-spacing: 0.2px;
   transform: rotate(-8deg);
 }
 .spotlight {
-  background: #77628e;
+  background: #6b587f;
   border-radius: 15px;
   min-height: 302px;
   padding: 22px 22px 19px;
@@ -519,17 +519,17 @@ h1:focus {
   display: flex;
   align-items: center;
   gap: 5px;
-  background: #ffffff15;
+  background: #756087;
   border: 1px solid #ffffff22;
   border-radius: 5px;
   font-size: 9px;
   padding: 5px 8px;
-  color: #f0e8ff;
+  color: #ffffff;
 }
 .spotlight-top > span:last-child {
   font-size: 9px;
   letter-spacing: 1px;
-  color: #bdaeca;
+  color: #f3edf8;
 }
 .spotlight-content {
   position: relative;
@@ -539,7 +539,7 @@ h1:focus {
 .spotlight-kicker {
   font-size: 7px;
   letter-spacing: 1.8px;
-  color: #cabdd8;
+  color: #f3edf8;
 }
 .spotlight h2 {
   font-size: 27px;
@@ -550,13 +550,13 @@ h1:focus {
 }
 .spotlight p {
   font-size: 10px;
-  color: #c7bad4;
+  color: #f3edf8;
 }
 .spotlight-meta {
   display: flex;
   gap: 16px;
   font-size: 9px;
-  color: #d2c7dc;
+  color: #f3edf8;
   margin: 19px 0 16px;
 }
 .spotlight-meta > span {
@@ -631,7 +631,7 @@ h1:focus {
 .library-heading h2 > span {
   font-size: 10px;
   background: #eaede6;
-  color: #8f9884;
+  color: #5b694e;
   padding: 2px 6px;
   border-radius: 5px;
   font-weight: 500;
@@ -641,12 +641,12 @@ h1:focus {
   display: flex;
   align-items: center;
   gap: 10px;
-  color: #a2a79b;
+  color: #627151;
 }
 .sort-control select {
   border: 0;
   background: transparent;
-  color: #747d6b;
+  color: #5a694d;
   font-size: 10px;
   cursor: pointer;
   max-width: 130px;
@@ -675,7 +675,7 @@ h1:focus {
   border-radius: 7px;
   padding: 9px 14px;
   font-size: 12px;
-  color: #89907f;
+  color: #647153;
   min-height: 37px;
 }
 .category-tabs button:hover {
@@ -759,16 +759,16 @@ h1:focus {
 }
 .peach .cover-tag,
 .yellow .cover-tag {
-  color: #a07b5a;
+  color: #75573c;
 }
 .blue .cover-tag {
-  color: #62899a;
+  color: #45697a;
 }
 .mint .cover-tag {
-  color: #618877;
+  color: #406550;
 }
 .pink .cover-tag {
-  color: #a47986;
+  color: #765062;
 }
 .question-badge {
   position: absolute;
@@ -891,11 +891,11 @@ h1:focus {
   align-items: center;
   justify-content: space-between;
   padding: 29px 0 24px;
-  color: #6c785f;
+  color: #626f55;
   font-size: 9px;
   gap: 16px;
 }
-.dashboard-footer > span:first-child {
+.dashboard-footer > span:first-of-type {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -921,7 +921,7 @@ h1:focus {
   display: flex;
   gap: 7px;
   align-items: center;
-  color: #8b9483;
+  color: #62744f;
   font-size: 11px;
   padding: 8px;
 }
@@ -945,7 +945,7 @@ h1:focus {
   border: 1px dashed #dbe2d1;
   padding: 65px 20px;
   border-radius: 14px;
-  color: #8e9c80;
+  color: #647452;
   min-height: 310px;
 }
 .empty-state h3 {
@@ -999,7 +999,7 @@ h1:focus {
   margin: 7px 0 10px;
 }
 .dialog-description {
-  color: #707d64;
+  color: #66735a;
   line-height: 1.9;
   font-size: 13px;
   margin-bottom: 20px;
@@ -1051,7 +1051,7 @@ h1:focus {
 .how-to-play li > span {
   font-size: 11px;
   background: #edf4e2;
-  color: #8da270;
+  color: #58703b;
   padding: 9px;
   border-radius: 8px;
   font-weight: 650;
@@ -1089,7 +1089,7 @@ h1:focus {
   border: 1px solid var(--line);
   border-radius: 12px;
   background: #fff;
-  color: #899776;
+  color: #647451;
 }
 .history-summary > div > span {
   font-size: 12px;
@@ -1102,7 +1102,7 @@ h1:focus {
 }
 .history-summary small {
   font-size: 12px;
-  color: #a0aa95;
+  color: #60734a;
   font-weight: 400;
 }
 .history-list {
@@ -1131,7 +1131,7 @@ h1:focus {
 .history-item p,
 .history-item > div > span {
   font-size: 11px;
-  color: #98a08f;
+  color: #64754e;
 }
 .history-item > strong {
   margin-left: auto;
@@ -1142,7 +1142,7 @@ h1:focus {
 .history-item > strong small {
   font-size: 11px;
   font-weight: 400;
-  color: #9ba78e;
+  color: #60734a;
 }
 .history-item .secondary-button {
   font-size: 11px;
@@ -1168,11 +1168,11 @@ h1:focus {
 .game-topic {
   display: flex;
   gap: 15px;
-  color: #9ba58e;
+  color: #626f55;
   font-size: 11px;
 }
 .game-topic > span {
-  color: #cbd0c2;
+  color: #626f55;
 }
 .game-main {
   width: 100%;
@@ -1189,7 +1189,7 @@ h1:focus {
 }
 .question-position {
   font-size: 12px;
-  color: #9ba58f;
+  color: #667651;
   letter-spacing: 0.7px;
 }
 .question-position strong {
@@ -1208,7 +1208,7 @@ h1:focus {
   border-radius: 20px;
   font-size: 15px;
   font-weight: 650;
-  color: #6a8250;
+  color: #526c39;
 }
 .score-pill small {
   font-size: 10px;
@@ -1274,7 +1274,7 @@ h1:focus {
   position: absolute;
   top: 23px;
   right: 25px;
-  color: #8aa16d;
+  color: #617c42;
 }
 .timer strong {
   font-size: 22px;
@@ -1286,7 +1286,7 @@ h1:focus {
   font-size: 9px;
 }
 .timer-urgent {
-  color: #c67a65;
+  color: #ac4e31;
 }
 .timer-track {
   height: 5px;
@@ -1412,13 +1412,13 @@ h1:focus {
   align-items: center;
   gap: 8px;
   font-size: 15px;
-  color: #617d46;
+  color: #526d37;
   line-height: 1.6;
   margin-bottom: 7px;
 }
 .answer-feedback p {
   font-size: 13px;
-  color: #657657;
+  color: #5b6c4d;
   line-height: 1.9;
 }
 .feedback-wrong {
@@ -1426,10 +1426,10 @@ h1:focus {
   border-color: #e9e1ce;
 }
 .feedback-wrong h2 {
-  color: #9a865c;
+  color: #756136;
 }
 .feedback-wrong p {
-  color: #827354;
+  color: #756646;
 }
 .answer-feedback .dark-button {
   white-space: nowrap;
@@ -1454,12 +1454,12 @@ h1:focus {
   width: 20px;
   height: 23px;
   margin: 0 2px;
-  color: #8a987a;
+  color: #61744b;
 }
 .game-footer {
   text-align: center;
   font-size: 9px;
-  color: #abb49e;
+  color: #64754e;
   padding: 25px;
   display: flex;
   justify-content: center;
@@ -1499,11 +1499,12 @@ h1:focus {
 .result-view h1 {
   font-size: 29px;
   line-height: 1.6;
+  text-wrap: balance;
   margin: 13px 0 10px;
 }
 .result-description {
   font-size: 13px;
-  color: #6b775b;
+  color: #61704f;
 }
 .result-stats {
   display: grid;
@@ -1532,7 +1533,7 @@ h1:focus {
 }
 .result-stats small {
   font-size: 14px;
-  color: #a1ab94;
+  color: #64744f;
   font-weight: 400;
 }
 .result-stats > div > span {
@@ -1549,7 +1550,7 @@ h1:focus {
   align-items: center;
   gap: 6px;
   font-size: 11px;
-  color: #8a9a78;
+  color: #5e724b;
   margin: 25px 0;
   padding: 7px;
 }
@@ -1596,7 +1597,7 @@ h1:focus {
   margin: 1px 0 9px;
 }
 .review-item h3 > span {
-  color: #a1ad91;
+  color: #5e724a;
 }
 .review-item p {
   font-size: 12px;
@@ -1610,12 +1611,12 @@ h1:focus {
 }
 .review-item .review-explanation {
   margin-top: 9px;
-  color: #768168;
+  color: #667456;
 }
 .review-points {
   margin-left: auto;
   font-size: 12px;
-  color: #9aaf7c;
+  color: #5a733b;
   white-space: nowrap;
   font-weight: 550;
 }
@@ -1921,7 +1922,7 @@ h1:focus {
   }
   .sidebar-label {
     margin: 0;
-    color: #9ba38e;
+    color: #626b5a;
     font-size: 9px;
     letter-spacing: 1px;
   }

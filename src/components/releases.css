@@ -1,0 +1,154 @@
+.release-banner {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  text-align: left;
+  width: 100%;
+  padding: 14px 18px;
+  margin: -7px 0 23px;
+  border: 1px solid #dbe5d0;
+  border-radius: 11px;
+  background: #f0f5e7;
+  color: #5b6e44;
+}
+.release-banner:hover {
+  background: #e8f0dc;
+}
+.release-banner-copy {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex: 1;
+  flex-wrap: wrap;
+}
+.release-banner strong {
+  font-size: 12px;
+  font-weight: 600;
+}
+.release-banner-copy > span {
+  font-size: 11px;
+  color: #5b6b4b;
+  line-height: 1.8;
+}
+.release-link {
+  padding: 7px 0;
+  color: #536641;
+  font-size: 11px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.release-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 22px;
+  padding: 4px;
+  border-radius: 9px;
+  background: #f0f3eb;
+}
+.release-tabs button {
+  flex: 1;
+  padding: 11px;
+  border-radius: 7px;
+  color: #62744d;
+  font-size: 13px;
+}
+.release-tabs button[aria-pressed='true'] {
+  background: #fff;
+  box-shadow: 0 1px 4px #36462812;
+  color: #354828;
+  font-weight: 600;
+}
+.release-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  color: #647351;
+  font-size: 12px;
+  margin-bottom: 18px;
+}
+.release-meta > span {
+  padding: 5px 9px;
+  border-radius: 5px;
+  background: #e8f2db;
+  color: #47632f;
+  font-weight: 600;
+}
+.latest-release h3 {
+  font-size: 19px;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+.latest-release p,
+.historical-release p,
+.release-intro {
+  font-size: 13px;
+  color: #637452;
+  line-height: 1.9;
+}
+.latest-release ul,
+.historical-release ul {
+  padding-left: 20px;
+  margin: 20px 0 25px;
+  font-size: 13px;
+  line-height: 1.9;
+  color: #4f5f40;
+}
+.latest-release li,
+.historical-release li {
+  padding-left: 3px;
+  margin: 10px 0;
+}
+.historical-release {
+  margin: 17px 0 24px;
+  padding: 17px;
+  border: 1px solid #dfe6d6;
+  border-radius: 10px;
+}
+.historical-release summary {
+  cursor: pointer;
+  color: #455d35;
+  font-size: 13px;
+  line-height: 1.8;
+}
+.historical-release summary span {
+  display: block;
+  margin: 6px 0 0 15px;
+  font-size: 12px;
+}
+.historical-release time {
+  display: block;
+  font-size: 11px;
+  color: #60734e;
+  margin: 16px 0 8px;
+}
+.historical-release ul {
+  margin-bottom: 0;
+}
+@media (max-width: 760px) {
+  .release-banner {
+    padding: 13px;
+    margin-top: 0;
+    gap: 9px;
+  }
+  .release-banner-copy {
+    display: block;
+  }
+  .release-banner strong,
+  .release-banner-copy > span {
+    display: block;
+  }
+  .release-banner-copy > span {
+    font-size: 11px;
+    margin-top: 4px;
+  }
+  .latest-release h3 {
+    font-size: 18px;
+  }
+  .historical-release {
+    padding: 14px;
+  }
+  .release-link {
+    min-height: 36px;
+  }
+}

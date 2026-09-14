@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, type ReactNode } from 'react'
+import { useLayoutEffect, useId, useRef, type ReactNode } from 'react'
 import { Icon } from './Icon'
 
 export function Dialog({
@@ -12,7 +12,8 @@ export function Dialog({
 }) {
   const ref = useRef<HTMLDialogElement>(null)
   const titleId = useId()
-  useEffect(() => {
+  const backdropPress = useRef(false)
+  useLayoutEffect(() => {
     const dialog = ref.current!
     const previousOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
@@ -31,8 +32,21 @@ export function Dialog({
         event.preventDefault()
         onClose()
       }}
+      onPointerDown={(event) => {
+        const bounds = event.currentTarget.getBoundingClientRect()
+        backdropPress.current =
+          event.target === event.currentTarget &&
+          (event.clientX < bounds.left ||
+            event.clientX > bounds.right ||
+            event.clientY < bounds.top ||
+            event.clientY > bounds.bottom)
+      }}
+      onPointerCancel={() => {
+        backdropPress.current = false
+      }}
       onClick={(event) => {
-        if (event.target !== event.currentTarget) return
+        if (event.target !== event.currentTarget || !backdropPress.current) return
+        backdropPress.current = false
         const bounds = event.currentTarget.getBoundingClientRect()
         if (
           event.clientX < bounds.left ||

@@ -185,6 +185,7 @@ export function QuizGame({
             </div>
             <div
               className="question-steps"
+              role="group"
               aria-label={`答题进度：第 ${state.index + 1} 题，共 ${quiz.questions.length} 题`}
             >
               {quiz.questions.map((item, index) => (

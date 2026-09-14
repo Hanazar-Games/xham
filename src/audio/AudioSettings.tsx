@@ -86,13 +86,13 @@ export function AudioSettings({ onClose }: { onClose: () => void }) {
 }
 
 export function AudioButton({ onClick }: { onClick: () => void }) {
-  const { options } = useAudio()
-  const muted = (!options.sfx && !options.music) || options.volume === 0
+  const { options, unavailable } = useAudio()
+  const muted = unavailable || (!options.sfx && !options.music) || options.volume === 0
   return (
     <button className="audio-button" onClick={onClick} aria-label="声音设置" title="声音设置">
       <Icon name={muted ? 'muted' : 'volume'} size={18} />
       <span>声音</span>
-      {options.music && options.volume > 0 && <i className="music-dot" />}
+      {!unavailable && options.music && options.volume > 0 && <i className="music-dot" />}
     </button>
   )
 }
