@@ -1,0 +1,196 @@
+{
+  "retrieved": "2026-09-15",
+  "notes": "Official promotional images used as quiz illustrations. Copyright remains with the credited rights holders. Ghibli supplied stills: https://www.ghibli.jp/info/013344/",
+  "images": [
+    {
+      "name": "ghibli-totoro",
+      "url": "https://www.ghibli.jp/gallery/totoro030.jpg",
+      "sourceUrl": "https://www.ghibli.jp/works/totoro/",
+      "credit": "© 1988 Hayao Miyazaki/Studio Ghibli",
+      "width": 960,
+      "height": 519,
+      "bytes": 30490,
+      "file": "ghibli-totoro.webp"
+    },
+    {
+      "name": "ghibli-chihiro",
+      "url": "https://www.ghibli.jp/gallery/chihiro020.jpg",
+      "sourceUrl": "https://www.ghibli.jp/works/chihiro/",
+      "credit": "© 2001 Hayao Miyazaki/Studio Ghibli, NDDTM",
+      "width": 960,
+      "height": 519,
+      "bytes": 46786,
+      "file": "ghibli-chihiro.webp"
+    },
+    {
+      "name": "ghibli-majo",
+      "url": "https://www.ghibli.jp/gallery/majo030.jpg",
+      "sourceUrl": "https://www.ghibli.jp/works/majo/",
+      "credit": "© 1989 Eiko Kadono/Hayao Miyazaki/Studio Ghibli, N",
+      "width": 960,
+      "height": 519,
+      "bytes": 41538,
+      "file": "ghibli-majo.webp"
+    },
+    {
+      "name": "ghibli-howl",
+      "url": "https://www.ghibli.jp/gallery/howl015.jpg",
+      "sourceUrl": "https://www.ghibli.jp/works/howl/",
+      "credit": "© 2004 Diana Wynne Jones/Hayao Miyazaki/Studio Ghibli, NDDMT",
+      "width": 960,
+      "height": 519,
+      "bytes": 68708,
+      "file": "ghibli-howl.webp"
+    },
+    {
+      "name": "ghibli-ponyo",
+      "url": "https://www.ghibli.jp/gallery/ponyo040.jpg",
+      "sourceUrl": "https://www.ghibli.jp/works/ponyo/",
+      "credit": "© 2008 Hayao Miyazaki/Studio Ghibli, NDHDMT",
+      "width": 960,
+      "height": 519,
+      "bytes": 53320,
+      "file": "ghibli-ponyo.webp"
+    },
+    {
+      "name": "ghibli-laputa",
+      "url": "https://www.ghibli.jp/gallery/laputa040.jpg",
+      "sourceUrl": "https://www.ghibli.jp/works/laputa/",
+      "credit": "© 1986 Hayao Miyazaki/Studio Ghibli",
+      "width": 960,
+      "height": 519,
+      "bytes": 46722,
+      "file": "ghibli-laputa.webp"
+    },
+    {
+      "name": "ghibli-mononoke",
+      "url": "https://www.ghibli.jp/gallery/mononoke015.jpg",
+      "sourceUrl": "https://www.ghibli.jp/works/mononoke/",
+      "credit": "© 1997 Hayao Miyazaki/Studio Ghibli, ND",
+      "width": 960,
+      "height": 519,
+      "bytes": 39554,
+      "file": "ghibli-mononoke.webp"
+    },
+    {
+      "name": "ghibli-baron",
+      "url": "https://www.ghibli.jp/gallery/baron015.jpg",
+      "sourceUrl": "https://www.ghibli.jp/works/baron/",
+      "credit": "© 2002 Aoi Hiiragi/Reiko Yoshida/Studio Ghibli, NDHMT",
+      "width": 960,
+      "height": 519,
+      "bytes": 44376,
+      "file": "ghibli-baron.webp"
+    },
+    {
+      "name": "ghibli-karigurashi",
+      "url": "https://www.ghibli.jp/gallery/karigurashi015.jpg",
+      "sourceUrl": "https://www.ghibli.jp/works/karigurashi/",
+      "credit": "© 2010 Mary Norton/Keiko Niwa/Studio Ghibli, NDHDMTW",
+      "width": 960,
+      "height": 519,
+      "bytes": 33722,
+      "file": "ghibli-karigurashi.webp"
+    },
+    {
+      "name": "ghibli-mimi",
+      "url": "https://www.ghibli.jp/gallery/mimi015.jpg",
+      "sourceUrl": "https://www.ghibli.jp/works/mimi/",
+      "credit": "© 1995 Aoi Hiiragi, Shueisha/Hayao Miyazaki/Studio Ghibli, NH",
+      "width": 960,
+      "height": 519,
+      "bytes": 77692,
+      "file": "ghibli-mimi.webp"
+    },
+    {
+      "name": "ghibli-porco",
+      "url": "https://www.ghibli.jp/gallery/porco015.jpg",
+      "sourceUrl": "https://www.ghibli.jp/works/porco/",
+      "credit": "© 1992 Hayao Miyazaki/Studio Ghibli, NN",
+      "width": 960,
+      "height": 519,
+      "bytes": 30474,
+      "file": "ghibli-porco.webp"
+    },
+    {
+      "name": "ghibli-kazetachinu",
+      "url": "https://www.ghibli.jp/gallery/kazetachinu030.jpg",
+      "sourceUrl": "https://www.ghibli.jp/works/kazetachinu/",
+      "credit": "© 2013 Hayao Miyazaki/Studio Ghibli, NDHDMTK",
+      "width": 960,
+      "height": 519,
+      "bytes": 80348,
+      "file": "ghibli-kazetachinu.webp"
+    },
+    {
+      "name": "rezero-27",
+      "url": "https://re-zero-anime.jp/tv/assets/episode/27/1.jpg",
+      "sourceUrl": "https://re-zero-anime.jp/tv/story/tv2.html",
+      "credit": "©長月達平・株式会社KADOKAWA刊／Re:ゼロから始める異世界生活2製作委員会",
+      "width": 960,
+      "height": 540,
+      "bytes": 14194,
+      "file": "rezero-27.webp"
+    },
+    {
+      "name": "rezero-29",
+      "url": "https://re-zero-anime.jp/tv/assets/episode/29/1.jpg",
+      "sourceUrl": "https://re-zero-anime.jp/tv/story/tv2.html",
+      "credit": "©長月達平・株式会社KADOKAWA刊／Re:ゼロから始める異世界生活2製作委員会",
+      "width": 960,
+      "height": 540,
+      "bytes": 31698,
+      "file": "rezero-29.webp"
+    },
+    {
+      "name": "rezero-34",
+      "url": "https://re-zero-anime.jp/tv/assets/episode/34/1.jpg",
+      "sourceUrl": "https://re-zero-anime.jp/tv/story/tv2.html",
+      "credit": "©長月達平・株式会社KADOKAWA刊／Re:ゼロから始める異世界生活2製作委員会",
+      "width": 960,
+      "height": 540,
+      "bytes": 14616,
+      "file": "rezero-34.webp"
+    },
+    {
+      "name": "rezero-40",
+      "url": "https://re-zero-anime.jp/tv/assets/episode/40/1.jpg",
+      "sourceUrl": "https://re-zero-anime.jp/tv/story/tv2.html",
+      "credit": "©長月達平・株式会社KADOKAWA刊／Re:ゼロから始める異世界生活2製作委員会",
+      "width": 960,
+      "height": 540,
+      "bytes": 16516,
+      "file": "rezero-40.webp"
+    },
+    {
+      "name": "rezero-42",
+      "url": "https://re-zero-anime.jp/tv/assets/episode/42/1.jpg",
+      "sourceUrl": "https://re-zero-anime.jp/tv/story/tv2.html",
+      "credit": "©長月達平・株式会社KADOKAWA刊／Re:ゼロから始める異世界生活2製作委員会",
+      "width": 960,
+      "height": 540,
+      "bytes": 38726,
+      "file": "rezero-42.webp"
+    },
+    {
+      "name": "rezero-50",
+      "url": "https://re-zero-anime.jp/tv/assets/episode/50/5.jpg",
+      "sourceUrl": "https://re-zero-anime.jp/tv/story/tv2.html",
+      "credit": "©長月達平・株式会社KADOKAWA刊／Re:ゼロから始める異世界生活2製作委員会",
+      "width": 960,
+      "height": 540,
+      "bytes": 22582,
+      "file": "rezero-50.webp"
+    },
+    {
+      "name": "frieren",
+      "url": "https://websunday.net/wp-content/uploads/2020/04/eximages__rensai__frieren__illus__2.png",
+      "sourceUrl": "https://websunday.net/work/708/",
+      "credit": "©山田鐘人・アベツカサ／小学館",
+      "width": 303,
+      "height": 342,
+      "bytes": 19462,
+      "file": "frieren.webp"
+    }
+  ]
+}

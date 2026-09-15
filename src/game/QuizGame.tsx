@@ -6,6 +6,7 @@ import { Dialog } from '../components/Dialog'
 import { QuizResults } from './QuizResults'
 import { useAudio } from '../audio/AudioProvider'
 import { AudioButton, AudioSettings } from '../audio/AudioSettings'
+import { QuestionPicture } from '../components/QuizMedia'
 
 export function QuizGame({
   quiz,
@@ -30,6 +31,9 @@ export function QuizGame({
   const response = state.responses[state.index]
   const stats = summarize(state)
   const seconds = Math.ceil(state.remainingMs / 1000)
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' })
+  }, [question.id])
   const openOverlay = useCallback(
     (kind: 'exit' | 'pause' | 'audio') => {
       dispatch({ type: 'pause', questionId: question.id, now: performance.now() })
@@ -215,7 +219,11 @@ export function QuizGame({
               <h1 ref={heading} tabIndex={-1}>
                 {question.prompt}
               </h1>
-              <p>相信你的直觉，选出一个答案。</p>
+              {question.image ? (
+                <QuestionPicture image={question.image} showSource={state.phase === 'reveal'} />
+              ) : (
+                <p>相信你的直觉，选出一个答案。</p>
+              )}
               <div
                 className="timer-track"
                 role="progressbar"
@@ -227,7 +235,9 @@ export function QuizGame({
                 <span style={{ width: `${(state.remainingMs / (quiz.duration * 1000)) * 100}%` }} />
               </div>
             </section>
-            <div className="answer-grid">
+            <div
+              className={`answer-grid ${question.options.some((option) => option.length > 12) ? 'answer-grid-long' : ''}`}
+            >
               {question.options.map((option, index) => {
                 const revealed = state.phase === 'reveal'
                 const correct = revealed && index === question.answer
@@ -286,6 +296,16 @@ export function QuizGame({
                   </h2>
                   <p className="correct-answer">正确答案：{question.options[question.answer]}</p>
                   <p>{question.explanation}</p>
+                  {question.source && (
+                    <a
+                      className="answer-source"
+                      href={question.source.url}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      核对资料 · {question.source.label}
+                    </a>
+                  )}
                 </div>
                 <button
                   ref={nextButton}

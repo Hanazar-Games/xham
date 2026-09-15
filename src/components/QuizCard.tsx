@@ -1,5 +1,5 @@
 import type { Quiz } from '../types'
-import { Artwork } from './Artwork'
+import { QuizArtwork } from './QuizMedia'
 import { Icon } from './Icon'
 
 export function QuizCard({
@@ -17,7 +17,7 @@ export function QuizCard({
     <article className="quiz-card">
       <div className={`card-cover ${quiz.color}`}>
         <button className="cover-link" onClick={onPlay} aria-label={`开始：${quiz.title}`}>
-          <Artwork kind={quiz.artwork} />
+          <QuizArtwork quiz={quiz} />
         </button>
         <span className="cover-tag">{quiz.tag}</span>
         <span className="question-badge">{quiz.questions.length} 道题</span>

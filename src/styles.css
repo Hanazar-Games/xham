@@ -1122,6 +1122,7 @@ h1:focus {
   width: 100px;
   height: 77px;
   border-radius: 8px;
+  overflow: hidden;
   flex-shrink: 0;
 }
 .history-item h3 {
@@ -1136,7 +1137,7 @@ h1:focus {
 .history-item > strong {
   margin-left: auto;
   font-size: 24px;
-  color: #68834e;
+  color: #536b3e;
   white-space: nowrap;
 }
 .history-item > strong small {
@@ -2466,24 +2467,36 @@ h1:focus {
   .history-art {
     width: 70px;
     height: 65px;
+    grid-row: span 2;
   }
   .history-item {
+    display: grid;
+    grid-template-columns: 70px minmax(0, 1fr);
     padding: 13px;
     gap: 11px;
   }
   .history-item h3 {
-    font-size: 12px;
+    font-size: 14px;
   }
   .history-item p,
   .history-item > div > span {
-    font-size: 8px;
+    font-size: 11px;
   }
   .history-item > strong {
+    grid-column: 2;
+    margin-left: 0;
     font-size: 18px;
   }
+  .history-item .history-actions {
+    display: flex;
+    grid-column: 1 / -1;
+    justify-content: flex-end;
+    gap: 8px;
+  }
   .history-item .secondary-button {
-    font-size: 9px;
-    min-height: 32px;
+    margin-left: 0;
+    font-size: 11px;
+    min-height: 38px;
     padding: 8px 10px;
   }
   .empty-state {

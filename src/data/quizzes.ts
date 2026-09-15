@@ -1,8 +1,17 @@
 import type { Category, Quiz } from '../types'
+import { animeQuizzes } from './anime'
 
-export const categories: Category[] = ['全部', '综合知识', '科学自然', '世界探索', '文化艺术']
+export const categories: Category[] = [
+  '全部',
+  '二次元',
+  '综合知识',
+  '科学自然',
+  '世界探索',
+  '文化艺术',
+]
 
 export const quizzes: Quiz[] = [
+  ...animeQuizzes,
   {
     id: 'everyday',
     title: '你的常识，有点东西',

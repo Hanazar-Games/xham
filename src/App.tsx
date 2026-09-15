@@ -1,7 +1,8 @@
 import { useCallback, useState } from 'react'
 import { quizzes, categories } from './data/quizzes'
 import type { Category, Quiz } from './types'
-import { Artwork, HeroArtwork } from './components/Artwork'
+import { HeroArtwork } from './components/Artwork'
+import { QuizArtwork } from './components/QuizMedia'
 import { Icon, Logo, type IconName } from './components/Icon'
 import { QuizCard } from './components/QuizCard'
 import { Dialog } from './components/Dialog'
@@ -20,8 +21,10 @@ const categoryIcons: Record<Category, IconName> = {
   科学自然: 'flask',
   世界探索: 'globe',
   文化艺术: 'palette',
+  二次元: 'sparkles',
 }
 const featuredQuiz = quizzes.find((quiz) => quiz.id === 'space')!
+const normalizeSearch = (value: string) => value.toLowerCase().replace(/[\s:：]/g, '')
 
 export default function App() {
   const [view, setView] = useState<View>('discover')
@@ -39,6 +42,7 @@ export default function App() {
   const [releaseOpen, setReleaseOpen] = useState(false)
   const { play } = useAudio()
   const search = query.trim()
+  const searchTerms = search.split(/\s+/).map(normalizeSearch)
   const onComplete = useCallback((state: GameState) => setHistory((items) => [state, ...items]), [])
 
   const navigate = (next: View) => {
@@ -69,9 +73,11 @@ export default function App() {
       (quiz) =>
         (view !== 'saved' || saved.includes(quiz.id)) &&
         (category === '全部' || quiz.category === category) &&
-        `${quiz.title} ${quiz.description} ${quiz.category}`
-          .toLocaleLowerCase()
-          .includes(search.toLocaleLowerCase()),
+        searchTerms.every((term) =>
+          normalizeSearch(
+            `${quiz.title} ${quiz.description} ${quiz.category} ${quiz.tag}`,
+          ).includes(term),
+        ),
     )
     .sort((a, b) =>
       sort === 'recommended'
@@ -454,7 +460,7 @@ export default function App() {
                     {history.map((game, index) => (
                       <article key={index} className="history-item">
                         <div className={`history-art ${game.quiz.color}`}>
-                          <Artwork kind={game.quiz.artwork} />
+                          <QuizArtwork quiz={game.quiz} />
                         </div>
                         <div>
                           <span>
@@ -523,13 +529,22 @@ export default function App() {
       {selected && (
         <Dialog title="准备好，让好奇心出发？" onClose={() => setSelected(null)}>
           <div className={`dialog-art ${selected.color}`}>
-            <Artwork kind={selected.artwork} />
+            <QuizArtwork quiz={selected} />
           </div>
           <span className="dialog-category">
             {selected.category} · {selected.difficulty}
           </span>
           <h3 className="dialog-quiz-title">{selected.title}</h3>
           <p className="dialog-description">{selected.description}</p>
+          {selected.image && (
+            <p className="cover-credit">
+              {selected.image.credit} ·{' '}
+              <a href={selected.image.sourceUrl} target="_blank" rel="noreferrer">
+                图片来源
+              </a>
+            </p>
+          )}
+          {selected.scope && <p className="quiz-scope">{selected.scope}</p>}
           <div className="quiz-rules">
             <span>
               <Icon name="layers" />
@@ -565,9 +580,9 @@ export default function App() {
             <li>
               <span>02</span>
               <div>
-                <h3>在 20 秒内，选出你的答案</h3>
+                <h3>在倒计时内，选出你的答案</h3>
                 <p>
-                  点击选项，或按键盘 1–4。答对获得 500–1,000
+                  每题 20–30 秒，以开局说明为准。点击选项，或按键盘 1–4。答对获得 500–1,000
                   分，剩余时间越多，得分越高；答错或超时得 0 分。
                 </p>
               </div>

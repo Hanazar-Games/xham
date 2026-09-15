@@ -1,8 +1,32 @@
 import { describe, expect, it } from 'vitest'
 import { quizzes } from './quizzes'
 import { createGame, gameReducer, summarize } from '../game/engine'
+import { images as imageSources } from '../../public/images/anime/sources.json'
 
 describe('built-in question bank', () => {
+  it.each(['ghibli', 'rezero', 'frieren'])(
+    '%s has 12 sourced questions and a local cover',
+    (id) => {
+      const quiz = quizzes.find((item) => item.id === id)
+      expect(quiz).toBeDefined()
+      expect(quiz!.questions).toHaveLength(12)
+      expect(quiz!.image?.src).toMatch(/^\/images\/anime\//)
+      for (const question of quiz!.questions) {
+        expect(question.source?.url).toMatch(/^https:\/\//)
+        expect(question.source?.label.trim()).toBeTruthy()
+      }
+    },
+  )
+
+  it('records source attribution for every referenced image', () => {
+    const images = quizzes.flatMap((quiz) => [quiz.image, ...quiz.questions.map((q) => q.image)])
+    for (const image of images.filter((image) => image !== undefined)) {
+      expect(imageSources.some((source) => `/images/anime/${source.file}` === image.src)).toBe(true)
+      expect(image.credit.trim()).toBeTruthy()
+      expect(image.alt.trim()).toBeTruthy()
+      expect(image.sourceUrl).toMatch(/^https:\/\//)
+    }
+  })
   it.each(quizzes)('$title completes with correct scoring and clean replay', (quiz) => {
     let now = 0
     let game = createGame({ quiz, now })

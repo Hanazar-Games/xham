@@ -16,6 +16,7 @@ export function QuizResults({
   const [showReview, setShowReview] = useState(false)
   const heading = useRef<HTMLHeadingElement>(null)
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' })
     heading.current?.focus({ preventScroll: true })
   }, [])
   return (
@@ -99,6 +100,16 @@ export function QuizResults({
                     <span className="review-correct">正确答案：{item.options[item.answer]}</span>
                   </p>
                   <p className="review-explanation">{item.explanation}</p>
+                  {item.source && (
+                    <a
+                      className="answer-source"
+                      href={item.source.url}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      核对资料 · {item.source.label}
+                    </a>
+                  )}
                 </div>
                 <strong className="review-points">+{answer.points}</strong>
               </article>
