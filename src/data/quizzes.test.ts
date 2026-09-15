@@ -4,14 +4,15 @@ import { createGame, gameReducer, summarize } from '../game/engine'
 import { images as imageSources } from '../../public/images/anime/sources.json'
 
 describe('built-in question bank', () => {
-  it.each(['ghibli', 'rezero', 'frieren'])(
-    '%s has 12 sourced questions and a local cover',
+  it.each(['ghibli', 'rezero', 'frieren', 'demon-slayer', 'one-piece', 'naruto'])(
+    '%s has 12 sourced, illustrated questions and a local cover',
     (id) => {
       const quiz = quizzes.find((item) => item.id === id)
       expect(quiz).toBeDefined()
       expect(quiz!.questions).toHaveLength(12)
       expect(quiz!.image?.src).toMatch(/^\/images\/anime\//)
       for (const question of quiz!.questions) {
+        expect(question.image?.src).toMatch(/^\/images\/anime\//)
         expect(question.source?.url).toMatch(/^https:\/\//)
         expect(question.source?.label.trim()).toBeTruthy()
       }

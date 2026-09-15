@@ -25,6 +25,12 @@
   background: #f1f4ed;
   border-radius: 10px;
 }
+.question-picture-compact {
+  max-width: 320px;
+}
+.question-picture-compact .question-image {
+  aspect-ratio: 2 / 1;
+}
 .question-picture figcaption {
   display: flex;
   justify-content: space-between;

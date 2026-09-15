@@ -49,7 +49,9 @@ export function QuizArtwork({ quiz }: { quiz: Quiz }) {
 
 export function QuestionPicture({ image, showSource }: { image: QuizImage; showSource: boolean }) {
   return (
-    <figure className="question-picture">
+    <figure
+      className={`question-picture ${image.fit === 'scale-down' ? 'question-picture-compact' : ''}`}
+    >
       <Picture
         key={image.src}
         image={image}

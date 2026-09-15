@@ -6,7 +6,7 @@ export interface QuizImage {
   alt: string
   credit: string
   sourceUrl: string
-  fit?: 'cover' | 'contain'
+  fit?: 'cover' | 'contain' | 'scale-down'
 }
 
 export interface Question {

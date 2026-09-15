@@ -1,4 +1,5 @@
 import type { Quiz, QuizImage, Question } from '../types'
+import { adventureQuizzes } from './anime-adventures'
 
 const ghibliImage = (film: string, title: string): QuizImage => ({
   src: `/images/anime/ghibli-${film}.webp`,
@@ -35,8 +36,16 @@ const frierenImage: QuizImage = {
   sourceUrl: frierenSource.url,
   fit: 'contain',
 }
+const frierenPortrait = (character: string): QuizImage => ({
+  src: `/images/anime/frieren-${character}.webp`,
+  alt: '《葬送的芙莉莲》小学馆官方角色头像',
+  credit: frierenImage.credit,
+  sourceUrl: frierenSource.url,
+  fit: 'scale-down',
+})
 
 export const animeQuizzes: Quiz[] = [
+  ...adventureQuizzes,
   {
     id: 'ghibli',
     title: '吉卜力，重返奇妙世界',
@@ -333,6 +342,7 @@ export const animeQuizzes: Quiz[] = [
         ],
         answer: 2,
         explanation: '芙莉莲是精灵族，寿命远长于人类。这种时间尺度的差异，是故事的重要出发点。',
+        image: frierenPortrait('frieren'),
         source: frierenSource,
       },
       {
@@ -342,6 +352,7 @@ export const animeQuizzes: Quiz[] = [
         answer: 0,
         explanation:
           '她意识到自己还不够了解人类，于是踏上新的旅程，重新理解相处过的人与那些共同的时光。',
+        image: frierenPortrait('himmel'),
         source: frierenSource,
       },
       {
@@ -350,6 +361,7 @@ export const animeQuizzes: Quiz[] = [
         options: ['罗格镇', '拉普达', '圣域', '欧蕾欧尔'],
         answer: 3,
         explanation: '欧蕾欧尔（Aureole）是「魂眠之地」，也是这段旅程的目的地。',
+        image: frierenPortrait('frieren'),
         source: frierenSource,
       },
       {
@@ -358,6 +370,7 @@ export const animeQuizzes: Quiz[] = [
         options: ['芙莉莲', '海塔', '辛美尔', '艾泽'],
         answer: 1,
         explanation: '菲伦由僧侣海塔抚养，后来跟随芙莉莲学习魔法并一同旅行。',
+        image: frierenPortrait('fern'),
         source: frierenSource,
       },
       {
@@ -366,6 +379,7 @@ export const animeQuizzes: Quiz[] = [
         options: ['艾泽', '海塔', '赛丽艾', '赞恩'],
         answer: 0,
         explanation: '休塔尔克是战士艾泽的弟子。他虽然容易害怕，却有着作为战士的资质。',
+        image: frierenPortrait('stark'),
         source: frierenSource,
       },
       {
@@ -374,6 +388,7 @@ export const animeQuizzes: Quiz[] = [
         options: ['铁匠的锻造', '吟游诗人的演奏', '僧侣的能力', '商人的议价'],
         answer: 2,
         explanation: '赞恩原本是村中的僧侣，芙莉莲看中了他的僧侣才能，邀请他加入旅途。',
+        image: frierenPortrait('sein'),
         source: frierenSource,
       },
       {
@@ -382,6 +397,7 @@ export const animeQuizzes: Quiz[] = [
         options: ['邓肯', '伏拉梅', '菲伦', '尤贝尔'],
         answer: 1,
         explanation: '伏拉梅是芙莉莲的师父。这条师承关系也把芙莉莲与更古老的魔法传承联系起来。',
+        image: frierenPortrait('flamme'),
         source: frierenSource,
       },
       {
@@ -390,6 +406,7 @@ export const animeQuizzes: Quiz[] = [
         options: ['伏拉梅的学生', '互不相识', '同一个人的两个名字', '伏拉梅的师父'],
         answer: 3,
         explanation: '赛丽艾是伏拉梅的师父，因此从师承关系上说，她是芙莉莲师父的师父。',
+        image: frierenPortrait('serie'),
         source: frierenSource,
       },
       {
@@ -398,6 +415,7 @@ export const animeQuizzes: Quiz[] = [
         options: ['休塔尔克', '赛丽艾', '辛美尔', '海塔'],
         answer: 1,
         explanation: '小学馆角色介绍将赛丽艾列为大陆魔法协会的创始者。',
+        image: frierenPortrait('serie'),
         source: frierenSource,
       },
       {
@@ -406,6 +424,7 @@ export const animeQuizzes: Quiz[] = [
         options: ['所有人的梦境', '时间的流速', '自己的影子', '自己的头发'],
         answer: 3,
         explanation: '冉则（ゼンゼ，Sense）是一级魔法使，能自由操控自己的头发。',
+        image: frierenPortrait('sense'),
         source: frierenSource,
       },
       {
@@ -414,6 +433,7 @@ export const animeQuizzes: Quiz[] = [
         options: ['菲伦', '艾泽', '芙莉莲', '海塔'],
         answer: 0,
         explanation: '最初的四人为辛美尔、芙莉莲、海塔和艾泽。菲伦是后来与芙莉莲同行的新旅伴。',
+        image: frierenPortrait('heiter'),
         source: frierenSource,
       },
       {
@@ -423,6 +443,7 @@ export const animeQuizzes: Quiz[] = [
         answer: 2,
         explanation:
           '赞恩为了追寻自己的战士好友而走上另一条旅路；这并不意味着他否定了与新伙伴的相遇。',
+        image: frierenPortrait('sein'),
         source: frierenSource,
       },
     ],
