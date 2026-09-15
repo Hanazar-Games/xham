@@ -1395,6 +1395,7 @@ h1:focus {
   opacity: 0.8;
 }
 .answer-feedback {
+  scroll-margin-block: 16px;
   display: flex;
   gap: 30px;
   align-items: center;

@@ -1,7 +1,7 @@
 {
   "name": "quizpop",
   "private": true,
-  "version": "0.4.0",
+  "version": "0.4.1",
   "type": "module",
   "engines": { "node": "^20.19.0 || >=22.12.0" },
   "scripts": {
@@ -9,6 +9,7 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview --host 0.0.0.0",
     "test": "vitest run",
+    "test:e2e": "npm run build && playwright test",
     "test:watch": "vitest"
   },
   "dependencies": {
@@ -16,9 +17,12 @@
     "react-dom": "^19.2.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@types/node": "^22.0.0",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
     "@vitejs/plugin-react": "^5.1.4",
+    "axe-core": "^4.13.0",
     "typescript": "^5.9.3",
     "vite": "^7.3.1",
     "vitest": "^4.1.11"

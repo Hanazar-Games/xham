@@ -27,6 +27,8 @@ export function QuizGame({
   const reported = useRef(false)
   const heading = useRef<HTMLHeadingElement>(null)
   const nextButton = useRef<HTMLButtonElement>(null)
+  const feedback = useRef<HTMLDivElement>(null)
+  const lastFocus = useRef('')
   const question = quiz.questions[state.index]
   const response = state.responses[state.index]
   const stats = summarize(state)
@@ -104,9 +106,14 @@ export function QuizGame({
   }, [state, onComplete])
 
   useEffect(() => {
-    if (overlay) return
+    const key = `${question.id}-${state.phase}`
+    if (overlay || lastFocus.current === key) return
+    lastFocus.current = key
     if (state.phase === 'answering') heading.current?.focus({ preventScroll: true })
-    if (state.phase === 'reveal') nextButton.current?.focus({ preventScroll: true })
+    if (state.phase === 'reveal') {
+      nextButton.current?.focus({ preventScroll: true })
+      feedback.current?.scrollIntoView({ block: 'nearest', behavior: 'instant' })
+    }
   }, [question.id, state.phase, overlay])
 
   useEffect(() => {
@@ -274,6 +281,7 @@ export function QuizGame({
             </div>
             {state.phase === 'reveal' ? (
               <div
+                ref={feedback}
                 className={`answer-feedback ${response.correct ? 'feedback-correct' : 'feedback-wrong'}`}
               >
                 <div role="status">

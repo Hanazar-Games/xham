@@ -2,8 +2,25 @@ import { describe, expect, it } from 'vitest'
 import { quizzes } from './quizzes'
 import { createGame, gameReducer, summarize } from '../game/engine'
 import { images as imageSources } from '../../public/images/anime/sources.json'
+import { readFileSync, readdirSync } from 'node:fs'
 
 describe('built-in question bank', () => {
+  it('ships every referenced image as a WebP with matching manifest size and no unused files', () => {
+    const directory = new URL('../../public/images/anime/', import.meta.url)
+    const referenced = new Set(quizzes.flatMap((quiz) =>
+      [quiz.image, ...quiz.questions.map((question) => question.image)]
+        .flatMap((image) => image ? [image.src.split('/').at(-1)!] : []),
+    ))
+    expect(new Set(imageSources.map((image) => image.file))).toEqual(referenced)
+    expect(new Set(readdirSync(directory).filter((file) => file !== 'sources.json'))).toEqual(referenced)
+    for (const image of imageSources) {
+      const bytes = readFileSync(new URL(image.file, directory))
+      expect(bytes.subarray(0, 4).toString()).toBe('RIFF')
+      expect(bytes.subarray(8, 12).toString()).toBe('WEBP')
+      expect(bytes.length).toBe(image.bytes)
+    }
+  })
+
   it.each(['ghibli', 'rezero', 'frieren', 'demon-slayer', 'one-piece', 'naruto'])(
     '%s has 12 sourced, illustrated questions and a local cover',
     (id) => {

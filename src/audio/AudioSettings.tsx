@@ -68,8 +68,9 @@ export function AudioSettings({ onClose }: { onClose: () => void }) {
         <button
           className="secondary-button"
           disabled={!options.sfx || options.volume === 0}
-          onClick={async () => {
-            if (await unlock()) play('correct')
+          onClick={() => {
+            void unlock()
+            play('correct')
           }}
         >
           <Icon name="volume" size={18} />
