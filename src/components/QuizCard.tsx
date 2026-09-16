@@ -33,7 +33,7 @@ export function QuizCard({
       <div className="card-content">
         <div className="card-category">
           <span>{quiz.category}</span>
-          <span className={`difficulty ${quiz.difficulty === '小有挑战' ? 'medium' : ''}`}>
+          <span className={`difficulty ${quiz.difficulty === '困难' ? 'medium' : ''}`}>
             <i />
             {quiz.difficulty}
           </span>

@@ -7,7 +7,7 @@ const quiz: Quiz = {
   title: 'Test',
   description: '',
   category: '综合知识',
-  difficulty: '轻松入门',
+  difficulty: '简单',
   artwork: 'brain',
   color: 'green',
   tag: '',

@@ -40,10 +40,11 @@ const ninjaImage = (scene: string): QuizImage => ({
 export const adventureQuizzes: Quiz[] = [
   {
     id: 'demon-slayer',
+    series: 'demon-slayer',
     title: '鬼灭之刃，鬼杀队入门课',
     description: '嗅觉、听觉与任务传令。12 道配图题，认识立志篇中的角色与能力。',
     category: '二次元',
-    difficulty: '轻松入门',
+    difficulty: '简单',
     artwork: 'science',
     image: demonImage('tanjiro'),
     color: 'mint',
@@ -164,10 +165,11 @@ export const adventureQuizzes: Quiz[] = [
   },
   {
     id: 'one-piece',
+    series: 'one-piece',
     title: '海贼王，草帽一伙航海课',
     description: '梦想、分工、果实与海贼船。12 道配图题，看看你有多了解草帽伙伴。',
     category: '二次元',
-    difficulty: '轻松入门',
+    difficulty: '简单',
     artwork: 'world',
     image: pirateImage('luffy'),
     color: 'peach',
@@ -287,10 +289,11 @@ export const adventureQuizzes: Quiz[] = [
   },
   {
     id: 'naruto',
+    series: 'naruto',
     title: '火影忍者，木叶成长试卷',
     description: '从忍者学校到寻找纲手，12 道配图题重温鸣人的早期冒险。',
     category: '二次元',
-    difficulty: '轻松入门',
+    difficulty: '简单',
     artwork: 'history',
     image: ninjaImage('01-a'),
     color: 'yellow',

@@ -1,6 +1,8 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { quizzes, categories } from './data/quizzes'
-import type { Category, Quiz } from './types'
+import type { AnimeSeriesId, Category, Difficulty, Quiz } from './types'
+import { animeSeries } from './data/anime-series'
+import { AnimeHub } from './components/AnimeHub'
 import { HeroArtwork } from './components/Artwork'
 import { QuizArtwork } from './components/QuizMedia'
 import { Icon, Logo, type IconName } from './components/Icon'
@@ -14,7 +16,7 @@ import { useAudio } from './audio/AudioProvider'
 import { ReleaseNotes } from './components/ReleaseNotes'
 import { currentRelease } from './data/releases'
 
-type View = 'discover' | 'saved' | 'results'
+type View = 'anime' | 'discover' | 'saved' | 'results'
 const categoryIcons: Record<Category, IconName> = {
   全部: 'grid',
   综合知识: 'bolt',
@@ -27,7 +29,10 @@ const featuredQuiz = quizzes.find((quiz) => quiz.id === 'space')!
 const normalizeSearch = (value: string) => value.toLowerCase().replace(/[\s:：]/g, '')
 
 export default function App() {
-  const [view, setView] = useState<View>('discover')
+  const [view, setView] = useState<View>('anime')
+  const [series, setSeries] = useState<AnimeSeriesId | null>(null)
+  const [difficulty, setDifficulty] = useState<Difficulty | '全部'>('全部')
+  const libraryHeading = useRef<HTMLHeadingElement>(null)
   const [category, setCategory] = useState<Category>('全部')
   const [query, setQuery] = useState('')
   const [sort, setSort] = useState('recommended')
@@ -49,13 +54,18 @@ export default function App() {
     setView(next)
     setQuery('')
     setCategory('全部')
+    setSeries(null)
+    setDifficulty('全部')
     window.scrollTo({ top: 0 })
   }
   const openQuiz = (quiz: Quiz) => {
     play('tap')
     setSelected(quiz)
   }
-  const randomQuiz = () => openQuiz(quizzes[Math.floor(Math.random() * quizzes.length)])
+  const randomQuiz = () => {
+    const pool = view === 'anime' ? quizzes.filter((quiz) => quiz.series) : quizzes
+    openQuiz(pool[Math.floor(Math.random() * pool.length)])
+  }
   const startQuiz = () => {
     setPlaying(selected)
     setSelected(null)
@@ -64,7 +74,8 @@ export default function App() {
   }
   const exitGame = () => {
     setPlaying(null)
-    navigate('discover')
+    if (view === 'anime') window.scrollTo({ top: 0 })
+    else navigate(view === 'results' && playing?.series ? 'anime' : 'discover')
   }
   const toggleSave = (id: string) =>
     setSaved((items) => (items.includes(id) ? items.filter((item) => item !== id) : [...items, id]))
@@ -72,10 +83,12 @@ export default function App() {
     .filter(
       (quiz) =>
         (view !== 'saved' || saved.includes(quiz.id)) &&
+        (view !== 'anime' || (quiz.series && (!series || quiz.series === series) &&
+          (difficulty === '全部' || quiz.difficulty === difficulty))) &&
         (category === '全部' || quiz.category === category) &&
         searchTerms.every((term) =>
           normalizeSearch(
-            `${quiz.title} ${quiz.description} ${quiz.category} ${quiz.tag}`,
+            `${quiz.title} ${quiz.description} ${quiz.category} ${quiz.tag} ${animeSeries.find((item) => item.id === quiz.series)?.aliases ?? ''}`,
           ).includes(term),
         ),
     )
@@ -83,8 +96,8 @@ export default function App() {
       sort === 'recommended'
         ? 0
         : sort === 'easy'
-          ? Number(a.difficulty === '小有挑战') - Number(b.difficulty === '小有挑战')
-          : Number(b.difficulty === '小有挑战') - Number(a.difficulty === '小有挑战'),
+          ? Number(a.difficulty === '困难') - Number(b.difficulty === '困难')
+          : Number(b.difficulty === '困难') - Number(a.difficulty === '困难'),
     )
   const bestScore = history.reduce((best, game) => Math.max(best, summarize(game).score), 0)
 
@@ -123,7 +136,7 @@ export default function App() {
             state={reviewedGame}
             onExit={() => {
               setReviewedGame(null)
-              navigate('discover')
+              navigate(reviewedGame.quiz.series ? 'anime' : 'discover')
             }}
             onReplay={() => {
               openQuiz(reviewedGame.quiz)
@@ -136,20 +149,28 @@ export default function App() {
     )
 
   return (
-    <div className="app-shell">
+    <div className={`app-shell ${view === 'anime' ? 'anime-page' : ''}`}>
       <a href="#main-content" className="skip-link">
         跳到主要内容
       </a>
       <aside className="sidebar">
         <button
           className="brand-button"
-          onClick={() => navigate('discover')}
-          aria-label="Quizpop 首页"
+          onClick={() => navigate('anime')}
+          aria-label="2 dimention 首页"
         >
           <Logo />
         </button>
-        <div className="sidebar-label">你的好奇心游乐场</div>
+        <div className="sidebar-label">hanazar 的二次元中心</div>
         <nav className="main-nav" aria-label="主导航">
+          <button
+            className={view === 'anime' ? 'active' : ''}
+            aria-current={view === 'anime' ? 'page' : undefined}
+            onClick={() => navigate('anime')}
+          >
+            <Icon name="sparkles" />
+            <span>2 dimention</span>
+          </button>
           <button
             className={view === 'discover' ? 'active' : ''}
             aria-current={view === 'discover' ? 'page' : undefined}
@@ -209,7 +230,7 @@ export default function App() {
           <div className="breadcrumb">
             你的探索空间<span>/</span>
             <strong>
-              {view === 'discover' ? '发现 Quiz' : view === 'saved' ? '我的收藏' : '挑战记录'}
+              {view === 'anime' ? '2 dimention' : view === 'discover' ? '发现 Quiz' : view === 'saved' ? '我的收藏' : '挑战记录'}
             </strong>
           </div>
           <div className="topbar-right">
@@ -233,9 +254,9 @@ export default function App() {
         <main className="dashboard" id="main-content" tabIndex={-1}>
           <section className="page-intro">
             <div>
-              <div className="eyebrow">STAY CURIOUS. KEEP PLAYING.</div>
+              <div className="eyebrow">{view === 'anime' ? 'HANAZAR’S ANIME QUIZ CENTER' : 'STAY CURIOUS. KEEP PLAYING.'}</div>
               <h1>
-                {view === 'discover'
+                {view === 'anime' ? '2 dimention' : view === 'discover'
                   ? '今天，发现一点新知。'
                   : view === 'saved'
                     ? '把喜欢的，留给下一次。'
@@ -245,7 +266,7 @@ export default function App() {
                 </span>
               </h1>
               <p>
-                {view === 'discover'
+                {view === 'anime' ? 'hanazar 的二次元中心 · 每个喜欢的世界，都有下一张试卷。' : view === 'discover'
                   ? '选一个感兴趣的主题，让知识和快乐一起发生。'
                   : view === 'saved'
                     ? '你收藏的好问题，都在这里等你。'
@@ -270,7 +291,7 @@ export default function App() {
             )}
           </section>
 
-          {view === 'discover' && !search && (
+          {(view === 'anime' || view === 'discover') && !search && (
             <button className="release-banner" onClick={() => setReleaseOpen(true)}>
               <Icon name="sparkles" size={21} />
               <span className="release-banner-copy">
@@ -279,6 +300,15 @@ export default function App() {
               </span>
               <Icon name="chevron" size={17} />
             </button>
+          )}
+          {view === 'anime' && (
+            <AnimeHub selected={series} onSelect={(next) => {
+              setSeries(next)
+              requestAnimationFrame(() => {
+                libraryHeading.current?.focus({ preventScroll: true })
+                libraryHeading.current?.scrollIntoView({ block: 'start', behavior: 'instant' })
+              })
+            }} />
           )}
           {view === 'discover' && !search && (
             <section className="featured-row">
@@ -351,8 +381,8 @@ export default function App() {
           {view !== 'results' ? (
             <section className="quiz-library" aria-label="Quiz 题库">
               <div className="library-heading">
-                <h2>
-                  {view === 'saved' ? '我的收藏' : search ? '搜索结果' : '找点有趣的，开始吧'}
+                <h2 ref={libraryHeading} tabIndex={-1}>
+                  {view === 'anime' ? (series ? `${animeSeries.find((item) => item.id === series)?.title} · 题库` : '全部动漫题库') : view === 'saved' ? '我的收藏' : search ? '搜索结果' : '找点有趣的，开始吧'}
                   <span>{filtered.length}</span>
                 </h2>
                 <label className="sort-control">
@@ -363,12 +393,29 @@ export default function App() {
                     onChange={(event) => setSort(event.target.value)}
                   >
                     <option value="recommended">默认推荐</option>
-                    <option value="easy">轻松入门优先</option>
-                    <option value="challenge">小有挑战优先</option>
+                    <option value="easy">简单优先</option>
+                    <option value="challenge">困难优先</option>
                   </select>
                 </label>
               </div>
-              <div className="category-tabs" role="group" aria-label="主题分类">
+              {view === 'anime' ? (
+                <div className="anime-library-tools">
+                  <p>简单：人物与基础设定 · 困难：机制辨析与组合推理</p>
+                  {series && <button className="text-button" onClick={() => {
+                    setSeries(null)
+                    const destination = document.getElementById('anime-all-series')
+                    destination?.focus({ preventScroll: true })
+                    destination?.scrollIntoView({ block: 'start', behavior: 'instant' })
+                  }}>切换专区 <Icon name="arrow" size={15} /></button>}
+                  <div className="difficulty-filters" role="group" aria-label="难度筛选">
+                    {(['全部', '简单', '困难'] as const).map((level) => (
+                      <button key={level} aria-pressed={difficulty === level} onClick={() => setDifficulty(level)}>
+                        {level === '全部' ? '全部难度' : level}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ) : <div className="category-tabs" role="group" aria-label="主题分类">
                 {categories.map((item) => (
                   <button
                     key={item}
@@ -380,7 +427,7 @@ export default function App() {
                     {item}
                   </button>
                 ))}
-              </div>
+              </div>}
               <span className="sr-only" role="status">
                 找到 {filtered.length} 个 Quiz
               </span>
@@ -410,17 +457,17 @@ export default function App() {
                   <p>
                     {view === 'saved' && !saved.length
                       ? '点击题卡右上角的书签，把感兴趣的挑战放到这里。'
-                      : '试试「科学」「世界」，或者看看全部主题。'}
+                      : view === 'anime' ? '试试其他作品或难度，也可以重置全部筛选。' : '试试「科学」「世界」，或者看看全部主题。'}
                   </p>
                   <button
                     className="primary-button"
                     onClick={() =>
                       view === 'saved' && !saved.length
                         ? navigate('discover')
-                        : (setQuery(''), setCategory('全部'))
+                        : (setQuery(''), setCategory('全部'), setSeries(null), setDifficulty('全部'))
                     }
                   >
-                    {view === 'saved' && !saved.length ? '去发现 Quiz' : '查看全部主题'}
+                    {view === 'saved' && !saved.length ? '去发现 Quiz' : view === 'anime' ? '重置筛选' : '查看全部主题'}
                     <Icon name="arrow" size={16} />
                   </button>
                 </div>
@@ -516,7 +563,7 @@ export default function App() {
               不必无所不知，只要保持好奇。
             </span>
             <span>
-              {view === 'discover'
+              {view === 'anime' ? '2 dimention · hanazar 的二次元中心' : view === 'discover'
                 ? `${quizzes.length} 个主题 · ${quizzes.reduce((count, quiz) => count + quiz.questions.length, 0)} 个发现新知的机会`
                 : '收藏与挑战记录仅在本次访问中保留'}
             </span>
@@ -568,7 +615,7 @@ export default function App() {
       )}
       {helpOpen && (
         <Dialog title="几分钟，玩出一点新知识。" onClose={() => setHelpOpen(false)}>
-          <p className="dialog-description">欢迎来到 Quizpop，好奇心就是你的入场券。</p>
+          <p className="dialog-description">欢迎来到 2 dimention，hanazar 的二次元中心。从喜欢的作品和适合的难度开始吧。</p>
           <ol className="how-to-play">
             <li>
               <span>01</span>

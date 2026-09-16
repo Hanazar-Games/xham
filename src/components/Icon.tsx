@@ -68,7 +68,7 @@ export function Logo() {
     <span className="logo">
       <img src="/favicon.svg" width="36" height="36" alt="" />
       <span>
-        quizpop<span className="logo-dot">.</span>
+        2d<span className="logo-dot">.</span>
       </span>
     </span>
   )

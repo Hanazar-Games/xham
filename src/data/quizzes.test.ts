@@ -5,6 +5,34 @@ import { images as imageSources } from '../../public/images/anime/sources.json'
 import { readFileSync, readdirSync } from 'node:fs'
 
 describe('built-in question bank', () => {
+  it.each(['ghibli', 'rezero', 'frieren', 'demon-slayer', 'one-piece', 'naruto'])(
+    '%s has separate easy and hard illustrated packs', (series) => {
+      const packs = quizzes.filter((quiz) => 'series' in quiz && quiz.series === series)
+      expect(packs.length).toBeGreaterThanOrEqual(2)
+      expect(new Set(packs.map((quiz) => quiz.difficulty))).toEqual(new Set(['简单', '困难']))
+      const prompts = packs.flatMap((quiz) => quiz.questions.map((question) => question.prompt))
+      expect(new Set(prompts).size).toBe(prompts.length)
+      for (const pack of packs) {
+        expect(pack.questions).toHaveLength(12)
+        expect(pack.duration).toBe(pack.difficulty === '简单' ? 20 : 30)
+        expect(pack.scope).toBeTruthy()
+        for (const question of pack.questions) {
+          expect(question.image?.src).toMatch(/^\/images\/anime\//)
+          expect(question.source?.url).toMatch(/^https:\/\//)
+        }
+      }
+    },
+  )
+
+  it('has a registered series for every anime quiz and balanced answer positions in new packs', () => {
+    const series = new Set(['ghibli', 'rezero', 'frieren', 'demon-slayer', 'one-piece', 'naruto'])
+    for (const quiz of quizzes.filter((quiz) => quiz.category === '二次元')) {
+      expect(series.has(quiz.series!)).toBe(true)
+      if (quiz.id === quiz.series) continue
+      expect([0, 1, 2, 3].map((answer) => quiz.questions.filter((question) => question.answer === answer).length)).toEqual([3, 3, 3, 3])
+    }
+  })
+
   it('ships every referenced image as a WebP with matching manifest size and no unused files', () => {
     const directory = new URL('../../public/images/anime/', import.meta.url)
     const referenced = new Set(quizzes.flatMap((quiz) =>

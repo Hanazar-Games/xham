@@ -1,0 +1,47 @@
+import { test, expect } from '@playwright/test'
+import { animeSeries } from '../src/data/anime-series'
+
+test('the anime center is the home and every series has two difficulty levels', async ({ page }) => {
+  await page.goto('/')
+  await expect(page.locator('h1')).toContainText('2 dimention')
+  await expect(page.locator('.page-intro')).toContainText('hanazar 的二次元中心')
+  await expect(page.locator('.anime-series-card')).toHaveCount(6)
+  await expect(page.locator('.quiz-card')).toHaveCount(12)
+  for (const series of animeSeries) {
+    await page.getByRole('button', { name: `进入专区：${series.title}`, exact: true }).click()
+    await expect(page.locator('.quiz-card')).toHaveCount(2)
+    expect((await page.locator('.quiz-card .difficulty').allTextContents()).sort()).toEqual(['困难', '简单'])
+    await page.getByRole('button', { name: '困难', exact: true }).click()
+    await expect(page.locator('.quiz-card')).toHaveCount(1)
+    await expect(page.locator('.quiz-card .difficulty')).toHaveText('困难')
+    await page.getByRole('button', { name: '简单', exact: true }).click()
+    await expect(page.locator('.quiz-card')).toHaveCount(1)
+    await expect(page.locator('.quiz-card .difficulty')).toHaveText('简单')
+    await page.getByRole('button', { name: '全部难度', exact: true }).click()
+  }
+})
+
+test('a series challenge returns to its filtered library and the ordinary library remains available', async ({ page }) => {
+  await page.goto('/')
+  await page.getByRole('button', { name: '进入专区：海贼王', exact: true }).click()
+  await page.getByRole('button', { name: '困难', exact: true }).click()
+  await page.getByRole('button', { name: '开始：海贼王，航海分工与能力进阶', exact: true }).click()
+  await page.getByRole('button', { name: '准备好了，开始！' }).click()
+  await expect(page.locator('.timer strong')).toHaveText('30')
+  await page.getByRole('button', { name: '退出挑战', exact: true }).click()
+  await page.getByRole('button', { name: '结束挑战', exact: true }).click()
+  await expect(page.locator('h1')).toContainText('2 dimention')
+  await expect(page.locator('.quiz-card')).toHaveCount(1)
+  await expect(page.locator('.quiz-card h3')).toHaveText('海贼王，航海分工与能力进阶')
+  await page.getByRole('button', { name: '切换专区', exact: true }).click()
+  await expect(page.getByRole('button', { name: '全部专区', exact: true })).toBeFocused()
+  await expect(page.locator('.quiz-card')).toHaveCount(6)
+  await page.getByRole('textbox', { name: '搜索 Quiz' }).fill('not-a-series')
+  await expect(page.locator('.empty-state')).toBeVisible()
+  await page.getByRole('button', { name: '重置筛选', exact: true }).click()
+  await expect(page.locator('.quiz-card')).toHaveCount(12)
+  await page.getByRole('navigation', { name: '主导航' }).getByRole('button', { name: '发现 Quiz', exact: true }).click()
+  await expect(page.locator('.quiz-card')).toHaveCount(18)
+  await page.getByRole('button', { name: '科学自然', exact: true }).click()
+  await expect(page.locator('.quiz-card')).toHaveCount(2)
+})

@@ -1,5 +1,6 @@
 import type { Category, Quiz } from '../types'
 import { animeQuizzes } from './anime'
+import { animePacks } from './anime-packs'
 
 export const categories: Category[] = [
   '全部',
@@ -12,12 +13,13 @@ export const categories: Category[] = [
 
 export const quizzes: Quiz[] = [
   ...animeQuizzes,
+  ...animePacks,
   {
     id: 'everyday',
     title: '你的常识，有点东西',
     description: '那些「我应该知道吧」的小知识，你能答对几个？',
     category: '综合知识',
-    difficulty: '轻松入门',
+    difficulty: '简单',
     artwork: 'brain',
     color: 'lavender',
     tag: '入门必玩',
@@ -72,7 +74,7 @@ export const quizzes: Quiz[] = [
     title: '宇宙这么大，一起去看看',
     description: '从月球到银河系，开启一场不需要飞船的旅行。',
     category: '科学自然',
-    difficulty: '轻松入门',
+    difficulty: '简单',
     artwork: 'space',
     color: 'peach',
     tag: '编辑精选',
@@ -127,7 +129,7 @@ export const quizzes: Quiz[] = [
     title: '带上好奇心，环游世界',
     description: '认一认地标，猜一猜国度，世界比想象中更有趣。',
     category: '世界探索',
-    difficulty: '轻松入门',
+    difficulty: '简单',
     artwork: 'world',
     color: 'blue',
     tag: '探索世界',
@@ -182,7 +184,7 @@ export const quizzes: Quiz[] = [
     title: '生活里，藏着科学超能力',
     description: '彩虹为什么有颜色？把日常的问号变成感叹号。',
     category: '科学自然',
-    difficulty: '小有挑战',
+    difficulty: '困难',
     artwork: 'science',
     color: 'mint',
     tag: '脑洞大开',
@@ -237,7 +239,7 @@ export const quizzes: Quiz[] = [
     title: '艺术细胞，申请出战',
     description: '名画、音乐与文学，原来艺术也可以这么好玩。',
     category: '文化艺术',
-    difficulty: '轻松入门',
+    difficulty: '简单',
     artwork: 'art',
     color: 'pink',
     tag: '灵感补给',
@@ -292,7 +294,7 @@ export const quizzes: Quiz[] = [
     title: '穿越一下，历史不无聊',
     description: '打开时光任意门，和那些改变世界的瞬间碰个面。',
     category: '文化艺术',
-    difficulty: '小有挑战',
+    difficulty: '困难',
     artwork: 'history',
     color: 'yellow',
     tag: '时光旅行',

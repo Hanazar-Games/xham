@@ -25,6 +25,7 @@ async function auditLayout(page: Page) {
 
 async function start(page: Page, quiz = quizzes[0]) {
   await page.goto('/')
+  if (!quiz.series) await page.getByRole('navigation', { name: '主导航' }).getByRole('button', { name: '发现 Quiz', exact: true }).click()
   await page.getByRole('button', { name: `开始：${quiz.title}`, exact: true }).click()
   await page.getByRole('button', { name: '准备好了，开始！' }).click()
 }
@@ -66,6 +67,7 @@ test('closing game dialogs restores the opener while preserving the answer and t
 
 for (const quiz of quizzes) {
   test(`${quiz.id}: every question, image, score, review, history and replay`, async ({ page }) => {
+    if (quiz.series && quiz.id !== quiz.series) await page.setViewportSize({ width: 390, height: 844 })
     const errors: string[] = []
     page.on('pageerror', (error) => errors.push(error.message))
     await start(page, quiz)
@@ -93,7 +95,7 @@ for (const quiz of quizzes) {
     await expect(page.locator('.review-item')).toHaveCount(quiz.questions.length)
     await auditLayout(page)
     await page.getByRole('button', { name: '探索更多 Quiz' }).click()
-    await page.locator('.main-nav button').nth(2).click()
+    await page.getByRole('navigation', { name: '主导航' }).getByRole('button', { name: '挑战记录', exact: true }).click()
     await expect(page.locator('.history-item')).toHaveCount(1)
     await expect(page.locator('.history-item')).toContainText(score!)
     await page.getByRole('button', { name: '查看成绩', exact: true }).click()
@@ -117,10 +119,10 @@ for (const [width, height] of [[320, 568], [390, 844], [540, 720], [768, 1024], 
     await expect(page.locator('.latest-release')).toContainText(`v${version}`)
     await auditLayout(page)
     await page.getByRole('button', { name: '历史公告', exact: true }).click()
-    await expect(page.locator('.historical-release')).toHaveCount(4)
+    await expect(page.locator('.historical-release')).toHaveCount(5)
     await page.locator('.historical-release summary').first().click()
-    await expect(page.locator('.historical-release').first()).toContainText('v0.4.0')
-    await expect(page.locator('.historical-release').first()).toContainText('二次元 72 题全部配图')
+    await expect(page.locator('.historical-release').first()).toContainText('v0.4.1')
+    await expect(page.locator('.historical-release').first()).toContainText('改善配图题的手机体验')
     await auditLayout(page)
     await page.keyboard.press('Escape')
     await page.getByRole('button', { name: /^(查看)?玩法指南$/ }).click()
@@ -140,40 +142,41 @@ for (const [width, height] of [[320, 568], [390, 844], [540, 720], [768, 1024], 
     await page.getByRole('button', { name: '退出挑战', exact: true }).click()
     await auditLayout(page)
     await page.getByRole('button', { name: '结束挑战', exact: true }).click()
-    await page.locator('.main-nav button').nth(1).click()
+    await page.getByRole('navigation', { name: '主导航' }).getByRole('button', { name: /^我的收藏/ }).click()
     await auditLayout(page)
-    await page.locator('.main-nav button').nth(2).click()
+    await page.getByRole('navigation', { name: '主导航' }).getByRole('button', { name: '挑战记录', exact: true }).click()
     await auditLayout(page)
   })
 }
 
 test('discovery filters, sorting, favorites and reset on refresh', async ({ page }) => {
   await page.goto('/')
-  for (const [query, id] of [['re0', 'rezero'], ['ONE PIECE', 'one-piece'], ['NARUTO', 'naruto'], ['鬼灭 角色', 'demon-slayer']]) {
+  await page.getByRole('navigation', { name: '主导航' }).getByRole('button', { name: '发现 Quiz', exact: true }).click()
+  for (const [query, id] of [['re0', 'rezero'], ['ONE PIECE', 'one-piece'], ['NARUTO', 'naruto'], ['鬼灭', 'demon-slayer']]) {
     await page.getByRole('textbox', { name: '搜索 Quiz' }).fill(query)
-    await expect(page.locator('.quiz-card')).toHaveCount(1)
-    await expect(page.locator('.quiz-card h3')).toHaveText(quizzes.find((quiz) => quiz.id === id)!.title)
+    await expect(page.locator('.quiz-card')).toHaveCount(2)
+    await expect(page.locator('.quiz-card h3')).toHaveText(quizzes.filter((quiz) => quiz.series === id).map((quiz) => quiz.title))
   }
   await page.getByRole('textbox', { name: '搜索 Quiz' }).fill('not-a-quiz')
   await expect(page.locator('.empty-state')).toBeVisible()
   await page.getByRole('button', { name: '查看全部主题' }).click()
   await expect(page.locator('.quiz-card')).toHaveCount(quizzes.length)
   await page.getByRole('button', { name: '二次元', exact: true }).click()
-  await expect(page.locator('.quiz-card')).toHaveCount(6)
+  await expect(page.locator('.quiz-card')).toHaveCount(12)
   await page.getByRole('combobox', { name: '题库排序' }).selectOption('challenge')
-  await expect(page.locator('.quiz-card .difficulty').first()).toHaveText('小有挑战')
+  await expect(page.locator('.quiz-card .difficulty').first()).toHaveText('困难')
   await page.getByRole('button', { name: `收藏：${quizzes[0].title}`, exact: true }).click()
-  await page.locator('.main-nav button').nth(1).click()
+  await page.getByRole('navigation', { name: '主导航' }).getByRole('button', { name: /^我的收藏/ }).click()
   await expect(page.locator('.quiz-card')).toHaveCount(1)
   await page.getByRole('button', { name: `取消收藏：${quizzes[0].title}`, exact: true }).click()
   await expect(page.locator('.empty-state')).toContainText('喜欢的 Quiz，先收藏起来')
   await page.getByRole('button', { name: '去发现 Quiz' }).click()
   await page.getByRole('button', { name: `收藏：${quizzes[0].title}`, exact: true }).click()
   await page.reload()
-  await page.locator('.main-nav button').nth(1).click()
+  await page.getByRole('navigation', { name: '主导航' }).getByRole('button', { name: /^我的收藏/ }).click()
   await expect(page.locator('.quiz-card')).toHaveCount(0)
   expect(await page.evaluate(() => [localStorage.length, sessionStorage.length])).toEqual([0, 0])
-  await page.locator('.main-nav button').first().click()
+  await page.getByRole('navigation', { name: '主导航' }).getByRole('button', { name: '发现 Quiz', exact: true }).click()
   await page.getByRole('button', { name: '随机来一局' }).click()
   expect(quizzes.map((quiz) => quiz.title)).toContain(await page.locator('.dialog-quiz-title').textContent())
 })
@@ -193,6 +196,7 @@ test('failed and delayed images preserve playable text and recover on the next q
   await page.keyboard.press('Enter')
   await expect(page.locator('.question-panel h1')).toHaveText(quiz.questions[1].prompt)
   await expect(page.locator('.answer-option:enabled')).toHaveCount(4)
+  await page.evaluate(() => document.fonts.ready)
   const before = await page.locator('.answer-grid').boundingBox()
   release()
   await expect.poll(() => page.locator('.question-image').evaluate((node: HTMLImageElement) => node.complete && node.naturalWidth > 0)).toBe(true)
