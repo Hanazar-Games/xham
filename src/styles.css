@@ -369,76 +369,6 @@ h1:focus {
   padding: 3px;
   display: flex;
 }
-.featured-row {
-  display: grid;
-  grid-template-columns: minmax(0, 2.7fr) minmax(235px, 1fr);
-  gap: 21px;
-  margin-bottom: 35px;
-}
-.hero {
-  background: #e6f0cb;
-  border: 1px solid #dfe9c6;
-  min-height: 302px;
-  border-radius: 15px;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  padding: 27px 29px;
-}
-.hero-content {
-  position: relative;
-  z-index: 2;
-  width: 58%;
-  flex-shrink: 0;
-}
-.hero-kicker {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 9px;
-  color: #5b7143;
-  letter-spacing: 1px;
-  border: 1px solid #cedaaf;
-  border-radius: 20px;
-  padding: 5px 9px;
-  background: #edf5da;
-}
-.hero-kicker > span {
-  background: #94ad6c;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-}
-.hero h2 {
-  font-size: 32px;
-  font-weight: 750;
-  line-height: 1.55;
-  letter-spacing: 0.1px;
-  margin: 14px 0 10px;
-  white-space: nowrap;
-}
-.hero h2 > span {
-  position: relative;
-}
-.hero h2 > span:after {
-  content: '';
-  position: absolute;
-  height: 6px;
-  background: #b5ce7d;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  transform: rotate(-3deg);
-  z-index: -1;
-  border-radius: 50%;
-}
-.hero p {
-  font-size: 12px;
-  color: #5d6d48;
-  line-height: 1.9;
-  letter-spacing: 0.4px;
-}
 .dark-button,
 .primary-button,
 .secondary-button {
@@ -460,159 +390,6 @@ h1:focus {
 .dark-button:hover {
   background: #455338;
   transform: translateY(-1px);
-}
-.hero .dark-button {
-  margin-top: 20px;
-  font-size: 11px;
-  min-height: 40px;
-  padding: 10px 15px;
-  gap: 9px;
-}
-.hero-note {
-  display: block;
-  font-size: 8px;
-  color: #5b6b44;
-  margin-top: 10px;
-  letter-spacing: 0.5px;
-}
-.hero-art {
-  position: absolute;
-  width: 48%;
-  right: 5px;
-  top: 9px;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.hero-art svg {
-  width: 100%;
-  height: auto;
-  max-height: 300px;
-}
-.art-sticker {
-  position: absolute;
-  bottom: 29px;
-  left: 25%;
-  font-size: 8px;
-  color: #536536;
-  letter-spacing: 0.2px;
-  transform: rotate(-8deg);
-}
-.spotlight {
-  background: #6b587f;
-  border-radius: 15px;
-  min-height: 302px;
-  padding: 22px 22px 19px;
-  color: #fff;
-  position: relative;
-  overflow: hidden;
-}
-.spotlight-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: relative;
-  z-index: 2;
-}
-.spotlight-top > span:first-child {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  background: #756087;
-  border: 1px solid #ffffff22;
-  border-radius: 5px;
-  font-size: 9px;
-  padding: 5px 8px;
-  color: #ffffff;
-}
-.spotlight-top > span:last-child {
-  font-size: 9px;
-  letter-spacing: 1px;
-  color: #f3edf8;
-}
-.spotlight-content {
-  position: relative;
-  z-index: 2;
-  padding-top: 20px;
-}
-.spotlight-kicker {
-  font-size: 7px;
-  letter-spacing: 1.8px;
-  color: #f3edf8;
-}
-.spotlight h2 {
-  font-size: 27px;
-  line-height: 1.45;
-  letter-spacing: 1px;
-  margin: 8px 0 10px;
-  font-weight: 600;
-}
-.spotlight p {
-  font-size: 10px;
-  color: #f3edf8;
-}
-.spotlight-meta {
-  display: flex;
-  gap: 16px;
-  font-size: 9px;
-  color: #f3edf8;
-  margin: 19px 0 16px;
-}
-.spotlight-meta > span {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-.spotlight button {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  padding-top: 14px;
-  border-top: 1px solid #ffffff26;
-  font-size: 11px;
-  color: #f3ebfb;
-}
-.spotlight button:hover {
-  color: #d7f1ae;
-}
-.orbit-decoration {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-.orbit-decoration > span {
-  position: absolute;
-  width: 130px;
-  height: 130px;
-  border: 1px solid #ae98c466;
-  border-radius: 50%;
-  right: -50px;
-  top: 65px;
-}
-.orbit-decoration > span + span {
-  width: 185px;
-  height: 80px;
-  right: -75px;
-  top: 83px;
-  transform: rotate(-35deg);
-}
-.orbit-decoration i {
-  position: absolute;
-  right: 28px;
-  top: 118px;
-  color: #dacee6;
-  font-size: 30px;
-  font-style: normal;
-}
-.orbit-decoration b {
-  position: absolute;
-  right: 15px;
-  top: 188px;
-  color: #bda6d0;
-  font-size: 24px;
-  font-weight: 400;
 }
 .library-heading {
   display: flex;
@@ -651,41 +428,6 @@ h1:focus {
   cursor: pointer;
   max-width: 130px;
   padding: 4px 2px;
-}
-.category-tabs {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 23px;
-  overflow-x: auto;
-  scrollbar-width: none;
-  padding: 3px 0;
-}
-.category-tabs::-webkit-scrollbar {
-  display: none;
-}
-.category-tabs button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  border: 1px solid #e8eae4;
-  background: #fff;
-  white-space: nowrap;
-  border-radius: 7px;
-  padding: 9px 14px;
-  font-size: 12px;
-  color: #647153;
-  min-height: 37px;
-}
-.category-tabs button:hover {
-  background: #eef3e7;
-}
-.category-tabs button.selected {
-  background: #eaf2de;
-  color: #556e3a;
-  border-color: #d6e2c4;
-  font-weight: 550;
 }
 .quiz-grid {
   display: grid;
@@ -1640,17 +1382,6 @@ h1:focus {
   .topbar {
     padding-inline: 50px;
   }
-  .hero {
-    min-height: 320px;
-    padding-left: 36px;
-  }
-  .hero h2 {
-    font-size: 38px;
-  }
-  .hero-art {
-    right: 20px;
-    width: 45%;
-  }
   .card-cover {
     height: 195px;
   }
@@ -1665,18 +1396,6 @@ h1:focus {
   }
   .card-footer {
     padding: 16px 0;
-  }
-  .spotlight {
-    padding: 25px 28px;
-  }
-  .spotlight-content {
-    padding-top: 25px;
-  }
-  .spotlight h2 {
-    font-size: 30px;
-  }
-  .spotlight-meta {
-    margin-top: 22px;
   }
 }
 @media (max-width: 1200px) {
@@ -1696,24 +1415,6 @@ h1:focus {
   }
   .logo {
     font-size: 27px;
-  }
-  .hero {
-    padding: 23px;
-    min-height: 292px;
-  }
-  .hero h2 {
-    font-size: 27px;
-  }
-  .hero-art {
-    right: -6px;
-    width: 46%;
-  }
-  .featured-row {
-    grid-template-columns: minmax(0, 2.2fr) minmax(214px, 1fr);
-    gap: 17px;
-  }
-  .spotlight {
-    padding: 21px 19px;
   }
   .quiz-grid {
     gap: 19px 16px;
@@ -1806,49 +1507,6 @@ h1:focus {
     font-size: 23px;
     margin-left: 5px;
   }
-  .hero h2 {
-    font-size: 24px;
-  }
-  .hero p {
-    font-size: 12px;
-  }
-  .hero-art {
-    width: 40%;
-    right: 0;
-    top: auto;
-    bottom: 15px;
-    height: 125px;
-  }
-  .hero-content {
-    width: 65%;
-  }
-  .hero {
-    padding: 24px 21px;
-    min-height: 283px;
-  }
-  .featured-row {
-    grid-template-columns: minmax(0, 1fr) 200px;
-    gap: 15px;
-  }
-  .spotlight {
-    min-height: 283px;
-    padding: 20px 17px;
-  }
-  .spotlight h2 {
-    font-size: 24px;
-  }
-  .spotlight-meta {
-    gap: 10px;
-    margin-top: 17px;
-  }
-  .spotlight-content {
-    padding-top: 20px;
-  }
-  .art-sticker {
-    font-size: 6px;
-    left: 8%;
-    bottom: -3px;
-  }
   .quiz-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 20px;
@@ -1871,13 +1529,6 @@ h1:focus {
   }
   .dashboard-footer {
     font-size: 8px;
-  }
-  .category-tabs {
-    gap: 7px;
-  }
-  .category-tabs button {
-    padding: 9px 12px;
-    font-size: 12px;
   }
   .curiosity-card {
     padding: 15px 10px;
@@ -2031,119 +1682,6 @@ h1:focus {
   .search-box input {
     font-size: 11px;
   }
-  .featured-row {
-    grid-template-columns: 1fr;
-    margin-bottom: 30px;
-    gap: 14px;
-  }
-  .hero {
-    min-height: 281px;
-    padding: 25px;
-  }
-  .hero h2 {
-    font-size: 29px;
-    margin-top: 14px;
-  }
-  .hero-content {
-    width: 65%;
-  }
-  .hero-art {
-    width: 45%;
-    right: 0;
-    top: auto;
-    bottom: 12px;
-    height: 146px;
-  }
-  .hero p {
-    font-size: 12px;
-  }
-  .hero-kicker {
-    font-size: 8px;
-  }
-  .art-sticker {
-    left: 15%;
-    bottom: 0;
-    font-size: 7px;
-  }
-  .hero .dark-button {
-    margin-top: 17px;
-  }
-  .spotlight {
-    min-height: 0;
-    padding: 17px 21px;
-  }
-  .spotlight-top {
-    position: absolute;
-    top: 20px;
-    right: 18px;
-  }
-  .spotlight-top > span:last-child {
-    display: none;
-  }
-  .spotlight-top > span:first-child {
-    font-size: 8px;
-  }
-  .spotlight-content {
-    padding: 0;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    column-gap: 20px;
-    align-items: center;
-  }
-  .spotlight-kicker {
-    grid-column: 1;
-    letter-spacing: 1px;
-    font-size: 7px;
-  }
-  .spotlight h2 {
-    font-size: 21px;
-    margin: 8px 0;
-    grid-column: 1;
-    line-height: 1.5;
-  }
-  .spotlight h2 br {
-    display: none;
-  }
-  .spotlight p {
-    font-size: 9px;
-    grid-column: 1;
-  }
-  .spotlight-meta {
-    grid-column: 1;
-    margin: 13px 0 0;
-    font-size: 8px;
-  }
-  .spotlight-content > button {
-    grid-column: 2;
-    grid-row: 2 / 5;
-    border: 0;
-    gap: 12px;
-    font-size: 10px;
-    padding: 8px 0;
-    align-self: end;
-  }
-  .orbit-decoration > span {
-    width: 100px;
-    height: 100px;
-    top: 5px;
-    right: 60px;
-  }
-  .orbit-decoration > span + span {
-    width: 140px;
-    height: 50px;
-    top: 31px;
-    right: 40px;
-  }
-  .orbit-decoration i {
-    right: 145px;
-    top: 20px;
-    font-size: 20px;
-  }
-  .orbit-decoration b {
-    right: 112px;
-    top: 80px;
-    font-size: 17px;
-  }
   .quiz-grid {
     gap: 18px 14px;
   }
@@ -2227,20 +1765,6 @@ h1:focus {
   .sort-control select {
     font-size: 9px;
     max-width: 110px;
-  }
-  .category-tabs {
-    margin-bottom: 18px;
-    gap: 7px;
-  }
-  .category-tabs button {
-    padding: 8px 10px;
-    font-size: 12px;
-    gap: 5px;
-    min-height: 34px;
-  }
-  .category-tabs button svg {
-    width: 14px;
-    height: 14px;
   }
   .dashboard-footer {
     flex-direction: column;
@@ -2514,20 +2038,6 @@ h1:focus {
   .dashboard {
     padding-inline: 18px;
   }
-  .hero {
-    padding: 23px 20px;
-    min-height: 272px;
-  }
-  .hero h2 {
-    font-size: 26px;
-  }
-  .hero-art {
-    width: 43%;
-    right: -7px;
-  }
-  .hero-content {
-    width: 69%;
-  }
   .page-intro h1 {
     font-size: 23px;
   }
@@ -2610,13 +2120,6 @@ h1:focus {
   }
   .search-box input {
     font-size: 16px;
-  }
-  .hero h2 {
-    font-size: clamp(21px, 6.4vw, 28px);
-  }
-  .category-tabs button {
-    font-size: 12px;
-    min-height: 40px;
   }
   .dialog-actions {
     flex-wrap: wrap;

@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from 'react'
 import type { Quiz, QuizImage } from '../types'
-import { Artwork } from './Artwork'
+import { AnimeArtwork } from './Artwork'
 import './quiz-media.css'
 
 function Picture({
@@ -33,7 +33,7 @@ function Picture({
 }
 
 export function QuizArtwork({ quiz }: { quiz: Quiz }) {
-  const fallback = <Artwork kind={quiz.artwork} />
+  const fallback = <AnimeArtwork />
   return quiz.image ? (
     <Picture
       key={quiz.image.src}

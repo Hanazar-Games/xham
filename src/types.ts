@@ -1,5 +1,3 @@
-export type Category = '全部' | '综合知识' | '科学自然' | '世界探索' | '文化艺术' | '二次元'
-export type ArtworkKind = 'brain' | 'space' | 'world' | 'science' | 'art' | 'history'
 export type AnimeSeriesId = 'demon-slayer' | 'one-piece' | 'naruto' | 'ghibli' | 'rezero' | 'frieren'
 export type Difficulty = '简单' | '困难'
 
@@ -25,10 +23,9 @@ export interface Quiz {
   id: string
   title: string
   description: string
-  category: Exclude<Category, '全部'>
-  series?: AnimeSeriesId
+  category: '二次元'
+  series: AnimeSeriesId
   difficulty: Difficulty
-  artwork: ArtworkKind
   image?: QuizImage
   color: string
   tag: string

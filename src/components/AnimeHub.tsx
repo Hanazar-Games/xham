@@ -5,7 +5,7 @@ import { QuizArtwork } from './QuizMedia'
 import { Icon } from './Icon'
 import './anime-hub.css'
 
-const library = quizzes.filter((quiz) => quiz.series)
+const library = quizzes
 
 export function AnimeHub({ selected, onSelect }: {
   selected: AnimeSeriesId | null

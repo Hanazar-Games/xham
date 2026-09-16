@@ -299,8 +299,8 @@ export function QuizGame({
                     {response.correct
                       ? `答对了！+${response.points} 分`
                       : response.selected === null
-                        ? '时间到！一起记住这个知识点。'
-                        : '差一点！新知识已经入袋。'}
+                        ? '时间到！一起记住这个设定。'
+                        : '差一点！新设定已经记住。'}
                   </h2>
                   <p className="correct-answer">正确答案：{question.options[question.answer]}</p>
                   <p>{question.explanation}</p>
@@ -344,7 +344,7 @@ export function QuizGame({
       </footer>
       {overlay === 'audio' && <AudioSettings onClose={closeOverlay} />}
       {overlay === 'pause' && (
-        <Dialog title="休息一下，好奇心不着急。" onClose={closeOverlay}>
+        <Dialog title="中场休息，冒险稍后继续。" onClose={closeOverlay}>
           <div className="pause-illustration">
             <Icon name="pause" size={38} />
           </div>

@@ -1,11 +1,10 @@
 import { useCallback, useRef, useState } from 'react'
-import { quizzes, categories } from './data/quizzes'
-import type { AnimeSeriesId, Category, Difficulty, Quiz } from './types'
+import { quizzes } from './data/quizzes'
+import type { AnimeSeriesId, Difficulty, Quiz } from './types'
 import { animeSeries } from './data/anime-series'
 import { AnimeHub } from './components/AnimeHub'
-import { HeroArtwork } from './components/Artwork'
 import { QuizArtwork } from './components/QuizMedia'
-import { Icon, Logo, type IconName } from './components/Icon'
+import { Icon, Logo } from './components/Icon'
 import { QuizCard } from './components/QuizCard'
 import { Dialog } from './components/Dialog'
 import { QuizGame } from './game/QuizGame'
@@ -16,16 +15,7 @@ import { useAudio } from './audio/AudioProvider'
 import { ReleaseNotes } from './components/ReleaseNotes'
 import { currentRelease } from './data/releases'
 
-type View = 'anime' | 'discover' | 'saved' | 'results'
-const categoryIcons: Record<Category, IconName> = {
-  全部: 'grid',
-  综合知识: 'bolt',
-  科学自然: 'flask',
-  世界探索: 'globe',
-  文化艺术: 'palette',
-  二次元: 'sparkles',
-}
-const featuredQuiz = quizzes.find((quiz) => quiz.id === 'space')!
+type View = 'anime' | 'saved' | 'results'
 const normalizeSearch = (value: string) => value.toLowerCase().replace(/[\s:：]/g, '')
 
 export default function App() {
@@ -33,7 +23,6 @@ export default function App() {
   const [series, setSeries] = useState<AnimeSeriesId | null>(null)
   const [difficulty, setDifficulty] = useState<Difficulty | '全部'>('全部')
   const libraryHeading = useRef<HTMLHeadingElement>(null)
-  const [category, setCategory] = useState<Category>('全部')
   const [query, setQuery] = useState('')
   const [sort, setSort] = useState('recommended')
   const [saved, setSaved] = useState<string[]>([])
@@ -53,7 +42,6 @@ export default function App() {
   const navigate = (next: View) => {
     setView(next)
     setQuery('')
-    setCategory('全部')
     setSeries(null)
     setDifficulty('全部')
     window.scrollTo({ top: 0 })
@@ -63,7 +51,7 @@ export default function App() {
     setSelected(quiz)
   }
   const randomQuiz = () => {
-    const pool = view === 'anime' ? quizzes.filter((quiz) => quiz.series) : quizzes
+    const pool = filtered.length ? filtered : quizzes
     openQuiz(pool[Math.floor(Math.random() * pool.length)])
   }
   const startQuiz = () => {
@@ -75,7 +63,7 @@ export default function App() {
   const exitGame = () => {
     setPlaying(null)
     if (view === 'anime') window.scrollTo({ top: 0 })
-    else navigate(view === 'results' && playing?.series ? 'anime' : 'discover')
+    else navigate('anime')
   }
   const toggleSave = (id: string) =>
     setSaved((items) => (items.includes(id) ? items.filter((item) => item !== id) : [...items, id]))
@@ -83,9 +71,8 @@ export default function App() {
     .filter(
       (quiz) =>
         (view !== 'saved' || saved.includes(quiz.id)) &&
-        (view !== 'anime' || (quiz.series && (!series || quiz.series === series) &&
-          (difficulty === '全部' || quiz.difficulty === difficulty))) &&
-        (category === '全部' || quiz.category === category) &&
+        (!series || quiz.series === series) &&
+        (difficulty === '全部' || quiz.difficulty === difficulty) &&
         searchTerms.every((term) =>
           normalizeSearch(
             `${quiz.title} ${quiz.description} ${quiz.category} ${quiz.tag} ${animeSeries.find((item) => item.id === quiz.series)?.aliases ?? ''}`,
@@ -136,7 +123,7 @@ export default function App() {
             state={reviewedGame}
             onExit={() => {
               setReviewedGame(null)
-              navigate(reviewedGame.quiz.series ? 'anime' : 'discover')
+              navigate('anime')
             }}
             onReplay={() => {
               openQuiz(reviewedGame.quiz)
@@ -149,7 +136,7 @@ export default function App() {
     )
 
   return (
-    <div className={`app-shell ${view === 'anime' ? 'anime-page' : ''}`}>
+    <div className="app-shell anime-page">
       <a href="#main-content" className="skip-link">
         跳到主要内容
       </a>
@@ -170,15 +157,6 @@ export default function App() {
           >
             <Icon name="sparkles" />
             <span>2 dimention</span>
-          </button>
-          <button
-            className={view === 'discover' ? 'active' : ''}
-            aria-current={view === 'discover' ? 'page' : undefined}
-            onClick={() => navigate('discover')}
-          >
-            <Icon name="grid" />
-            <span>发现 Quiz</span>
-            <span className="nav-dot" />
           </button>
           <button
             className={view === 'saved' ? 'active' : ''}
@@ -203,14 +181,14 @@ export default function App() {
             <span className="curiosity-icon">
               <Icon name="sparkles" size={25} />
             </span>
-            <h3>大脑也需要游乐时间</h3>
+            <h3>下一站，喜欢的世界</h3>
             <p>
-              每天一点新知识，
+              从人物到技能理论，
               <br />
-              让好奇心保持在线。
+              看看你有多懂这部番。
             </p>
             <button onClick={randomQuiz}>
-              随便玩一局
+              随便抽一卷
               <Icon name="arrow" size={16} />
             </button>
           </div>
@@ -220,7 +198,7 @@ export default function App() {
             <Icon name="chevron" size={15} />
           </button>
           <div className="sidebar-footnote">
-            MADE FOR CURIOUS MINDS <span>✳</span>
+            FOR ANIME FANS <span>✳</span>
           </div>
         </div>
       </aside>
@@ -228,9 +206,9 @@ export default function App() {
       <div className="workspace">
         <header className="topbar">
           <div className="breadcrumb">
-            你的探索空间<span>/</span>
+            hanazar 的二次元中心<span>/</span>
             <strong>
-              {view === 'anime' ? '2 dimention' : view === 'discover' ? '发现 Quiz' : view === 'saved' ? '我的收藏' : '挑战记录'}
+              {view === 'anime' ? '2 dimention' : view === 'saved' ? '我的收藏' : '挑战记录'}
             </strong>
           </div>
           <div className="topbar-right">
@@ -246,30 +224,28 @@ export default function App() {
               <i />
               单人练习模式
             </span>
-            <span className="avatar" aria-label="好奇心玩家">
-              Q<span />
+            <span className="avatar" aria-label="动漫挑战者">
+              2d<span />
             </span>
           </div>
         </header>
         <main className="dashboard" id="main-content" tabIndex={-1}>
           <section className="page-intro">
             <div>
-              <div className="eyebrow">{view === 'anime' ? 'HANAZAR’S ANIME QUIZ CENTER' : 'STAY CURIOUS. KEEP PLAYING.'}</div>
+              <div className="eyebrow">HANAZAR’S ANIME QUIZ CENTER</div>
               <h1>
-                {view === 'anime' ? '2 dimention' : view === 'discover'
-                  ? '今天，发现一点新知。'
+                {view === 'anime' ? '2 dimention'
                   : view === 'saved'
-                    ? '把喜欢的，留给下一次。'
-                    : '每次挑战，都算数。'}
+                    ? '收藏喜欢的动漫试卷。'
+                    : '你的动漫挑战档案。'}
                 <span className="heading-spark" aria-hidden="true">
                   ✳
                 </span>
               </h1>
               <p>
-                {view === 'anime' ? 'hanazar 的二次元中心 · 每个喜欢的世界，都有下一张试卷。' : view === 'discover'
-                  ? '选一个感兴趣的主题，让知识和快乐一起发生。'
+                {view === 'anime' ? 'hanazar 的二次元中心 · 每个喜欢的世界，都有下一张试卷。'
                   : view === 'saved'
-                    ? '你收藏的好问题，都在这里等你。'
+                    ? '收藏的作品与试卷，随时回来接着挑战。'
                     : '回看本次访问的挑战成绩，见证每一点进步。'}
               </p>
             </div>
@@ -278,7 +254,7 @@ export default function App() {
                 <Icon name="search" size={19} />
                 <input
                   aria-label="搜索 Quiz"
-                  placeholder="搜一搜你的好奇心…"
+                  placeholder="搜索动漫、角色或技能…"
                   value={query}
                   onChange={(event) => setQuery(event.target.value)}
                 />
@@ -291,7 +267,7 @@ export default function App() {
             )}
           </section>
 
-          {(view === 'anime' || view === 'discover') && !search && (
+          {view === 'anime' && !search && (
             <button className="release-banner" onClick={() => setReleaseOpen(true)}>
               <Icon name="sparkles" size={21} />
               <span className="release-banner-copy">
@@ -310,79 +286,11 @@ export default function App() {
               })
             }} />
           )}
-          {view === 'discover' && !search && (
-            <section className="featured-row">
-              <div className="hero">
-                <div className="hero-content">
-                  <span className="hero-kicker">
-                    <span />
-                    好奇心，准备就绪
-                  </span>
-                  <h2>
-                    不只是答题，
-                    <br />
-                    是脑洞大开的<span>快乐。</span>
-                  </h2>
-                  <p>
-                    几分钟，一个新世界。
-                    <br />
-                    让每一个「不知道」变成「原来如此」。
-                  </p>
-                  <button className="dark-button" onClick={randomQuiz}>
-                    <Icon name="shuffle" size={18} />
-                    随机来一局
-                    <Icon name="arrow" size={18} />
-                  </button>
-                  <span className="hero-note">无需注册 · 即刻开玩</span>
-                </div>
-                <HeroArtwork />
-              </div>
-              <div className="spotlight">
-                <div className="spotlight-top">
-                  <span>
-                    <Icon name="bolt" size={14} />
-                    精选挑战
-                  </span>
-                  <span>编辑推荐</span>
-                </div>
-                <div className="orbit-decoration" aria-hidden="true">
-                  <span />
-                  <span />
-                  <i>✦</i>
-                  <b>✧</b>
-                </div>
-                <div className="spotlight-content">
-                  <span className="spotlight-kicker">HELLO, UNIVERSE</span>
-                  <h2>
-                    下一站，
-                    <br />
-                    浩瀚宇宙。
-                  </h2>
-                  <p>你的宇宙知识，能飞多远？</p>
-                  <div className="spotlight-meta">
-                    <span>
-                      <Icon name="layers" size={14} />
-                      {featuredQuiz.questions.length} 道题
-                    </span>
-                    <span>
-                      <Icon name="clock" size={14} />约{' '}
-                      {Math.ceil((featuredQuiz.questions.length * featuredQuiz.duration) / 60)} 分钟
-                    </span>
-                  </div>
-                  <button onClick={() => openQuiz(featuredQuiz)}>
-                    出发探索
-                    <Icon name="arrow" size={18} />
-                  </button>
-                </div>
-              </div>
-            </section>
-          )}
-
           {view !== 'results' ? (
             <section className="quiz-library" aria-label="Quiz 题库">
               <div className="library-heading">
                 <h2 ref={libraryHeading} tabIndex={-1}>
-                  {view === 'anime' ? (series ? `${animeSeries.find((item) => item.id === series)?.title} · 题库` : '全部动漫题库') : view === 'saved' ? '我的收藏' : search ? '搜索结果' : '找点有趣的，开始吧'}
+                  {view === 'anime' ? (series ? `${animeSeries.find((item) => item.id === series)?.title} · 题库` : '全部动漫题库') : '我的收藏'}
                   <span>{filtered.length}</span>
                 </h2>
                 <label className="sort-control">
@@ -398,8 +306,7 @@ export default function App() {
                   </select>
                 </label>
               </div>
-              {view === 'anime' ? (
-                <div className="anime-library-tools">
+              <div className="anime-library-tools">
                   <p>简单：人物与基础设定 · 困难：机制辨析与组合推理</p>
                   {series && <button className="text-button" onClick={() => {
                     setSeries(null)
@@ -407,6 +314,7 @@ export default function App() {
                     destination?.focus({ preventScroll: true })
                     destination?.scrollIntoView({ block: 'start', behavior: 'instant' })
                   }}>切换专区 <Icon name="arrow" size={15} /></button>}
+                  <button className="secondary-button" onClick={randomQuiz}><Icon name="shuffle" size={16} />随机来一局</button>
                   <div className="difficulty-filters" role="group" aria-label="难度筛选">
                     {(['全部', '简单', '困难'] as const).map((level) => (
                       <button key={level} aria-pressed={difficulty === level} onClick={() => setDifficulty(level)}>
@@ -414,20 +322,7 @@ export default function App() {
                       </button>
                     ))}
                   </div>
-                </div>
-              ) : <div className="category-tabs" role="group" aria-label="主题分类">
-                {categories.map((item) => (
-                  <button
-                    key={item}
-                    className={category === item ? 'selected' : ''}
-                    aria-pressed={category === item}
-                    onClick={() => setCategory(item)}
-                  >
-                    <Icon name={categoryIcons[item]} size={17} />
-                    {item}
-                  </button>
-                ))}
-              </div>}
+              </div>
               <span className="sr-only" role="status">
                 找到 {filtered.length} 个 Quiz
               </span>
@@ -451,23 +346,23 @@ export default function App() {
                   />
                   <h3>
                     {view === 'saved' && !saved.length
-                      ? '喜欢的 Quiz，先收藏起来'
+                      ? '喜欢的动漫试卷，先收藏起来'
                       : '还没找到这个主题'}
                   </h3>
                   <p>
                     {view === 'saved' && !saved.length
                       ? '点击题卡右上角的书签，把感兴趣的挑战放到这里。'
-                      : view === 'anime' ? '试试其他作品或难度，也可以重置全部筛选。' : '试试「科学」「世界」，或者看看全部主题。'}
+                      : '试试其他作品或难度，也可以重置全部筛选。'}
                   </p>
                   <button
                     className="primary-button"
                     onClick={() =>
                       view === 'saved' && !saved.length
-                        ? navigate('discover')
-                        : (setQuery(''), setCategory('全部'), setSeries(null), setDifficulty('全部'))
+                        ? navigate('anime')
+                        : (setQuery(''), setSeries(null), setDifficulty('全部'))
                     }
                   >
-                    {view === 'saved' && !saved.length ? '去发现 Quiz' : view === 'anime' ? '重置筛选' : '查看全部主题'}
+                    {view === 'saved' && !saved.length ? '去动漫题库' : '重置筛选'}
                     <Icon name="arrow" size={16} />
                   </button>
                 </div>
@@ -545,7 +440,7 @@ export default function App() {
                 <div className="empty-state">
                   <Icon name="trophy" size={42} />
                   <h3>你的第一场挑战，值得期待</h3>
-                  <p>完成一轮 Quiz 后，成绩就会出现在这里。</p>
+                  <p>完成一套动漫试卷后，成绩就会出现在这里。</p>
                   <button className="primary-button" onClick={randomQuiz}>
                     开启第一场挑战
                     <Icon name="arrow" size={18} />
@@ -560,11 +455,10 @@ export default function App() {
             </button>
             <span>
               <Icon name="sparkles" size={15} />
-              不必无所不知，只要保持好奇。
+              重温喜欢的故事，挑战设定与细节。
             </span>
             <span>
-              {view === 'anime' ? '2 dimention · hanazar 的二次元中心' : view === 'discover'
-                ? `${quizzes.length} 个主题 · ${quizzes.reduce((count, quiz) => count + quiz.questions.length, 0)} 个发现新知的机会`
+              {view === 'anime' ? '2 dimention · hanazar 的二次元中心'
                 : '收藏与挑战记录仅在本次访问中保留'}
             </span>
           </footer>
@@ -574,7 +468,7 @@ export default function App() {
       {releaseOpen && <ReleaseNotes onClose={() => setReleaseOpen(false)} />}
       {audioOpen && <AudioSettings onClose={() => setAudioOpen(false)} />}
       {selected && (
-        <Dialog title="准备好，让好奇心出发？" onClose={() => setSelected(null)}>
+        <Dialog title="准备好，进入这个动漫世界？" onClose={() => setSelected(null)}>
           <div className={`dialog-art ${selected.color}`}>
             <QuizArtwork quiz={selected} />
           </div>
@@ -606,7 +500,7 @@ export default function App() {
               答得快，得分高
             </span>
           </div>
-          <p className="start-note">每题最高 1,000 分 · 答题后解锁知识解析</p>
+          <p className="start-note">每题最高 1,000 分 · 答题后解锁设定解析</p>
           <button className="primary-button full-width" onClick={startQuiz}>
             准备好了，开始！
             <Icon name="arrow" size={18} />
@@ -614,13 +508,13 @@ export default function App() {
         </Dialog>
       )}
       {helpOpen && (
-        <Dialog title="几分钟，玩出一点新知识。" onClose={() => setHelpOpen(false)}>
+        <Dialog title="动漫考场，开考指南。" onClose={() => setHelpOpen(false)}>
           <p className="dialog-description">欢迎来到 2 dimention，hanazar 的二次元中心。从喜欢的作品和适合的难度开始吧。</p>
           <ol className="how-to-play">
             <li>
               <span>01</span>
               <div>
-                <h3>选一个喜欢的主题</h3>
+                <h3>选一个喜欢的动漫专区</h3>
                 <p>浏览题库，也可以用「随机来一局」发现惊喜。</p>
               </div>
             </li>
@@ -637,7 +531,7 @@ export default function App() {
             <li>
               <span>03</span>
               <div>
-                <h3>收获新知识，再看一眼成绩</h3>
+                <h3>读懂设定解析，再回顾成绩</h3>
                 <p>每题都有解析，完成后可回顾所有答案，或再来一局挑战自己。</p>
               </div>
             </li>

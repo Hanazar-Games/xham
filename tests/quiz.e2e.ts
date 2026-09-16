@@ -25,7 +25,6 @@ async function auditLayout(page: Page) {
 
 async function start(page: Page, quiz = quizzes[0]) {
   await page.goto('/')
-  if (!quiz.series) await page.getByRole('navigation', { name: '主导航' }).getByRole('button', { name: '发现 Quiz', exact: true }).click()
   await page.getByRole('button', { name: `开始：${quiz.title}`, exact: true }).click()
   await page.getByRole('button', { name: '准备好了，开始！' }).click()
 }
@@ -119,10 +118,10 @@ for (const [width, height] of [[320, 568], [390, 844], [540, 720], [768, 1024], 
     await expect(page.locator('.latest-release')).toContainText(`v${version}`)
     await auditLayout(page)
     await page.getByRole('button', { name: '历史公告', exact: true }).click()
-    await expect(page.locator('.historical-release')).toHaveCount(5)
+    await expect(page.locator('.historical-release')).toHaveCount(6)
     await page.locator('.historical-release summary').first().click()
-    await expect(page.locator('.historical-release').first()).toContainText('v0.4.1')
-    await expect(page.locator('.historical-release').first()).toContainText('改善配图题的手机体验')
+    await expect(page.locator('.historical-release').first()).toContainText('v0.5.0')
+    await expect(page.locator('.historical-release').first()).toContainText('hanazar 的二次元中心上线')
     await auditLayout(page)
     await page.keyboard.press('Escape')
     await page.getByRole('button', { name: /^(查看)?玩法指南$/ }).click()
@@ -151,7 +150,7 @@ for (const [width, height] of [[320, 568], [390, 844], [540, 720], [768, 1024], 
 
 test('discovery filters, sorting, favorites and reset on refresh', async ({ page }) => {
   await page.goto('/')
-  await page.getByRole('navigation', { name: '主导航' }).getByRole('button', { name: '发现 Quiz', exact: true }).click()
+  await page.getByRole('navigation', { name: '主导航' }).getByRole('button', { name: '2 dimention', exact: true }).click()
   for (const [query, id] of [['re0', 'rezero'], ['ONE PIECE', 'one-piece'], ['NARUTO', 'naruto'], ['鬼灭', 'demon-slayer']]) {
     await page.getByRole('textbox', { name: '搜索 Quiz' }).fill(query)
     await expect(page.locator('.quiz-card')).toHaveCount(2)
@@ -159,9 +158,8 @@ test('discovery filters, sorting, favorites and reset on refresh', async ({ page
   }
   await page.getByRole('textbox', { name: '搜索 Quiz' }).fill('not-a-quiz')
   await expect(page.locator('.empty-state')).toBeVisible()
-  await page.getByRole('button', { name: '查看全部主题' }).click()
+  await page.getByRole('button', { name: '重置筛选' }).click()
   await expect(page.locator('.quiz-card')).toHaveCount(quizzes.length)
-  await page.getByRole('button', { name: '二次元', exact: true }).click()
   await expect(page.locator('.quiz-card')).toHaveCount(12)
   await page.getByRole('combobox', { name: '题库排序' }).selectOption('challenge')
   await expect(page.locator('.quiz-card .difficulty').first()).toHaveText('困难')
@@ -169,14 +167,14 @@ test('discovery filters, sorting, favorites and reset on refresh', async ({ page
   await page.getByRole('navigation', { name: '主导航' }).getByRole('button', { name: /^我的收藏/ }).click()
   await expect(page.locator('.quiz-card')).toHaveCount(1)
   await page.getByRole('button', { name: `取消收藏：${quizzes[0].title}`, exact: true }).click()
-  await expect(page.locator('.empty-state')).toContainText('喜欢的 Quiz，先收藏起来')
-  await page.getByRole('button', { name: '去发现 Quiz' }).click()
+  await expect(page.locator('.empty-state')).toContainText('喜欢的动漫试卷，先收藏起来')
+  await page.getByRole('button', { name: '去动漫题库' }).click()
   await page.getByRole('button', { name: `收藏：${quizzes[0].title}`, exact: true }).click()
   await page.reload()
   await page.getByRole('navigation', { name: '主导航' }).getByRole('button', { name: /^我的收藏/ }).click()
   await expect(page.locator('.quiz-card')).toHaveCount(0)
   expect(await page.evaluate(() => [localStorage.length, sessionStorage.length])).toEqual([0, 0])
-  await page.getByRole('navigation', { name: '主导航' }).getByRole('button', { name: '发现 Quiz', exact: true }).click()
+  await page.getByRole('navigation', { name: '主导航' }).getByRole('button', { name: '2 dimention', exact: true }).click()
   await page.getByRole('button', { name: '随机来一局' }).click()
   expect(quizzes.map((quiz) => quiz.title)).toContain(await page.locator('.dialog-quiz-title').textContent())
 })

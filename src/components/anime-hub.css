@@ -45,7 +45,7 @@
   .anime-welcome { padding: 26px; }
 }
 @media (max-width: 760px) {
-  .app-shell .main-nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3px; }
+  .app-shell .main-nav { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3px; }
   .app-shell .main-nav > button { min-width: 0; justify-content: center; }
   .anime-welcome { flex-direction: column; align-items: stretch; padding: 24px; gap: 22px; }
   .anime-welcome h2 { font-size: 25px; }

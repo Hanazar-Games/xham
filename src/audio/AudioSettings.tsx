@@ -5,7 +5,7 @@ import { useAudio } from './AudioProvider'
 export function AudioSettings({ onClose }: { onClose: () => void }) {
   const { options, configure, play, unlock, unavailable } = useAudio()
   return (
-    <Dialog title="给好奇心，配一点声音。" onClose={onClose}>
+    <Dialog title="给动漫冒险，配一点声音。" onClose={onClose}>
       <p className="dialog-description">轻柔的旋律和及时的反馈，节奏由你决定。</p>
       <div className="audio-option">
         <div>

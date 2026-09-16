@@ -1,6 +1,25 @@
 import { test, expect } from '@playwright/test'
 import { animeSeries } from '../src/data/anime-series'
 
+test('random challenges respect the series, difficulty and saved library on mobile', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/')
+  await page.getByRole('button', { name: '进入专区：海贼王', exact: true }).click()
+  await page.getByRole('button', { name: '困难', exact: true }).click()
+  const title = '海贼王，航海分工与能力进阶'
+  await page.getByRole('button', { name: `收藏：${title}`, exact: true }).click()
+  await page.getByRole('button', { name: '随机来一局', exact: true }).click()
+  await expect(page.locator('.dialog-quiz-title')).toHaveText(title)
+  await page.keyboard.press('Escape')
+  await page.getByRole('navigation').getByRole('button', { name: /^我的收藏/ }).click()
+  await page.getByRole('button', { name: '简单', exact: true }).click()
+  await expect(page.locator('.quiz-card')).toHaveCount(0)
+  await page.getByRole('button', { name: '重置筛选', exact: true }).click()
+  await expect(page.locator('.quiz-card')).toHaveCount(1)
+  await page.getByRole('button', { name: '随机来一局', exact: true }).click()
+  await expect(page.locator('.dialog-quiz-title')).toHaveText(title)
+})
+
 test('the anime center is the home and every series has two difficulty levels', async ({ page }) => {
   await page.goto('/')
   await expect(page.locator('h1')).toContainText('2 dimention')
@@ -21,7 +40,7 @@ test('the anime center is the home and every series has two difficulty levels', 
   }
 })
 
-test('a series challenge returns to its filtered library and the ordinary library remains available', async ({ page }) => {
+test('a series challenge returns to its filtered library and every navigation stays in the anime center', async ({ page }) => {
   await page.goto('/')
   await page.getByRole('button', { name: '进入专区：海贼王', exact: true }).click()
   await page.getByRole('button', { name: '困难', exact: true }).click()
@@ -40,8 +59,9 @@ test('a series challenge returns to its filtered library and the ordinary librar
   await expect(page.locator('.empty-state')).toBeVisible()
   await page.getByRole('button', { name: '重置筛选', exact: true }).click()
   await expect(page.locator('.quiz-card')).toHaveCount(12)
-  await page.getByRole('navigation', { name: '主导航' }).getByRole('button', { name: '发现 Quiz', exact: true }).click()
-  await expect(page.locator('.quiz-card')).toHaveCount(18)
-  await page.getByRole('button', { name: '科学自然', exact: true }).click()
-  await expect(page.locator('.quiz-card')).toHaveCount(2)
+  await expect(page.getByRole('navigation', { name: '主导航' }).getByRole('button')).toHaveCount(3)
+  await expect(page.getByRole('button', { name: '发现 Quiz', exact: true })).toHaveCount(0)
+  await page.getByRole('button', { name: '我的收藏', exact: true }).click()
+  await page.getByRole('button', { name: '去动漫题库', exact: true }).click()
+  await expect(page.locator('.quiz-card')).toHaveCount(12)
 })

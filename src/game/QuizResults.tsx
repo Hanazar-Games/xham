@@ -29,9 +29,9 @@ export function QuizResults({
       <span className="eyebrow">CHALLENGE COMPLETE</span>
       <h1 ref={heading} tabIndex={-1}>
         {stats.accuracy === 100
-          ? '全对！你的好奇心闪闪发光。'
+          ? '全对！这部作品的细节你都记得。'
           : stats.accuracy >= 50
-            ? '挑战完成，又涨了一点知识！'
+            ? '挑战完成，又懂了一点动漫设定！'
             : '每一个问号，都是新的开始。'}
       </h1>
       <p className="result-description">「{quiz.title}」已完成，来看看你的表现吧。</p>

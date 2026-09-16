@@ -5,6 +5,15 @@ import { images as imageSources } from '../../public/images/anime/sources.json'
 import { readFileSync, readdirSync } from 'node:fs'
 
 describe('built-in question bank', () => {
+  it('contains only illustrated anime packs', () => {
+    expect(quizzes).toHaveLength(12)
+    for (const quiz of quizzes) {
+      expect(quiz.category).toBe('二次元')
+      expect(quiz.series).toBeTruthy()
+      expect(quiz.image).toBeTruthy()
+      expect(quiz.questions.every((question) => question.image && question.source)).toBe(true)
+    }
+  })
   it.each(['ghibli', 'rezero', 'frieren', 'demon-slayer', 'one-piece', 'naruto'])(
     '%s has separate easy and hard illustrated packs', (series) => {
       const packs = quizzes.filter((quiz) => 'series' in quiz && quiz.series === series)
