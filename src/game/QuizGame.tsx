@@ -11,11 +11,13 @@ import { QuestionPicture } from '../components/QuizMedia'
 export function QuizGame({
   quiz,
   onExit,
+  onExplore,
   onReplay,
   onComplete,
 }: {
   quiz: Quiz
   onExit: () => void
+  onExplore: () => void
   onReplay: () => void
   onComplete: (state: GameState) => void
 }) {
@@ -147,8 +149,8 @@ export function QuizGame({
       <header className="game-header">
         <button
           className="brand-button"
-          onClick={() => (state.phase === 'finished' ? onExit() : openOverlay('exit'))}
-          aria-label="返回首页"
+          onClick={() => (state.phase === 'finished' ? onExplore() : openOverlay('exit'))}
+          aria-label={state.phase === 'finished' ? '返回题库' : '退出当前挑战'}
         >
           <Logo />
         </button>
@@ -171,7 +173,7 @@ export function QuizGame({
           )}
           <button
             className="text-button"
-            onClick={() => (state.phase === 'finished' ? onExit() : openOverlay('exit'))}
+            onClick={() => (state.phase === 'finished' ? onExplore() : openOverlay('exit'))}
           >
             <Icon name="close" size={18} />
             退出挑战
@@ -180,7 +182,7 @@ export function QuizGame({
       </header>
       <main className="game-main">
         {state.phase === 'finished' ? (
-          <QuizResults state={state} onExit={onExit} onReplay={onReplay} />
+          <QuizResults state={state} onExit={onExplore} onReplay={onReplay} />
         ) : (
           <>
             <div className="game-topline">

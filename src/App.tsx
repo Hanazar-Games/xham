@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useLayoutEffect, useRef, useState } from 'react'
 import { quizzes } from './data/quizzes'
 import type { AnimeSeriesId, Difficulty, Quiz } from './types'
 import { animeSeries } from './data/anime-series'
@@ -16,13 +16,22 @@ import { ReleaseNotes } from './components/ReleaseNotes'
 import { currentRelease } from './data/releases'
 
 type View = 'anime' | 'saved' | 'results'
-const normalizeSearch = (value: string) => value.toLowerCase().replace(/[\s:：]/g, '')
+const normalizeSearch = (value: string) => value.normalize('NFKC').toLowerCase().replace(/[\s:：·-]/g, '')
+const searchIndex = new Map(quizzes.map((quiz) => [quiz.id, normalizeSearch([
+  quiz.title, quiz.description, quiz.category, quiz.tag,
+  ...animeSeries.filter((series) => series.id === quiz.series ||
+    quiz.questions.some((question) => question.prompt.startsWith(`【${series.title}】`)))
+    .flatMap((series) => [series.title, series.aliases]),
+  ...quiz.questions.flatMap((question) => [question.prompt, question.explanation]),
+].join(' '))]))
 
 export default function App() {
   const [view, setView] = useState<View>('anime')
   const [series, setSeries] = useState<AnimeSeriesId | null>(null)
   const [difficulty, setDifficulty] = useState<Difficulty | '全部'>('全部')
   const libraryHeading = useRef<HTMLHeadingElement>(null)
+  const returnPoint = useRef({ selector: '#main-heading', scroll: 0 })
+  const restoreFocus = useRef(false)
   const [query, setQuery] = useState('')
   const [sort, setSort] = useState('recommended')
   const [saved, setSaved] = useState<string[]>([])
@@ -30,28 +39,41 @@ export default function App() {
   const [playing, setPlaying] = useState<Quiz | null>(null)
   const [gameId, setGameId] = useState(0)
   const [helpOpen, setHelpOpen] = useState(false)
-  const [history, setHistory] = useState<GameState[]>([])
+  const [history, setHistory] = useState<{ id: number; game: GameState }[]>([])
   const [reviewedGame, setReviewedGame] = useState<GameState | null>(null)
   const [audioOpen, setAudioOpen] = useState(false)
   const [releaseOpen, setReleaseOpen] = useState(false)
   const { play } = useAudio()
   const search = query.trim()
   const searchTerms = search.split(/\s+/).map(normalizeSearch)
-  const onComplete = useCallback((state: GameState) => setHistory((items) => [state, ...items]), [])
+  const onComplete = useCallback((game: GameState) =>
+    setHistory((items) => [{ id: gameId, game }, ...items]), [gameId])
+
+  useLayoutEffect(() => {
+    if (!restoreFocus.current || playing || reviewedGame || selected) return
+    restoreFocus.current = false
+    window.scrollTo({ top: returnPoint.current.scroll, behavior: 'instant' })
+    const target = document.querySelector<HTMLElement>(returnPoint.current.selector) ?? document.getElementById('main-heading')
+    target?.focus({ preventScroll: true })
+    target?.scrollIntoView({ block: 'nearest', behavior: 'instant' })
+  })
 
   const navigate = (next: View) => {
+    returnPoint.current = { selector: '#main-heading', scroll: 0 }
+    restoreFocus.current = true
     setView(next)
     setQuery('')
     setSeries(null)
     setDifficulty('全部')
     window.scrollTo({ top: 0 })
   }
-  const openQuiz = (quiz: Quiz) => {
+  const openQuiz = (quiz: Quiz, selector = `.quiz-card[data-quiz-id="${quiz.id}"] .cover-link`) => {
+    if (!reviewedGame) returnPoint.current = { selector, scroll: window.scrollY }
     play('tap')
     setSelected(quiz)
   }
-  const randomQuiz = () => {
-    const pool = filtered.length ? filtered : quizzes
+  const randomQuiz = (pool: readonly Quiz[] = quizzes) => {
+    if (!pool.length) return
     openQuiz(pool[Math.floor(Math.random() * pool.length)])
   }
   const startQuiz = () => {
@@ -61,9 +83,12 @@ export default function App() {
     window.scrollTo({ top: 0 })
   }
   const exitGame = () => {
+    restoreFocus.current = true
     setPlaying(null)
-    if (view === 'anime') window.scrollTo({ top: 0 })
-    else navigate('anime')
+  }
+  const returnToHistory = () => {
+    restoreFocus.current = true
+    setReviewedGame(null)
   }
   const toggleSave = (id: string) =>
     setSaved((items) => (items.includes(id) ? items.filter((item) => item !== id) : [...items, id]))
@@ -73,11 +98,7 @@ export default function App() {
         (view !== 'saved' || saved.includes(quiz.id)) &&
         (!series || quiz.series === series) &&
         (difficulty === '全部' || quiz.difficulty === difficulty) &&
-        searchTerms.every((term) =>
-          normalizeSearch(
-            `${quiz.title} ${quiz.description} ${quiz.category} ${quiz.tag} ${animeSeries.find((item) => item.id === quiz.series)?.aliases ?? ''}`,
-          ).includes(term),
-        ),
+        searchTerms.every((term) => searchIndex.get(quiz.id)!.includes(term)),
     )
     .sort((a, b) =>
       sort === 'recommended'
@@ -86,7 +107,7 @@ export default function App() {
           ? Number(a.difficulty === '困难') - Number(b.difficulty === '困难')
           : Number(b.difficulty === '困难') - Number(a.difficulty === '困难'),
     )
-  const bestScore = history.reduce((best, game) => Math.max(best, summarize(game).score), 0)
+  const bestScore = history.reduce((best, { game }) => Math.max(best, summarize(game).score), 0)
 
   if (playing)
     return (
@@ -94,6 +115,10 @@ export default function App() {
         key={gameId}
         quiz={playing}
         onExit={exitGame}
+        onExplore={() => {
+          setPlaying(null)
+          navigate('anime')
+        }}
         onReplay={() => {
           setGameId((id) => id + 1)
           window.scrollTo({ top: 0 })
@@ -111,7 +136,7 @@ export default function App() {
             <AudioButton onClick={() => setAudioOpen(true)} />
             <button
               className="secondary-button history-return"
-              onClick={() => setReviewedGame(null)}
+              onClick={returnToHistory}
             >
               <Icon name="back" size={18} />
               返回挑战记录
@@ -122,12 +147,12 @@ export default function App() {
           <QuizResults
             state={reviewedGame}
             onExit={() => {
-              setReviewedGame(null)
+              returnToHistory()
               navigate('anime')
             }}
             onReplay={() => {
               openQuiz(reviewedGame.quiz)
-              setReviewedGame(null)
+              returnToHistory()
             }}
           />
         </main>
@@ -187,8 +212,8 @@ export default function App() {
               <br />
               看看你有多懂这部番。
             </p>
-            <button onClick={randomQuiz}>
-              随便抽一卷
+            <button onClick={() => randomQuiz()}>
+              全站随机抽卷
               <Icon name="arrow" size={16} />
             </button>
           </div>
@@ -233,7 +258,7 @@ export default function App() {
           <section className="page-intro">
             <div>
               <div className="eyebrow">HANAZAR’S ANIME QUIZ CENTER</div>
-              <h1>
+              <h1 id="main-heading" tabIndex={-1}>
                 {view === 'anime' ? '2 dimention'
                   : view === 'saved'
                     ? '收藏喜欢的动漫试卷。'
@@ -277,7 +302,7 @@ export default function App() {
               <Icon name="chevron" size={17} />
             </button>
           )}
-          {view === 'anime' && (
+          {view === 'anime' && !search && (
             <AnimeHub selected={series} onSelect={(next) => {
               setSeries(next)
               requestAnimationFrame(() => {
@@ -290,7 +315,9 @@ export default function App() {
             <section className="quiz-library" aria-label="Quiz 题库">
               <div className="library-heading">
                 <h2 ref={libraryHeading} tabIndex={-1}>
-                  {view === 'anime' ? (series ? `${animeSeries.find((item) => item.id === series)?.title} · 题库` : '全部动漫题库') : '我的收藏'}
+                  {search
+                    ? `${view === 'saved' ? '收藏中的' : series ? `${animeSeries.find((item) => item.id === series)?.title} · ` : ''}搜索结果`
+                    : view === 'anime' ? (series ? `${animeSeries.find((item) => item.id === series)?.title} · 题库` : '全部动漫题库') : '我的收藏'}
                   <span>{filtered.length}</span>
                 </h2>
                 <label className="sort-control">
@@ -310,11 +337,14 @@ export default function App() {
                   <p>简单：人物与基础设定 · 困难：机制辨析与组合推理</p>
                   {series && <button className="text-button" onClick={() => {
                     setSeries(null)
-                    const destination = document.getElementById('anime-all-series')
-                    destination?.focus({ preventScroll: true })
-                    destination?.scrollIntoView({ block: 'start', behavior: 'instant' })
+                    setQuery('')
+                    requestAnimationFrame(() => {
+                      const destination = document.getElementById('anime-all-series')
+                      destination?.focus({ preventScroll: true })
+                      destination?.scrollIntoView({ block: 'start', behavior: 'instant' })
+                    })
                   }}>切换专区 <Icon name="arrow" size={15} /></button>}
-                  <button className="secondary-button" onClick={randomQuiz}><Icon name="shuffle" size={16} />随机来一局</button>
+                  <button className="secondary-button" disabled={!filtered.length} title={filtered.length ? '从当前筛选结果抽取试卷' : '没有符合筛选的试卷'} onClick={() => randomQuiz(filtered)}><Icon name="shuffle" size={16} />随机来一局</button>
                   <div className="difficulty-filters" role="group" aria-label="难度筛选">
                     {(['全部', '简单', '困难'] as const).map((level) => (
                       <button key={level} aria-pressed={difficulty === level} onClick={() => setDifficulty(level)}>
@@ -356,11 +386,14 @@ export default function App() {
                   </p>
                   <button
                     className="primary-button"
-                    onClick={() =>
-                      view === 'saved' && !saved.length
-                        ? navigate('anime')
-                        : (setQuery(''), setSeries(null), setDifficulty('全部'))
-                    }
+                    onClick={() => {
+                      if (view === 'saved' && !saved.length) return navigate('anime')
+                      returnPoint.current = { selector: '.library-heading h2', scroll: window.scrollY }
+                      restoreFocus.current = true
+                      setQuery('')
+                      setSeries(null)
+                      setDifficulty('全部')
+                    }}
                   >
                     {view === 'saved' && !saved.length ? '去动漫题库' : '重置筛选'}
                     <Icon name="arrow" size={16} />
@@ -393,14 +426,14 @@ export default function App() {
                       <Icon name="check" />
                       <span>累计答对</span>
                       <strong>
-                        {history.reduce((total, game) => total + summarize(game).correct, 0)}
+                        {history.reduce((total, { game }) => total + summarize(game).correct, 0)}
                         <small> 题</small>
                       </strong>
                     </div>
                   </div>
                   <div className="history-list">
-                    {history.map((game, index) => (
-                      <article key={index} className="history-item">
+                    {history.map(({ game, id }) => (
+                      <article key={id} className="history-item" data-history-id={id}>
                         <div className={`history-art ${game.quiz.color}`}>
                           <QuizArtwork quiz={game.quiz} />
                         </div>
@@ -420,14 +453,16 @@ export default function App() {
                         <div className="history-actions">
                           <button
                             className="secondary-button"
+                            data-history-action="review"
                             onClick={() => {
+                              returnPoint.current = { selector: `[data-history-id="${id}"] [data-history-action="review"]`, scroll: window.scrollY }
                               setReviewedGame(game)
                               window.scrollTo({ top: 0 })
                             }}
                           >
                             查看成绩
                           </button>
-                          <button className="secondary-button" onClick={() => openQuiz(game.quiz)}>
+                          <button className="secondary-button" data-history-action="replay" onClick={() => openQuiz(game.quiz, `[data-history-id="${id}"] [data-history-action="replay"]`)}>
                             再来一局
                             <Icon name="repeat" size={16} />
                           </button>
@@ -441,7 +476,7 @@ export default function App() {
                   <Icon name="trophy" size={42} />
                   <h3>你的第一场挑战，值得期待</h3>
                   <p>完成一套动漫试卷后，成绩就会出现在这里。</p>
-                  <button className="primary-button" onClick={randomQuiz}>
+                  <button className="primary-button" onClick={() => randomQuiz()}>
                     开启第一场挑战
                     <Icon name="arrow" size={18} />
                   </button>

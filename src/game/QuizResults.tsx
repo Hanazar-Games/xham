@@ -29,7 +29,7 @@ export function QuizResults({
       <span className="eyebrow">CHALLENGE COMPLETE</span>
       <h1 ref={heading} tabIndex={-1}>
         {stats.accuracy === 100
-          ? '全对！这部作品的细节你都记得。'
+          ? '全对！这些设定细节你都记得。'
           : stats.accuracy >= 50
             ? '挑战完成，又懂了一点动漫设定！'
             : '每一个问号，都是新的开始。'}

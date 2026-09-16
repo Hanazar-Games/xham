@@ -14,7 +14,7 @@ export function QuizCard({
   onPlay: () => void
 }) {
   return (
-    <article className="quiz-card">
+    <article className="quiz-card" data-quiz-id={quiz.id}>
       <div className={`card-cover ${quiz.color}`}>
         <button className="cover-link" onClick={onPlay} aria-label={`开始：${quiz.title}`}>
           <QuizArtwork quiz={quiz} />
