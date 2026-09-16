@@ -3,10 +3,13 @@ import { quizzes } from './quizzes'
 import { createGame, gameReducer, summarize } from '../game/engine'
 import { images as imageSources } from '../../public/images/anime/sources.json'
 import { readFileSync, readdirSync } from 'node:fs'
+import { animeSeries } from './anime-series'
+import { animeCasebooks } from './anime-casebooks'
+import { originalScenes } from './original-art'
 
 describe('built-in question bank', () => {
   it('contains only illustrated anime packs', () => {
-    expect(quizzes).toHaveLength(12)
+    expect(quizzes).toHaveLength(18)
     for (const quiz of quizzes) {
       expect(quiz.category).toBe('二次元')
       expect(quiz.series).toBeTruthy()
@@ -14,7 +17,7 @@ describe('built-in question bank', () => {
       expect(quiz.questions.every((question) => question.image && question.source)).toBe(true)
     }
   })
-  it.each(['ghibli', 'rezero', 'frieren', 'demon-slayer', 'one-piece', 'naruto'])(
+  it.each(animeSeries.map((series) => series.id))(
     '%s has separate easy and hard illustrated packs', (series) => {
       const packs = quizzes.filter((quiz) => 'series' in quiz && quiz.series === series)
       expect(packs.length).toBeGreaterThanOrEqual(2)
@@ -26,7 +29,7 @@ describe('built-in question bank', () => {
         expect(pack.duration).toBe(pack.difficulty === '简单' ? 20 : 30)
         expect(pack.scope).toBeTruthy()
         for (const question of pack.questions) {
-          expect(question.image?.src).toMatch(/^\/images\/anime\//)
+          expect(question.image?.src).toMatch(/^\/images\/(anime|original)\//)
           expect(question.source?.url).toMatch(/^https:\/\//)
         }
       }
@@ -34,7 +37,7 @@ describe('built-in question bank', () => {
   )
 
   it('has a registered series for every anime quiz and balanced answer positions in new packs', () => {
-    const series = new Set(['ghibli', 'rezero', 'frieren', 'demon-slayer', 'one-piece', 'naruto'])
+    const series = new Set(animeSeries.map((series) => series.id))
     for (const quiz of quizzes.filter((quiz) => quiz.category === '二次元')) {
       expect(series.has(quiz.series!)).toBe(true)
       if (quiz.id === quiz.series) continue
@@ -46,7 +49,7 @@ describe('built-in question bank', () => {
     const directory = new URL('../../public/images/anime/', import.meta.url)
     const referenced = new Set(quizzes.flatMap((quiz) =>
       [quiz.image, ...quiz.questions.map((question) => question.image)]
-        .flatMap((image) => image ? [image.src.split('/').at(-1)!] : []),
+        .flatMap((image) => image?.src.startsWith('/images/anime/') ? [image.src.split('/').at(-1)!] : []),
     ))
     expect(new Set(imageSources.map((image) => image.file))).toEqual(referenced)
     expect(new Set(readdirSync(directory).filter((file) => file !== 'sources.json'))).toEqual(referenced)
@@ -76,10 +79,25 @@ describe('built-in question bank', () => {
   it('records source attribution for every referenced image', () => {
     const images = quizzes.flatMap((quiz) => [quiz.image, ...quiz.questions.map((q) => q.image)])
     for (const image of images.filter((image) => image !== undefined)) {
-      expect(imageSources.some((source) => `/images/anime/${source.file}` === image.src)).toBe(true)
+      const original = image.src.startsWith('/images/original/')
+      expect(original
+        ? Object.keys(originalScenes).some((scene) => image.src === `/images/original/${scene}.svg`)
+        : imageSources.some((source) => `/images/anime/${source.file}` === image.src)).toBe(true)
       expect(image.credit.trim()).toBeTruthy()
       expect(image.alt.trim()).toBeTruthy()
-      expect(image.sourceUrl).toMatch(/^https:\/\//)
+      if (original) expect(image.sourceUrl).toBe('/images/original/credits.html')
+      else expect(image.sourceUrl).toMatch(/^https:\/\//)
+    }
+  })
+  it('adds 72 sourced casebook questions with original illustrations only', () => {
+    expect(animeCasebooks).toHaveLength(6)
+    expect(animeCasebooks.flatMap((quiz) => quiz.questions)).toHaveLength(72)
+    for (const quiz of animeCasebooks) {
+      expect(quiz.image?.src).toMatch(/^\/images\/original\//)
+      for (const question of quiz.questions) {
+        expect(question.image?.src).toMatch(/^\/images\/original\//)
+        expect(question.source?.url).toMatch(/^https:\/\//)
+      }
     }
   })
   it.each(quizzes)('$title completes with correct scoring and clean replay', (quiz) => {
