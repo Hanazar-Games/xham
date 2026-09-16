@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test'
 import { animeSeries } from '../src/data/anime-series'
+import { quizzes } from '../src/data/quizzes'
 
 test('random challenges respect the series, difficulty and saved library on mobile', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
@@ -25,18 +26,20 @@ test('the anime center is the home and every series has two difficulty levels', 
   await page.goto('/')
   await expect(page.locator('h1')).toContainText('2 dimention')
   await expect(page.locator('.page-intro')).toContainText('hanazar 的二次元中心')
-  await expect(page.locator('.anime-series-card')).toHaveCount(6)
-  await expect(page.locator('.quiz-card')).toHaveCount(18)
+  await expect(page.locator('.anime-series-card')).toHaveCount(7)
+  await expect(page.locator('.quiz-card')).toHaveCount(22)
   for (const series of animeSeries) {
     await page.getByRole('button', { name: `进入专区：${series.title}`, exact: true }).click()
-    await expect(page.locator('.quiz-card')).toHaveCount(3)
-    expect((await page.locator('.quiz-card .difficulty').allTextContents()).sort()).toEqual(['困难', '困难', '简单'])
+    const packs = quizzes.filter((quiz) => quiz.series === series.id)
+    await expect(page.locator('.quiz-card')).toHaveCount(packs.length)
+    expect((await page.locator('.quiz-card .difficulty').allTextContents()).sort()).toEqual(packs.map((quiz) => quiz.difficulty).sort())
     await page.getByRole('button', { name: '困难', exact: true }).click()
     await expect(page.locator('.quiz-card')).toHaveCount(2)
     await expect(page.locator('.quiz-card .difficulty')).toHaveText(['困难', '困难'])
     await page.getByRole('button', { name: '简单', exact: true }).click()
-    await expect(page.locator('.quiz-card')).toHaveCount(1)
-    await expect(page.locator('.quiz-card .difficulty')).toHaveText('简单')
+    const easy = packs.filter((quiz) => quiz.difficulty === '简单')
+    await expect(page.locator('.quiz-card')).toHaveCount(easy.length)
+    await expect(page.locator('.quiz-card .difficulty')).toHaveText(easy.map(() => '简单'))
     await page.getByRole('button', { name: '全部难度', exact: true }).click()
   }
 })
@@ -55,14 +58,14 @@ test('a series challenge returns to its filtered library and every navigation st
   await expect(page.locator('.quiz-card h3').first()).toHaveText('海贼王，航海分工与能力进阶')
   await page.getByRole('button', { name: '切换专区', exact: true }).click()
   await expect(page.getByRole('button', { name: '全部专区', exact: true })).toBeFocused()
-  await expect(page.locator('.quiz-card')).toHaveCount(12)
+  await expect(page.locator('.quiz-card')).toHaveCount(14)
   await page.getByRole('textbox', { name: '搜索 Quiz' }).fill('not-a-series')
   await expect(page.locator('.empty-state')).toBeVisible()
   await page.getByRole('button', { name: '重置筛选', exact: true }).click()
-  await expect(page.locator('.quiz-card')).toHaveCount(18)
+  await expect(page.locator('.quiz-card')).toHaveCount(22)
   await expect(page.getByRole('navigation', { name: '主导航' }).getByRole('button')).toHaveCount(3)
   await expect(page.getByRole('button', { name: '发现 Quiz', exact: true })).toHaveCount(0)
   await page.getByRole('button', { name: '我的收藏', exact: true }).click()
   await page.getByRole('button', { name: '去动漫题库', exact: true }).click()
-  await expect(page.locator('.quiz-card')).toHaveCount(18)
+  await expect(page.locator('.quiz-card')).toHaveCount(22)
 })

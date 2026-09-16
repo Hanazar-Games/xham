@@ -1,6 +1,7 @@
 import type { QuizImage } from '../types'
 
 export const originalScenes = {
+  connections: '六个图形节点组成的知识连接图',
   voyage: '海面上的帆船与航线',
   training: '山间训练场与木制靶',
   forest: '森林小屋与蜿蜒步道',

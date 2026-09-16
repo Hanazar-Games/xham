@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" fill="none">
+  <rect width="800" height="450" rx="24" fill="#e4e9df"/>
+  <g stroke="#637761" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="m400 86 181 92v120l-181 75-181-75V178Zm0 0v139m181-47-181 47 181 73m-181-73v148m0-148-181 73m181-73-181-47" stroke="#a1b49a"/>
+    <circle cx="400" cy="225" r="54" fill="#fcf8e9"/>
+    <path d="m373 203 27-8 27 8v45l-27-8-27 8Zm27-8v45"/>
+    <circle cx="400" cy="86" r="36" fill="#d3c2db"/>
+    <path d="m400 63 17 23-17 23-17-23Z"/>
+    <circle cx="581" cy="178" r="36" fill="#b7d7d3"/>
+    <path d="m560 185 21-33 21 33Zm21-33v44"/>
+    <circle cx="581" cy="298" r="36" fill="#ecd4ab"/>
+    <path d="m563 309 36-24m-36 0 36 24"/>
+    <circle cx="400" cy="373" r="36" fill="#c9d7b3"/>
+    <path d="m381 379 19-26 19 26m-19-26v42"/>
+    <circle cx="219" cy="298" r="36" fill="#d9bdba"/>
+    <circle cx="215" cy="292" r="13"/><path d="m225 302 13 13"/>
+    <circle cx="219" cy="178" r="36" fill="#bfd0df"/>
+    <circle cx="219" cy="178" r="20"/><path d="M219 165v13l10 7"/>
+  </g>
+</svg>

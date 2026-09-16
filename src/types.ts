@@ -1,4 +1,4 @@
-export type AnimeSeriesId = 'demon-slayer' | 'one-piece' | 'naruto' | 'ghibli' | 'rezero' | 'frieren'
+export type AnimeSeriesId = 'demon-slayer' | 'one-piece' | 'naruto' | 'ghibli' | 'rezero' | 'frieren' | 'crossover'
 export type Difficulty = '简单' | '困难'
 
 export interface QuizImage {

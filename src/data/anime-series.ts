@@ -1,6 +1,7 @@
 import type { AnimeSeriesId } from '../types'
 
 export const animeSeries: { id: AnimeSeriesId; title: string; subtitle: string; aliases: string }[] = [
+  { id: 'crossover', title: '跨番联考', subtitle: '六个世界 · 人物、能力与旅途', aliases: '跨番 综合 联考 混合 crossover mix' },
   { id: 'demon-slayer', title: '鬼灭之刃', subtitle: '鬼杀队 · 感知与协作', aliases: '鬼灭 kimetsu demon slayer' },
   { id: 'one-piece', title: '海贼王', subtitle: '草帽一伙 · 职责与航海', aliases: '航海王 one piece' },
   { id: 'naruto', title: '火影忍者', subtitle: '木叶 · 任务与成长', aliases: '火影 naruto' },

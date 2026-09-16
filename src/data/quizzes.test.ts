@@ -9,12 +9,31 @@ import { originalScenes } from './original-art'
 
 describe('built-in question bank', () => {
   it('contains only illustrated anime packs', () => {
-    expect(quizzes).toHaveLength(18)
+    expect(quizzes).toHaveLength(22)
     for (const quiz of quizzes) {
       expect(quiz.category).toBe('二次元')
       expect(quiz.series).toBeTruthy()
       expect(quiz.image).toBeTruthy()
       expect(quiz.questions.every((question) => question.image && question.source)).toBe(true)
+    }
+  })
+  it('offers four distinct crossover exams with 48 original illustrated questions', () => {
+    const exams = quizzes.filter((quiz) => quiz.series === 'crossover')
+    expect(exams).toHaveLength(4)
+    expect(exams.map((quiz) => quiz.difficulty).sort()).toEqual(['困难', '困难', '简单', '简单'])
+    for (const exam of exams) {
+      const works = exam.questions.map((question) => question.prompt.match(/^【(.+)】/)?.[1])
+      expect(new Set(works).size).toBe(6)
+      for (const work of new Set(works)) expect(works.filter((item) => item === work)).toHaveLength(2)
+      expect([0, 1, 2, 3].map((answer) => exam.questions.filter((question) => question.answer === answer).length)).toEqual([3, 3, 3, 3])
+    }
+    const questions = exams.flatMap((quiz) => quiz.questions)
+    expect(questions).toHaveLength(48)
+    expect(new Set(questions.map((question) => question.prompt)).size).toBe(48)
+    for (const question of questions) {
+      expect(question.image?.src).toMatch(/^\/images\/original\//)
+      expect(question.prompt).toMatch(/^【.+】/)
+      expect(question.source?.url).toMatch(/^https:\/\//)
     }
   })
   it.each(animeSeries.map((series) => series.id))(
