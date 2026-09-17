@@ -2,6 +2,7 @@ import type { AnimeSeriesId, Difficulty, Question } from '../types'
 import { animeSeries } from './anime-series'
 import { quizzes } from './quizzes'
 import { bankAdditions } from './bank-additions'
+import { expansionAdditions } from './expansion-packs'
 
 export type BankQuestion = Question & { difficulty: Difficulty }
 export interface QuestionBank {
@@ -23,5 +24,6 @@ export const questionBanks: QuestionBank[] = animeSeries.map((series) => ({
       return { ...question, difficulty: quiz.difficulty }
     })),
     ...(bankAdditions[series.id] ?? []),
+    ...(expansionAdditions[series.id] ?? []),
   ],
 }))

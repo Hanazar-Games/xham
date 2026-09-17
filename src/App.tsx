@@ -1,5 +1,6 @@
 import { useCallback, useLayoutEffect, useRef, useState } from 'react'
 import { quizzes } from './data/quizzes'
+import { questionBanks } from './data/question-banks'
 import { publicUrl } from './public-url'
 import { difficulties, type AnimeSeriesId, type Difficulty, type Quiz } from './types'
 import { ExamSetup } from './components/ExamSetup'
@@ -559,7 +560,7 @@ export default function App() {
               <span>01</span>
               <div>
                 <h3>选一个喜欢的动漫专区</h3>
-                <p>每个作品专区有 50 题与三档难度，可生成模拟考试，也可选择逐题讲解的练习卷。跨番联考另有 72 题。</p>
+                <p>{questionBanks.filter((bank) => bank.series !== 'crossover').length} 个作品专区各有 50 题与三档难度，可生成模拟考试，也可选择逐题讲解的练习卷。跨番联考另有 {questionBanks.find((bank) => bank.series === 'crossover')!.questions.length} 题。</p>
               </div>
             </li>
             <li>

@@ -21,7 +21,7 @@ export function AnimeHub({ selected, onSelect }: {
         <div>
           <span className="anime-kicker">YOUR NEXT ANIME ADVENTURE</span>
           <h2>看过的故事，<br />再认真挑战一次。</h2>
-          <p>六个作品专区各 50 题，简单、中等、困难三档。选一个 IP，开始练习或模拟考试。</p>
+          <p>{questionBanks.filter((bank) => bank.series !== 'crossover').length} 个作品专区各 50 题，简单、中等、困难三档。选一个 IP，开始练习或模拟考试。</p>
         </div>
         <dl className="anime-stats">
           <div><dt>动漫专区</dt><dd>{animeSeries.length}</dd></div>

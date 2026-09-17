@@ -8,4 +8,6 @@ export const animeSeries: { id: AnimeSeriesId; title: string; subtitle: string; 
   { id: 'ghibli', title: '吉卜力电影', subtitle: '十二部电影 · 细节与联系', aliases: '吉卜力 宫崎骏 ghibli' },
   { id: 'rezero', title: 'Re:0', subtitle: '异世界 · 人物与机制', aliases: 're0 re:zero 从零开始的异世界生活' },
   { id: 'frieren', title: '葬送的芙莉莲', subtitle: '旅途 · 传承与人物关系', aliases: '芙莉莲 frieren' },
+  { id: 'attack-on-titan', title: '进击的巨人 第一季', subtitle: '城墙 · 机动与战术', aliases: '进击 巨人 進撃 aot attack on titan shingeki season 1' },
+  { id: 'death-note', title: '死亡笔记', subtitle: '笔记规则 · 证据与推理', aliases: '死亡笔记 死亡筆記 death note kira 夜神月 L' },
 ]
