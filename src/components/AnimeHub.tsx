@@ -1,4 +1,6 @@
 import type { AnimeSeriesId } from '../types'
+import { useState } from 'react'
+import { ExpansionCatalog } from './ExpansionCatalog'
 import { animeSeries } from '../data/anime-series'
 import { quizzes } from '../data/quizzes'
 import { questionBanks } from '../data/question-banks'
@@ -12,6 +14,7 @@ export function AnimeHub({ selected, onSelect }: {
   selected: AnimeSeriesId | null
   onSelect: (series: AnimeSeriesId | null) => void
 }) {
+  const [catalogOpen, setCatalogOpen] = useState(false)
   return (
     <section className="anime-hub" id="anime-worlds" aria-label="动漫专区">
       <div className="anime-welcome">
@@ -26,6 +29,7 @@ export function AnimeHub({ selected, onSelect }: {
           <div><dt>逐题配图</dt><dd>{questionBanks.reduce((sum, bank) => sum + bank.questions.length, 0)}</dd></div>
         </dl>
       </div>
+      <button className="secondary-button catalog-open" onClick={() => setCatalogOpen(true)}>查看 200 条目制作目录</button>
       <div className="anime-section-heading">
         <div><span className="eyebrow">CHOOSE YOUR WORLD</span><h2>从喜欢的那一部开始</h2></div>
         <button id="anime-all-series" className="secondary-button" aria-pressed={!selected} onClick={() => onSelect(null)}>全部专区</button>
@@ -53,6 +57,7 @@ export function AnimeHub({ selected, onSelect }: {
           )
         })}
       </div>
+      {catalogOpen && <ExpansionCatalog onClose={() => setCatalogOpen(false)} onSelect={onSelect} />}
     </section>
   )
 }

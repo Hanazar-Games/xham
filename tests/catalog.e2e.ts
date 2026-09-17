@@ -1,0 +1,62 @@
+import { test, expect } from '@playwright/test'
+import axe from 'axe-core'
+
+test('catalog preserves all ten batches and only opens existing question banks', async ({ page }) => {
+  await page.goto('/')
+  const opener = page.getByRole('button', { name: '查看 200 条目制作目录', exact: true })
+  await opener.click()
+  const dialog = page.getByRole('dialog', { name: '动漫题库制作目录' })
+  await expect(dialog.locator('.catalog-item')).toHaveCount(20)
+  await expect(dialog.locator('.catalog-summary')).toContainText('4 / 200')
+  await expect(dialog.locator('.catalog-summary')).toContainText('200 / 10,000')
+  await expect(dialog.locator('.catalog-item').first()).toContainText('Attack on Titan')
+  await expect(dialog.locator('.catalog-item').first().getByRole('button')).toHaveCount(0)
+  for (let batch = 1; batch <= 10; batch++) {
+    await dialog.getByLabel('目录分段').selectOption(String(batch))
+    await expect(dialog.locator('.catalog-item')).toHaveCount(20)
+    await expect(dialog.locator('.catalog-item').first()).toHaveAttribute('data-number', String((batch - 1) * 20 + 1))
+    await expect(dialog.locator('.catalog-item').last()).toHaveAttribute('data-number', String(batch * 20))
+  }
+  await page.keyboard.press('Escape')
+  await expect(opener).toBeFocused()
+  await opener.click()
+  await dialog.getByRole('button', { name: '进入题库：Naruto', exact: true }).click()
+  await expect(page.getByRole('dialog')).toHaveCount(0)
+  await expect(page.locator('#exam-title')).toHaveText('火影忍者 · 模拟考试')
+  await expect(page.locator('#exam-title')).toBeFocused()
+})
+
+test('catalog searches the selected scope without merging seasons or counting partial collections', async ({ page }) => {
+  await page.goto('/')
+  await page.getByRole('button', { name: '查看 200 条目制作目录', exact: true }).click()
+  const dialog = page.getByRole('dialog')
+  await dialog.getByLabel('目录作品搜索').fill('ＮＡＲＵＴＯ')
+  await expect(dialog.locator('.catalog-item')).toHaveCount(2)
+  await expect(dialog.getByRole('button', { name: /^进入题库：/ })).toHaveCount(1)
+  await dialog.getByLabel('目录分段').selectOption('2')
+  await expect(dialog.locator('.catalog-empty')).toBeVisible()
+  await dialog.getByRole('button', { name: '重置目录筛选', exact: true }).click()
+  await expect(dialog.getByLabel('目录作品搜索')).toBeFocused()
+  await expect(dialog.locator('.catalog-item')).toHaveCount(20)
+  await dialog.getByLabel('目录分段').selectOption('all')
+  await dialog.getByLabel('目录作品搜索').fill('Re:Zero')
+  await expect(dialog.locator('.catalog-item')).toHaveCount(3)
+  await expect(dialog.getByRole('button', { name: /^进入题库：/ })).toHaveCount(0)
+  await dialog.getByLabel('目录作品搜索').fill('鬼灭')
+  await expect(dialog.getByRole('button', { name: '进入题库：Demon Slayer', exact: true })).toBeVisible()
+})
+
+test('catalog is usable and accessible at 320px with long titles and filters', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 568 })
+  await page.goto('/')
+  await page.getByRole('button', { name: '查看 200 条目制作目录', exact: true }).click()
+  await page.getByLabel('目录分段').selectOption('2')
+  await page.evaluate(() => document.fonts.ready)
+  await page.addScriptTag({ content: axe.source })
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+  expect(await page.locator('dialog').evaluate((dialog) => dialog.scrollWidth <= dialog.clientWidth)).toBe(true)
+  const violations = await page.evaluate(async () => (await (window as typeof window & { axe: typeof axe }).axe.run(document, {
+    runOnly: { type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21aa'] },
+  })).violations.map(({ id, nodes }) => ({ id, targets: nodes.map(({ target }) => target) })))
+  expect(violations).toEqual([])
+})
