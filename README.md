@@ -46,6 +46,8 @@ npm run test:e2e                 # 自动构建后测试生产页面
 
 ## 结构与扩展
 
+后续 200 个动漫条目的制作顺序、10 段进度及来源要求，见 [万题扩展清单](docs/quiz-expansion/README.md)。清单中的待制作条目不计入当前可玩题数。
+
 ```text
 src/
   data/quizzes.ts       # 动漫题库汇总
