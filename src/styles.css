@@ -1065,7 +1065,6 @@ h1:focus {
   box-shadow: 0 3px 0 #00000006;
 }
 .answer-option:not(:disabled):hover {
-  transform: translateY(-3px);
   box-shadow: 0 5px 0 #00000010;
   filter: brightness(0.98);
 }

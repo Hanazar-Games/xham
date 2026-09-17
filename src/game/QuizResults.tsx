@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { Icon } from '../components/Icon'
 import { summarize, type GameState } from './engine'
+import { difficulties } from '../types'
+import { publicUrl } from '../public-url'
 
 export function QuizResults({
   state,
@@ -26,7 +28,7 @@ export function QuizResults({
         <span>✦</span>
         <span>✦</span>
       </div>
-      <span className="eyebrow">CHALLENGE COMPLETE</span>
+      <span className="eyebrow">{quiz.mode === 'exam' ? 'TEST COMPLETE' : 'CHALLENGE COMPLETE'}</span>
       <h1 ref={heading} tabIndex={-1}>
         {stats.accuracy === 100
           ? '全对！这些设定细节你都记得。'
@@ -39,7 +41,7 @@ export function QuizResults({
         <div>
           <Icon name="bolt" />
           <strong>{stats.score.toLocaleString()}</strong>
-          <span>本轮得分</span>
+          <span>{quiz.mode === 'exam' ? '考试得分 / 100' : '本轮得分'}</span>
         </div>
         <div>
           <Icon name="check" />
@@ -63,10 +65,20 @@ export function QuizResults({
           <span>最高连对</span>
         </div>
       </div>
+      {quiz.mode === 'exam' && <>
+        <p className="exam-verdict">{stats.accuracy >= 60 ? '考试及格' : '尚未及格'} · 及格线 60 分 · 各题等权，不计速度</p>
+        <section className="exam-breakdown" aria-label="分难度成绩">
+          {difficulties.map((level) => {
+            const indices = quiz.questions.flatMap((q, index) => q.difficulty === level ? [index] : [])
+            if (!indices.length) return null
+            return <p key={level}>{level}：{indices.filter((index) => state.responses[index].correct).length} / {indices.length} 题</p>
+          })}
+        </section>
+      </>}
       <div className="result-actions">
         <button className="primary-button" onClick={onReplay}>
           <Icon name="repeat" size={18} />
-          再挑战一次
+          {quiz.mode === 'exam' ? '重做本卷' : '再挑战一次'}
         </button>
         <button className="secondary-button" onClick={onExit}>
           探索更多 Quiz
@@ -100,6 +112,7 @@ export function QuizResults({
                     <span className="review-correct">正确答案：{item.options[item.answer]}</span>
                   </p>
                   <p className="review-explanation">{item.explanation}</p>
+                  {quiz.mode === 'exam' && item.image && <p className="cover-credit">{item.image.credit} · <a href={publicUrl(item.image.sourceUrl)} target="_blank" rel="noreferrer">图片来源</a></p>}
                   {item.source && (
                     <a
                       className="answer-source"
@@ -111,7 +124,7 @@ export function QuizResults({
                     </a>
                   )}
                 </div>
-                <strong className="review-points">+{answer.points}</strong>
+                <strong className="review-points">{quiz.mode === 'exam' ? answer.correct ? '答对' : '未得分' : `+${answer.points}`}</strong>
               </article>
             )
           })}

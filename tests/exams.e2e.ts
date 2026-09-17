@@ -1,0 +1,102 @@
+import { test, expect } from '@playwright/test'
+import axe from 'axe-core'
+import { questionBanks } from '../src/data/question-banks'
+
+for (const bank of questionBanks.filter((item) => item.series !== 'crossover')) {
+  test(`${bank.series}: a full IP exam covers all 50 images, conceals answers and scores on submission`, async ({ page }) => {
+    test.setTimeout(90_000)
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.goto('/')
+    await page.getByRole('button', { name: `进入专区：${bank.title}`, exact: true }).click()
+    await expect(page.locator('#exam-title')).toBeFocused()
+    await page.getByRole('button', { name: '全部 50 题', exact: true }).click()
+    await page.getByRole('button', { name: '生成试卷', exact: true }).click()
+    await expect(page.locator('.quiz-rules')).toContainText('50 道单选题')
+    await page.getByRole('button', { name: '准备好了，开始！' }).click()
+    const prompts: string[] = []
+    for (let index = 0; index < 50; index++) {
+      const prompt = await page.locator('.question-panel h1').innerText()
+      const question = bank.questions.find((q) => q.prompt === prompt)!
+      expect(question).toBeTruthy()
+      prompts.push(prompt)
+      const image = page.locator('.question-image')
+      await expect.poll(() => image.evaluate((node: HTMLImageElement) => node.complete && node.naturalWidth > 0)).toBe(true)
+      const answer = question.options[question.answer]
+      await page.locator('.answer-option').filter({ has: page.getByText(answer, { exact: true }) }).click()
+      await expect(page.locator('.answer-feedback')).toContainText('答案已记录')
+      await expect(page.locator('.correct-answer, .answer-source, .answer-correct, .answer-wrong, .step-correct, .step-wrong, .question-picture a')).toHaveCount(0)
+      await expect(page.locator('.score-pill')).toContainText('交卷后评分')
+      const next = page.getByRole('button', { name: index === 49 ? '交卷并查看成绩' : '下一题', exact: true })
+      await expect(next).toBeFocused()
+      if (index === 0) {
+        await expect(next).toBeInViewport()
+        expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+      }
+      await next.click()
+    }
+    expect(new Set(prompts).size).toBe(50)
+    await expect(page.locator('.result-stats > div').first().locator('strong')).toHaveText('100')
+    await expect(page.locator('.exam-verdict')).toContainText('考试及格')
+    await expect(page.locator('.exam-breakdown')).toContainText('简单：18 / 18')
+    await expect(page.locator('.exam-breakdown')).toContainText('中等：17 / 17')
+    await expect(page.locator('.exam-breakdown')).toContainText('困难：15 / 15')
+    await page.getByRole('button', { name: '查看答案与解析' }).click()
+    await expect(page.locator('.review-item')).toHaveCount(50)
+    await expect(page.locator('.review-item .cover-credit a')).toHaveCount(50)
+    await page.getByRole('button', { name: '重做本卷' }).click()
+    await expect(page.locator('.question-panel h1')).toHaveText(prompts[0])
+    await page.getByRole('button', { name: '退出挑战', exact: true }).click()
+    await page.getByRole('button', { name: '结束挑战', exact: true }).click()
+    await expect(page.getByRole('button', { name: '生成试卷', exact: true })).toBeFocused()
+    await page.getByRole('navigation').getByRole('button', { name: '挑战记录', exact: true }).click()
+    await expect(page.locator('.history-item')).toHaveCount(1)
+    await expect(page.locator('.history-item')).toContainText('模拟考试')
+    await page.getByRole('button', { name: '查看成绩', exact: true }).click()
+    await expect(page.locator('.result-stats > div').first().locator('strong')).toHaveText('100')
+  })
+}
+
+test('exam settings follow the available pool, reset across IPs and remain accessible on small screens', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 568 })
+  await page.goto('/')
+  await page.getByRole('button', { name: '进入专区：Re:0', exact: true }).click()
+  const setup = page.locator('.exam-setup')
+  await setup.getByRole('button', { name: '20 题', exact: true }).click()
+  await setup.getByRole('button', { name: '困难 15 题可用', exact: true }).click()
+  await expect(setup.getByRole('button', { name: '20 题', exact: true })).toBeDisabled()
+  await expect(setup.getByRole('button', { name: '10 题', exact: true })).toHaveAttribute('aria-pressed', 'true')
+  await setup.getByRole('button', { name: '全部 15 题', exact: true }).click()
+  await expect(setup).toContainText('本卷 15 题 · 每题 30 秒')
+  await page.getByRole('button', { name: '生成试卷', exact: true }).click()
+  await expect(page.locator('.dialog-category')).toContainText('困难')
+  await page.keyboard.press('Escape')
+  await expect(page.getByRole('button', { name: '生成试卷', exact: true })).toBeFocused()
+  await page.getByRole('button', { name: '进入专区：鬼灭之刃', exact: true }).click()
+  await expect(setup.getByRole('button', { name: '混合 50 题可用', exact: true })).toHaveAttribute('aria-pressed', 'true')
+  await page.evaluate(() => document.fonts.ready)
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+  await page.addScriptTag({ content: axe.source })
+  const violations = await page.evaluate(async () => (await (window as typeof window & { axe: typeof axe }).axe.run(document, {
+    runOnly: { type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21aa'] },
+  })).violations.map(({ id, nodes }) => ({ id, nodes: nodes.map(({ target, failureSummary }) => ({ target, failureSummary })) })))
+  expect(violations).toEqual([])
+})
+
+test('an exam timeout stays neutral and cannot leak the answer through feedback or score', async ({ page }) => {
+  await page.clock.install()
+  await page.goto('/')
+  await page.getByRole('button', { name: '进入专区：鬼灭之刃', exact: true }).click()
+  await page.locator('.exam-setup').getByRole('button', { name: '简单 18 题可用', exact: true }).click()
+  await page.getByRole('button', { name: '生成试卷', exact: true }).click()
+  await page.getByRole('button', { name: '准备好了，开始！' }).click()
+  await page.clock.runFor(20_100)
+  await expect(page.locator('.answer-feedback')).toContainText('时间到，本题记为未作答')
+  await expect(page.locator('.correct-answer, .answer-source, .answer-correct, .answer-wrong')).toHaveCount(0)
+  await expect(page.locator('.score-pill')).toContainText('交卷后评分')
+  await page.getByRole('button', { name: '下一题', exact: true }).click()
+  await expect(page.locator('.question-position')).toContainText('02')
+  await page.getByRole('button', { name: '暂停挑战', exact: true }).click()
+  await page.clock.runFor(60_000)
+  await page.keyboard.press('Escape')
+  await expect(page.locator('.answer-feedback')).toHaveCount(0)
+})

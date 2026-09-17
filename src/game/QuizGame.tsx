@@ -32,6 +32,7 @@ export function QuizGame({
   const feedback = useRef<HTMLDivElement>(null)
   const lastFocus = useRef('')
   const question = quiz.questions[state.index]
+  const exam = quiz.mode === 'exam'
   const response = state.responses[state.index]
   const stats = summarize(state)
   const seconds = Math.ceil(state.remainingMs / 1000)
@@ -68,7 +69,9 @@ export function QuizGame({
       state.phase === 'finished'
         ? 'finish'
         : state.phase === 'reveal'
-          ? response.correct
+          ? exam
+            ? 'tap'
+            : response.correct
             ? 'correct'
             : response.selected === null
               ? 'timeout'
@@ -81,7 +84,7 @@ export function QuizGame({
       lastCue.current = key
       play(cue)
     }
-  }, [state.phase, state.index, state.responses.length, question.id, response, play])
+  }, [state.phase, state.index, state.responses.length, question.id, response, play, exam])
 
   useEffect(() => {
     const key = `${question.id}-${seconds}`
@@ -192,12 +195,12 @@ export function QuizGame({
               </span>
               <span className="score-pill">
                 <Icon name="bolt" size={16} />
-                {stats.score.toLocaleString()}
-                <small>分</small>
+                {exam ? '考试中' : stats.score.toLocaleString()}
+                <small>{exam ? '交卷后评分' : '分'}</small>
               </span>
             </div>
             <div
-              className="question-steps"
+              className={`question-steps ${exam ? 'exam-steps' : ''}`}
               role="group"
               aria-label={`答题进度：第 ${state.index + 1} 题，共 ${quiz.questions.length} 题`}
             >
@@ -206,7 +209,9 @@ export function QuizGame({
                   key={item.id}
                   className={
                     index < state.index
-                      ? state.responses[index].correct
+                      ? exam
+                        ? 'step-recorded'
+                        : state.responses[index].correct
                         ? 'step-correct'
                         : 'step-wrong'
                       : index === state.index
@@ -217,7 +222,7 @@ export function QuizGame({
               ))}
             </div>
             <section className="question-panel">
-              <span className="question-label">单选题 · {quiz.category}</span>
+              <span className="question-label">单选题 · {exam ? question.difficulty : quiz.difficulty}</span>
               <div
                 className={`timer ${seconds <= 5 && state.phase === 'answering' ? 'timer-urgent' : ''}`}
               >
@@ -229,7 +234,7 @@ export function QuizGame({
                 {question.prompt}
               </h1>
               {question.image ? (
-                <QuestionPicture image={question.image} showSource={state.phase === 'reveal'} />
+                <QuestionPicture image={question.image} showSource={!exam && state.phase === 'reveal'} />
               ) : (
                 <p>相信你的直觉，选出一个答案。</p>
               )}
@@ -248,15 +253,16 @@ export function QuizGame({
               className={`answer-grid ${question.options.some((option) => option.length > 12) ? 'answer-grid-long' : ''}`}
             >
               {question.options.map((option, index) => {
-                const revealed = state.phase === 'reveal'
+                const revealed = !exam && state.phase === 'reveal'
+                const recorded = exam && state.phase === 'reveal' && index === response.selected
                 const correct = revealed && index === question.answer
                 const wrong = revealed && index === response.selected && !response.correct
                 return (
                   <button
                     key={`${question.id}-${index}`}
-                    className={`answer-option option-${index} ${correct ? 'answer-correct' : ''} ${wrong ? 'answer-wrong' : ''} ${revealed && !correct && !wrong ? 'answer-dim' : ''}`}
+                    className={`answer-option option-${index} ${recorded ? 'answer-recorded' : ''} ${correct ? 'answer-correct' : ''} ${wrong ? 'answer-wrong' : ''} ${revealed && !correct && !wrong ? 'answer-dim' : ''}`}
                     disabled={state.phase !== 'answering'}
-                    aria-label={`${index + 1}. ${option}${correct ? '，正确答案' : wrong ? '，你的答案，错误' : ''}`}
+                    aria-label={`${index + 1}. ${option}${recorded ? '，已记录' : correct ? '，正确答案' : wrong ? '，你的答案，错误' : ''}`}
                     onClick={() =>
                       dispatch({
                         type: 'answer',
@@ -284,9 +290,10 @@ export function QuizGame({
             {state.phase === 'reveal' ? (
               <div
                 ref={feedback}
-                className={`answer-feedback ${response.correct ? 'feedback-correct' : 'feedback-wrong'}`}
+                className={`answer-feedback ${exam ? 'feedback-recorded' : response.correct ? 'feedback-correct' : 'feedback-wrong'}`}
               >
                 <div role="status">
+                  {exam ? <><h2>{response.selected === null ? '时间到，本题记为未作答。' : '答案已记录。'}</h2><p>交卷后统一查看成绩和解析。</p></> : <>
                   <h2>
                     <Icon
                       name={
@@ -316,6 +323,7 @@ export function QuizGame({
                       核对资料 · {question.source.label}
                     </a>
                   )}
+                  </>}
                 </div>
                 <button
                   ref={nextButton}
@@ -324,14 +332,14 @@ export function QuizGame({
                     dispatch({ type: 'next', questionId: question.id, now: performance.now() })
                   }
                 >
-                  {state.index === quiz.questions.length - 1 ? '查看成绩' : '下一题'}
+                  {state.index === quiz.questions.length - 1 ? exam ? '交卷并查看成绩' : '查看成绩' : '下一题'}
                   <Icon name="arrow" size={18} />
                 </button>
               </div>
             ) : (
               <p className="keyboard-hint">
                 小提示：也可以按键盘 <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> <kbd>4</kbd> 快速选择 ·
-                答得越快，得分越高
+                {exam ? '选择后锁定，交卷后公布答案' : '答得越快，得分越高'}
               </p>
             )}
           </>
@@ -353,7 +361,7 @@ export function QuizGame({
           <p className="dialog-description">
             {state.phase === 'paused'
               ? `计时已暂停，还剩 ${seconds} 秒。`
-              : '本题已作答，解析会为你保留。'}
+              : exam ? '本题已记录，交卷后可查看解析。' : '本题已作答，解析会为你保留。'}
             准备好后继续挑战。
           </p>
           <button className="primary-button full-width" onClick={closeOverlay}>

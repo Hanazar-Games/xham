@@ -178,12 +178,12 @@ export const animeQuizzes: Quiz[] = [
     title: 'Re:0，异世界能力考核',
     description: '加护、权能与圣域试炼。12 道剧情机制题，考验你对规则的理解。',
     category: '二次元',
-    difficulty: '困难',
+    difficulty: '中等',
     image: rezeroImage(42),
     color: 'lavender',
     tag: '剧情 · 能力理论',
-    duration: 30,
-    scope: '含动画第 1–2 季（第 1–50 集）剧透；不考后续小说和动画内容。每题 30 秒。',
+    duration: 25,
+    scope: '含动画第 1–2 季（第 1–50 集）剧透；不考后续小说和动画内容。每题 25 秒。',
     questions: [
       {
         id: 'rezero-01',

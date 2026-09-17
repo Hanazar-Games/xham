@@ -1,6 +1,7 @@
 import type { AnimeSeriesId } from '../types'
 import { animeSeries } from '../data/anime-series'
 import { quizzes } from '../data/quizzes'
+import { questionBanks } from '../data/question-banks'
 import { QuizArtwork } from './QuizMedia'
 import { Icon } from './Icon'
 import './anime-hub.css'
@@ -17,12 +18,12 @@ export function AnimeHub({ selected, onSelect }: {
         <div>
           <span className="anime-kicker">YOUR NEXT ANIME ADVENTURE</span>
           <h2>看过的故事，<br />再认真挑战一次。</h2>
-          <p>先认人物，再辨规则。从轻松入门，到需要想一想的进阶试卷。</p>
+          <p>六个作品专区各 50 题，简单、中等、困难三档。选一个 IP，开始练习或模拟考试。</p>
         </div>
         <dl className="anime-stats">
           <div><dt>动漫专区</dt><dd>{animeSeries.length}</dd></div>
-          <div><dt>独立题库</dt><dd>{library.length}</dd></div>
-          <div><dt>逐题配图</dt><dd>{library.reduce((sum, quiz) => sum + quiz.questions.length, 0)}</dd></div>
+          <div><dt>练习试卷</dt><dd>{library.length}</dd></div>
+          <div><dt>逐题配图</dt><dd>{questionBanks.reduce((sum, bank) => sum + bank.questions.length, 0)}</dd></div>
         </dl>
       </div>
       <div className="anime-section-heading">
@@ -45,7 +46,7 @@ export function AnimeHub({ selected, onSelect }: {
               <span className="anime-series-copy">
                 <strong>{series.title}</strong>
                 <span>{series.subtitle}</span>
-                <small>{packs.length} 套题库 · 简单 / 困难</small>
+                <small>{questionBanks.find((bank) => bank.series === series.id)!.questions.length} 题 · 简单 / 中等 / 困难</small>
               </span>
               <Icon name={selected === series.id ? 'check' : 'arrow'} size={17} />
             </button>

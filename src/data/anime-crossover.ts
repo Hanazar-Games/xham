@@ -1,4 +1,4 @@
-import type { Difficulty, Question, Quiz } from '../types'
+import { difficultySeconds, type Difficulty, type Question, type Quiz } from '../types'
 import { animeQuizzes } from './anime'
 import { animeSeries } from './anime-series'
 import { originalArt, type OriginalScene } from './original-art'
@@ -13,7 +13,7 @@ function exam(id: string, title: string, description: string, difficulty: Diffic
   return {
     id, title, description, category: '二次元', series: 'crossover', difficulty,
     color: difficulty === '简单' ? 'mint' : 'lavender',
-    duration: difficulty === '简单' ? 20 : 30,
+    duration: difficultySeconds[difficulty],
     tag: '跨番联考 · 原创配图', image: originalArt(id === 'crossover' ? 'connections' : entries[0][1]),
     scope: '跨番联考只并列考查原作品，不编造联动剧情。涉及鬼灭立志篇、火影寻找纲手之前及该篇章、Re:0 动画前两季、芙莉莲第一季、海贼王伙伴基础设定及吉卜力电影基础剧情。配图为原创主题示意图。',
     questions: entries.map(([reference, scene, prompt, options, explanation], index) => {
@@ -160,7 +160,7 @@ export const animeCrossover: Quiz[] = [
       ['大陆魔法协会', '鬼杀队', '晓', '草帽一伙'],
       '赛丽艾创立了大陆魔法协会。'],
   ]),
-  exam('crossover-rules', '跨番联考，能力边界推理', '先看证据，再下结论。区别触发条件、直接效果与没有依据的推断。', '困难', [
+  exam('crossover-rules', '跨番联考，能力边界推理', '先看证据，再下结论。区别触发条件、直接效果与没有依据的推断。', '中等', [
     ['demon-01', 'detective', '侦察线索涉及气味与破绽。哪份报告符合已知能力？',
       ['炭治郎利用敏锐嗅觉判断', '炭治郎回溯时间重看现场', '炭治郎读取所有人的记忆', '炭治郎操纵天气重建现场'],
       '已知设定支持嗅觉侦察和通过气味发现破绽，不支持把这些现象直接解释成读心或回溯。'],

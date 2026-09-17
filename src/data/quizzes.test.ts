@@ -20,7 +20,7 @@ describe('built-in question bank', () => {
   it('offers six distinct crossover exams with 72 original illustrated questions', () => {
     const exams = quizzes.filter((quiz) => quiz.series === 'crossover')
     expect(exams).toHaveLength(6)
-    expect(exams.map((quiz) => quiz.difficulty).sort()).toEqual(['困难', '困难', '简单', '简单', '简单', '简单'])
+    expect(exams.map((quiz) => quiz.difficulty).sort()).toEqual(['中等', '困难', '简单', '简单', '简单', '简单'])
     for (const exam of exams) {
       const works = exam.questions.map((question) => question.prompt.match(/^【(.+)】/)?.[1])
       expect(new Set(works).size).toBe(6)
@@ -37,15 +37,15 @@ describe('built-in question bank', () => {
     }
   })
   it.each(animeSeries.map((series) => series.id))(
-    '%s has separate easy and hard illustrated packs', (series) => {
+    '%s has three difficulty illustrated packs', (series) => {
       const packs = quizzes.filter((quiz) => 'series' in quiz && quiz.series === series)
       expect(packs.length).toBeGreaterThanOrEqual(2)
-      expect(new Set(packs.map((quiz) => quiz.difficulty))).toEqual(new Set(['简单', '困难']))
+      expect(new Set(packs.map((quiz) => quiz.difficulty))).toEqual(new Set(['简单', '中等', '困难']))
       const prompts = packs.flatMap((quiz) => quiz.questions.map((question) => question.prompt))
       expect(new Set(prompts).size).toBe(prompts.length)
       for (const pack of packs) {
         expect(pack.questions).toHaveLength(12)
-        expect(pack.duration).toBe(pack.difficulty === '简单' ? 20 : 30)
+        expect(pack.duration).toBe(pack.difficulty === '简单' ? 20 : pack.difficulty === '中等' ? 25 : 30)
         expect(pack.scope).toBeTruthy()
         for (const question of pack.questions) {
           expect(question.image?.src).toMatch(/^\/images\/(anime|original)\//)

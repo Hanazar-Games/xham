@@ -1,0 +1,31 @@
+.exam-setup { padding: 24px; margin: 0 0 28px; border: 1px solid #d5dfca; border-radius: 16px; background: #f2f6ec; }
+.exam-intro { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.exam-intro h2 { font-size: 21px; margin-top: 8px; }
+.exam-setup .eyebrow { color: #526440; }
+#exam-title { scroll-margin-top: 64px; }
+.exam-intro > strong { color: #405536; font-size: 28px; white-space: nowrap; }
+.exam-intro small { font-size: 12px; font-weight: 400; }
+.exam-setup > p { color: #526440; font-size: 13px; line-height: 1.8; margin: 14px 0; }
+.exam-setup fieldset { border: 0; padding: 0; margin: 16px 0; min-width: 0; }
+.exam-setup legend { font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+.exam-options { display: flex; flex-wrap: wrap; gap: 8px; }
+.exam-options button { border: 1px solid #c8d3bd; background: #fff; color: #405536; border-radius: 8px; min-height: 44px; padding: 10px 16px; }
+.exam-options button small { display: block; font-size: 11px; margin-top: 5px; }
+.exam-options button[aria-pressed='true'] { background: #2d3c29; border-color: #2d3c29; color: #fff; }
+.exam-options button:disabled { color: #73786e; background: #e8ede2; cursor: not-allowed; }
+.exam-setup .primary-button { min-height: 44px; }
+.question-steps.exam-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(8px, 1fr)); gap: 3px; }
+.question-steps .step-recorded { background: #718066; }
+.answer-option.answer-recorded { outline: 3px solid #405536; outline-offset: 3px; }
+.answer-feedback.feedback-recorded { background: #eef2e7; border-color: #ccd7c0; color: #34452d; }
+.exam-breakdown { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin: 16px 0; }
+.exam-breakdown > p { border: 1px solid #d5dfca; border-radius: 9px; padding: 12px 18px; font-size: 13px; }
+@media (max-width: 600px) {
+  .exam-setup { padding: 18px; }
+  .exam-intro { align-items: flex-start; flex-direction: column; gap: 8px; }
+  .exam-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .exam-options button { padding: 10px 8px; }
+  .exam-setup .primary-button { width: 100%; }
+  .difficulty-filters { gap: 3px; }
+  .difficulty-filters button { padding-inline: 8px; }
+}

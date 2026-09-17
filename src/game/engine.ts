@@ -97,7 +97,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
   if (action.type === 'tick' && remainingMs > 0) return { ...state, remainingMs }
   const selected = action.type === 'answer' && remainingMs > 0 ? action.option : null
   const correct = selected === question.answer
-  const points = correct ? Math.round(500 + (500 * remainingMs) / durationMs) : 0
+  const points = correct ? state.quiz.mode === 'exam' ? 1 : Math.round(500 + (500 * remainingMs) / durationMs) : 0
   return {
     ...state,
     remainingMs,
@@ -118,7 +118,7 @@ export function summarize(state: GameState) {
     bestStreak = Math.max(bestStreak, streak)
   }
   return {
-    score,
+    score: state.quiz.mode === 'exam' ? Math.round((correct / state.quiz.questions.length) * 100) : score,
     correct,
     accuracy: Math.round((correct / state.quiz.questions.length) * 100),
     bestStreak,

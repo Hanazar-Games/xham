@@ -1,7 +1,8 @@
 import { useCallback, useLayoutEffect, useRef, useState } from 'react'
 import { quizzes } from './data/quizzes'
 import { publicUrl } from './public-url'
-import type { AnimeSeriesId, Difficulty, Quiz } from './types'
+import { difficulties, type AnimeSeriesId, type Difficulty, type Quiz } from './types'
+import { ExamSetup } from './components/ExamSetup'
 import { animeSeries } from './data/anime-series'
 import { AnimeHub } from './components/AnimeHub'
 import { QuizArtwork } from './components/QuizMedia'
@@ -105,10 +106,10 @@ export default function App() {
       sort === 'recommended'
         ? 0
         : sort === 'easy'
-          ? Number(a.difficulty === '困难') - Number(b.difficulty === '困难')
-          : Number(b.difficulty === '困难') - Number(a.difficulty === '困难'),
+          ? difficulties.indexOf(a.difficulty as Difficulty) - difficulties.indexOf(b.difficulty as Difficulty)
+          : difficulties.indexOf(b.difficulty as Difficulty) - difficulties.indexOf(a.difficulty as Difficulty),
     )
-  const bestScore = history.reduce((best, { game }) => Math.max(best, summarize(game).score), 0)
+  const bestAccuracy = history.reduce((best, { game }) => Math.max(best, summarize(game).accuracy), 0)
 
   if (playing)
     return (
@@ -248,7 +249,7 @@ export default function App() {
             </button>
             <span className="mode-label">
               <i />
-              单人练习模式
+              单人练习 / 考试
             </span>
             <span className="avatar" aria-label="动漫挑战者">
               2d<span />
@@ -307,18 +308,20 @@ export default function App() {
             <AnimeHub selected={series} onSelect={(next) => {
               setSeries(next)
               requestAnimationFrame(() => {
-                libraryHeading.current?.focus({ preventScroll: true })
-                libraryHeading.current?.scrollIntoView({ block: 'start', behavior: 'instant' })
+                const heading = document.getElementById('exam-title') ?? libraryHeading.current
+                heading?.focus({ preventScroll: true })
+                heading?.scrollIntoView({ block: 'start', behavior: 'instant' })
               })
             }} />
           )}
           {view !== 'results' ? (
             <section className="quiz-library" aria-label="Quiz 题库">
+              {view === 'anime' && series && !search && <ExamSetup key={series} series={series} onStart={(quiz) => openQuiz(quiz, '#start-ip-exam')} />}
               <div className="library-heading">
                 <h2 ref={libraryHeading} tabIndex={-1}>
                   {search
                     ? `${view === 'saved' ? '收藏中的' : series ? `${animeSeries.find((item) => item.id === series)?.title} · ` : ''}搜索结果`
-                    : view === 'anime' ? (series ? `${animeSeries.find((item) => item.id === series)?.title} · 题库` : '全部动漫题库') : '我的收藏'}
+                    : view === 'anime' ? (series ? `${animeSeries.find((item) => item.id === series)?.title} · 练习卷` : '全部动漫练习卷') : '我的收藏'}
                   <span>{filtered.length}</span>
                 </h2>
                 <label className="sort-control">
@@ -335,7 +338,7 @@ export default function App() {
                 </label>
               </div>
               <div className="anime-library-tools">
-                  <p>简单：人物与基础设定 · 困难：机制辨析与组合推理</p>
+                  <p>练习卷 · 简单：基础设定 · 中等：情境应用 · 困难：推理辨析</p>
                   {series && <button className="text-button" onClick={() => {
                     setSeries(null)
                     setQuery('')
@@ -347,7 +350,7 @@ export default function App() {
                   }}>切换专区 <Icon name="arrow" size={15} /></button>}
                   <button className="secondary-button" disabled={!filtered.length} title={filtered.length ? '从当前筛选结果抽取试卷' : '没有符合筛选的试卷'} onClick={() => randomQuiz(filtered)}><Icon name="shuffle" size={16} />随机来一局</button>
                   <div className="difficulty-filters" role="group" aria-label="难度筛选">
-                    {(['全部', '简单', '困难'] as const).map((level) => (
+                    {(['全部', ...difficulties] as const).map((level) => (
                       <button key={level} aria-pressed={difficulty === level} onClick={() => setDifficulty(level)}>
                         {level === '全部' ? '全部难度' : level}
                       </button>
@@ -417,10 +420,10 @@ export default function App() {
                     </div>
                     <div>
                       <Icon name="trophy" />
-                      <span>最高得分</span>
+                      <span>最高正确率</span>
                       <strong>
-                        {bestScore.toLocaleString()}
-                        <small> 分</small>
+                        {bestAccuracy}
+                        <small>%</small>
                       </strong>
                     </div>
                     <div>
@@ -440,7 +443,7 @@ export default function App() {
                         </div>
                         <div>
                           <span>
-                            {game.quiz.category} · {game.quiz.questions.length} 道题
+                            {game.quiz.mode === 'exam' ? '模拟考试' : '练习'} · {game.quiz.questions.length} 道题
                           </span>
                           <h3>{game.quiz.title}</h3>
                           <p>
@@ -449,7 +452,7 @@ export default function App() {
                         </div>
                         <strong>
                           {summarize(game).score.toLocaleString()}
-                          <small> 分</small>
+                          <small>{game.quiz.mode === 'exam' ? ' / 100 分' : ' 分'}</small>
                         </strong>
                         <div className="history-actions">
                           <button
@@ -533,10 +536,10 @@ export default function App() {
             </span>
             <span>
               <Icon name="bolt" />
-              答得快，得分高
+              {selected.mode === 'exam' ? '百分制，不计速度奖励' : '答得快，得分高'}
             </span>
           </div>
-          <p className="start-note">每题最高 1,000 分 · 答题后解锁设定解析</p>
+          <p className="start-note">{selected.mode === 'exam' ? '60 分及格 · 交卷后解锁全部解析' : '每题最高 1,000 分 · 答题后解锁设定解析'}</p>
           <button className="primary-button full-width" onClick={startQuiz}>
             准备好了，开始！
             <Icon name="arrow" size={18} />
@@ -551,7 +554,7 @@ export default function App() {
               <span>01</span>
               <div>
                 <h3>选一个喜欢的动漫专区</h3>
-                <p>浏览题库，也可以用「随机来一局」发现惊喜。</p>
+                <p>每个作品专区有 50 题与三档难度，可生成模拟考试，也可选择逐题讲解的练习卷。跨番联考另有 72 题。</p>
               </div>
             </li>
             <li>
@@ -559,8 +562,7 @@ export default function App() {
               <div>
                 <h3>在倒计时内，选出你的答案</h3>
                 <p>
-                  每题 20–30 秒，以开局说明为准。点击选项，或按键盘 1–4。答对获得 500–1,000
-                  分，剩余时间越多，得分越高；答错或超时得 0 分。
+                  每题 20–30 秒，以开局说明为准。点击选项，或按键盘 1–4。练习答对获得 500–1,000 分；考试按正确率折算百分制，不计速度奖励。答错或超时不得分。
                 </p>
               </div>
             </li>
@@ -568,12 +570,12 @@ export default function App() {
               <span>03</span>
               <div>
                 <h3>读懂设定解析，再回顾成绩</h3>
-                <p>每题都有解析，完成后可回顾所有答案，或再来一局挑战自己。</p>
+                <p>练习逐题显示解析；考试选择后锁定，交卷后统一出成绩和解析，60 分及格。再挑战一次重做同卷，返回专区可重新抽题。</p>
               </div>
             </li>
           </ol>
           <div className="session-note">
-            当前为单人练习。支持暂停，切换标签页会自动暂停；声音可在右上角设置。收藏和挑战记录在刷新页面后清空。
+            当前为单人练习与模拟考试。支持暂停，切换标签页会自动暂停；声音可在右上角设置。收藏和挑战记录在刷新页面后清空。
           </div>
           <button className="primary-button full-width" onClick={() => setHelpOpen(false)}>
             明白了，去探索

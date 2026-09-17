@@ -1,4 +1,4 @@
-import type { AnimeSeriesId, Difficulty, Question, Quiz } from '../types'
+import { difficultySeconds, type AnimeSeriesId, type Difficulty, type Question, type Quiz } from '../types'
 import { animeQuizzes } from './anime'
 
 type Entry = [reference: number, prompt: string, options: Question['options'], answer: number, explanation: string]
@@ -9,8 +9,8 @@ function pack(series: AnimeSeriesId, title: string, description: string, difficu
   return {
     ...base, id, series, title, description, difficulty,
     tag: difficulty === '简单' ? '基础档案 · 人物入门' : '进阶试卷 · 组合推理',
-    duration: difficulty === '简单' ? 20 : 30,
-    scope: `${base.scope?.replace(/每题 \d+ 秒。?/g, '').trim()} 本卷每题 ${difficulty === '简单' ? 20 : 30} 秒。`,
+    duration: difficultySeconds[difficulty],
+    scope: `${base.scope?.replace(/每题 \d+ 秒。?/g, '').trim()} 本卷每题 ${difficultySeconds[difficulty]} 秒。`,
     questions: entries.map(([reference, prompt, options, answer, explanation], index) => ({
       id: `${id}-${index + 1}`, prompt, options, answer, explanation,
       image: base.questions[reference - 1].image,
@@ -20,7 +20,7 @@ function pack(series: AnimeSeriesId, title: string, description: string, difficu
 }
 
 export const animePacks: Quiz[] = [
-  pack('demon-slayer', '鬼灭之刃，感知与协作进阶', '区分感官、职责与阵营；从任务情境判断谁能解决问题。', '困难', [
+  pack('demon-slayer', '鬼灭之刃，感知与协作进阶', '区分感官、职责与阵营；从任务情境判断谁能解决问题。', '中等', [
     [1, '情报只留下气味线索，另一个目标只能通过声音辨认。两项侦察应依次优先交给谁？',
       ['善逸、炭治郎', '炭治郎、善逸', '伊之助、钢铁冢', '鳞泷、鎹鸦'], 1,
       '炭治郎擅长嗅觉，善逸擅长听觉。题目要求按线索顺序分配，而不是按战力排序。'],
@@ -58,7 +58,7 @@ export const animePacks: Quiz[] = [
       ['义勇与钢铁冢', '义勇与胡蝶忍', '胡蝶忍与珠世', '鳞泷与鎹鸦'], 1,
       '义勇和胡蝶忍都属于鬼杀队的柱。钢铁冢是刀匠，珠世是医生。'],
   ]),
-  pack('one-piece', '海贼王，航海分工与能力进阶', '把梦想、果实与船上职责放进同一道题，检验你的伙伴档案。', '困难', [
+  pack('one-piece', '海贼王，航海分工与能力进阶', '把梦想、果实与船上职责放进同一道题，检验你的伙伴档案。', '中等', [
     [3, '面对航线与风向问题，以及船体破损问题，最符合船上分工的组合是？',
       ['罗宾处理航线，乔巴修船', '弗兰奇处理航线，娜美修船', '乌索普处理两项问题', '娜美处理航线，弗兰奇修船'], 3,
       '娜美是航海士，负责航海和天气判断；弗兰奇是船匠，负责船体维护修理。'],
@@ -96,7 +96,7 @@ export const animePacks: Quiz[] = [
       ['乌索普、罗宾、乔巴', '乌索普、乔巴、罗宾', '乔巴、弗兰奇、娜美', '罗宾、娜美、乌索普'], 1,
       '远程支援对应狙击手乌索普，医疗对应船医乔巴，历史正文研究对应考古学者罗宾。'],
   ]),
-  pack('naruto', '火影忍者，第七班任务进阶', '人物、地点与早期事件链交叉考核，范围截至寻找纲手。', '困难', [
+  pack('naruto', '火影忍者，第七班任务进阶', '人物、地点与早期事件链交叉考核，范围截至寻找纲手。', '中等', [
     [5, '组建第七班的档案需要分别填写「三名下忍」与「指导上忍」。哪份填写正确？',
       ['下忍：鸣人、鹿丸、井野；指导：卡卡西', '下忍：佐助、小樱、卡卡西；指导：伊鲁卡', '下忍：鸣人、佐助、小樱；指导：卡卡西', '下忍：宁次、天天、鸣人；指导：自来也'], 2,
       '第七班的三名下忍是鸣人、佐助和小樱，指导上忍是卡卡西。'],
@@ -134,7 +134,7 @@ export const animePacks: Quiz[] = [
       ['自来也、大蛇丸', '大蛇丸、自来也', '卡卡西、鼬', '再不斩、伊鲁卡'], 1,
       '木叶崩溃中，大蛇丸与三代目火影直接交战；带鸣人寻找纲手的是自来也。'],
   ]),
-  pack('ghibli', '吉卜力，故事线索进阶', '十二部电影的动机、转折与因果关系，看看你是否记住了细节。', '困难', [
+  pack('ghibli', '吉卜力，故事线索进阶', '十二部电影的动机、转折与因果关系，看看你是否记住了细节。', '中等', [
     [1, '给《龙猫》的开端写一段完整摘要，哪项没有错置人物、地点或相遇对象？',
       ['姐妹随母亲搬进城堡，遇见猫王', '姐妹随父亲来到乡间，在附近遇见神奇生物', '琪琪随父亲搬到乡间，开始设计飞机', '姐妹搬进澡堂，寻找解咒方法'], 1,
       '小月和小梅随爸爸搬到乡间，并在新家和附近树林中遇见龙猫等神奇生物。'],
@@ -210,7 +210,7 @@ export const animePacks: Quiz[] = [
       ['木叶', '圣域', '拉普达', '波之国'], 1,
       '这些是圣域的试炼。第一道面对过去，第二道要求接受本不可能存在的现在。'],
   ]),
-  pack('frieren', '芙莉莲，师承与旅途进阶', '辨清抚养、师承与同伴关系，串起旧队伍和新旅程。', '困难', [
+  pack('frieren', '芙莉莲，师承与旅途进阶', '辨清抚养、师承与同伴关系，串起旧队伍和新旅程。', '中等', [
     [8, '按「师父 → 弟子」的方向，哪条传承链从赛丽艾一直延伸到菲伦？',
       ['赛丽艾 → 芙莉莲 → 伏拉梅 → 菲伦', '赛丽艾 → 伏拉梅 → 芙莉莲 → 菲伦', '伏拉梅 → 赛丽艾 → 菲伦 → 芙莉莲', '芙莉莲 → 海塔 → 赛丽艾 → 菲伦'], 1,
       '赛丽艾是伏拉梅的师父，伏拉梅教导芙莉莲，菲伦后来跟随芙莉莲学习魔法。'],

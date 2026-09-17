@@ -1,5 +1,7 @@
 export type AnimeSeriesId = 'demon-slayer' | 'one-piece' | 'naruto' | 'ghibli' | 'rezero' | 'frieren' | 'crossover'
-export type Difficulty = '简单' | '困难'
+export type Difficulty = '简单' | '中等' | '困难'
+export const difficulties: Difficulty[] = ['简单', '中等', '困难']
+export const difficultySeconds: Record<Difficulty, number> = { 简单: 20, 中等: 25, 困难: 30 }
 
 export interface QuizImage {
   src: string
@@ -10,6 +12,7 @@ export interface QuizImage {
 }
 
 export interface Question {
+  difficulty?: Difficulty
   id: string
   prompt: string
   options: readonly [string, string, string, string]
@@ -25,7 +28,8 @@ export interface Quiz {
   description: string
   category: '二次元'
   series: AnimeSeriesId
-  difficulty: Difficulty
+  difficulty: Difficulty | '混合'
+  mode?: 'exam'
   image?: QuizImage
   color: string
   tag: string
