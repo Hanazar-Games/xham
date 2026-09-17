@@ -66,7 +66,7 @@ export function Icon({
 export function Logo() {
   return (
     <span className="logo">
-      <img src="/favicon.svg" width="36" height="36" alt="" />
+      <img src={`${import.meta.env.BASE_URL}favicon.svg`} width="36" height="36" alt="" />
       <span>
         2d<span className="logo-dot">.</span>
       </span>

@@ -1,5 +1,6 @@
 import { useCallback, useLayoutEffect, useRef, useState } from 'react'
 import { quizzes } from './data/quizzes'
+import { publicUrl } from './public-url'
 import type { AnimeSeriesId, Difficulty, Quiz } from './types'
 import { animeSeries } from './data/anime-series'
 import { AnimeHub } from './components/AnimeHub'
@@ -515,7 +516,7 @@ export default function App() {
           {selected.image && (
             <p className="cover-credit">
               {selected.image.credit} ·{' '}
-              <a href={selected.image.sourceUrl} target="_blank" rel="noreferrer">
+              <a href={publicUrl(selected.image.sourceUrl)} target="_blank" rel="noreferrer">
                 图片来源
               </a>
             </p>

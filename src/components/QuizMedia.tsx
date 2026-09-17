@@ -2,6 +2,7 @@ import { useState, type ReactNode } from 'react'
 import type { Quiz, QuizImage } from '../types'
 import { AnimeArtwork } from './Artwork'
 import './quiz-media.css'
+import { publicUrl } from '../public-url'
 
 function Picture({
   image,
@@ -22,7 +23,7 @@ function Picture({
   ) : (
     <img
       className={className}
-      src={image.src}
+      src={publicUrl(image.src)}
       alt={decorative ? '' : image.alt}
       loading={loading}
       decoding="async"
@@ -66,7 +67,7 @@ export function QuestionPicture({ image, showSource }: { image: QuizImage; showS
       <figcaption>
         <span>{image.credit}</span>
         {showSource && (
-          <a href={image.sourceUrl} target="_blank" rel="noreferrer">
+          <a href={publicUrl(image.sourceUrl)} target="_blank" rel="noreferrer">
             图片来源
           </a>
         )}
