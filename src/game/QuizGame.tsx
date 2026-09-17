@@ -125,6 +125,7 @@ export function QuizGame({
     const handleKey = (event: KeyboardEvent) => {
       if (
         event.repeat ||
+        event.isComposing ||
         event.ctrlKey ||
         event.altKey ||
         event.metaKey ||

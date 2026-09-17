@@ -35,6 +35,7 @@ export default function App() {
   const returnPoint = useRef({ selector: '#main-heading', scroll: 0 })
   const restoreFocus = useRef(false)
   const [query, setQuery] = useState('')
+  const searchInput = useRef<HTMLInputElement>(null)
   const [sort, setSort] = useState('recommended')
   const [saved, setSaved] = useState<string[]>([])
   const [selected, setSelected] = useState<Quiz | null>(null)
@@ -280,13 +281,17 @@ export default function App() {
               <div className="search-box">
                 <Icon name="search" size={19} />
                 <input
+                  ref={searchInput}
                   aria-label="搜索 Quiz"
                   placeholder="搜索动漫、角色或技能…"
                   value={query}
                   onChange={(event) => setQuery(event.target.value)}
                 />
                 {query && (
-                  <button aria-label="清空搜索" onClick={() => setQuery('')}>
+                  <button aria-label="清空搜索" onClick={() => {
+                    setQuery('')
+                    searchInput.current?.focus()
+                  }}>
                     <Icon name="close" size={16} />
                   </button>
                 )}

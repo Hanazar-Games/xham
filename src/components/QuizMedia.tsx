@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react'
+import { useRef, useState, type ReactNode } from 'react'
 import type { Quiz, QuizImage } from '../types'
 import { AnimeArtwork } from './Artwork'
 import './quiz-media.css'
@@ -13,13 +13,13 @@ function Picture({
 }: {
   image: QuizImage
   className: string
-  fallback: ReactNode
+  fallback: ReactNode | ((retry: () => void) => ReactNode)
   decorative?: boolean
   loading?: 'eager' | 'lazy'
 }) {
   const [failed, setFailed] = useState(false)
   return failed ? (
-    fallback
+    typeof fallback === 'function' ? fallback(() => setFailed(false)) : fallback
   ) : (
     <img
       className={className}
@@ -49,8 +49,12 @@ export function QuizArtwork({ quiz }: { quiz: Quiz }) {
 }
 
 export function QuestionPicture({ image, showSource }: { image: QuizImage; showSource: boolean }) {
+  const figure = useRef<HTMLElement>(null)
   return (
     <figure
+      ref={figure}
+      tabIndex={-1}
+      aria-label="题目图片"
       className={`question-picture ${image.fit === 'scale-down' ? 'question-picture-compact' : ''}`}
     >
       <Picture
@@ -58,11 +62,15 @@ export function QuestionPicture({ image, showSource }: { image: QuizImage; showS
         image={image}
         className="question-image"
         loading="eager"
-        fallback={
+        fallback={(retry) => (
           <div className="question-image image-unavailable">
-            图片暂时无法显示，可根据题目继续作答。
+            <p role="status">图片暂时无法显示，可重试或根据题目继续作答。重试不会暂停计时。</p>
+            <button className="secondary-button" onClick={() => {
+              retry()
+              figure.current?.focus({ preventScroll: true })
+            }}>重新加载图片</button>
           </div>
-        }
+        )}
       />
       <figcaption>
         <span>{image.credit}</span>

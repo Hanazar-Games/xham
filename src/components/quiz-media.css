@@ -83,7 +83,11 @@
   color: #647452;
   font-size: 13px;
   line-height: 1.8;
+  gap: 8px;
+  text-align: center;
 }
+.image-unavailable p { margin: 0; }
+.question-picture:focus-visible { outline: 3px solid #526342; outline-offset: 4px; }
 .question-panel:has(.question-picture) {
   padding-top: 56px;
   padding-bottom: 24px;
