@@ -1,7 +1,7 @@
 import catalog from '../../docs/quiz-expansion/catalog.json'
 import { questionBanks } from './question-banks'
 import { animeSeries } from './anime-series'
-import { quizzes } from './quizzes'
+import { questionIssues } from './content-validation'
 
 const mappings: Record<string, string> = catalog.existingBanks
 const notes: Record<number, string> = {
@@ -17,14 +17,15 @@ const notes: Record<number, string> = {
 export const expansionItems = catalog.entries.map((entry) => {
   const candidate = questionBanks.find((bank) => bank.series === mappings[entry.id])
   const ready = candidate?.questions.length === catalog.questionsPerTitle &&
-    candidate.questions.every((q) => q.image && q.source) &&
+    new Set(candidate.questions.map((q) => q.id)).size === candidate.questions.length &&
+    candidate.questions.every((q) => questionIssues(q).length === 0) &&
     Object.entries(catalog.difficultyTargets).every(([level, count]) => candidate.questions.filter((q) => q.difficulty === level).length === count)
   const bank = ready ? candidate : undefined
   const series = animeSeries.find((item) => item.id === bank?.series)
   return {
     ...entry, bank,
     searchText: `${entry.title} ${series?.title ?? ''} ${series?.aliases ?? ''}`.normalize('NFKC').toLowerCase(),
-    note: bank ? quizzes.find((quiz) => quiz.id === bank.series)?.scope?.replace(/每题\s*\d+\s*秒。?/g, '').trim() : notes[entry.number],
+    note: bank ? bank.scope : notes[entry.number],
   }
 })
 

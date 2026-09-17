@@ -234,7 +234,7 @@ export function QuizGame({
                 {question.prompt}
               </h1>
               {question.image ? (
-                <QuestionPicture image={question.image} showSource={!exam && state.phase === 'reveal'} />
+                <QuestionPicture key={question.id} image={question.image} showSource={!exam && state.phase === 'reveal'} />
               ) : (
                 <p>相信你的直觉，选出一个答案。</p>
               )}
