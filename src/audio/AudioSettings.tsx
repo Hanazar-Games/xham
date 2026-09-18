@@ -1,9 +1,11 @@
+import { useEffect } from 'react'
 import { Dialog } from '../components/Dialog'
 import { Icon } from '../components/Icon'
 import { useAudio } from './AudioProvider'
 
 export function AudioSettings({ onClose }: { onClose: () => void }) {
-  const { options, configure, play, unlock, unavailable } = useAudio()
+  const { options, configure, play, stopSfx, unlock, unavailable } = useAudio()
+  useEffect(() => stopSfx, [stopSfx])
   return (
     <Dialog title="给动漫冒险，配一点声音。" onClose={onClose}>
       <p className="dialog-description">轻柔的旋律和及时的反馈，节奏由你决定。</p>

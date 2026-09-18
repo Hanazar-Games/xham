@@ -49,6 +49,26 @@ function audioContext() {
 afterEach(() => vi.useRealTimers())
 
 describe('audio lifecycle', () => {
+  it('cancels preview voices without stopping music or blocking future feedback', async () => {
+    vi.useFakeTimers()
+    const { factory, oscillators } = audioContext()
+    const engine = new AudioEngine(factory)
+    await engine.unlock()
+    engine.configure({ music: true })
+    const music = [...oscillators]
+    engine.play('correct')
+    const preview = oscillators.slice(music.length)
+    for (const oscillator of oscillators) oscillator.stop.mockClear()
+    engine.stopSfx()
+    expect(preview.every((oscillator) => oscillator.stop.mock.calls.length === 1)).toBe(true)
+    expect(music.every((oscillator) => oscillator.stop.mock.calls.length === 0)).toBe(true)
+    const count = oscillators.length
+    engine.play('wrong')
+    expect(oscillators).toHaveLength(count + 2)
+    expect(vi.getTimerCount()).toBe(1)
+    engine.dispose()
+  })
+
   it('does not replay delayed feedback after muting or a long activation delay', async () => {
     vi.useFakeTimers({ toFake: ['performance'] })
     for (const muted of [true, false]) {

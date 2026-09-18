@@ -18,7 +18,9 @@ async function sample(page: Page) {
   })
 }
 
-test('a delayed audio activation discards an expired preview after closing settings', async ({ page }) => {
+for (const expired of [false, true]) {
+test(`closing settings cancels a delayed preview (${expired ? 'expired' : 'still fresh'})`, async ({ page }) => {
+  if (!expired) await page.addInitScript(() => { performance.now = () => 0 })
   await page.addInitScript(() => {
     const Native = window.AudioContext
     const audit = window as typeof window & { notes: number[]; releaseAudio: () => Promise<void> }
@@ -50,10 +52,11 @@ test('a delayed audio activation discards an expired preview after closing setti
   await page.getByRole('button', { name: '声音设置' }).click()
   await page.getByRole('button', { name: '试听音效' }).click()
   await page.getByRole('button', { name: '设置好了' }).click()
-  await page.waitForTimeout(550)
+  if (expired) await page.waitForTimeout(550)
   await page.evaluate(() => (window as unknown as { releaseAudio: () => Promise<void> }).releaseAudio())
   expect(await page.evaluate(() => (window as unknown as { notes: number[] }).notes)).toEqual([])
 })
+}
 
 test('native audio keeps buses independent, loops, mutes and recovers from pause and visibility changes', async ({ page }) => {
   test.setTimeout(45_000)

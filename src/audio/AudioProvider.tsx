@@ -15,6 +15,7 @@ interface AudioControl {
   unavailable: boolean
   configure: (options: Partial<AudioOptions>) => void
   play: (cue: Cue) => void
+  stopSfx: () => void
   pauseMusic: (paused: boolean) => void
   unlock: () => Promise<boolean>
 }
@@ -32,6 +33,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     return ready
   }, [])
   const play = useCallback((cue: Cue) => engine.current?.play(cue), [])
+  const stopSfx = useCallback(() => engine.current?.stopSfx(), [])
   const pauseMusic = useCallback((paused: boolean) => engine.current?.setPaused(paused), [])
   const configure = useCallback((patch: Partial<AudioOptions>) => {
     setOptions((previous) => ({ ...previous, ...patch }))
@@ -61,8 +63,8 @@ export function AudioProvider({ children }: { children: ReactNode }) {
   }, [unlock])
 
   const value = useMemo(
-    () => ({ options, unavailable, configure, play, pauseMusic, unlock }),
-    [options, unavailable, configure, play, pauseMusic, unlock],
+    () => ({ options, unavailable, configure, play, stopSfx, pauseMusic, unlock }),
+    [options, unavailable, configure, play, stopSfx, pauseMusic, unlock],
   )
   return <AudioContext.Provider value={value}>{children}</AudioContext.Provider>
 }

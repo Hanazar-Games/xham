@@ -94,8 +94,18 @@ export default function App() {
     restoreFocus.current = true
     setReviewedGame(null)
   }
-  const toggleSave = (id: string) =>
+  const toggleSave = (id: string) => {
+    if (view === 'saved' && saved.includes(id)) {
+      const index = filtered.findIndex((quiz) => quiz.id === id)
+      const neighbor = filtered[index + 1] ?? filtered[index - 1]
+      returnPoint.current = {
+        selector: neighbor ? `.quiz-card[data-quiz-id="${neighbor.id}"] .save-button` : '.empty-state button',
+        scroll: window.scrollY,
+      }
+      restoreFocus.current = true
+    }
     setSaved((items) => (items.includes(id) ? items.filter((item) => item !== id) : [...items, id]))
+  }
   const filtered = quizzes
     .filter(
       (quiz) =>

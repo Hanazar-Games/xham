@@ -21,6 +21,8 @@ for (const bank of questionBanks.filter((item) => item.series !== 'crossover')) 
       prompts.push(prompt)
       const image = page.locator('.question-image')
       await expect.poll(() => image.evaluate((node: HTMLImageElement) => node.complete && node.naturalWidth > 0)).toBe(true)
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+      expect(await page.locator('.answer-option').evaluateAll((buttons) => buttons.every((button) => button.scrollWidth <= button.clientWidth))).toBe(true)
       const answer = question.options[question.answer]
       await page.locator('.answer-option').filter({ has: page.getByText(answer, { exact: true }) }).click()
       await expect(page.locator('.answer-feedback')).toContainText('答案已记录')
@@ -30,7 +32,6 @@ for (const bank of questionBanks.filter((item) => item.series !== 'crossover')) 
       await expect(next).toBeFocused()
       if (index === 0) {
         await expect(next).toBeInViewport()
-        expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
       }
       await next.click()
     }

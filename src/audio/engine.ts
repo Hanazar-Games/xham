@@ -112,6 +112,11 @@ export class AudioEngine {
     this.syncMusic()
   }
 
+  stopSfx() {
+    this.pendingCue = undefined
+    this.stopVoices('sfx')
+  }
+
   setVisible(visible: boolean) {
     this.visible = visible
     if (!visible) {
