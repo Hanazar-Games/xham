@@ -4,6 +4,7 @@ import type { ExpansionEntry } from './expansion-entry'
 import { originalArt } from './original-art'
 import { titanEntries } from './attack-on-titan'
 import { deathNoteEntries } from './death-note'
+import { brotherhoodEntries } from './fullmetal-alchemist-brotherhood'
 
 function bank(series: AnimeSeriesId, title: string, scope: string, entries: ExpansionEntry[], source: (reference: ExpansionEntry[0]) => NonNullable<Question['source']>): QuestionBank {
   if (entries.length !== 50) throw new Error(`Expected 50 questions: ${series}`)
@@ -31,6 +32,12 @@ export const expansionBanks = [
     if (typeof reference !== 'number') throw new Error('Death Note needs an episode reference')
     return { label: `日本电视台动画第 ${reference} 集剧情资料`, url: `https://www.ntv.co.jp/deathnote/static/story${reference <= 19 ? '' : '2'}.html` }
   }),
+  bank('fullmetal-alchemist-brotherhood', '钢之炼金术师 Brotherhood', '仅含 2009–2010 年《钢之炼金术师 FULLMETAL ALCHEMIST》（Brotherhood／FA）电视动画第 1–64 集范围，包含人造人身份、贤者之石与约定之日剧情剧透；不混用 2003 年动画及剧场版设定。', brotherhoodEntries, (reference) => {
+    if (reference === 'characters') return { label: 'FA 官网人物资料', url: 'https://www.hagaren.jp/fa/characters/index01.html' }
+    if (typeof reference !== 'number' || !Number.isInteger(reference) || reference < 1 || reference > 64) throw new Error('Brotherhood needs a valid episode reference')
+    const page = Math.floor((reference - 1) / 10)
+    return { label: `FA 官网第 ${reference} 集剧情简介`, url: `https://www.hagaren.jp/fa/about/story${page === 0 ? '' : String(page).padStart(2, '0')}.html` }
+  }),
 ]
 
 const titles = ['人物与世界入门', '行动与规则应用', '证据与战术推演']
@@ -39,7 +46,7 @@ export const expansionQuizzes: Quiz[] = expansionBanks.flatMap((bank) => difficu
   series: bank.series, title: `${bank.title}，${titles[index]}`,
   description: `${bank.title}专题，12 道${difficulty}题。结合剧情与设定判断，每题附原创配图、解析和官方资料链接。`,
   category: '二次元', difficulty, duration: difficultySeconds[difficulty],
-  image: originalArt(bank.series === 'attack-on-titan' ? 'arena' : 'detective'),
+  image: originalArt(bank.series === 'attack-on-titan' ? 'arena' : bank.series === 'fullmetal-alchemist-brotherhood' ? 'laboratory' : 'detective'),
   color: index === 0 ? 'mint' : 'lavender', tag: '新 IP · 原创配图',
   scope: `${bank.scope} 配图为原创主题示意图，并非作品场景。`,
   questions: bank.questions.filter((question) => question.difficulty === difficulty).slice(0, 12),

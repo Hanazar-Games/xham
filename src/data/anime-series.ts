@@ -10,4 +10,5 @@ export const animeSeries: { id: AnimeSeriesId; title: string; subtitle: string; 
   { id: 'frieren', title: '葬送的芙莉莲', subtitle: '旅途 · 传承与人物关系', aliases: '芙莉莲 frieren' },
   { id: 'attack-on-titan', title: '进击的巨人 第一季', subtitle: '城墙 · 机动与战术', aliases: '进击 巨人 進撃 aot attack on titan shingeki season 1' },
   { id: 'death-note', title: '死亡笔记', subtitle: '笔记规则 · 证据与推理', aliases: '死亡笔记 死亡筆記 death note kira 夜神月 L' },
+  { id: 'fullmetal-alchemist-brotherhood', title: '钢之炼金术师 Brotherhood', subtitle: '等价交换 · 炼金机制与战术', aliases: '钢炼 钢之炼金术师 鋼の錬金術師 fullmetal alchemist brotherhood fmab fma fa 爱德华 阿尔冯斯' },
 ]
