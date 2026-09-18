@@ -14,4 +14,5 @@ export const animeSeries: { id: AnimeSeriesId; title: string; subtitle: string; 
   { id: 'one-punch-man', title: '一拳超人 第一季', subtitle: '英雄考核 · 能力与救援', aliases: '一拳 一击男 一撃男 ワンパンマン one punch man onepunchman opm 埼玉 琦玉 杰诺斯' },
   { id: 'my-hero-academia', title: '我的英雄学院 第一季', subtitle: '雄英 · 训练规则与团队救援', aliases: '我英 英雄学院 僕のヒーローアカデミア my hero academia mha boku no hero 绿谷 出久 欧尔麦特' },
   { id: 'sword-art-online', title: '刀剑神域 第一季', subtitle: '艾恩葛朗特与妖精之舞 · 规则与救援', aliases: '刀剑 刀劍 ソードアート オンライン sword art online sao 桐人 亚丝娜 亚斯娜 结衣 莉法 艾恩葛朗特 aincrad fairy dance' },
+  { id: 'hunter-x-hunter', title: '全职猎人 2011版', subtitle: '念能力理论 · 制约与卡片规则', aliases: '全职猎人 全職獵人 猎人 hunter x hunter hunter×hunter hxh ハンター 小杰 奇犽 酷拉皮卡 西索 贪婪之岛' },
 ]

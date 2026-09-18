@@ -3,7 +3,7 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
-  it('adds 300 distinct illustrated sourced questions with explicit anime scopes', () => {
+  it('adds 350 distinct illustrated sourced questions with explicit anime scopes', () => {
     const sources: Record<string, RegExp> = {
       'attack-on-titan': /^https:\/\/shingeki.tv\/season1\//,
       'death-note': /^https:\/\/www.ntv.co.jp\/deathnote\/static\/story2?\.html$/,
@@ -11,6 +11,7 @@ describe('catalog additions', () => {
       'one-punch-man': /^https:\/\/onepunchman-anime.net\/(story\/#\/season1\/(?:[1-9]|1[0-2])|character\/)$/,
       'my-hero-academia': /^https:\/\/www.ytv.co.jp\/heroaca\/story\/$/,
       'sword-art-online': /^https:\/\/www.swordart-online.net\/(?:aincrad\/story\/\?id=ep(?:0[1-9]|1[0-4])|fairy\/(?:story\/\?id=ep(?:1[5-9]|2[0-5]))?)$/,
+      'hunter-x-hunter': /^https:\/\/www\.ntv\.co\.jp\/hunterhunter\/(?:dictionary\/index\.html|story\/(?:00[1-9]|0[1-9]\d|1[0-3]\d|14[0-8])\.html)$/,
     }
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
@@ -29,6 +30,24 @@ describe('catalog additions', () => {
       expect(published).toHaveLength(50)
       expect(new Set(published.map((q) => q.id))).toEqual(new Set(bank.questions.map((q) => q.id)))
     }
+  })
+
+  it('keeps the 2011 Hunter adaptation and Nen and card restrictions explicit', () => {
+    const bank = expansionBanks.find((bank) => String(bank.series) === 'hunter-x-hunter')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第 1–148 集')
+    expect(bank!.scope).toContain('不混用 1999 年版')
+    for (const [number, answer] of [
+      ['23', '幻影旅团成员'],
+      ['29', '集齐指定口袋所要求的 100 种卡片'],
+      ['41', '不能，已经解除为道具的物品无法再次卡片化'],
+      ['47', '由具现化系变为特质系'],
+    ]) {
+      const question = bank!.questions.find((q) => q.id === `hunter-x-hunter-${number}`)!
+      expect(question.options[question.answer]).toBe(answer)
+      expect(question.source!.url).toContain('/dictionary/')
+    }
+    expect(bank!.questions.at(-1)!.source!.url).toContain('/story/148.html')
   })
 
   it('keeps SAO first-season arcs and system constraints distinct', () => {

@@ -8,6 +8,7 @@ import { brotherhoodEntries } from './fullmetal-alchemist-brotherhood'
 import { onePunchManEntries } from './one-punch-man'
 import { myHeroAcademiaEntries } from './my-hero-academia'
 import { swordArtOnlineEntries } from './sword-art-online'
+import { hunterXHunterEntries } from './hunter-x-hunter'
 
 function bank(series: AnimeSeriesId, title: string, scope: string, entries: ExpansionEntry[], source: (reference: ExpansionEntry[0]) => NonNullable<Question['source']>): QuestionBank {
   if (entries.length !== 50) throw new Error(`Expected 50 questions: ${series}`)
@@ -55,6 +56,11 @@ export const expansionBanks = [
     if (typeof reference !== 'number' || !Number.isInteger(reference) || reference < 1 || reference > 25) throw new Error('Sword Art Online needs a first-season episode reference')
     return { label: `动画官网第一季第 ${reference} 集简介`, url: `https://www.swordart-online.net/${reference <= 14 ? 'aincrad' : 'fairy'}/story/?id=ep${String(reference).padStart(2, '0')}` }
   }),
+  bank('hunter-x-hunter', '全职猎人 2011版', '限定 2011 年开播的日本电视台版动画第 1–148 集，重点考念能力、制约与贪婪之岛规则，含猎人考试、旅团、嵌合蚁及父子相会剧情剧透；不混用 1999 年版、OVA、剧场版或动画结束后的漫画设定。', hunterXHunterEntries, (reference) => {
+    if (reference === 'terms') return { label: '日本电视台动画官网术语与规则', url: 'https://www.ntv.co.jp/hunterhunter/dictionary/index.html' }
+    if (typeof reference !== 'number' || !Number.isInteger(reference) || reference < 1 || reference > 148) throw new Error('Hunter x Hunter needs a 2011-series episode reference')
+    return { label: `日本电视台2011版第 ${reference} 集简介`, url: `https://www.ntv.co.jp/hunterhunter/story/${String(reference).padStart(3, '0')}.html` }
+  }),
 ]
 
 const titles = ['人物与世界入门', '行动与规则应用', '证据与战术推演']
@@ -63,7 +69,7 @@ export const expansionQuizzes: Quiz[] = expansionBanks.flatMap((bank) => difficu
   series: bank.series, title: `${bank.title}，${titles[index]}`,
   description: `${bank.title}专题，12 道${difficulty}题。结合剧情与设定判断，每题附原创配图、解析和官方资料链接。`,
   category: '二次元', difficulty, duration: difficultySeconds[difficulty],
-  image: originalArt(bank.series === 'my-hero-academia' ? 'academy' : bank.series === 'attack-on-titan' || bank.series === 'one-punch-man' || bank.series === 'sword-art-online' ? 'arena' : bank.series === 'fullmetal-alchemist-brotherhood' ? 'laboratory' : 'detective'),
+  image: originalArt(bank.series === 'hunter-x-hunter' ? 'adventure' : bank.series === 'my-hero-academia' ? 'academy' : bank.series === 'attack-on-titan' || bank.series === 'one-punch-man' || bank.series === 'sword-art-online' ? 'arena' : bank.series === 'fullmetal-alchemist-brotherhood' ? 'laboratory' : 'detective'),
   color: index === 0 ? 'mint' : 'lavender', tag: '新 IP · 原创配图',
   scope: `${bank.scope} 配图为原创主题示意图，并非作品场景。`,
   questions: bank.questions.filter((question) => question.difficulty === difficulty).slice(0, 12),
