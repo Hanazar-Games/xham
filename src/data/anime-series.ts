@@ -16,4 +16,5 @@ export const animeSeries: { id: AnimeSeriesId; title: string; subtitle: string; 
   { id: 'sword-art-online', title: '刀剑神域 第一季', subtitle: '艾恩葛朗特与妖精之舞 · 规则与救援', aliases: '刀剑 刀劍 ソードアート オンライン sword art online sao 桐人 亚丝娜 亚斯娜 结衣 莉法 艾恩葛朗特 aincrad fairy dance' },
   { id: 'hunter-x-hunter', title: '全职猎人 2011版', subtitle: '念能力理论 · 制约与卡片规则', aliases: '全职猎人 全職獵人 猎人 hunter x hunter hunter×hunter hxh ハンター 小杰 奇犽 酷拉皮卡 西索 贪婪之岛' },
   { id: 'jujutsu-kaisen', title: '咒术回战 第一季', subtitle: '咒术高专 · 任务判断与战斗协作', aliases: '咒术 咒術 呪術廻戦 jujutsu kaisen jjk 虎杖 伏黑 五条 钉崎' },
+  { id: 'tokyo-ghoul', title: '东京喰种 第一季', subtitle: '安定区 · 赫子机制与身份判断', aliases: '东京喰种 东京食尸鬼 東京喰種 トーキョーグール tokyo ghoul 金木 董香 赫子 库因克 昆克' },
 ]

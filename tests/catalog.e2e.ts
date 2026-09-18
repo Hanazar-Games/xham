@@ -1,6 +1,31 @@
 import { test, expect } from '@playwright/test'
 import axe from 'axe-core'
 
+test('Tokyo Ghoul opens season one while all three sequel entries remain planned', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 568 })
+  await page.goto('/')
+  await page.getByRole('button', { name: '查看 200 条目制作目录', exact: true }).click()
+  const dialog = page.getByRole('dialog')
+  await dialog.getByLabel('目录分段').selectOption('all')
+  await dialog.getByLabel('目录作品搜索').fill('Tokyo Ghoul')
+  await expect(dialog.locator('.catalog-item')).toHaveCount(4)
+  await expect(dialog.getByRole('button', { name: /^进入题库：/ })).toHaveCount(1)
+  for (const number of [54, 121, 195]) {
+    await expect(dialog.locator(`[data-number="${number}"]`)).toContainText('待制作')
+  }
+  await dialog.getByRole('button', { name: '进入题库：Tokyo Ghoul', exact: true }).click()
+  await expect(page.locator('#exam-title')).toHaveText('东京喰种 第一季 · 模拟考试')
+  await page.getByRole('button', { name: '全部 50 题', exact: true }).click()
+  await page.getByRole('button', { name: '生成试卷', exact: true }).click()
+  await expect(page.getByRole('dialog')).toContainText('第 1–12 集')
+  await expect(page.getByRole('dialog')).toContainText('不混用 √A')
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+  await page.keyboard.press('Escape')
+  await page.getByRole('button', { name: '全部专区', exact: true }).click()
+  await page.getByRole('textbox', { name: '搜索 Quiz' }).fill('东京食尸鬼')
+  await expect(page.locator('.quiz-card')).toHaveCount(3)
+})
+
 test('Jujutsu Kaisen exposes season one without completing the sequel or film', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 568 })
   await page.goto('/')
@@ -102,8 +127,8 @@ test('catalog preserves all ten batches and only opens existing question banks',
   await opener.click()
   const dialog = page.getByRole('dialog', { name: '动漫题库制作目录' })
   await expect(dialog.locator('.catalog-item')).toHaveCount(20)
-  await expect(dialog.locator('.catalog-summary')).toContainText('12 / 200')
-  await expect(dialog.locator('.catalog-summary')).toContainText('600 / 10,000')
+  await expect(dialog.locator('.catalog-summary')).toContainText('13 / 200')
+  await expect(dialog.locator('.catalog-summary')).toContainText('650 / 10,000')
   await expect(dialog.locator('.catalog-item').first()).toContainText('Attack on Titan')
   await expect(dialog.locator('.catalog-item').first().getByRole('button')).toHaveCount(1)
   for (let batch = 1; batch <= 10; batch++) {

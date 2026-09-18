@@ -3,7 +3,7 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
-  it('adds 400 distinct illustrated sourced questions with explicit anime scopes', () => {
+  it('adds 450 distinct illustrated sourced questions with explicit anime scopes', () => {
     const sources: Record<string, RegExp> = {
       'attack-on-titan': /^https:\/\/shingeki.tv\/season1\//,
       'death-note': /^https:\/\/www.ntv.co.jp\/deathnote\/static\/story2?\.html$/,
@@ -13,6 +13,7 @@ describe('catalog additions', () => {
       'sword-art-online': /^https:\/\/www.swordart-online.net\/(?:aincrad\/story\/\?id=ep(?:0[1-9]|1[0-4])|fairy\/(?:story\/\?id=ep(?:1[5-9]|2[0-5]))?)$/,
       'hunter-x-hunter': /^https:\/\/www\.ntv\.co\.jp\/hunterhunter\/(?:dictionary\/index\.html|story\/(?:00[1-9]|0[1-9]\d|1[0-3]\d|14[0-8])\.html)$/,
       'jujutsu-kaisen': /^https:\/\/www\.b-ch\.com\/titles\/7071\/0(?:0[1-9]|1\d|2[0-4])$/,
+      'tokyo-ghoul': /^https:\/\/www\.marv\.jp\/special\/tokyoghoul\/first\/(?:story_1st|glossary)\.html$/,
     }
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
@@ -31,6 +32,25 @@ describe('catalog additions', () => {
       expect(published).toHaveLength(50)
       expect(new Set(published.map((q) => q.id))).toEqual(new Set(bank.questions.map((q) => q.id)))
     }
+  })
+
+  it('keeps Tokyo Ghoul season one and the glossary mechanisms distinct', () => {
+    const bank = expansionBanks.find((bank) => String(bank.series) === 'tokyo-ghoul')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第 1–12 集')
+    expect(bank!.scope).toContain('不混用 √A')
+    for (const [number, answer] of [
+      ['11', '赫包'], ['13', '羽赫、甲赫、鳞赫、尾赫'],
+      ['36', '赫包储存Rc细胞，赫子由其中释放的Rc细胞形成'],
+      ['38', '用电信号使加工过的赫包人工产生赫子'],
+      ['50', '兴奋或使用特殊能力时会出现，平常外貌仍可能与人无异'],
+    ]) {
+      const q = bank!.questions.find((question) => question.id === `tokyo-ghoul-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+      expect(q.source!.url).toContain('/glossary.html')
+    }
+    const episodeLabels = bank!.questions.filter((q) => q.source!.url.endsWith('story_1st.html')).map((q) => q.source!.label)
+    for (let episode = 1; episode <= 12; episode++) expect(episodeLabels).toContain(`动画官网第一季第 ${episode} 集简介`)
   })
 
   it('limits Jujutsu Kaisen to season one and preserves mission and combat causes', () => {
