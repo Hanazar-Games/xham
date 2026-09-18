@@ -9,7 +9,7 @@ import { originalScenes } from './original-art'
 
 describe('built-in question bank', () => {
   it('contains only illustrated anime packs', () => {
-    expect(quizzes).toHaveLength(51)
+    expect(quizzes).toHaveLength(54)
     for (const quiz of quizzes) {
       expect(quiz.category).toBe('二次元')
       expect(quiz.series).toBeTruthy()

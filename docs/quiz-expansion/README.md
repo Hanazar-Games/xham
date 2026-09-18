@@ -2,7 +2,7 @@
 
 用户清单已完整保存于 [catalog.json](catalog.json)，保持原英文标题、编号和顺序。原附件为连续编号，未包含「、」；按每 20 个条目切成 10 段，每条目目标 50 题，共约 10,000 题。
 
-v0.11.0 首页提供「查看 200 条目制作目录」，支持分段浏览、当前范围搜索与已有题库直达。目录按真实题池显示进度，不把待制作条目、跨季综合题库或电影合集记作完整独立题库；v0.19.0 已有 822 道可玩题目。
+v0.11.0 首页提供「查看 200 条目制作目录」，支持分段浏览、当前范围搜索与已有题库直达。目录按真实题池显示进度，不把待制作条目、跨季综合题库或电影合集记作完整独立题库；v0.20.0 已有 872 道可玩题目。
 
 ## 制作约定
 
@@ -17,7 +17,7 @@ v0.11.0 首页提供「查看 200 条目制作目录」，支持分段浏览、�
 
 | 段 | 编号 | 起止条目 | 目标题数 | 已有可复用题库 |
 | --- | --- | --- | --- | --- |
-| 1 | 1–20 | Attack on Titan → Attack on Titan Season 3 Part 2 | 1,000 | 巨人首季、死亡笔记、钢炼 FA、一拳首季、我英首季、刀剑首季、猎人2011版、咒术首季、东京喰种首季、鬼灭、火影、海贼王，共 600 题 |
+| 1 | 1–20 | Attack on Titan → Attack on Titan Season 3 Part 2 | 1,000 | 巨人首季、死亡笔记、钢炼 FA、一拳首季、我英首季、刀剑首季、猎人2011版、咒术首季、东京喰种首季、你的名字电影知识、鬼灭、火影、海贼王，共 650 题 |
 | 2 | 21–40 | No Game No Life → Sword Art Online II | 1,000 | Re:0 需先拆分剧情范围 |
 | 3 | 41–60 | Cowboy Bebop → JoJo's Bizarre Adventure | 1,000 | 无完整对应题库 |
 | 4 | 61–80 | Darling in the FranXX → Elfen Lied | 1,000 | 无完整对应题库 |
@@ -32,11 +32,11 @@ v0.11.0 首页提供「查看 200 条目制作目录」，支持分段浏览、�
 
 ## 接续位置与实际进度
 
-v0.19.0 完成 #11《Tokyo Ghoul》50 题，限定第一季第 1–12 集及官网基础术语。清单已对应 13 个条目、650／10,000 题；实际站内 822 题，含未计入独立条目目标的综合题库。
+v0.20.0 完成 #12《Your Name》人物、交换生活与电影制作知识50题。清单已对应14个条目、700／10,000题；实际站内872题，含未计入独立条目目标的综合题库。
 
-当前继续补第 1 段，下一未完成条目为 #12《Your Name》，需核查电影来源。第一段已完成 12／20 项，仍有 8 项待制作；分段标记不作为完成依据。
+当前继续补第 1 段，下一未完成条目为 #13《Attack on Titan Season 2》，需核查第二季来源，不复用首季充数。第一段已完成13／20项，仍有7项待制作；分段标记不作为完成依据。
 
-资料规则已获明确扩展：允许直接核查作品官网、出版方资料。Grok 缺少配置不再阻挡这一授权范围内的新题制作。本轮见 [东京喰种核验记录](sources-tokyo-ghoul.md)；此前见 [咒术回战核验记录](sources-jujutsu-kaisen.md)、 [全职猎人核验记录](sources-hunter-x-hunter.md)、 [刀剑神域核验记录](sources-sword-art-online.md)、 [我的英雄学院核验记录](sources-my-hero-academia.md)、 [一拳超人核验记录](sources-one-punch-man.md)、 [Brotherhood 核验记录](sources-brotherhood.md)、[前两个条目核验记录](sources-batch-01.md)。
+资料规则已获明确扩展：允许直接核查作品官网、出版方资料。Grok 缺少配置不再阻挡这一授权范围内的新题制作。本轮见 [你的名字核验记录](sources-your-name.md)；此前见 [东京喰种核验记录](sources-tokyo-ghoul.md)、 [咒术回战核验记录](sources-jujutsu-kaisen.md)、 [全职猎人核验记录](sources-hunter-x-hunter.md)、 [刀剑神域核验记录](sources-sword-art-online.md)、 [我的英雄学院核验记录](sources-my-hero-academia.md)、 [一拳超人核验记录](sources-one-punch-man.md)、 [Brotherhood 核验记录](sources-brotherhood.md)、[前两个条目核验记录](sources-batch-01.md)。
 
 ### 第 1 段明细
 
@@ -53,7 +53,7 @@ v0.19.0 完成 #11《Tokyo Ghoul》50 题，限定第一季第 1–12 集及官�
 | 9 | Naruto | 已有 50 题，范围为寻找纲手之前及该篇章 |
 | 10 | Jujutsu Kaisen | 已完成50题，仅第一季第1–24集；与第二季及剧场版分开 |
 | 11 | Tokyo Ghoul | 已完成50题，仅第一季第1–12集及基础术语；与√A及:re分开 |
-| 12 | Your Name | 待核验来源并制作 |
+| 12 | Your Name | 已完成50题：人物、交换生活与制作知识；不含未核实的后半段细节 |
 | 13 | Attack on Titan Season 2 | 待核验该季来源并制作 |
 | 14 | Steins;Gate | 待核验来源并制作 |
 | 15 | Naruto: Shippuden | 待核验来源并制作，不复用早期篇章充数 |

@@ -3,7 +3,7 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
-  it('adds 450 distinct illustrated sourced questions with explicit anime scopes', () => {
+  it('adds 500 distinct illustrated sourced questions with explicit anime scopes', () => {
     const sources: Record<string, RegExp> = {
       'attack-on-titan': /^https:\/\/shingeki.tv\/season1\//,
       'death-note': /^https:\/\/www.ntv.co.jp\/deathnote\/static\/story2?\.html$/,
@@ -14,6 +14,7 @@ describe('catalog additions', () => {
       'hunter-x-hunter': /^https:\/\/www\.ntv\.co\.jp\/hunterhunter\/(?:dictionary\/index\.html|story\/(?:00[1-9]|0[1-9]\d|1[0-3]\d|14[0-8])\.html)$/,
       'jujutsu-kaisen': /^https:\/\/www\.b-ch\.com\/titles\/7071\/0(?:0[1-9]|1\d|2[0-4])$/,
       'tokyo-ghoul': /^https:\/\/www\.marv\.jp\/special\/tokyoghoul\/first\/(?:story_1st|glossary)\.html$/,
+      'your-name': /^https:\/\/www\.kiminona\.com\/(?:#(?:story|chara|staff|interview_tanaka|interview_ando)|production\/|interview\/01shinkai\.html)$/,
     }
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
@@ -31,6 +32,23 @@ describe('catalog additions', () => {
       const published = [...practice.flatMap((quiz) => quiz.questions), ...expansionAdditions[bank.series]!]
       expect(published).toHaveLength(50)
       expect(new Set(published.map((q) => q.id))).toEqual(new Set(bank.questions.map((q) => q.id)))
+    }
+  })
+
+  it('keeps Your Name character, exchange and production facts sourced separately', () => {
+    const bank = expansionBanks.find((bank) => String(bank.series) === 'your-name')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('2016 年动画电影')
+    expect(bank!.scope).toContain('制作知识')
+    for (const [number, answer, source] of [
+      ['16', '小学四年级', '#chara'],
+      ['28', '千年', '#story'],
+      ['42', '第4稿确定基本方向，第6稿完成最终脚本', 'production/'],
+      ['44', '4首人声歌曲与22首配乐', 'production/'],
+    ]) {
+      const q = bank!.questions.find((question) => question.id === `your-name-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+      expect(q.source!.url).toContain(source)
     }
   })
 

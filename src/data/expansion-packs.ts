@@ -11,6 +11,7 @@ import { swordArtOnlineEntries } from './sword-art-online'
 import { hunterXHunterEntries } from './hunter-x-hunter'
 import { jujutsuKaisenEntries } from './jujutsu-kaisen'
 import { tokyoGhoulEntries } from './tokyo-ghoul'
+import { yourNameEntries } from './your-name'
 
 function bank(series: AnimeSeriesId, title: string, scope: string, entries: ExpansionEntry[], source: (reference: ExpansionEntry[0]) => NonNullable<Question['source']>): QuestionBank {
   if (entries.length !== 50) throw new Error(`Expected 50 questions: ${series}`)
@@ -72,6 +73,16 @@ export const expansionBanks = [
     if (typeof reference !== 'number' || !Number.isInteger(reference) || reference < 1 || reference > 12) throw new Error('Tokyo Ghoul needs a first-season episode reference')
     return { label: `动画官网第一季第 ${reference} 集简介`, url: 'https://www.marv.jp/special/tokyoghoul/first/story_1st.html' }
   }),
+  bank('your-name', '你的名字。', '限定 2016 年动画电影的官网人物、交换生活简介与制作知识，含人物关系和交换中断的剧情剧透；不考未核实的后半段精确时间线、救援细节或结局，不混用小说扩写、漫画版及其他电影。', yourNameEntries, (reference) => {
+    if (reference === 'characters') return { label: '电影官网人物资料', url: 'https://www.kiminona.com/#chara' }
+    const pages = [
+      ['剧情简介', '#story'], ['工作人员与音乐', '#staff'], ['制作记录', 'production/'],
+      ['新海诚访谈', 'interview/01shinkai.html'], ['田中将贺访谈', '#interview_tanaka'], ['安藤雅司访谈', '#interview_ando'],
+    ]
+    if (typeof reference !== 'number' || !Number.isInteger(reference) || reference < 1 || reference > pages.length) throw new Error('Your Name needs a valid official page reference')
+    const [label, path] = pages[reference - 1]
+    return { label: `电影官网${label}`, url: `https://www.kiminona.com/${path}` }
+  }),
 ]
 
 const titles = ['人物与世界入门', '行动与规则应用', '证据与战术推演']
@@ -80,7 +91,7 @@ export const expansionQuizzes: Quiz[] = expansionBanks.flatMap((bank) => difficu
   series: bank.series, title: `${bank.title}，${titles[index]}`,
   description: `${bank.title}专题，12 道${difficulty}题。结合剧情与设定判断，每题附原创配图、解析和官方资料链接。`,
   category: '二次元', difficulty, duration: difficultySeconds[difficulty],
-  image: originalArt(bank.series === 'tokyo-ghoul' ? 'city' : bank.series === 'jujutsu-kaisen' ? 'magic' : bank.series === 'hunter-x-hunter' ? 'adventure' : bank.series === 'my-hero-academia' ? 'academy' : bank.series === 'attack-on-titan' || bank.series === 'one-punch-man' || bank.series === 'sword-art-online' ? 'arena' : bank.series === 'fullmetal-alchemist-brotherhood' ? 'laboratory' : 'detective'),
+  image: originalArt(bank.series === 'your-name' ? 'connections' : bank.series === 'tokyo-ghoul' ? 'city' : bank.series === 'jujutsu-kaisen' ? 'magic' : bank.series === 'hunter-x-hunter' ? 'adventure' : bank.series === 'my-hero-academia' ? 'academy' : bank.series === 'attack-on-titan' || bank.series === 'one-punch-man' || bank.series === 'sword-art-online' ? 'arena' : bank.series === 'fullmetal-alchemist-brotherhood' ? 'laboratory' : 'detective'),
   color: index === 0 ? 'mint' : 'lavender', tag: '新 IP · 原创配图',
   scope: `${bank.scope} 配图为原创主题示意图，并非作品场景。`,
   questions: bank.questions.filter((question) => question.difficulty === difficulty).slice(0, 12),
