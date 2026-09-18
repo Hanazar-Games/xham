@@ -39,6 +39,6 @@ describe('user supplied expansion catalog', () => {
       }
     }
     const firstBatch = catalog.entries.filter((entry) => entry.batch === 1)
-    expect(firstBatch.filter((entry) => entry.id in catalog.existingBanks)).toHaveLength(7)
+    expect(firstBatch.filter((entry) => entry.id in catalog.existingBanks)).toHaveLength(8)
   })
 })

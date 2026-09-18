@@ -3,12 +3,13 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
-  it('adds 200 distinct illustrated sourced questions with explicit anime scopes', () => {
+  it('adds 250 distinct illustrated sourced questions with explicit anime scopes', () => {
     const sources: Record<string, RegExp> = {
       'attack-on-titan': /^https:\/\/shingeki.tv\/season1\//,
       'death-note': /^https:\/\/www.ntv.co.jp\/deathnote\/static\/story2?\.html$/,
       'fullmetal-alchemist-brotherhood': /^https:\/\/www.hagaren.jp\/fa\/(about\/story(?:0[1-6])?\.html|characters\/index01\.html)$/,
       'one-punch-man': /^https:\/\/onepunchman-anime.net\/(story\/#\/season1\/(?:[1-9]|1[0-2])|character\/)$/,
+      'my-hero-academia': /^https:\/\/www.ytv.co.jp\/heroaca\/story\/$/,
     }
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
@@ -27,6 +28,22 @@ describe('catalog additions', () => {
       expect(published).toHaveLength(50)
       expect(new Set(published.map((q) => q.id))).toEqual(new Set(bank.questions.map((q) => q.id)))
     }
+  })
+
+  it('keeps My Hero Academia within season one and preserves training and Nomu rules', () => {
+    const bank = expansionBanks.find((bank) => String(bank.series) === 'my-hero-academia')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第 1–13 集')
+    expect(bank!.scope).toContain('不考第二季')
+    for (const [number, answer] of [
+      ['20', '回收模拟核武器，或捕获对手'],
+      ['31', '冲击吸收与超再生'],
+      ['40', '冲击吸收与超再生分别处理冲击和已经形成的损伤'],
+    ]) {
+      const question = bank!.questions.find((q) => q.id === `my-hero-academia-${number}`)!
+      expect(question.options[question.answer]).toBe(answer)
+    }
+    expect(new Set(bank!.questions.map((q) => q.source!.label))).toEqual(new Set(Array.from({ length: 13 }, (_, i) => `读卖电视台第一季第 ${i + 1} 集简介（入口含后续剧透）`)))
   })
 
   it('uses first-season exam results and keeps later One Punch Man seasons out of scope', () => {

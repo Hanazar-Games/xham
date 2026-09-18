@@ -6,6 +6,7 @@ import { titanEntries } from './attack-on-titan'
 import { deathNoteEntries } from './death-note'
 import { brotherhoodEntries } from './fullmetal-alchemist-brotherhood'
 import { onePunchManEntries } from './one-punch-man'
+import { myHeroAcademiaEntries } from './my-hero-academia'
 
 function bank(series: AnimeSeriesId, title: string, scope: string, entries: ExpansionEntry[], source: (reference: ExpansionEntry[0]) => NonNullable<Question['source']>): QuestionBank {
   if (entries.length !== 50) throw new Error(`Expected 50 questions: ${series}`)
@@ -44,6 +45,10 @@ export const expansionBanks = [
     if (typeof reference !== 'number' || !Number.isInteger(reference) || reference < 1 || reference > 12) throw new Error('One Punch Man needs a first-season episode reference')
     return { label: `动画官网第一季第 ${reference} 集简介`, url: `https://onepunchman-anime.net/story/#/season1/${reference}` }
   }),
+  bank('my-hero-academia', '我的英雄学院 第一季', '仅含 2016 年电视动画第一季第 1–13 集，包含入学考核、对人战斗训练与 USJ 袭击剧情剧透；不考第二季体育祭、后续季度、OVA 或剧场版，能力以第一季披露的信息为准。', myHeroAcademiaEntries, (reference) => {
+    if (typeof reference !== 'number' || !Number.isInteger(reference) || reference < 1 || reference > 13) throw new Error('My Hero Academia needs a first-season episode reference')
+    return { label: `读卖电视台第一季第 ${reference} 集简介（入口含后续剧透）`, url: 'https://www.ytv.co.jp/heroaca/story/' }
+  }),
 ]
 
 const titles = ['人物与世界入门', '行动与规则应用', '证据与战术推演']
@@ -52,7 +57,7 @@ export const expansionQuizzes: Quiz[] = expansionBanks.flatMap((bank) => difficu
   series: bank.series, title: `${bank.title}，${titles[index]}`,
   description: `${bank.title}专题，12 道${difficulty}题。结合剧情与设定判断，每题附原创配图、解析和官方资料链接。`,
   category: '二次元', difficulty, duration: difficultySeconds[difficulty],
-  image: originalArt(bank.series === 'attack-on-titan' || bank.series === 'one-punch-man' ? 'arena' : bank.series === 'fullmetal-alchemist-brotherhood' ? 'laboratory' : 'detective'),
+  image: originalArt(bank.series === 'my-hero-academia' ? 'academy' : bank.series === 'attack-on-titan' || bank.series === 'one-punch-man' ? 'arena' : bank.series === 'fullmetal-alchemist-brotherhood' ? 'laboratory' : 'detective'),
   color: index === 0 ? 'mint' : 'lavender', tag: '新 IP · 原创配图',
   scope: `${bank.scope} 配图为原创主题示意图，并非作品场景。`,
   questions: bank.questions.filter((question) => question.difficulty === difficulty).slice(0, 12),
