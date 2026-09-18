@@ -3,13 +3,14 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
-  it('adds 250 distinct illustrated sourced questions with explicit anime scopes', () => {
+  it('adds 300 distinct illustrated sourced questions with explicit anime scopes', () => {
     const sources: Record<string, RegExp> = {
       'attack-on-titan': /^https:\/\/shingeki.tv\/season1\//,
       'death-note': /^https:\/\/www.ntv.co.jp\/deathnote\/static\/story2?\.html$/,
       'fullmetal-alchemist-brotherhood': /^https:\/\/www.hagaren.jp\/fa\/(about\/story(?:0[1-6])?\.html|characters\/index01\.html)$/,
       'one-punch-man': /^https:\/\/onepunchman-anime.net\/(story\/#\/season1\/(?:[1-9]|1[0-2])|character\/)$/,
       'my-hero-academia': /^https:\/\/www.ytv.co.jp\/heroaca\/story\/$/,
+      'sword-art-online': /^https:\/\/www.swordart-online.net\/(?:aincrad\/story\/\?id=ep(?:0[1-9]|1[0-4])|fairy\/(?:story\/\?id=ep(?:1[5-9]|2[0-5]))?)$/,
     }
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
@@ -28,6 +29,23 @@ describe('catalog additions', () => {
       expect(published).toHaveLength(50)
       expect(new Set(published.map((q) => q.id))).toEqual(new Set(bank.questions.map((q) => q.id)))
     }
+  })
+
+  it('keeps SAO first-season arcs and system constraints distinct', () => {
+    const bank = expansionBanks.find((bank) => String(bank.series) === 'sword-art-online')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第 1–25 集')
+    expect(bank!.scope).toContain('不考 SAO II')
+    for (const [number, answer] of [
+      ['11', '二刀流'], ['12', '神圣剑'],
+      ['28', '战斗空间禁用了转移水晶'],
+      ['44', '需要有相应权限的系统控制台解除束缚'],
+    ]) {
+      const question = bank!.questions.find((q) => q.id === `sword-art-online-${number}`)!
+      expect(question.options[question.answer]).toBe(answer)
+    }
+    const episodes = bank!.questions.filter((q) => q.source!.url.includes('?id='))
+    expect(new Set(episodes.map((q) => Number(q.source!.url.split('ep').at(-1))))).toEqual(new Set(Array.from({ length: 25 }, (_, i) => i + 1)))
   })
 
   it('keeps My Hero Academia within season one and preserves training and Nomu rules', () => {

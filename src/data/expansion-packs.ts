@@ -7,6 +7,7 @@ import { deathNoteEntries } from './death-note'
 import { brotherhoodEntries } from './fullmetal-alchemist-brotherhood'
 import { onePunchManEntries } from './one-punch-man'
 import { myHeroAcademiaEntries } from './my-hero-academia'
+import { swordArtOnlineEntries } from './sword-art-online'
 
 function bank(series: AnimeSeriesId, title: string, scope: string, entries: ExpansionEntry[], source: (reference: ExpansionEntry[0]) => NonNullable<Question['source']>): QuestionBank {
   if (entries.length !== 50) throw new Error(`Expected 50 questions: ${series}`)
@@ -49,6 +50,11 @@ export const expansionBanks = [
     if (typeof reference !== 'number' || !Number.isInteger(reference) || reference < 1 || reference > 13) throw new Error('My Hero Academia needs a first-season episode reference')
     return { label: `读卖电视台第一季第 ${reference} 集简介（入口含后续剧透）`, url: 'https://www.ytv.co.jp/heroaca/story/' }
   }),
+  bank('sword-art-online', '刀剑神域 第一季', '仅含 2012 年电视动画第一季第 1–25 集，即艾恩葛朗特篇与妖精之舞篇，包含隐藏身份、SAO 结局与世界树救援剧透；不考 SAO II、Extra Edition、后续季度或剧场版，不混用 Progressive 的改编细节。', swordArtOnlineEntries, (reference) => {
+    if (reference === 'characters') return { label: '妖精之舞篇官网简介与人物资料', url: 'https://www.swordart-online.net/fairy/' }
+    if (typeof reference !== 'number' || !Number.isInteger(reference) || reference < 1 || reference > 25) throw new Error('Sword Art Online needs a first-season episode reference')
+    return { label: `动画官网第一季第 ${reference} 集简介`, url: `https://www.swordart-online.net/${reference <= 14 ? 'aincrad' : 'fairy'}/story/?id=ep${String(reference).padStart(2, '0')}` }
+  }),
 ]
 
 const titles = ['人物与世界入门', '行动与规则应用', '证据与战术推演']
@@ -57,7 +63,7 @@ export const expansionQuizzes: Quiz[] = expansionBanks.flatMap((bank) => difficu
   series: bank.series, title: `${bank.title}，${titles[index]}`,
   description: `${bank.title}专题，12 道${difficulty}题。结合剧情与设定判断，每题附原创配图、解析和官方资料链接。`,
   category: '二次元', difficulty, duration: difficultySeconds[difficulty],
-  image: originalArt(bank.series === 'my-hero-academia' ? 'academy' : bank.series === 'attack-on-titan' || bank.series === 'one-punch-man' ? 'arena' : bank.series === 'fullmetal-alchemist-brotherhood' ? 'laboratory' : 'detective'),
+  image: originalArt(bank.series === 'my-hero-academia' ? 'academy' : bank.series === 'attack-on-titan' || bank.series === 'one-punch-man' || bank.series === 'sword-art-online' ? 'arena' : bank.series === 'fullmetal-alchemist-brotherhood' ? 'laboratory' : 'detective'),
   color: index === 0 ? 'mint' : 'lavender', tag: '新 IP · 原创配图',
   scope: `${bank.scope} 配图为原创主题示意图，并非作品场景。`,
   questions: bank.questions.filter((question) => question.difficulty === difficulty).slice(0, 12),

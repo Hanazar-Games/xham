@@ -13,4 +13,5 @@ export const animeSeries: { id: AnimeSeriesId; title: string; subtitle: string; 
   { id: 'fullmetal-alchemist-brotherhood', title: '钢之炼金术师 Brotherhood', subtitle: '等价交换 · 炼金机制与战术', aliases: '钢炼 钢之炼金术师 鋼の錬金術師 fullmetal alchemist brotherhood fmab fma fa 爱德华 阿尔冯斯' },
   { id: 'one-punch-man', title: '一拳超人 第一季', subtitle: '英雄考核 · 能力与救援', aliases: '一拳 一击男 一撃男 ワンパンマン one punch man onepunchman opm 埼玉 琦玉 杰诺斯' },
   { id: 'my-hero-academia', title: '我的英雄学院 第一季', subtitle: '雄英 · 训练规则与团队救援', aliases: '我英 英雄学院 僕のヒーローアカデミア my hero academia mha boku no hero 绿谷 出久 欧尔麦特' },
+  { id: 'sword-art-online', title: '刀剑神域 第一季', subtitle: '艾恩葛朗特与妖精之舞 · 规则与救援', aliases: '刀剑 刀劍 ソードアート オンライン sword art online sao 桐人 亚丝娜 亚斯娜 结衣 莉法 艾恩葛朗特 aincrad fairy dance' },
 ]
