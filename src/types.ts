@@ -1,4 +1,4 @@
-export type AnimeSeriesId = 'demon-slayer' | 'one-piece' | 'naruto' | 'ghibli' | 'rezero' | 'frieren' | 'crossover' | 'attack-on-titan' | 'death-note' | 'fullmetal-alchemist-brotherhood' | 'one-punch-man' | 'my-hero-academia' | 'sword-art-online' | 'hunter-x-hunter'
+export type AnimeSeriesId = 'demon-slayer' | 'one-piece' | 'naruto' | 'ghibli' | 'rezero' | 'frieren' | 'crossover' | 'attack-on-titan' | 'death-note' | 'fullmetal-alchemist-brotherhood' | 'one-punch-man' | 'my-hero-academia' | 'sword-art-online' | 'hunter-x-hunter' | 'jujutsu-kaisen'
 export type Difficulty = '简单' | '中等' | '困难'
 export const difficulties: Difficulty[] = ['简单', '中等', '困难']
 export const difficultySeconds: Record<Difficulty, number> = { 简单: 20, 中等: 25, 困难: 30 }

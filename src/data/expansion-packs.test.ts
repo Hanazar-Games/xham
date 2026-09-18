@@ -3,7 +3,7 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
-  it('adds 350 distinct illustrated sourced questions with explicit anime scopes', () => {
+  it('adds 400 distinct illustrated sourced questions with explicit anime scopes', () => {
     const sources: Record<string, RegExp> = {
       'attack-on-titan': /^https:\/\/shingeki.tv\/season1\//,
       'death-note': /^https:\/\/www.ntv.co.jp\/deathnote\/static\/story2?\.html$/,
@@ -12,6 +12,7 @@ describe('catalog additions', () => {
       'my-hero-academia': /^https:\/\/www.ytv.co.jp\/heroaca\/story\/$/,
       'sword-art-online': /^https:\/\/www.swordart-online.net\/(?:aincrad\/story\/\?id=ep(?:0[1-9]|1[0-4])|fairy\/(?:story\/\?id=ep(?:1[5-9]|2[0-5]))?)$/,
       'hunter-x-hunter': /^https:\/\/www\.ntv\.co\.jp\/hunterhunter\/(?:dictionary\/index\.html|story\/(?:00[1-9]|0[1-9]\d|1[0-3]\d|14[0-8])\.html)$/,
+      'jujutsu-kaisen': /^https:\/\/www\.b-ch\.com\/titles\/7071\/0(?:0[1-9]|1\d|2[0-4])$/,
     }
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
@@ -30,6 +31,23 @@ describe('catalog additions', () => {
       expect(published).toHaveLength(50)
       expect(new Set(published.map((q) => q.id))).toEqual(new Set(bank.questions.map((q) => q.id)))
     }
+  })
+
+  it('limits Jujutsu Kaisen to season one and preserves mission and combat causes', () => {
+    const bank = expansionBanks.find((bank) => String(bank.series) === 'jujutsu-kaisen')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第 1–24 集')
+    expect(bank!.scope).toContain('不考第二季')
+    for (const [number, answer] of [
+      ['02', '20 根'],
+      ['36', '取出虎杖的心脏，让虎杖切回身体就面临死亡'],
+      ['43', '自身的血液'],
+      ['50', '承受血液术式的同时，用共鸣反击兄弟'],
+    ]) {
+      const q = bank!.questions.find((question) => question.id === `jujutsu-kaisen-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    expect(new Set(bank!.questions.map((q) => Number(q.source!.url.split('/').at(-1))))).toEqual(new Set(Array.from({ length: 24 }, (_, i) => i + 1)))
   })
 
   it('keeps the 2011 Hunter adaptation and Nen and card restrictions explicit', () => {
