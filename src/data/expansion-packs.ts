@@ -18,6 +18,7 @@ import { shippudenEntries } from './naruto-shippuden'
 import { heroSeasonTwoEntries } from './my-hero-academia-season-2'
 import { titanSeasonThreeEntries } from './attack-on-titan-season-3'
 import { silentVoiceEntries } from './a-silent-voice'
+import { noGameNoLifeEntries } from './no-game-no-life'
 import { titanSeasonThreePartTwoEntries } from './attack-on-titan-season-3-part-2'
 
 function bank(series: AnimeSeriesId, title: string, scope: string, entries: ExpansionEntry[], source: (reference: ExpansionEntry[0]) => NonNullable<Question['source']>): QuestionBank {
@@ -133,6 +134,12 @@ export const expansionBanks = [
     const [label, path] = pages[reference - 1]
     return { label: `第三季官网${label}`, url: `https://shingeki.tv/season3/${path}` }
   }),
+  bank('no-game-no-life', '游戏人生', '限定 2014 年电视动画第 1–12 集公开剧情及官网人物设定，含王位争夺、图书馆挑战、记忆异常与东部联合战剧情剧透；不混入 Zero 剧场版、特典或原作后续。重点考人物能力与战术判断，不考官网未展开的完整盟约条文及结局细节。', noGameNoLifeEntries, (reference) => {
+    if (typeof reference !== 'number' || !Number.isInteger(reference) || reference < 1 || reference > 20) throw new Error('No Game No Life needs a TV episode or character reference')
+    if (reference <= 12) return { label: `电视动画官网第 ${reference} 集简介`, url: `https://ngnl.jp/tv/story/story${reference}.html` }
+    const names = ['空', '白', '史蒂芙', '吉普莉尔', '克拉米', '菲尔', '伊纲', '特图']
+    return { label: `电视动画官网人物：${names[reference - 13]}`, url: `https://ngnl.jp/tv/character/${reference === 13 ? 'index' : `chara${String(reference - 12).padStart(2, '0')}`}.html` }
+  }),
 ]
 
 const titles = ['人物与世界入门', '行动与规则应用', '证据与战术推演']
@@ -141,7 +148,7 @@ export const expansionQuizzes: Quiz[] = expansionBanks.flatMap((bank) => difficu
   series: bank.series, title: `${bank.title}，${bank.series === 'a-silent-voice' ? ['人物与电影入门', '关系与制作知识', '声音设计与创作原理'][index] : bank.series === 'attack-on-titan-season-3-part-2' ? ['夺还作战入门', '剧情与制作知识', '战局判断与版本辨析'][index] : titles[index]}`,
   description: `${bank.title}专题，12 道${difficulty}题。结合剧情与设定判断，每题附原创配图、解析和官方资料链接。`,
   category: '二次元', difficulty, duration: difficultySeconds[difficulty],
-  image: originalArt(bank.series === 'attack-on-titan-season-3-part-2' ? 'arena' : bank.series === 'a-silent-voice' ? 'music' : bank.series === 'attack-on-titan-season-3' ? 'detective' : bank.series === 'naruto-shippuden' ? 'training' : bank.series === 'steins-gate' ? 'time' : bank.series === 'your-name' ? 'connections' : bank.series === 'tokyo-ghoul' ? 'city' : bank.series === 'jujutsu-kaisen' ? 'magic' : bank.series === 'hunter-x-hunter' ? 'adventure' : bank.series === 'my-hero-academia' || bank.series === 'my-hero-academia-season-2' ? 'academy' : bank.series === 'attack-on-titan-season-2' || bank.series === 'attack-on-titan' || bank.series === 'one-punch-man' || bank.series === 'sword-art-online' ? 'arena' : bank.series === 'fullmetal-alchemist-brotherhood' ? 'laboratory' : 'detective'),
+  image: originalArt(bank.series === 'no-game-no-life' ? 'boardgame' : bank.series === 'attack-on-titan-season-3-part-2' ? 'arena' : bank.series === 'a-silent-voice' ? 'music' : bank.series === 'attack-on-titan-season-3' ? 'detective' : bank.series === 'naruto-shippuden' ? 'training' : bank.series === 'steins-gate' ? 'time' : bank.series === 'your-name' ? 'connections' : bank.series === 'tokyo-ghoul' ? 'city' : bank.series === 'jujutsu-kaisen' ? 'magic' : bank.series === 'hunter-x-hunter' ? 'adventure' : bank.series === 'my-hero-academia' || bank.series === 'my-hero-academia-season-2' ? 'academy' : bank.series === 'attack-on-titan-season-2' || bank.series === 'attack-on-titan' || bank.series === 'one-punch-man' || bank.series === 'sword-art-online' ? 'arena' : bank.series === 'fullmetal-alchemist-brotherhood' ? 'laboratory' : 'detective'),
   color: index === 0 ? 'mint' : 'lavender', tag: '新 IP · 原创配图',
   scope: `${bank.scope} 配图为原创主题示意图，并非作品场景。`,
   questions: bank.questions.filter((question) => question.difficulty === difficulty).slice(0, 12),

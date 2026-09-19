@@ -3,6 +3,24 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('grounds No Game No Life in TV sources and preserves game and ability limits', () => {
+    const bank = expansionBanks.find((bank) => String(bank.series) === 'no-game-no-life')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('2014 年电视动画第 1–12 集')
+    expect(bank!.scope).toContain('不混入')
+    expect(bank!.questions).toHaveLength(50)
+    for (const [number, answer] of [
+      ['06', '前国王的孙女'], ['17', '第一人称射击游戏'],
+      ['27', '天翼种第6、森精种第7、兽人种第14'],
+      ['36', '把心理博弈与精确计算结合起来'],
+      ['46', '预判方向正确，也可能因对手临时提升身体能力而无法命中'],
+    ]) {
+      const q = bank!.questions.find((q) => q.id === `no-game-no-life-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    expect(new Set(bank!.questions.filter((q) => q.source!.url.includes('/story/')).map((q) => q.source!.url)).size).toBe(12)
+    expect(bank!.questions.every((q) => q.source!.url.startsWith('https://ngnl.jp/tv/'))).toBe(true)
+  })
   it('separates Titan part two episodes and verifies its production references', () => {
     const bank = expansionBanks.find((bank) => String(bank.series) === 'attack-on-titan-season-3-part-2')
     expect(bank).toBeDefined()
@@ -90,7 +108,7 @@ describe('catalog additions', () => {
       expect(q.options[q.answer]).toBe(answer)
     }
   })
-  it('adds 850 distinct illustrated sourced questions with explicit anime scopes', () => {
+  it('adds 900 distinct illustrated sourced questions with explicit anime scopes', () => {
     const sources: Record<string, RegExp> = {
       'attack-on-titan': /^https:\/\/shingeki.tv\/season1\//,
       'death-note': /^https:\/\/www.ntv.co.jp\/deathnote\/static\/story2?\.html$/,
@@ -110,6 +128,7 @@ describe('catalog additions', () => {
     }
     sources['a-silent-voice'] = /^https:\/\/koenokatachi-movie\.com\/(?:introduction\/|staff\/|themesong\/|music\/(?:#music-interview)?|character\/(?:shoko\/|yuzuru\/|nagatsuka\/|ueno\/|sahara\/|kawai\/|mashiba\/|shoya_s\/)?)$/
     sources['attack-on-titan-season-3-part-2'] = /^https:\/\/shingeki\.tv\/season3\/(?:story\/#\/season3\/5\d|staff\/|music\/(?:op2\.php|ed2\.php|soundtrack\.php)?|product\/season3_5\.php)$/
+    sources['no-game-no-life'] = /^https:\/\/ngnl\.jp\/tv\/(?:story\/story(?:[1-9]|1[0-2])\.html|character\/(?:index|chara0[2-8])\.html)$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)

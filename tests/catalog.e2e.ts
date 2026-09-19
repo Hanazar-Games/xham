@@ -1,6 +1,28 @@
 import { test, expect } from '@playwright/test'
 import axe from 'axe-core'
 
+test('No Game No Life opens a TV-only bank from batch two with searchable game mechanics', async ({ page }) => {
+  await page.goto('/')
+  await page.getByRole('button', { name: '查看 200 条目制作目录', exact: true }).click()
+  const dialog = page.getByRole('dialog', { name: '动漫题库制作目录' })
+  await dialog.getByLabel('目录分段').selectOption('2')
+  const entry = dialog.locator('.catalog-item[data-number="21"]')
+  await expect(entry).toContainText('50 / 50')
+  await expect(entry).toContainText('2014 年电视动画第 1–12 集')
+  await expect(entry).toContainText('不混入 Zero')
+  await entry.getByRole('button', { name: '进入题库：No Game No Life', exact: true }).click()
+  await expect(page.locator('#exam-title')).toHaveText('游戏人生 · 模拟考试')
+  await expect(page.locator('.quiz-card')).toHaveCount(3)
+  await page.getByRole('textbox', { name: '搜索 Quiz' }).fill('血坏')
+  await expect(page.locator('.quiz-card')).not.toHaveCount(0)
+  await page.getByRole('button', { name: '清空搜索', exact: true }).click()
+  await page.getByRole('button', { name: '全部 50 题', exact: true }).click()
+  await page.getByRole('button', { name: '生成试卷', exact: true }).click()
+  await expect(page.locator('.quiz-rules')).toContainText('50 道单选题')
+  await expect(page.getByRole('dialog')).toContainText('2014 年电视动画第 1–12 集')
+  await expect(page.getByRole('dialog')).toContainText('不混入 Zero')
+})
+
 test('Titan part two completes batch one without unlocking Final Season', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 568 })
   await page.goto('/')
@@ -186,8 +208,8 @@ test('catalog preserves all ten batches and only opens existing question banks',
   await opener.click()
   const dialog = page.getByRole('dialog', { name: '动漫题库制作目录' })
   await expect(dialog.locator('.catalog-item')).toHaveCount(20)
-  await expect(dialog.locator('.catalog-summary')).toContainText('21 / 200')
-  await expect(dialog.locator('.catalog-summary')).toContainText('1,050 / 10,000')
+  await expect(dialog.locator('.catalog-summary')).toContainText('22 / 200')
+  await expect(dialog.locator('.catalog-summary')).toContainText('1,100 / 10,000')
   await expect(dialog.locator('.catalog-item').first()).toContainText('Attack on Titan')
   await expect(dialog.locator('.catalog-item').first().getByRole('button')).toHaveCount(1)
   for (let batch = 1; batch <= 10; batch++) {

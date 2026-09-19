@@ -25,4 +25,5 @@ export const animeSeries: { id: AnimeSeriesId; title: string; subtitle: string; 
   { id: 'attack-on-titan-season-3', title: '进击的巨人 第三季上半部', subtitle: '王政调查 · 雷斯家与夺还准备', aliases: '进击 巨人 進撃 aot attack on titan season 3 part 1 shingeki 第三季 上半部 王政 希斯特利亚 肯尼' },
   { id: 'a-silent-voice', title: '声之形', subtitle: '人物与沟通 · 电影声音设计', aliases: '声之形 聲之形 聲の形 a silent voice koe no katachi 石田将也 西宫硝子 西宮硝子 京阿尼' },
   { id: 'attack-on-titan-season-3-part-2', title: '进击的巨人 第三季后半部', subtitle: '夺还作战 · 剧情与制作知识', aliases: '进击 巨人 進撃 aot attack on titan season 3 part 2 shingeki 第三季 后半部 下半部 雷枪 地下室' },
+  { id: 'no-game-no-life', title: '游戏人生', subtitle: '电视动画 · 游戏与心理博弈', aliases: 'no game no life ngnl ノーゲーム ノーライフ 游戏人生 空白 空 白 史蒂芙 吉普莉尔 克拉米 菲尔 伊纲 特图 血坏' },
 ]

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450">
+  <rect width="800" height="450" rx="30" fill="#eef1e4"/>
+  <circle cx="658" cy="100" r="65" fill="#e3dbf3"/>
+  <path d="M70 350 284 138 699 204 485 416Z" fill="#536f63"/>
+  <path d="m101 345 190-186 377 59-188 176Z" fill="#fbf3d9"/>
+  <g fill="none" stroke="#a4b797" stroke-width="3">
+    <path d="m138 308 378 60m-340-97 378 61m-340-98 378 61m-339-98 377 61"/>
+    <path d="m177 357 190-186m-114 198 188-186m-113 198 188-186m-113 198 188-186"/>
+  </g>
+  <g fill="#bb8bc6" stroke="#725d83" stroke-width="5">
+    <path d="m277 258 10-46h32l10 46z"/><ellipse cx="303" cy="260" rx="35" ry="12"/><circle cx="303" cy="196" r="23"/>
+  </g>
+  <g fill="#e6b86b" stroke="#987445" stroke-width="5">
+    <path d="m459 310 10-50h32l10 50z"/><ellipse cx="485" cy="312" rx="35" ry="12"/><circle cx="485" cy="244" r="23"/>
+  </g>
+  <rect x="100" y="63" width="91" height="111" rx="13" fill="#fffaf0" stroke="#8ba28a" stroke-width="4" transform="rotate(-12 145 119)"/>
+  <path d="m135 92 22 21-22 21-22-21z" fill="#bb8bc6"/>
+  <path d="m610 334 52 8-10 55-53-9z" fill="#fffaf0" stroke="#8ba28a" stroke-width="4"/>
+  <g fill="#536f63"><circle cx="622" cy="351" r="5"/><circle cx="632" cy="366" r="5"/><circle cx="642" cy="381" r="5"/></g>
+</svg>
