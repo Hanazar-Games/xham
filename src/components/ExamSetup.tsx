@@ -1,14 +1,23 @@
-import { useState } from 'react'
 import { difficulties, difficultySeconds, type Difficulty, type Quiz } from '../types'
 import { questionBanks } from '../data/question-banks'
 import { createExam } from '../game/exams'
 import type { AnimeSeriesId } from '../types'
 import './exam.css'
 
-export function ExamSetup({ series, onStart }: { series: AnimeSeriesId; onStart: (quiz: Quiz) => void }) {
+export interface ExamSettings {
+  level: Difficulty | '混合'
+  size: number | 'all'
+}
+export const defaultExamSettings: ExamSettings = { level: '混合', size: 10 }
+
+export function ExamSetup({ series, settings, onChange, onStart }: {
+  series: AnimeSeriesId
+  settings: ExamSettings
+  onChange: (settings: ExamSettings) => void
+  onStart: (quiz: Quiz) => void
+}) {
   const bank = questionBanks.find((item) => item.series === series)!
-  const [level, setLevel] = useState<Difficulty | '混合'>('混合')
-  const [size, setSize] = useState<number | 'all'>(10)
+  const { level, size } = settings
   const pool = bank.questions.filter((q) => level === '混合' || q.difficulty === level)
   const count = size === 'all' ? pool.length : Math.min(size, pool.length)
   return (
@@ -23,8 +32,7 @@ export function ExamSetup({ series, onStart }: { series: AnimeSeriesId; onStart:
         <div className="exam-options">
           {(['混合', ...difficulties] as const).map((difficulty) => (
             <button key={difficulty} aria-pressed={level === difficulty} onClick={() => {
-              setLevel(difficulty)
-              setSize(10)
+              onChange({ level: difficulty, size: 10 })
             }}>{difficulty}<small>{difficulty === '混合' ? bank.questions.length : bank.questions.filter((q) => q.difficulty === difficulty).length} 题可用</small></button>
           ))}
         </div>
@@ -33,7 +41,7 @@ export function ExamSetup({ series, onStart }: { series: AnimeSeriesId; onStart:
         <legend>考试题数</legend>
         <div className="exam-options">
           {([10, 20, 'all'] as const).map((amount) => (
-            <button key={amount} disabled={amount !== 'all' && pool.length < amount} aria-pressed={size === amount} onClick={() => setSize(amount)}>
+            <button key={amount} disabled={amount !== 'all' && pool.length < amount} aria-pressed={size === amount} onClick={() => onChange({ level, size: amount })}>
               {amount === 'all' ? `全部 ${pool.length} 题` : `${amount} 题`}
             </button>
           ))}

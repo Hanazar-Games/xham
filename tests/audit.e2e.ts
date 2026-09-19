@@ -1,6 +1,56 @@
 import { test, expect } from '@playwright/test'
 import { quizzes } from '../src/data/quizzes'
 
+for (const control of ['.card-content h3 button', '.card-footer button']) {
+  test(`abandoning a card challenge restores its actual opener: ${control}`, async ({ page }) => {
+    await page.goto('/')
+    const opener = page.locator('.quiz-card[data-quiz-id="attack-on-titan-season-3-part-2"]').locator(control)
+    await opener.click()
+    await page.getByRole('button', { name: '准备好了，开始！' }).click()
+    await page.getByRole('button', { name: '退出挑战', exact: true }).click()
+    await page.getByRole('button', { name: '结束挑战', exact: true }).click()
+    await expect(opener).toBeFocused()
+    await expect(opener).toBeInViewport()
+  })
+}
+
+test('exam choices survive search and an abandoned attempt, then reset for another IP', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/')
+  await page.getByRole('button', { name: '进入专区：进击的巨人 第三季后半部', exact: true }).click()
+  const setup = page.locator('.exam-setup')
+  await setup.getByRole('button', { name: '困难 15 题可用', exact: true }).click()
+  await setup.getByRole('button', { name: '全部 15 题', exact: true }).click()
+  await page.getByRole('textbox', { name: '搜索 Quiz' }).fill('雷枪')
+  await expect(setup).not.toBeVisible()
+  await page.getByRole('button', { name: '清空搜索', exact: true }).click()
+  await expect(setup.getByRole('button', { name: '困难 15 题可用', exact: true })).toHaveAttribute('aria-pressed', 'true')
+  await expect(setup.getByRole('button', { name: '全部 15 题', exact: true })).toHaveAttribute('aria-pressed', 'true')
+  await page.getByRole('button', { name: '生成试卷', exact: true }).click()
+  await page.getByRole('button', { name: '准备好了，开始！' }).click()
+  await page.getByRole('button', { name: '退出挑战', exact: true }).click()
+  await page.getByRole('button', { name: '结束挑战', exact: true }).click()
+  await expect(setup.getByRole('button', { name: '困难 15 题可用', exact: true })).toHaveAttribute('aria-pressed', 'true')
+  await expect(setup.getByRole('button', { name: '全部 15 题', exact: true })).toHaveAttribute('aria-pressed', 'true')
+  await page.getByRole('button', { name: '进入专区：声之形', exact: true }).click()
+  await expect(setup.getByRole('button', { name: '混合 50 题可用', exact: true })).toHaveAttribute('aria-pressed', 'true')
+  await expect(setup.getByRole('button', { name: '10 题', exact: true })).toHaveAttribute('aria-pressed', 'true')
+})
+
+for (const openerName of ['随机来一局', '全站随机抽卷', '开启第一场挑战']) {
+  test(`abandoning a random challenge restores its actual opener: ${openerName}`, async ({ page }) => {
+    await page.goto('/')
+    if (openerName === '开启第一场挑战') await page.getByRole('navigation').getByRole('button', { name: '挑战记录', exact: true }).click()
+    const opener = page.getByRole('button', { name: openerName, exact: true })
+    await opener.click()
+    await page.getByRole('button', { name: '准备好了，开始！' }).click()
+    await page.getByRole('button', { name: '退出挑战', exact: true }).click()
+    await page.getByRole('button', { name: '结束挑战', exact: true }).click()
+    await expect(opener).toBeFocused()
+    await expect(opener).toBeInViewport()
+  })
+}
+
 test('character and skill search reaches matching questions and crossover exams', async ({ page }) => {
   await page.goto('/')
   await page.getByRole('textbox', { name: '搜索 Quiz' }).fill('螺旋丸')

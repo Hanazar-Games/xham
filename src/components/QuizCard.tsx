@@ -11,12 +11,12 @@ export function QuizCard({
   quiz: Quiz
   saved: boolean
   onSave: () => void
-  onPlay: () => void
+  onPlay: (control: 'cover' | 'title' | 'start') => void
 }) {
   return (
     <article className="quiz-card" data-quiz-id={quiz.id}>
       <div className={`card-cover ${quiz.color}`}>
-        <button className="cover-link" onClick={onPlay} aria-label={`开始：${quiz.title}`}>
+        <button className="cover-link" data-play="cover" onClick={() => onPlay('cover')} aria-label={`开始：${quiz.title}`}>
           <QuizArtwork quiz={quiz} />
         </button>
         <span className="cover-tag">{quiz.tag}</span>
@@ -39,7 +39,7 @@ export function QuizCard({
           </span>
         </div>
         <h3>
-          <button onClick={onPlay}>{quiz.title}</button>
+          <button data-play="title" onClick={() => onPlay('title')}>{quiz.title}</button>
         </h3>
         <p>{quiz.description}</p>
         <div className="card-footer">
@@ -47,7 +47,7 @@ export function QuizCard({
             <Icon name="clock" size={14} />约{' '}
             {Math.ceil((quiz.questions.length * quiz.duration) / 60)} 分钟
           </span>
-          <button onClick={onPlay}>
+          <button data-play="start" onClick={() => onPlay('start')}>
             开始挑战
             <Icon name="arrow" size={16} />
           </button>

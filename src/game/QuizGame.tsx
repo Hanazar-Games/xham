@@ -23,7 +23,7 @@ export function QuizGame({
 }) {
   const [state, dispatch] = useReducer(gameReducer, { quiz, now: performance.now() }, createGame)
   const [overlay, setOverlay] = useState<'exit' | 'pause' | 'audio' | null>(null)
-  const { play, pauseMusic } = useAudio()
+  const { play, stopSfx, pauseMusic } = useAudio()
   const lastCue = useRef('')
   const warned = useRef('')
   const reported = useRef(false)
@@ -60,11 +60,18 @@ export function QuizGame({
   }, [state.phase, openOverlay])
 
   useEffect(() => {
-    pauseMusic(overlay === 'pause' || overlay === 'exit')
-    return () => pauseMusic(false)
-  }, [overlay, pauseMusic])
+    const quiet = overlay === 'pause' || overlay === 'exit'
+    pauseMusic(quiet)
+    if (quiet) stopSfx()
+  }, [overlay, pauseMusic, stopSfx])
+
+  useEffect(() => () => {
+    stopSfx()
+    pauseMusic(false)
+  }, [pauseMusic, stopSfx])
 
   useEffect(() => {
+    if (overlay) return
     const cue =
       state.phase === 'finished'
         ? 'finish'
@@ -84,7 +91,7 @@ export function QuizGame({
       lastCue.current = key
       play(cue)
     }
-  }, [state.phase, state.index, state.responses.length, question.id, response, play, exam])
+  }, [state.phase, state.index, state.responses.length, question.id, response, play, exam, overlay])
 
   useEffect(() => {
     const key = `${question.id}-${seconds}`

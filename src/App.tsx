@@ -3,7 +3,7 @@ import { quizzes } from './data/quizzes'
 import { questionBanks } from './data/question-banks'
 import { publicUrl } from './public-url'
 import { difficulties, type AnimeSeriesId, type Difficulty, type Quiz } from './types'
-import { ExamSetup } from './components/ExamSetup'
+import { ExamSetup, defaultExamSettings } from './components/ExamSetup'
 import { animeSeries } from './data/anime-series'
 import { AnimeHub } from './components/AnimeHub'
 import { QuizArtwork } from './components/QuizMedia'
@@ -31,6 +31,7 @@ const searchIndex = new Map(quizzes.map((quiz) => [quiz.id, normalizeSearch([
 export default function App() {
   const [view, setView] = useState<View>('anime')
   const [series, setSeries] = useState<AnimeSeriesId | null>(null)
+  const [examSettings, setExamSettings] = useState(defaultExamSettings)
   const [difficulty, setDifficulty] = useState<Difficulty | '全部'>('全部')
   const libraryHeading = useRef<HTMLHeadingElement>(null)
   const returnPoint = useRef({ selector: '#main-heading', scroll: 0 })
@@ -62,12 +63,16 @@ export default function App() {
     target?.scrollIntoView({ block: 'nearest', behavior: 'instant' })
   })
 
+  const selectSeries = (next: AnimeSeriesId | null) => {
+    if (next !== series) setExamSettings(defaultExamSettings)
+    setSeries(next)
+  }
   const navigate = (next: View) => {
     returnPoint.current = { selector: '#main-heading', scroll: 0 }
     restoreFocus.current = true
     setView(next)
     setQuery('')
-    setSeries(null)
+    selectSeries(null)
     setDifficulty('全部')
     window.scrollTo({ top: 0 })
   }
@@ -76,9 +81,9 @@ export default function App() {
     play('tap')
     setSelected(quiz)
   }
-  const randomQuiz = (pool: readonly Quiz[] = quizzes) => {
+  const randomQuiz = (pool: readonly Quiz[], selector: string) => {
     if (!pool.length) return
-    openQuiz(pool[Math.floor(Math.random() * pool.length)])
+    openQuiz(pool[Math.floor(Math.random() * pool.length)], selector)
   }
   const startQuiz = () => {
     setPlaying(selected)
@@ -226,7 +231,7 @@ export default function App() {
               <br />
               看看你有多懂这部番。
             </p>
-            <button onClick={() => randomQuiz()}>
+            <button id="random-global" onClick={() => randomQuiz(quizzes, '#random-global')}>
               全站随机抽卷
               <Icon name="arrow" size={16} />
             </button>
@@ -322,7 +327,7 @@ export default function App() {
           )}
           {view === 'anime' && !search && (
             <AnimeHub selected={series} onSelect={(next) => {
-              setSeries(next)
+              selectSeries(next)
               requestAnimationFrame(() => {
                 const heading = document.getElementById('exam-title') ?? libraryHeading.current
                 heading?.focus({ preventScroll: true })
@@ -332,7 +337,7 @@ export default function App() {
           )}
           {view !== 'results' ? (
             <section className="quiz-library" aria-label="Quiz 题库">
-              {view === 'anime' && series && !search && <ExamSetup key={series} series={series} onStart={(quiz) => openQuiz(quiz, '#start-ip-exam')} />}
+              {view === 'anime' && series && !search && <ExamSetup series={series} settings={examSettings} onChange={setExamSettings} onStart={(quiz) => openQuiz(quiz, '#start-ip-exam')} />}
               <div className="library-heading">
                 <h2 ref={libraryHeading} tabIndex={-1}>
                   {search
@@ -356,7 +361,7 @@ export default function App() {
               <div className="anime-library-tools">
                   <p>练习卷 · 简单：基础设定 · 中等：情境应用 · 困难：推理辨析</p>
                   {series && <button className="text-button" onClick={() => {
-                    setSeries(null)
+                    selectSeries(null)
                     setQuery('')
                     requestAnimationFrame(() => {
                       const destination = document.getElementById('anime-all-series')
@@ -364,7 +369,7 @@ export default function App() {
                       destination?.scrollIntoView({ block: 'start', behavior: 'instant' })
                     })
                   }}>切换专区 <Icon name="arrow" size={15} /></button>}
-                  <button className="secondary-button" disabled={!filtered.length} title={filtered.length ? '从当前筛选结果抽取试卷' : '没有符合筛选的试卷'} onClick={() => randomQuiz(filtered)}><Icon name="shuffle" size={16} />随机来一局</button>
+                  <button id="random-library" className="secondary-button" disabled={!filtered.length} title={filtered.length ? '从当前筛选结果抽取试卷' : '没有符合筛选的试卷'} onClick={() => randomQuiz(filtered, '#random-library')}><Icon name="shuffle" size={16} />随机来一局</button>
                   <div className="difficulty-filters" role="group" aria-label="难度筛选">
                     {(['全部', ...difficulties] as const).map((level) => (
                       <button key={level} aria-pressed={difficulty === level} onClick={() => setDifficulty(level)}>
@@ -384,7 +389,7 @@ export default function App() {
                       quiz={quiz}
                       saved={saved.includes(quiz.id)}
                       onSave={() => toggleSave(quiz.id)}
-                      onPlay={() => openQuiz(quiz)}
+                      onPlay={(control) => openQuiz(quiz, `.quiz-card[data-quiz-id="${quiz.id}"] [data-play="${control}"]`)}
                     />
                   ))}
                 </div>
@@ -411,7 +416,7 @@ export default function App() {
                       returnPoint.current = { selector: '.library-heading h2', scroll: window.scrollY }
                       restoreFocus.current = true
                       setQuery('')
-                      setSeries(null)
+                      selectSeries(null)
                       setDifficulty('全部')
                     }}
                   >
@@ -496,7 +501,7 @@ export default function App() {
                   <Icon name="trophy" size={42} />
                   <h3>你的第一场挑战，值得期待</h3>
                   <p>完成一套动漫试卷后，成绩就会出现在这里。</p>
-                  <button className="primary-button" onClick={() => randomQuiz()}>
+                  <button id="random-history" className="primary-button" onClick={() => randomQuiz(quizzes, '#random-history')}>
                     开启第一场挑战
                     <Icon name="arrow" size={18} />
                   </button>
