@@ -18,6 +18,7 @@ import { shippudenEntries } from './naruto-shippuden'
 import { heroSeasonTwoEntries } from './my-hero-academia-season-2'
 import { titanSeasonThreeEntries } from './attack-on-titan-season-3'
 import { silentVoiceEntries } from './a-silent-voice'
+import { titanSeasonThreePartTwoEntries } from './attack-on-titan-season-3-part-2'
 
 function bank(series: AnimeSeriesId, title: string, scope: string, entries: ExpansionEntry[], source: (reference: ExpansionEntry[0]) => NonNullable<Question['source']>): QuestionBank {
   if (entries.length !== 50) throw new Error(`Expected 50 questions: ${series}`)
@@ -121,15 +122,26 @@ export const expansionBanks = [
     const [label, path] = pages[reference - 1]
     return { label: `电影官网${label}`, url: `https://koenokatachi-movie.com/${path}` }
   }),
+  bank('attack-on-titan-season-3-part-2', '进击的巨人 第三季后半部', '限定 2019 年电视动画第三季后半部累计第 50–59 集公开剧情与本季制作知识，含夺还作战、地下室及格里沙记忆剧透；不混入最终季、OVA或漫画独有设定。部分题目考主题歌、原声与制作署名，不代表完整剧情细节考核。', titanSeasonThreePartTwoEntries, (reference) => {
+    if (typeof reference !== 'number' || !Number.isInteger(reference)) throw new Error('Titan part two needs a numeric official reference')
+    if (reference >= 50 && reference <= 59) return { label: `第三季官网第 ${reference} 集资料`, url: `https://shingeki.tv/season3/story/#/season3/${reference}` }
+    const pages = [
+      ['后半部工作人员', 'staff/'], ['上下半部音乐目录', 'music/'], ['后半部OP单曲', 'music/op2.php'],
+      ['后半部ED单曲', 'music/ed2.php'], ['第三季原声专辑', 'music/soundtrack.php'], ['第5至7卷收录信息', 'product/season3_5.php'],
+    ]
+    if (reference < 1 || reference > pages.length) throw new Error('Titan part two needs an episode from 50 to 59 or a production page')
+    const [label, path] = pages[reference - 1]
+    return { label: `第三季官网${label}`, url: `https://shingeki.tv/season3/${path}` }
+  }),
 ]
 
 const titles = ['人物与世界入门', '行动与规则应用', '证据与战术推演']
 export const expansionQuizzes: Quiz[] = expansionBanks.flatMap((bank) => difficulties.map((difficulty, index) => ({
   id: index === 0 ? bank.series : `${bank.series}-${index === 1 ? 'intermediate' : 'advanced'}`,
-  series: bank.series, title: `${bank.title}，${bank.series === 'a-silent-voice' ? ['人物与电影入门', '关系与制作知识', '声音设计与创作原理'][index] : titles[index]}`,
+  series: bank.series, title: `${bank.title}，${bank.series === 'a-silent-voice' ? ['人物与电影入门', '关系与制作知识', '声音设计与创作原理'][index] : bank.series === 'attack-on-titan-season-3-part-2' ? ['夺还作战入门', '剧情与制作知识', '战局判断与版本辨析'][index] : titles[index]}`,
   description: `${bank.title}专题，12 道${difficulty}题。结合剧情与设定判断，每题附原创配图、解析和官方资料链接。`,
   category: '二次元', difficulty, duration: difficultySeconds[difficulty],
-  image: originalArt(bank.series === 'a-silent-voice' ? 'music' : bank.series === 'attack-on-titan-season-3' ? 'detective' : bank.series === 'naruto-shippuden' ? 'training' : bank.series === 'steins-gate' ? 'time' : bank.series === 'your-name' ? 'connections' : bank.series === 'tokyo-ghoul' ? 'city' : bank.series === 'jujutsu-kaisen' ? 'magic' : bank.series === 'hunter-x-hunter' ? 'adventure' : bank.series === 'my-hero-academia' || bank.series === 'my-hero-academia-season-2' ? 'academy' : bank.series === 'attack-on-titan-season-2' || bank.series === 'attack-on-titan' || bank.series === 'one-punch-man' || bank.series === 'sword-art-online' ? 'arena' : bank.series === 'fullmetal-alchemist-brotherhood' ? 'laboratory' : 'detective'),
+  image: originalArt(bank.series === 'attack-on-titan-season-3-part-2' ? 'arena' : bank.series === 'a-silent-voice' ? 'music' : bank.series === 'attack-on-titan-season-3' ? 'detective' : bank.series === 'naruto-shippuden' ? 'training' : bank.series === 'steins-gate' ? 'time' : bank.series === 'your-name' ? 'connections' : bank.series === 'tokyo-ghoul' ? 'city' : bank.series === 'jujutsu-kaisen' ? 'magic' : bank.series === 'hunter-x-hunter' ? 'adventure' : bank.series === 'my-hero-academia' || bank.series === 'my-hero-academia-season-2' ? 'academy' : bank.series === 'attack-on-titan-season-2' || bank.series === 'attack-on-titan' || bank.series === 'one-punch-man' || bank.series === 'sword-art-online' ? 'arena' : bank.series === 'fullmetal-alchemist-brotherhood' ? 'laboratory' : 'detective'),
   color: index === 0 ? 'mint' : 'lavender', tag: '新 IP · 原创配图',
   scope: `${bank.scope} 配图为原创主题示意图，并非作品场景。`,
   questions: bank.questions.filter((question) => question.difficulty === difficulty).slice(0, 12),

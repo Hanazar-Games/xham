@@ -2,7 +2,7 @@
 
 用户清单已完整保存于 [catalog.json](catalog.json)，保持原英文标题、编号和顺序。原附件为连续编号，未包含「、」；按每 20 个条目切成 10 段，每条目目标 50 题，共约 10,000 题。
 
-v0.11.0 首页提供「查看 200 条目制作目录」，支持分段浏览、当前范围搜索与已有题库直达。目录按真实题池显示进度，不把待制作条目、跨季综合题库或电影合集记作完整独立题库；v0.26.0 已有 1172 道可玩题目。
+v0.11.0 首页提供「查看 200 条目制作目录」，支持分段浏览、当前范围搜索与已有题库直达。目录按真实题池显示进度，不把待制作条目、跨季综合题库或电影合集记作完整独立题库；v0.27.0 已有 1222 道可玩题目。
 
 ## 制作约定
 
@@ -17,7 +17,7 @@ v0.11.0 首页提供「查看 200 条目制作目录」，支持分段浏览、�
 
 | 段 | 编号 | 起止条目 | 目标题数 | 已有可复用题库 |
 | --- | --- | --- | --- | --- |
-| 1 | 1–20 | Attack on Titan → Attack on Titan Season 3 Part 2 | 1,000 | 巨人首季、死亡笔记、钢炼 FA、一拳首季、我英首季、刀剑首季、猎人2011版、咒术首季、东京喰种首季、你的名字电影知识、巨人第二季、命运石之门、疾风传风影夺还篇、我英第二季、巨人第三季上半部、鬼灭、火影、海贼王，声之形电影知识，共 950 题 |
+| 1 | 1–20 | Attack on Titan → Attack on Titan Season 3 Part 2 | 1,000 | 巨人首季、死亡笔记、钢炼 FA、一拳首季、我英首季、刀剑首季、猎人2011版、咒术首季、东京喰种首季、你的名字电影知识、巨人第二季、命运石之门、疾风传风影夺还篇、我英第二季、巨人第三季上半部、鬼灭、火影、海贼王、声之形电影知识、巨人第三季后半部剧情与制作知识，共 1,000 题 |
 | 2 | 21–40 | No Game No Life → Sword Art Online II | 1,000 | Re:0 需先拆分剧情范围 |
 | 3 | 41–60 | Cowboy Bebop → JoJo's Bizarre Adventure | 1,000 | 无完整对应题库 |
 | 4 | 61–80 | Darling in the FranXX → Elfen Lied | 1,000 | 无完整对应题库 |
@@ -32,11 +32,11 @@ v0.11.0 首页提供「查看 200 条目制作目录」，支持分段浏览、�
 
 ## 接续位置与实际进度
 
-v0.26.0 完成 #19《A Silent Voice》电影知识50题（人物、沟通主题与声音设计）。清单已对应20个条目、1000／10,000题；实际站内1172题，含未计入独立条目目标的综合题库。
+v0.27.0 完成 #20《Attack on Titan Season 3 Part 2》50题（第50–59集公开剧情与制作知识）。清单已对应21个条目、1050／10,000题；实际站内1222题，含未计入独立条目目标的综合题库。
 
-当前继续补第 1 段，下一未完成条目为 #20《Attack on Titan Season 3 Part 2》，需核查第三季后半部分集资料。第一段已完成19／20项，仍有1项待制作；分段标记不作为完成依据。
+第 1 段20／20项均已各有50题，题库范围以各自说明为准。下一未完成条目为第 2 段 #21《No Game No Life》，需核查电视动画资料；分段标记不作为完成依据。
 
-资料规则已获明确扩展：允许直接核查作品官网、出版方资料。Grok 缺少配置不再阻挡这一授权范围内的新题制作。本轮见 [声之形核验记录](sources-a-silent-voice.md)；此前见 [巨人第三季上半部核验记录](sources-attack-on-titan-season-3.md)、 [我英第二季核验记录](sources-my-hero-academia-season-2.md)、 [疾风传核验记录](sources-naruto-shippuden.md)、 [命运石之门核验记录](sources-steins-gate.md)、 [巨人第二季核验记录](sources-attack-on-titan-season-2.md)、 [你的名字核验记录](sources-your-name.md)、 [东京喰种核验记录](sources-tokyo-ghoul.md)、 [咒术回战核验记录](sources-jujutsu-kaisen.md)、 [全职猎人核验记录](sources-hunter-x-hunter.md)、 [刀剑神域核验记录](sources-sword-art-online.md)、 [我的英雄学院核验记录](sources-my-hero-academia.md)、 [一拳超人核验记录](sources-one-punch-man.md)、 [Brotherhood 核验记录](sources-brotherhood.md)、[前两个条目核验记录](sources-batch-01.md)。
+资料规则已获明确扩展：允许直接核查作品官网、出版方资料。Grok 缺少配置不再阻挡这一授权范围内的新题制作。本轮见 [巨人第三季后半部核验记录](sources-attack-on-titan-season-3-part-2.md)；此前见 [声之形核验记录](sources-a-silent-voice.md)、 [巨人第三季上半部核验记录](sources-attack-on-titan-season-3.md)、 [我英第二季核验记录](sources-my-hero-academia-season-2.md)、 [疾风传核验记录](sources-naruto-shippuden.md)、 [命运石之门核验记录](sources-steins-gate.md)、 [巨人第二季核验记录](sources-attack-on-titan-season-2.md)、 [你的名字核验记录](sources-your-name.md)、 [东京喰种核验记录](sources-tokyo-ghoul.md)、 [咒术回战核验记录](sources-jujutsu-kaisen.md)、 [全职猎人核验记录](sources-hunter-x-hunter.md)、 [刀剑神域核验记录](sources-sword-art-online.md)、 [我的英雄学院核验记录](sources-my-hero-academia.md)、 [一拳超人核验记录](sources-one-punch-man.md)、 [Brotherhood 核验记录](sources-brotherhood.md)、[前两个条目核验记录](sources-batch-01.md)。
 
 ### 第 1 段明细
 
@@ -61,4 +61,4 @@ v0.26.0 完成 #19《A Silent Voice》电影知识50题（人物、沟通主题�
 | 17 | One Piece | 已有 50 题，范围为伙伴与船只基础设定 |
 | 18 | Attack on Titan Season 3 | 已完成上半部50题，限定第38–49集，与第20项分开 |
 | 19 | A Silent Voice | 已完成50题，限定电影人物、沟通主题与声音设计知识 |
-| 20 | Attack on Titan Season 3 Part 2 | 待核验后半季来源并制作 |
+| 20 | Attack on Titan Season 3 Part 2 | 已完成50题，限定第50–59集公开剧情与制作知识 |

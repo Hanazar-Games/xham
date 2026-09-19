@@ -3,6 +3,19 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('separates Titan part two episodes and verifies its production references', () => {
+    const bank = expansionBanks.find((bank) => String(bank.series) === 'attack-on-titan-season-3-part-2')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第 50–59 集')
+    expect(bank!.scope).toContain('制作知识')
+    const episodes = bank!.questions.filter((q) => q.source!.url.includes('/story/'))
+    expect(new Set(episodes.map((q) => Number(q.source!.url.split('/').at(-1))))).toEqual(new Set(Array.from({ length: 10 }, (_, i) => i + 50)))
+    for (const [number, answer] of [['07', '雷枪'], ['30', 'cinema staff《Name of Love》'], ['45', '10集']]) {
+      const question = bank!.questions.find((q) => q.id === `attack-on-titan-season-3-part-2-${number}`)!
+      expect(question.options[question.answer]).toBe(answer)
+    }
+    expect(bank!.questions.every((q) => !q.source!.url.includes('/final/'))).toBe(true)
+  })
   it('keeps A Silent Voice film characters and sound production grounded in official pages', () => {
     const bank = expansionBanks.find((bank) => String(bank.series) === 'a-silent-voice')
     expect(bank).toBeDefined()
@@ -77,7 +90,7 @@ describe('catalog additions', () => {
       expect(q.options[q.answer]).toBe(answer)
     }
   })
-  it('adds 800 distinct illustrated sourced questions with explicit anime scopes', () => {
+  it('adds 850 distinct illustrated sourced questions with explicit anime scopes', () => {
     const sources: Record<string, RegExp> = {
       'attack-on-titan': /^https:\/\/shingeki.tv\/season1\//,
       'death-note': /^https:\/\/www.ntv.co.jp\/deathnote\/static\/story2?\.html$/,
@@ -96,6 +109,7 @@ describe('catalog additions', () => {
       'attack-on-titan-season-3': /^https:\/\/shingeki\.tv\/season3\/story\/#\/season3\/(?:3[89]|4\d)$/,
     }
     sources['a-silent-voice'] = /^https:\/\/koenokatachi-movie\.com\/(?:introduction\/|staff\/|themesong\/|music\/(?:#music-interview)?|character\/(?:shoko\/|yuzuru\/|nagatsuka\/|ueno\/|sahara\/|kawai\/|mashiba\/|shoya_s\/)?)$/
+    sources['attack-on-titan-season-3-part-2'] = /^https:\/\/shingeki\.tv\/season3\/(?:story\/#\/season3\/5\d|staff\/|music\/(?:op2\.php|ed2\.php|soundtrack\.php)?|product\/season3_5\.php)$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)

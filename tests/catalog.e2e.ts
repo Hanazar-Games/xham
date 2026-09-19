@@ -1,6 +1,24 @@
 import { test, expect } from '@playwright/test'
 import axe from 'axe-core'
 
+test('Titan part two completes batch one without unlocking Final Season', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 568 })
+  await page.goto('/')
+  await page.getByRole('button', { name: '查看 200 条目制作目录', exact: true }).click()
+  await expect(page.locator('.catalog-item button')).toHaveCount(20)
+  await page.getByLabel('目录分段').selectOption('all')
+  await page.getByLabel('目录作品搜索').fill('Attack on Titan')
+  for (const number of [29, 92]) await expect(page.locator(`.catalog-item[data-number="${number}"]`)).toContainText('待制作')
+  await page.getByRole('button', { name: '进入题库：Attack on Titan Season 3 Part 2', exact: true }).click()
+  await expect(page.locator('#exam-title')).toHaveText('进击的巨人 第三季后半部 · 模拟考试')
+  await page.getByRole('button', { name: '全部 50 题', exact: true }).click()
+  await page.getByRole('button', { name: '生成试卷', exact: true }).click()
+  await expect(page.getByRole('dialog')).toContainText('第 50–59 集')
+  await expect(page.getByRole('dialog')).toContainText('制作知识')
+  await expect(page.getByRole('dialog')).toContainText('不混入最终季')
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+})
+
 test('A Silent Voice exposes its film and sound-design scope with multilingual discovery', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 568 })
   await page.goto('/')
@@ -168,8 +186,8 @@ test('catalog preserves all ten batches and only opens existing question banks',
   await opener.click()
   const dialog = page.getByRole('dialog', { name: '动漫题库制作目录' })
   await expect(dialog.locator('.catalog-item')).toHaveCount(20)
-  await expect(dialog.locator('.catalog-summary')).toContainText('20 / 200')
-  await expect(dialog.locator('.catalog-summary')).toContainText('1,000 / 10,000')
+  await expect(dialog.locator('.catalog-summary')).toContainText('21 / 200')
+  await expect(dialog.locator('.catalog-summary')).toContainText('1,050 / 10,000')
   await expect(dialog.locator('.catalog-item').first()).toContainText('Attack on Titan')
   await expect(dialog.locator('.catalog-item').first().getByRole('button')).toHaveCount(1)
   for (let batch = 1; batch <= 10; batch++) {
@@ -191,7 +209,7 @@ test('Titan season three part one stays separate from part two', async ({ page }
   await page.goto('/')
   await page.getByRole('button', { name: '查看 200 条目制作目录', exact: true }).click()
   await page.getByLabel('目录作品搜索').fill('Attack on Titan')
-  await expect(page.locator('.catalog-item[data-number="20"]')).toContainText('待制作')
+  await expect(page.getByRole('button', { name: '进入题库：Attack on Titan Season 3 Part 2', exact: true })).toBeVisible()
   await page.getByRole('button', { name: '进入题库：Attack on Titan Season 3', exact: true }).click()
   await expect(page.locator('#exam-title')).toHaveText('进击的巨人 第三季上半部 · 模拟考试')
   await page.getByRole('button', { name: '全部 50 题', exact: true }).click()
@@ -239,11 +257,11 @@ test('Steins Gate opens the 2011 TV exam without completing its other adaptation
   await expect(page.getByRole('dialog')).toContainText('不混用命运石之门 0')
 })
 
-test('Titan season two opens its own exam without unlocking later seasons', async ({ page }) => {
+test('Titan season two opens its own exam alongside separately available later seasons', async ({ page }) => {
   await page.goto('/')
   await page.getByRole('button', { name: '查看 200 条目制作目录', exact: true }).click()
   await page.getByLabel('目录作品搜索').fill('Attack on Titan')
-  for (const number of [20]) await expect(page.locator(`.catalog-item[data-number="${number}"]`)).toContainText('待制作')
+  await expect(page.getByRole('button', { name: /^进入题库：/ })).toHaveCount(4)
   await page.getByRole('button', { name: '进入题库：Attack on Titan Season 2', exact: true }).click()
   await expect(page.locator('#exam-title')).toHaveText('进击的巨人 第二季 · 模拟考试')
   await page.getByRole('button', { name: '全部 50 题', exact: true }).click()
@@ -268,7 +286,7 @@ test('catalog searches the selected scope without merging seasons or counting pa
   await expect(dialog.locator('.catalog-item')).toHaveCount(3)
   await expect(dialog.getByRole('button', { name: /^进入题库：/ })).toHaveCount(0)
   await dialog.getByLabel('目录作品搜索').fill('Attack on Titan')
-  await expect(dialog.getByRole('button', { name: /^进入题库：/ })).toHaveCount(3)
+  await expect(dialog.getByRole('button', { name: /^进入题库：/ })).toHaveCount(4)
   await expect(dialog.locator('[data-number="1"]')).toContainText('第 1–25 集')
   await expect(dialog.locator('[data-number="13"]')).toContainText('第 26–37 集')
   await dialog.getByLabel('目录作品搜索').fill('鬼灭')
