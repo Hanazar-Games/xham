@@ -117,15 +117,15 @@ test('SAO opens both first-season arcs without marking sequels as complete', asy
   await expect(page.locator('.quiz-card')).toHaveCount(3)
 })
 
-test('My Hero Academia exposes only season one with fifty illustrated exam questions', async ({ page }) => {
+test('My Hero Academia preserves season one with fifty illustrated exam questions', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 568 })
   await page.goto('/')
   await page.getByRole('button', { name: '查看 200 条目制作目录', exact: true }).click()
   const dialog = page.getByRole('dialog')
   await dialog.getByLabel('目录分段').selectOption('all')
   await dialog.getByLabel('目录作品搜索').fill('My Hero Academia')
-  await expect(dialog.getByRole('button', { name: /^进入题库：/ })).toHaveCount(1)
-  for (const number of [16, 25, 53, 110]) {
+  await expect(dialog.getByRole('button', { name: /^进入题库：/ })).toHaveCount(2)
+  for (const number of [25, 53, 110]) {
     await expect(dialog.locator(`[data-number="${number}"]`)).toContainText('待制作')
   }
   await dialog.getByRole('button', { name: '进入题库：My Hero Academia', exact: true }).click()
@@ -138,7 +138,7 @@ test('My Hero Academia exposes only season one with fifty illustrated exam quest
   await page.keyboard.press('Escape')
   await page.getByRole('button', { name: '全部专区', exact: true }).click()
   await page.getByRole('textbox', { name: '搜索 Quiz' }).fill('我英')
-  await expect(page.locator('.quiz-card')).toHaveCount(3)
+  await expect(page.locator('.quiz-card')).toHaveCount(6)
 })
 
 test('catalog preserves all ten batches and only opens existing question banks', async ({ page }) => {
@@ -147,8 +147,8 @@ test('catalog preserves all ten batches and only opens existing question banks',
   await opener.click()
   const dialog = page.getByRole('dialog', { name: '动漫题库制作目录' })
   await expect(dialog.locator('.catalog-item')).toHaveCount(20)
-  await expect(dialog.locator('.catalog-summary')).toContainText('17 / 200')
-  await expect(dialog.locator('.catalog-summary')).toContainText('850 / 10,000')
+  await expect(dialog.locator('.catalog-summary')).toContainText('18 / 200')
+  await expect(dialog.locator('.catalog-summary')).toContainText('900 / 10,000')
   await expect(dialog.locator('.catalog-item').first()).toContainText('Attack on Titan')
   await expect(dialog.locator('.catalog-item').first().getByRole('button')).toHaveCount(1)
   for (let batch = 1; batch <= 10; batch++) {
@@ -164,6 +164,18 @@ test('catalog preserves all ten batches and only opens existing question banks',
   await expect(page.getByRole('dialog')).toHaveCount(0)
   await expect(page.locator('#exam-title')).toHaveText('进击的巨人 第一季 · 模拟考试')
   await expect(page.locator('#exam-title')).toBeFocused()
+})
+
+test('Hero Academia season two opens its own fifty-question exam', async ({ page }) => {
+  await page.goto('/')
+  await page.getByRole('button', { name: '查看 200 条目制作目录', exact: true }).click()
+  await page.getByLabel('目录作品搜索').fill('My Hero Academia')
+  await page.getByRole('button', { name: '进入题库：My Hero Academia 2nd Season', exact: true }).click()
+  await expect(page.locator('#exam-title')).toHaveText('我的英雄学院 第二季 · 模拟考试')
+  await page.getByRole('button', { name: '全部 50 题', exact: true }).click()
+  await page.getByRole('button', { name: '生成试卷', exact: true }).click()
+  await expect(page.getByRole('dialog')).toContainText('第 14–38 集')
+  await expect(page.getByRole('dialog')).toContainText('期末实技考试')
 })
 
 test('Shippuden opens a separate Kazekage rescue exam with an explicit arc scope', async ({ page }) => {

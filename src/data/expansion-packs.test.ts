@@ -3,6 +3,17 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('separates Hero Academia season two and preserves festival and training mechanics', () => {
+    const bank = expansionBanks.find((bank) => String(bank.series) === 'my-hero-academia-season-2')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第 14–38 集')
+    expect(bank!.questions).toHaveLength(50)
+    for (const [number, answer] of [['20', '1000万分'], ['28', '让力量遍布全身'], ['36', '左侧火焰、右侧冰冻']]) {
+      const q = bank!.questions.find((q) => q.id === `my-hero-academia-season-2-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    expect(new Set(bank!.questions.map((q) => q.source!.label))).toEqual(new Set(Array.from({ length: 25 }, (_, i) => `读卖电视台第二季累计第 ${i + 14} 集简介`)))
+  })
   it('scopes Shippuden to the Kazekage rescue and preserves its combat constraints', () => {
     const bank = expansionBanks.find((bank) => String(bank.series) === 'naruto-shippuden')
     expect(bank).toBeDefined()
@@ -38,7 +49,7 @@ describe('catalog additions', () => {
       expect(q.options[q.answer]).toBe(answer)
     }
   })
-  it('adds 650 distinct illustrated sourced questions with explicit anime scopes', () => {
+  it('adds 700 distinct illustrated sourced questions with explicit anime scopes', () => {
     const sources: Record<string, RegExp> = {
       'attack-on-titan': /^https:\/\/shingeki.tv\/season1\//,
       'death-note': /^https:\/\/www.ntv.co.jp\/deathnote\/static\/story2?\.html$/,
@@ -53,6 +64,7 @@ describe('catalog additions', () => {
       'attack-on-titan-season-2': /^https:\/\/shingeki\.tv\/season2\/story\/episode\.php#(?:2[6-9]|3[0-7])$/,
       'steins-gate': /^https:\/\/www\.b-ch\.com\/titles\/2985\/0(?:0[1-9]|1\d|2[0-4])$/,
       'naruto-shippuden': /^https:\/\/www\.b-ch\.com\/titles\/3316\/0(?:0[1-9]|[12]\d|3[0-2])$/,
+      'my-hero-academia-season-2': /^https:\/\/www\.ytv\.co\.jp\/heroaca\/story\/$/,
     }
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
