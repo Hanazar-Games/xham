@@ -18,6 +18,7 @@ import { shippudenEntries } from './naruto-shippuden'
 import { heroSeasonTwoEntries } from './my-hero-academia-season-2'
 import { titanSeasonThreeEntries } from './attack-on-titan-season-3'
 import { silentVoiceEntries } from './a-silent-voice'
+import { codeGeassEntries } from './code-geass'
 import { noGameNoLifeEntries } from './no-game-no-life'
 import { titanSeasonThreePartTwoEntries } from './attack-on-titan-season-3-part-2'
 
@@ -139,6 +140,10 @@ export const expansionBanks = [
     if (reference <= 12) return { label: `电视动画官网第 ${reference} 集简介`, url: `https://ngnl.jp/tv/story/story${reference}.html` }
     const names = ['空', '白', '史蒂芙', '吉普莉尔', '克拉米', '菲尔', '伊纲', '特图']
     return { label: `电视动画官网人物：${names[reference - 13]}`, url: `https://ngnl.jp/tv/character/${reference === 13 ? 'index' : `chara${String(reference - 12).padStart(2, '0')}`}.html` }
+  }),
+  bank('code-geass', 'Code Geass 反叛的鲁路修', '限定 2006–2007 年电视动画第一季第 1–25 集官网公开剧情，含Zero身份、毛的能力、行政特区与东京战役剧透；不混入R2、总集篇电影、复活的鲁路修或其他衍生作。不补写简介未展开的能力参数和结局细节。', codeGeassEntries, (reference) => {
+    if (typeof reference !== 'number' || !Number.isInteger(reference) || reference < 1 || reference > 25) throw new Error('Code Geass needs a first-season episode reference')
+    return { label: `第一季官网第 ${reference} 集简介`, url: `https://geass.jp/first/story_${reference >= 24 ? '2425' : String(reference).padStart(2, '0')}.html` }
   }),
 ]
 

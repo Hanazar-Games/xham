@@ -37,7 +37,7 @@ test('exam choices survive search and an abandoned attempt, then reset for anoth
   await expect(setup.getByRole('button', { name: '10 题', exact: true })).toHaveAttribute('aria-pressed', 'true')
 })
 
-for (const openerName of ['随机来一局', '全站随机抽卷', '开启第一场挑战']) {
+for (const openerName of ['随机来一局', '全站随机抽卷', '开启第一场挑战', '召唤随机试卷']) {
   test(`abandoning a random challenge restores its actual opener: ${openerName}`, async ({ page }) => {
     await page.goto('/')
     if (openerName === '开启第一场挑战') await page.getByRole('navigation').getByRole('button', { name: '挑战记录', exact: true }).click()

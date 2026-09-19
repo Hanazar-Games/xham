@@ -3,6 +3,18 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps Code Geass in season one with sourced identity and strategy constraints', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'code-geass')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第一季第 1–25 集')
+    expect(bank!.questions).toHaveLength(50)
+    for (const [number, answer] of [['01', 'Area 11'], ['04', '枢木朱雀'], ['14', '读取他人的思考'], ['36', '释放是外部机会，是否接受仍取决于朱雀自己的选择']]) {
+      const question = bank!.questions.find((q) => q.id === `code-geass-${number}`)!
+      expect(question.options[question.answer]).toBe(answer)
+    }
+    expect(bank!.questions.every((q) => /^https:\/\/geass\.jp\/first\/story_(?:0[1-9]|1\d|2[0-3]|2425)\.html$/.test(q.source!.url))).toBe(true)
+    expect(new Set(bank!.questions.map((q) => q.source!.url)).size).toBe(24)
+  })
   it('grounds No Game No Life in TV sources and preserves game and ability limits', () => {
     const bank = expansionBanks.find((bank) => String(bank.series) === 'no-game-no-life')
     expect(bank).toBeDefined()
@@ -108,7 +120,7 @@ describe('catalog additions', () => {
       expect(q.options[q.answer]).toBe(answer)
     }
   })
-  it('adds 900 distinct illustrated sourced questions with explicit anime scopes', () => {
+  it('adds 950 distinct illustrated sourced questions with explicit anime scopes', () => {
     const sources: Record<string, RegExp> = {
       'attack-on-titan': /^https:\/\/shingeki.tv\/season1\//,
       'death-note': /^https:\/\/www.ntv.co.jp\/deathnote\/static\/story2?\.html$/,
@@ -129,6 +141,7 @@ describe('catalog additions', () => {
     sources['a-silent-voice'] = /^https:\/\/koenokatachi-movie\.com\/(?:introduction\/|staff\/|themesong\/|music\/(?:#music-interview)?|character\/(?:shoko\/|yuzuru\/|nagatsuka\/|ueno\/|sahara\/|kawai\/|mashiba\/|shoya_s\/)?)$/
     sources['attack-on-titan-season-3-part-2'] = /^https:\/\/shingeki\.tv\/season3\/(?:story\/#\/season3\/5\d|staff\/|music\/(?:op2\.php|ed2\.php|soundtrack\.php)?|product\/season3_5\.php)$/
     sources['no-game-no-life'] = /^https:\/\/ngnl\.jp\/tv\/(?:story\/story(?:[1-9]|1[0-2])\.html|character\/(?:index|chara0[2-8])\.html)$/
+    sources['code-geass'] = /^https:\/\/geass\.jp\/first\/story_(?:0[1-9]|1\d|2[0-3]|2425)\.html$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)

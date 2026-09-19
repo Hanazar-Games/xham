@@ -1,6 +1,22 @@
 import { test, expect } from '@playwright/test'
 import axe from 'axe-core'
 
+test('Code Geass opens season one without enabling R2', async ({ page }) => {
+  await page.goto('/')
+  await page.getByRole('button', { name: '查看 200 条目制作目录', exact: true }).click()
+  await page.getByLabel('目录分段').selectOption('all')
+  await page.getByLabel('目录作品搜索').fill('Code Geass')
+  const items = page.locator('.catalog-item')
+  await expect(items).toHaveCount(2)
+  await expect(items.filter({ has: page.getByRole('heading', { name: 'Code Geass: Lelouch of the Rebellion R2', exact: true }) })).toContainText('待制作')
+  await page.getByRole('button', { name: '进入题库：Code Geass: Lelouch of the Rebellion', exact: true }).click()
+  await expect(page.locator('.quiz-card')).toHaveCount(3)
+  await page.getByRole('button', { name: '全部 50 题', exact: true }).click()
+  await page.getByRole('button', { name: '生成试卷', exact: true }).click()
+  await expect(page.getByRole('dialog')).toContainText('第一季第 1–25 集')
+  await expect(page.getByRole('dialog')).toContainText('不混入R2')
+})
+
 test('No Game No Life opens a TV-only bank from batch two with searchable game mechanics', async ({ page }) => {
   await page.goto('/')
   await page.getByRole('button', { name: '查看 200 条目制作目录', exact: true }).click()
@@ -208,8 +224,8 @@ test('catalog preserves all ten batches and only opens existing question banks',
   await opener.click()
   const dialog = page.getByRole('dialog', { name: '动漫题库制作目录' })
   await expect(dialog.locator('.catalog-item')).toHaveCount(20)
-  await expect(dialog.locator('.catalog-summary')).toContainText('22 / 200')
-  await expect(dialog.locator('.catalog-summary')).toContainText('1,100 / 10,000')
+  await expect(dialog.locator('.catalog-summary')).toContainText('23 / 200')
+  await expect(dialog.locator('.catalog-summary')).toContainText('1,150 / 10,000')
   await expect(dialog.locator('.catalog-item').first()).toContainText('Attack on Titan')
   await expect(dialog.locator('.catalog-item').first().getByRole('button')).toHaveCount(1)
   for (let batch = 1; batch <= 10; batch++) {

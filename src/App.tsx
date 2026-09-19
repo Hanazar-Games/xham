@@ -17,6 +17,7 @@ import { AudioButton, AudioSettings } from './audio/AudioSettings'
 import { useAudio } from './audio/AudioProvider'
 import { ReleaseNotes } from './components/ReleaseNotes'
 import { currentRelease } from './data/releases'
+import './anime-theme.css'
 
 type View = 'anime' | 'saved' | 'results'
 const normalizeSearch = (value: string) => value.normalize('NFKC').toLowerCase().replace(/[\s:：·-]/g, '')
@@ -314,6 +315,32 @@ export default function App() {
               </div>
             )}
           </section>
+
+          {view === 'anime' && !search && !series && (
+            <section className="anime-showcase" aria-label="次元放映厅">
+              <div className="showcase-copy">
+                <span className="showcase-label">HANAZAR ANIME CLUB · 每日放映中</span>
+                <h2>次元大门，<br /><em>今天为你打开。</em></h2>
+                <p>熟悉的角色，意想不到的考题。<br />选一部心头好，看看你的热爱能拿几分。</p>
+                <div className="showcase-actions">
+                  <button className="primary-button" onClick={() => {
+                    const target = document.getElementById('anime-all-series')
+                    target?.focus({ preventScroll: true })
+                    target?.scrollIntoView({ block: 'center', behavior: 'instant' })
+                  }}>挑选我的本命 <Icon name="arrow" size={17} /></button>
+                  <button id="random-showcase" className="secondary-button" onClick={() => randomQuiz(quizzes, '#random-showcase')}>召唤随机试卷</button>
+                </div>
+                <div className="showcase-stats"><span>{questionBanks.reduce((count, bank) => count + bank.questions.length, 0)} 道配图题</span><span>三档难度</span><span>随时开考</span></div>
+              </div>
+              <div className="showcase-art" aria-hidden="true">
+                <span className="showcase-orbit" />
+                <span className="showcase-star">✦</span>
+                <img src={publicUrl('/images/wikipe-tan.svg')} alt="" width="400" height="760" />
+                <span className="showcase-sticker">热爱满格！</span>
+              </div>
+              <a className="showcase-credit" href={publicUrl('/images/background-credits.html')} target="_blank" rel="noreferrer">插画来源与许可 ↗</a>
+            </section>
+          )}
 
           {view === 'anime' && !search && (
             <button className="release-banner" onClick={() => setReleaseOpen(true)}>
