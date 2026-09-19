@@ -3,6 +3,18 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps Steins Gate in the 2011 TV scope with distinct mail and memory mechanisms', () => {
+    const bank = expansionBanks.find((bank) => String(bank.series) === 'steins-gate')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第 1–24 集')
+    expect(bank!.scope).toContain('不混用')
+    expect(bank!.questions).toHaveLength(50)
+    expect(new Set(bank!.questions.map((q) => Number(q.source!.url.split('/').at(-1))))).toEqual(new Set(Array.from({ length: 24 }, (_, i) => i + 1)))
+    for (const [number, answer] of [['19', '把记忆数据送给过去的自己'], ['27', '胸针'], ['36', 'D-mail传递邮件，Time Leap传递记忆数据']]) {
+      const q = bank!.questions.find((q) => q.id === `steins-gate-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+  })
   it('keeps Titan season two separate with all twelve episode sources', () => {
     const bank = expansionBanks.find((bank) => String(bank.series) === 'attack-on-titan-season-2')
     expect(bank).toBeDefined()
@@ -14,7 +26,7 @@ describe('catalog additions', () => {
       expect(q.options[q.answer]).toBe(answer)
     }
   })
-  it('adds 550 distinct illustrated sourced questions with explicit anime scopes', () => {
+  it('adds 600 distinct illustrated sourced questions with explicit anime scopes', () => {
     const sources: Record<string, RegExp> = {
       'attack-on-titan': /^https:\/\/shingeki.tv\/season1\//,
       'death-note': /^https:\/\/www.ntv.co.jp\/deathnote\/static\/story2?\.html$/,
@@ -27,6 +39,7 @@ describe('catalog additions', () => {
       'tokyo-ghoul': /^https:\/\/www\.marv\.jp\/special\/tokyoghoul\/first\/(?:story_1st|glossary)\.html$/,
       'your-name': /^https:\/\/www\.kiminona\.com\/(?:#(?:story|chara|staff|interview_tanaka|interview_ando)|production\/|interview\/01shinkai\.html)$/,
       'attack-on-titan-season-2': /^https:\/\/shingeki\.tv\/season2\/story\/episode\.php#(?:2[6-9]|3[0-7])$/,
+      'steins-gate': /^https:\/\/www\.b-ch\.com\/titles\/2985\/0(?:0[1-9]|1\d|2[0-4])$/,
     }
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {

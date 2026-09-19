@@ -13,6 +13,7 @@ import { jujutsuKaisenEntries } from './jujutsu-kaisen'
 import { tokyoGhoulEntries } from './tokyo-ghoul'
 import { yourNameEntries } from './your-name'
 import { titanSeasonTwoEntries } from './attack-on-titan-season-2'
+import { steinsGateEntries } from './steins-gate'
 
 function bank(series: AnimeSeriesId, title: string, scope: string, entries: ExpansionEntry[], source: (reference: ExpansionEntry[0]) => NonNullable<Question['source']>): QuestionBank {
   if (entries.length !== 50) throw new Error(`Expected 50 questions: ${series}`)
@@ -88,6 +89,10 @@ export const expansionBanks = [
     if (typeof reference !== 'number' || !Number.isInteger(reference) || reference < 26 || reference > 37) throw new Error('Titan season two needs an episode reference from 26 to 37')
     return { label: `第二季官网第 ${reference} 集简介`, url: `https://shingeki.tv/season2/story/episode.php#${reference}` }
   }),
+  bank('steins-gate', '命运石之门', '限定 2011 年电视动画第 1–24 集公开分集剧情，含 D-mail、记忆跳跃、真由理危机与世界线选择剧透；不混用命运石之门 0、23β、OVA、剧场版或游戏分支，困难题侧重机制区分、调查与因果推理。', steinsGateEntries, (reference) => {
+    if (typeof reference !== 'number' || !Number.isInteger(reference) || reference < 1 || reference > 24) throw new Error('Steins Gate needs a 2011 TV episode reference')
+    return { label: `Bandai Channel 2011版第 ${reference} 集剧情简介`, url: `https://www.b-ch.com/titles/2985/${String(reference).padStart(3, '0')}` }
+  }),
 ]
 
 const titles = ['人物与世界入门', '行动与规则应用', '证据与战术推演']
@@ -96,7 +101,7 @@ export const expansionQuizzes: Quiz[] = expansionBanks.flatMap((bank) => difficu
   series: bank.series, title: `${bank.title}，${titles[index]}`,
   description: `${bank.title}专题，12 道${difficulty}题。结合剧情与设定判断，每题附原创配图、解析和官方资料链接。`,
   category: '二次元', difficulty, duration: difficultySeconds[difficulty],
-  image: originalArt(bank.series === 'your-name' ? 'connections' : bank.series === 'tokyo-ghoul' ? 'city' : bank.series === 'jujutsu-kaisen' ? 'magic' : bank.series === 'hunter-x-hunter' ? 'adventure' : bank.series === 'my-hero-academia' ? 'academy' : bank.series === 'attack-on-titan-season-2' || bank.series === 'attack-on-titan' || bank.series === 'one-punch-man' || bank.series === 'sword-art-online' ? 'arena' : bank.series === 'fullmetal-alchemist-brotherhood' ? 'laboratory' : 'detective'),
+  image: originalArt(bank.series === 'steins-gate' ? 'time' : bank.series === 'your-name' ? 'connections' : bank.series === 'tokyo-ghoul' ? 'city' : bank.series === 'jujutsu-kaisen' ? 'magic' : bank.series === 'hunter-x-hunter' ? 'adventure' : bank.series === 'my-hero-academia' ? 'academy' : bank.series === 'attack-on-titan-season-2' || bank.series === 'attack-on-titan' || bank.series === 'one-punch-man' || bank.series === 'sword-art-online' ? 'arena' : bank.series === 'fullmetal-alchemist-brotherhood' ? 'laboratory' : 'detective'),
   color: index === 0 ? 'mint' : 'lavender', tag: '新 IP · 原创配图',
   scope: `${bank.scope} 配图为原创主题示意图，并非作品场景。`,
   questions: bank.questions.filter((question) => question.difficulty === difficulty).slice(0, 12),
