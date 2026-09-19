@@ -3,6 +3,18 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('scopes Shippuden to the Kazekage rescue and preserves its combat constraints', () => {
+    const bank = expansionBanks.find((bank) => String(bank.series) === 'naruto-shippuden')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第 1–32 集')
+    expect(bank!.scope).toContain('风影夺还篇')
+    expect(bank!.questions).toHaveLength(50)
+    for (const [number, answer] of [['25', '同时揭下五张符'], ['30', '约三分钟'], ['36', '解毒只暂时处理毒性，不等于治好所有创伤或永久免疫']]) {
+      const q = bank!.questions.find((q) => q.id === `naruto-shippuden-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    for (const q of bank!.questions) expect(Number(q.source!.url.split('/').at(-1))).toBeLessThanOrEqual(32)
+  })
   it('keeps Steins Gate in the 2011 TV scope with distinct mail and memory mechanisms', () => {
     const bank = expansionBanks.find((bank) => String(bank.series) === 'steins-gate')
     expect(bank).toBeDefined()
@@ -26,7 +38,7 @@ describe('catalog additions', () => {
       expect(q.options[q.answer]).toBe(answer)
     }
   })
-  it('adds 600 distinct illustrated sourced questions with explicit anime scopes', () => {
+  it('adds 650 distinct illustrated sourced questions with explicit anime scopes', () => {
     const sources: Record<string, RegExp> = {
       'attack-on-titan': /^https:\/\/shingeki.tv\/season1\//,
       'death-note': /^https:\/\/www.ntv.co.jp\/deathnote\/static\/story2?\.html$/,
@@ -40,6 +52,7 @@ describe('catalog additions', () => {
       'your-name': /^https:\/\/www\.kiminona\.com\/(?:#(?:story|chara|staff|interview_tanaka|interview_ando)|production\/|interview\/01shinkai\.html)$/,
       'attack-on-titan-season-2': /^https:\/\/shingeki\.tv\/season2\/story\/episode\.php#(?:2[6-9]|3[0-7])$/,
       'steins-gate': /^https:\/\/www\.b-ch\.com\/titles\/2985\/0(?:0[1-9]|1\d|2[0-4])$/,
+      'naruto-shippuden': /^https:\/\/www\.b-ch\.com\/titles\/3316\/0(?:0[1-9]|[12]\d|3[0-2])$/,
     }
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {

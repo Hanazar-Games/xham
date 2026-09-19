@@ -20,4 +20,5 @@ export const animeSeries: { id: AnimeSeriesId; title: string; subtitle: string; 
   { id: 'your-name', title: '你的名字。', subtitle: '人物与交换生活 · 电影制作知识', aliases: '你的名字 你的名字。 君の名は 君の名は。 your name kimi no na wa 立花泷 宫水三叶 四叶' },
   { id: 'attack-on-titan-season-2', title: '进击的巨人 第二季', subtitle: '墙内调查 · 战斗限制与夺还行动', aliases: '进击 巨人 進撃 aot attack on titan season 2 shingeki 第二季' },
   { id: 'steins-gate', title: '命运石之门', subtitle: '未来道具研究所 · 邮件、记忆与世界线', aliases: '命运石之门 命運石之門 石头门 シュタインズ ゲート steins gate steins;gate 冈部 红莉栖 真由理 桶子' },
+  { id: 'naruto-shippuden', title: '火影忍者 疾风传', subtitle: '风影夺还篇 · 傀儡、毒与救援战术', aliases: '火影 疾风传 疾風伝 naruto shippuden ナルト 風影 我爱罗 千代 蝎 迪达拉' },
 ]

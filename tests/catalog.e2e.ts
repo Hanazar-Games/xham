@@ -147,8 +147,8 @@ test('catalog preserves all ten batches and only opens existing question banks',
   await opener.click()
   const dialog = page.getByRole('dialog', { name: '动漫题库制作目录' })
   await expect(dialog.locator('.catalog-item')).toHaveCount(20)
-  await expect(dialog.locator('.catalog-summary')).toContainText('16 / 200')
-  await expect(dialog.locator('.catalog-summary')).toContainText('800 / 10,000')
+  await expect(dialog.locator('.catalog-summary')).toContainText('17 / 200')
+  await expect(dialog.locator('.catalog-summary')).toContainText('850 / 10,000')
   await expect(dialog.locator('.catalog-item').first()).toContainText('Attack on Titan')
   await expect(dialog.locator('.catalog-item').first().getByRole('button')).toHaveCount(1)
   for (let batch = 1; batch <= 10; batch++) {
@@ -164,6 +164,19 @@ test('catalog preserves all ten batches and only opens existing question banks',
   await expect(page.getByRole('dialog')).toHaveCount(0)
   await expect(page.locator('#exam-title')).toHaveText('进击的巨人 第一季 · 模拟考试')
   await expect(page.locator('#exam-title')).toBeFocused()
+})
+
+test('Shippuden opens a separate Kazekage rescue exam with an explicit arc scope', async ({ page }) => {
+  await page.goto('/')
+  await page.getByRole('button', { name: '查看 200 条目制作目录', exact: true }).click()
+  await page.getByLabel('目录作品搜索').fill('Naruto')
+  await expect(page.getByRole('button', { name: /^进入题库：/ })).toHaveCount(2)
+  await page.getByRole('button', { name: '进入题库：Naruto: Shippuden', exact: true }).click()
+  await expect(page.locator('#exam-title')).toHaveText('火影忍者 疾风传 · 模拟考试')
+  await page.getByRole('button', { name: '全部 50 题', exact: true }).click()
+  await page.getByRole('button', { name: '生成试卷', exact: true }).click()
+  await expect(page.getByRole('dialog')).toContainText('第 1–32 集风影夺还篇')
+  await expect(page.getByRole('dialog')).toContainText('不代表全部疾风传')
 })
 
 test('Steins Gate opens the 2011 TV exam without completing its other adaptations', async ({ page }) => {
@@ -198,7 +211,7 @@ test('catalog searches the selected scope without merging seasons or counting pa
   const dialog = page.getByRole('dialog')
   await dialog.getByLabel('目录作品搜索').fill('ＮＡＲＵＴＯ')
   await expect(dialog.locator('.catalog-item')).toHaveCount(2)
-  await expect(dialog.getByRole('button', { name: /^进入题库：/ })).toHaveCount(1)
+  await expect(dialog.getByRole('button', { name: /^进入题库：/ })).toHaveCount(2)
   await dialog.getByLabel('目录分段').selectOption('2')
   await expect(dialog.locator('.catalog-empty')).toBeVisible()
   await dialog.getByRole('button', { name: '重置目录筛选', exact: true }).click()
