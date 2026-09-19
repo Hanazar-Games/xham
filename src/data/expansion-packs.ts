@@ -16,6 +16,7 @@ import { titanSeasonTwoEntries } from './attack-on-titan-season-2'
 import { steinsGateEntries } from './steins-gate'
 import { shippudenEntries } from './naruto-shippuden'
 import { heroSeasonTwoEntries } from './my-hero-academia-season-2'
+import { titanSeasonThreeEntries } from './attack-on-titan-season-3'
 
 function bank(series: AnimeSeriesId, title: string, scope: string, entries: ExpansionEntry[], source: (reference: ExpansionEntry[0]) => NonNullable<Question['source']>): QuestionBank {
   if (entries.length !== 50) throw new Error(`Expected 50 questions: ${series}`)
@@ -103,6 +104,10 @@ export const expansionBanks = [
     if (typeof reference !== 'number' || !Number.isInteger(reference) || reference < 14 || reference > 38) throw new Error('Hero Academia season two needs a cumulative episode reference from 14 to 38')
     return { label: `读卖电视台第二季累计第 ${reference} 集简介`, url: 'https://www.ytv.co.jp/heroaca/story/' }
   }),
+  bank('attack-on-titan-season-3', '进击的巨人 第三季上半部', '限定 2018 年电视动画第三季上半部累计第 38–49 集官网公开剧情，含王政调查、雷斯家、罗德巨人与希斯特利亚身份剧透；不混用第50集起的第三季后半部、最终季、OVA或漫画后续。', titanSeasonThreeEntries, (reference) => {
+    if (typeof reference !== 'number' || !Number.isInteger(reference) || reference < 38 || reference > 49) throw new Error('Titan season three part one needs an episode reference from 38 to 49')
+    return { label: `第三季官网第 ${reference} 集简介`, url: `https://shingeki.tv/season3/story/#/season3/${reference}` }
+  }),
 ]
 
 const titles = ['人物与世界入门', '行动与规则应用', '证据与战术推演']
@@ -111,7 +116,7 @@ export const expansionQuizzes: Quiz[] = expansionBanks.flatMap((bank) => difficu
   series: bank.series, title: `${bank.title}，${titles[index]}`,
   description: `${bank.title}专题，12 道${difficulty}题。结合剧情与设定判断，每题附原创配图、解析和官方资料链接。`,
   category: '二次元', difficulty, duration: difficultySeconds[difficulty],
-  image: originalArt(bank.series === 'naruto-shippuden' ? 'training' : bank.series === 'steins-gate' ? 'time' : bank.series === 'your-name' ? 'connections' : bank.series === 'tokyo-ghoul' ? 'city' : bank.series === 'jujutsu-kaisen' ? 'magic' : bank.series === 'hunter-x-hunter' ? 'adventure' : bank.series === 'my-hero-academia' || bank.series === 'my-hero-academia-season-2' ? 'academy' : bank.series === 'attack-on-titan-season-2' || bank.series === 'attack-on-titan' || bank.series === 'one-punch-man' || bank.series === 'sword-art-online' ? 'arena' : bank.series === 'fullmetal-alchemist-brotherhood' ? 'laboratory' : 'detective'),
+  image: originalArt(bank.series === 'attack-on-titan-season-3' ? 'detective' : bank.series === 'naruto-shippuden' ? 'training' : bank.series === 'steins-gate' ? 'time' : bank.series === 'your-name' ? 'connections' : bank.series === 'tokyo-ghoul' ? 'city' : bank.series === 'jujutsu-kaisen' ? 'magic' : bank.series === 'hunter-x-hunter' ? 'adventure' : bank.series === 'my-hero-academia' || bank.series === 'my-hero-academia-season-2' ? 'academy' : bank.series === 'attack-on-titan-season-2' || bank.series === 'attack-on-titan' || bank.series === 'one-punch-man' || bank.series === 'sword-art-online' ? 'arena' : bank.series === 'fullmetal-alchemist-brotherhood' ? 'laboratory' : 'detective'),
   color: index === 0 ? 'mint' : 'lavender', tag: '新 IP · 原创配图',
   scope: `${bank.scope} 配图为原创主题示意图，并非作品场景。`,
   questions: bank.questions.filter((question) => question.difficulty === difficulty).slice(0, 12),

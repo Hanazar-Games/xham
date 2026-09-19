@@ -3,6 +3,17 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('limits Titan season three to part one and preserves investigation and battle conditions', () => {
+    const bank = expansionBanks.find((bank) => String(bank.series) === 'attack-on-titan-season-3')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第 38–49 集')
+    expect(bank!.questions).toHaveLength(50)
+    expect(new Set(bank!.questions.map((q) => Number(q.source!.url.split('/').at(-1))))).toEqual(new Set(Array.from({ length: 12 }, (_, i) => i + 38)))
+    for (const [number, answer] of [['18', '两个月'], ['29', '两天后'], ['36', '这是传入法庭的消息，不能仅凭这段简介确认巨人实际已经突破']]) {
+      const q = bank!.questions.find((q) => q.id === `attack-on-titan-season-3-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+  })
   it('separates Hero Academia season two and preserves festival and training mechanics', () => {
     const bank = expansionBanks.find((bank) => String(bank.series) === 'my-hero-academia-season-2')
     expect(bank).toBeDefined()
@@ -49,7 +60,7 @@ describe('catalog additions', () => {
       expect(q.options[q.answer]).toBe(answer)
     }
   })
-  it('adds 700 distinct illustrated sourced questions with explicit anime scopes', () => {
+  it('adds 750 distinct illustrated sourced questions with explicit anime scopes', () => {
     const sources: Record<string, RegExp> = {
       'attack-on-titan': /^https:\/\/shingeki.tv\/season1\//,
       'death-note': /^https:\/\/www.ntv.co.jp\/deathnote\/static\/story2?\.html$/,
@@ -65,6 +76,7 @@ describe('catalog additions', () => {
       'steins-gate': /^https:\/\/www\.b-ch\.com\/titles\/2985\/0(?:0[1-9]|1\d|2[0-4])$/,
       'naruto-shippuden': /^https:\/\/www\.b-ch\.com\/titles\/3316\/0(?:0[1-9]|[12]\d|3[0-2])$/,
       'my-hero-academia-season-2': /^https:\/\/www\.ytv\.co\.jp\/heroaca\/story\/$/,
+      'attack-on-titan-season-3': /^https:\/\/shingeki\.tv\/season3\/story\/#\/season3\/(?:3[89]|4\d)$/,
     }
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
