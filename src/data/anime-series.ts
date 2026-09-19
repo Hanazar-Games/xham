@@ -23,4 +23,5 @@ export const animeSeries: { id: AnimeSeriesId; title: string; subtitle: string; 
   { id: 'naruto-shippuden', title: '火影忍者 疾风传', subtitle: '风影夺还篇 · 傀儡、毒与救援战术', aliases: '火影 疾风传 疾風伝 naruto shippuden ナルト 風影 我爱罗 千代 蝎 迪达拉' },
   { id: 'my-hero-academia-season-2', title: '我的英雄学院 第二季', subtitle: '体育祭与职场体验 · 实技协作考核', aliases: '我英 英雄学院 僕のヒーローアカデミア my hero academia season 2 second season mha 第二季 体育祭 斯坦因' },
   { id: 'attack-on-titan-season-3', title: '进击的巨人 第三季上半部', subtitle: '王政调查 · 雷斯家与夺还准备', aliases: '进击 巨人 進撃 aot attack on titan season 3 part 1 shingeki 第三季 上半部 王政 希斯特利亚 肯尼' },
+  { id: 'a-silent-voice', title: '声之形', subtitle: '人物与沟通 · 电影声音设计', aliases: '声之形 聲之形 聲の形 a silent voice koe no katachi 石田将也 西宫硝子 西宮硝子 京阿尼' },
 ]

@@ -3,6 +3,23 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps A Silent Voice film characters and sound production grounded in official pages', () => {
+    const bank = expansionBanks.find((bank) => String(bank.series) === 'a-silent-voice')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('2016 年动画电影')
+    expect(bank!.scope).toContain('不混用漫画')
+    expect(bank!.questions).toHaveLength(50)
+    for (const [number, answer, path] of [
+      ['03', '五年', 'introduction/'],
+      ['05', '妹妹', 'character/yuzuru/'],
+      ['28', '39首与22首', 'music/'],
+      ['39', '按场景需要拆解并重组巴赫《创意曲》的素材', 'music/#music-interview'],
+    ]) {
+      const question = bank!.questions.find((q) => q.id === `a-silent-voice-${number}`)!
+      expect(question.options[question.answer]).toBe(answer)
+      expect(question.source!.url).toBe(`https://koenokatachi-movie.com/${path}`)
+    }
+  })
   it('limits Titan season three to part one and preserves investigation and battle conditions', () => {
     const bank = expansionBanks.find((bank) => String(bank.series) === 'attack-on-titan-season-3')
     expect(bank).toBeDefined()
@@ -60,7 +77,7 @@ describe('catalog additions', () => {
       expect(q.options[q.answer]).toBe(answer)
     }
   })
-  it('adds 750 distinct illustrated sourced questions with explicit anime scopes', () => {
+  it('adds 800 distinct illustrated sourced questions with explicit anime scopes', () => {
     const sources: Record<string, RegExp> = {
       'attack-on-titan': /^https:\/\/shingeki.tv\/season1\//,
       'death-note': /^https:\/\/www.ntv.co.jp\/deathnote\/static\/story2?\.html$/,
@@ -78,6 +95,7 @@ describe('catalog additions', () => {
       'my-hero-academia-season-2': /^https:\/\/www\.ytv\.co\.jp\/heroaca\/story\/$/,
       'attack-on-titan-season-3': /^https:\/\/shingeki\.tv\/season3\/story\/#\/season3\/(?:3[89]|4\d)$/,
     }
+    sources['a-silent-voice'] = /^https:\/\/koenokatachi-movie\.com\/(?:introduction\/|staff\/|themesong\/|music\/(?:#music-interview)?|character\/(?:shoko\/|yuzuru\/|nagatsuka\/|ueno\/|sahara\/|kawai\/|mashiba\/|shoya_s\/)?)$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)

@@ -17,6 +17,7 @@ import { steinsGateEntries } from './steins-gate'
 import { shippudenEntries } from './naruto-shippuden'
 import { heroSeasonTwoEntries } from './my-hero-academia-season-2'
 import { titanSeasonThreeEntries } from './attack-on-titan-season-3'
+import { silentVoiceEntries } from './a-silent-voice'
 
 function bank(series: AnimeSeriesId, title: string, scope: string, entries: ExpansionEntry[], source: (reference: ExpansionEntry[0]) => NonNullable<Question['source']>): QuestionBank {
   if (entries.length !== 50) throw new Error(`Expected 50 questions: ${series}`)
@@ -108,15 +109,27 @@ export const expansionBanks = [
     if (typeof reference !== 'number' || !Number.isInteger(reference) || reference < 38 || reference > 49) throw new Error('Titan season three part one needs an episode reference from 38 to 49')
     return { label: `第三季官网第 ${reference} 集简介`, url: `https://shingeki.tv/season3/story/#/season3/${reference}` }
   }),
+  bank('a-silent-voice', '声之形', '限定 2016 年动画电影的官网人物、剧情简介与电影声音设计知识，含人物关系和文化祭段落剧透；不混用漫画独有情节，不考未核实的完整剧情细节。困难题重点考官方配乐访谈中的创作方法。', silentVoiceEntries, (reference) => {
+    const pages = [
+      ['剧情简介', 'introduction/'], ['工作人员', 'staff/'], ['主题歌', 'themesong/'],
+      ['原声专辑', 'music/'], ['牛尾宪辅访谈', 'music/#music-interview'],
+      ['石田将也', 'character/'], ['西宫硝子', 'character/shoko/'], ['西宫结弦', 'character/yuzuru/'],
+      ['永束友宏', 'character/nagatsuka/'], ['植野直花', 'character/ueno/'], ['佐原美代子', 'character/sahara/'],
+      ['川井美树', 'character/kawai/'], ['真柴智', 'character/mashiba/'], ['小学将也', 'character/shoya_s/'],
+    ]
+    if (typeof reference !== 'number' || !Number.isInteger(reference) || reference < 1 || reference > pages.length) throw new Error('A Silent Voice needs an official film page reference')
+    const [label, path] = pages[reference - 1]
+    return { label: `电影官网${label}`, url: `https://koenokatachi-movie.com/${path}` }
+  }),
 ]
 
 const titles = ['人物与世界入门', '行动与规则应用', '证据与战术推演']
 export const expansionQuizzes: Quiz[] = expansionBanks.flatMap((bank) => difficulties.map((difficulty, index) => ({
   id: index === 0 ? bank.series : `${bank.series}-${index === 1 ? 'intermediate' : 'advanced'}`,
-  series: bank.series, title: `${bank.title}，${titles[index]}`,
+  series: bank.series, title: `${bank.title}，${bank.series === 'a-silent-voice' ? ['人物与电影入门', '关系与制作知识', '声音设计与创作原理'][index] : titles[index]}`,
   description: `${bank.title}专题，12 道${difficulty}题。结合剧情与设定判断，每题附原创配图、解析和官方资料链接。`,
   category: '二次元', difficulty, duration: difficultySeconds[difficulty],
-  image: originalArt(bank.series === 'attack-on-titan-season-3' ? 'detective' : bank.series === 'naruto-shippuden' ? 'training' : bank.series === 'steins-gate' ? 'time' : bank.series === 'your-name' ? 'connections' : bank.series === 'tokyo-ghoul' ? 'city' : bank.series === 'jujutsu-kaisen' ? 'magic' : bank.series === 'hunter-x-hunter' ? 'adventure' : bank.series === 'my-hero-academia' || bank.series === 'my-hero-academia-season-2' ? 'academy' : bank.series === 'attack-on-titan-season-2' || bank.series === 'attack-on-titan' || bank.series === 'one-punch-man' || bank.series === 'sword-art-online' ? 'arena' : bank.series === 'fullmetal-alchemist-brotherhood' ? 'laboratory' : 'detective'),
+  image: originalArt(bank.series === 'a-silent-voice' ? 'music' : bank.series === 'attack-on-titan-season-3' ? 'detective' : bank.series === 'naruto-shippuden' ? 'training' : bank.series === 'steins-gate' ? 'time' : bank.series === 'your-name' ? 'connections' : bank.series === 'tokyo-ghoul' ? 'city' : bank.series === 'jujutsu-kaisen' ? 'magic' : bank.series === 'hunter-x-hunter' ? 'adventure' : bank.series === 'my-hero-academia' || bank.series === 'my-hero-academia-season-2' ? 'academy' : bank.series === 'attack-on-titan-season-2' || bank.series === 'attack-on-titan' || bank.series === 'one-punch-man' || bank.series === 'sword-art-online' ? 'arena' : bank.series === 'fullmetal-alchemist-brotherhood' ? 'laboratory' : 'detective'),
   color: index === 0 ? 'mint' : 'lavender', tag: '新 IP · 原创配图',
   scope: `${bank.scope} 配图为原创主题示意图，并非作品场景。`,
   questions: bank.questions.filter((question) => question.difficulty === difficulty).slice(0, 12),
