@@ -24,7 +24,7 @@ for (const bank of questionBanks.filter((item) => item.series !== 'crossover')) 
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
       expect(await page.locator('.answer-option').evaluateAll((buttons) => buttons.every((button) => button.scrollWidth <= button.clientWidth))).toBe(true)
       const answer = question.options[question.answer]
-      await page.locator('.answer-option').filter({ has: page.getByText(answer, { exact: true }) }).click()
+      await page.locator('.answer-option').filter({ has: page.getByText(answer, { exact: true }).and(page.locator('span')) }).click()
       await expect(page.locator('.answer-feedback')).toContainText('答案已记录')
       await expect(page.locator('.correct-answer, .answer-source, .answer-correct, .answer-wrong, .step-correct, .step-wrong, .question-picture a')).toHaveCount(0)
       await expect(page.locator('.score-pill')).toContainText('交卷后评分')

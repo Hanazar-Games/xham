@@ -5,7 +5,6 @@ import { questionIssues } from './content-validation'
 
 const mappings: Record<string, string> = catalog.existingBanks
 const notes: Record<number, string> = {
-  23: '已有跨季题库，待按季度整理',
   128: '已有跨季题库，待按季度整理',
   173: '已有跨季题库，待按季度整理',
   44: '已有电影综合题库，待单独整理',

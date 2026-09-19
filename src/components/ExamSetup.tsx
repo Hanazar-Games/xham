@@ -27,12 +27,16 @@ export function ExamSetup({ series, settings, onChange, onStart }: {
         <strong>{bank.questions.length}<small> 道配图题</small></strong>
       </div>
       <p>选好难度，抽一张属于你的试卷。混合卷均衡覆盖三档难度，题目与选项顺序随机。</p>
+      <details className="exam-scope">
+        <summary>考试范围与剧透说明</summary>
+        <p>{bank.scope}</p>
+      </details>
       <fieldset>
         <legend>考试难度</legend>
         <div className="exam-options">
           {(['混合', ...difficulties] as const).map((difficulty) => (
             <button key={difficulty} aria-pressed={level === difficulty} onClick={() => {
-              onChange({ level: difficulty, size: 10 })
+              if (difficulty !== level) onChange({ level: difficulty, size: 10 })
             }}>{difficulty}<small>{difficulty === '混合' ? bank.questions.length : bank.questions.filter((q) => q.difficulty === difficulty).length} 题可用</small></button>
           ))}
         </div>

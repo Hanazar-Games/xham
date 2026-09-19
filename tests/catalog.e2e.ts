@@ -1,6 +1,27 @@
 import { test, expect } from '@playwright/test'
 import axe from 'axe-core'
 
+test('Re:Zero season one opens independently while later seasons remain planned', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 568 })
+  await page.goto('/')
+  await expect(page.getByRole('button', { name: '进入专区：Re:0', exact: true })).toContainText('前两季综合')
+  await page.getByRole('button', { name: '查看 200 条目制作目录', exact: true }).click()
+  await page.getByLabel('目录分段').selectOption('all')
+  await page.getByLabel('目录作品搜索').fill('Re:Zero')
+  for (const number of [128, 173]) await expect(page.locator(`.catalog-item[data-number="${number}"]`)).toContainText('待制作')
+  await page.getByRole('button', { name: '进入题库：Re:Zero - Starting Life in Another World', exact: true }).click()
+  const setup = page.locator('.exam-setup')
+  await expect(page.locator('#exam-title')).toHaveText('Re:0 第一季 · 模拟考试')
+  await setup.getByText('考试范围与剧透说明', { exact: true }).click()
+  await expect(setup.locator('.exam-scope p')).toBeVisible()
+  await expect(setup.locator('.exam-scope p')).toContainText('不混入第二季')
+  await setup.getByRole('button', { name: '全部 50 题', exact: true }).click()
+  await setup.getByRole('button', { name: '生成试卷', exact: true }).click()
+  await expect(page.getByRole('dialog')).toContainText('第一季第 1–25 集')
+  await expect(page.getByRole('dialog')).toContainText('Memory Snow')
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+})
+
 test('Code Geass opens season one without enabling R2', async ({ page }) => {
   await page.goto('/')
   await page.getByRole('button', { name: '查看 200 条目制作目录', exact: true }).click()
@@ -224,8 +245,8 @@ test('catalog preserves all ten batches and only opens existing question banks',
   await opener.click()
   const dialog = page.getByRole('dialog', { name: '动漫题库制作目录' })
   await expect(dialog.locator('.catalog-item')).toHaveCount(20)
-  await expect(dialog.locator('.catalog-summary')).toContainText('23 / 200')
-  await expect(dialog.locator('.catalog-summary')).toContainText('1,150 / 10,000')
+  await expect(dialog.locator('.catalog-summary')).toContainText('24 / 200')
+  await expect(dialog.locator('.catalog-summary')).toContainText('1,200 / 10,000')
   await expect(dialog.locator('.catalog-item').first()).toContainText('Attack on Titan')
   await expect(dialog.locator('.catalog-item').first().getByRole('button')).toHaveCount(1)
   for (let batch = 1; batch <= 10; batch++) {
@@ -322,7 +343,7 @@ test('catalog searches the selected scope without merging seasons or counting pa
   await dialog.getByLabel('目录分段').selectOption('all')
   await dialog.getByLabel('目录作品搜索').fill('Re:Zero')
   await expect(dialog.locator('.catalog-item')).toHaveCount(3)
-  await expect(dialog.getByRole('button', { name: /^进入题库：/ })).toHaveCount(0)
+  await expect(dialog.getByRole('button', { name: /^进入题库：/ })).toHaveCount(1)
   await dialog.getByLabel('目录作品搜索').fill('Attack on Titan')
   await expect(dialog.getByRole('button', { name: /^进入题库：/ })).toHaveCount(4)
   await expect(dialog.locator('[data-number="1"]')).toContainText('第 1–25 集')

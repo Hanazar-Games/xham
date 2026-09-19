@@ -6,7 +6,7 @@ export const animeSeries: { id: AnimeSeriesId; title: string; subtitle: string; 
   { id: 'one-piece', title: '海贼王', subtitle: '草帽一伙 · 职责与航海', aliases: '航海王 one piece' },
   { id: 'naruto', title: '火影忍者', subtitle: '木叶 · 任务与成长', aliases: '火影 naruto' },
   { id: 'ghibli', title: '吉卜力电影', subtitle: '十二部电影 · 细节与联系', aliases: '吉卜力 宫崎骏 ghibli' },
-  { id: 'rezero', title: 'Re:0', subtitle: '异世界 · 人物与机制', aliases: 're0 re:zero 从零开始的异世界生活' },
+  { id: 'rezero', title: 'Re:0', subtitle: '前两季综合 · 人物与机制', aliases: 're0 re:zero 从零开始的异世界生活' },
   { id: 'frieren', title: '葬送的芙莉莲', subtitle: '旅途 · 传承与人物关系', aliases: '芙莉莲 frieren' },
   { id: 'attack-on-titan', title: '进击的巨人 第一季', subtitle: '城墙 · 机动与战术', aliases: '进击 巨人 進撃 aot attack on titan shingeki season 1' },
   { id: 'death-note', title: '死亡笔记', subtitle: '笔记规则 · 证据与推理', aliases: '死亡笔记 死亡筆記 death note kira 夜神月 L' },
@@ -27,4 +27,5 @@ export const animeSeries: { id: AnimeSeriesId; title: string; subtitle: string; 
   { id: 'attack-on-titan-season-3-part-2', title: '进击的巨人 第三季后半部', subtitle: '夺还作战 · 剧情与制作知识', aliases: '进击 巨人 進撃 aot attack on titan season 3 part 2 shingeki 第三季 后半部 下半部 雷枪 地下室' },
   { id: 'no-game-no-life', title: '游戏人生', subtitle: '电视动画 · 游戏与心理博弈', aliases: 'no game no life ngnl ノーゲーム ノーライフ 游戏人生 空白 空 白 史蒂芙 吉普莉尔 克拉米 菲尔 伊纲 特图 血坏' },
   { id: 'code-geass', title: 'Code Geass 反叛的鲁路修', subtitle: '第一季 · 身份与战术博弈', aliases: 'code geass lelouch 鲁路修 反逆的鲁鲁修 叛逆 朱雀 卡莲 黑色骑士团 zero 兰斯洛特 红莲 C.C.' },
+  { id: 'rezero-season-1', title: 'Re:0 第一季', subtitle: '第一季独立 · 循环调查与救援', aliases: 're0 re:zero re zero first season 1 从零开始的异世界生活 第一季 昴 爱蜜莉雅 雷姆 拉姆 碧翠丝 白鲸' },
 ]

@@ -3,6 +3,19 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps Re:Zero season one separate from the mixed bank and excludes recap extras', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'rezero-season-1')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第一季第 1–25 集')
+    expect(bank!.questions).toHaveLength(50)
+    const urls = new Set(bank!.questions.map((q) => q.source!.url))
+    expect(urls.size).toBe(25)
+    expect(urls.has('https://re-zero-anime.jp/tv/story/tv1r.html#EP12')).toBe(false)
+    for (const [number, answer] of [['08', '第五天早晨'], ['19', '白鲸出现的时间与地点'], ['35', '昴负责观察，尤里乌斯负责进攻']]) {
+      const q = bank!.questions.find((q) => q.id === `rezero-season-1-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+  })
   it('keeps Code Geass in season one with sourced identity and strategy constraints', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'code-geass')
     expect(bank).toBeDefined()
@@ -120,7 +133,7 @@ describe('catalog additions', () => {
       expect(q.options[q.answer]).toBe(answer)
     }
   })
-  it('adds 950 distinct illustrated sourced questions with explicit anime scopes', () => {
+  it('adds 1000 distinct illustrated sourced questions with explicit anime scopes', () => {
     const sources: Record<string, RegExp> = {
       'attack-on-titan': /^https:\/\/shingeki.tv\/season1\//,
       'death-note': /^https:\/\/www.ntv.co.jp\/deathnote\/static\/story2?\.html$/,
@@ -142,6 +155,7 @@ describe('catalog additions', () => {
     sources['attack-on-titan-season-3-part-2'] = /^https:\/\/shingeki\.tv\/season3\/(?:story\/#\/season3\/5\d|staff\/|music\/(?:op2\.php|ed2\.php|soundtrack\.php)?|product\/season3_5\.php)$/
     sources['no-game-no-life'] = /^https:\/\/ngnl\.jp\/tv\/(?:story\/story(?:[1-9]|1[0-2])\.html|character\/(?:index|chara0[2-8])\.html)$/
     sources['code-geass'] = /^https:\/\/geass\.jp\/first\/story_(?:0[1-9]|1\d|2[0-3]|2425)\.html$/
+    sources['rezero-season-1'] = /^https:\/\/re-zero-anime\.jp\/tv\/story\/tv1r\.html#EP(?:[1-9]|1[013-9]|2[0-6])$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)

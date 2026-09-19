@@ -2,7 +2,7 @@
 
 用户清单已完整保存于 [catalog.json](catalog.json)，保持原英文标题、编号和顺序。原附件为连续编号，未包含「、」；按每 20 个条目切成 10 段，每条目目标 50 题，共约 10,000 题。
 
-v0.11.0 首页提供「查看 200 条目制作目录」，支持分段浏览、当前范围搜索与已有题库直达。目录按真实题池显示进度，不把待制作条目、跨季综合题库或电影合集记作完整独立题库；v0.29.0 已有 1322 道可玩题目。
+v0.11.0 首页提供「查看 200 条目制作目录」，支持分段浏览、当前范围搜索与已有题库直达。目录按真实题池显示进度，不把待制作条目、跨季综合题库或电影合集记作完整独立题库；v0.30.0 已有 1372 道可玩题目。
 
 ## 制作约定
 
@@ -18,7 +18,7 @@ v0.11.0 首页提供「查看 200 条目制作目录」，支持分段浏览、�
 | 段 | 编号 | 起止条目 | 目标题数 | 已有可复用题库 |
 | --- | --- | --- | --- | --- |
 | 1 | 1–20 | Attack on Titan → Attack on Titan Season 3 Part 2 | 1,000 | 巨人首季、死亡笔记、钢炼 FA、一拳首季、我英首季、刀剑首季、猎人2011版、咒术首季、东京喰种首季、你的名字电影知识、巨人第二季、命运石之门、疾风传风影夺还篇、我英第二季、巨人第三季上半部、鬼灭、火影、海贼王、声之形电影知识、巨人第三季后半部剧情与制作知识，共 1,000 题 |
-| 2 | 21–40 | No Game No Life → Sword Art Online II | 1,000 | 游戏人生、Code Geass第一季各50题；Re:0 需先拆分剧情范围 |
+| 2 | 21–40 | No Game No Life → Sword Art Online II | 1,000 | 游戏人生、Code Geass第一季、Re:0第一季各50题 |
 | 3 | 41–60 | Cowboy Bebop → JoJo's Bizarre Adventure | 1,000 | 无完整对应题库 |
 | 4 | 61–80 | Darling in the FranXX → Elfen Lied | 1,000 | 无完整对应题库 |
 | 5 | 81–100 | Horimiya → Hyouka | 1,000 | 无完整对应题库 |
@@ -28,15 +28,15 @@ v0.11.0 首页提供「查看 200 条目制作目录」，支持分段浏览、�
 | 9 | 161–180 | I Want to Eat Your Pancreas → Oshi no Ko | 1,000 | 无完整对应题库 |
 | 10 | 181–200 | Cyberpunk: Edgerunners → High School DxD New | 1,000 | 无完整对应题库 |
 
-「已有可复用」指当前项目中确实存在且通过题量、三档难度、图片与来源校验的 50 题题池。其他条目不能因属于同一系列而自动记作完成。现有吉卜力综合题池不能当作清单中每部电影各 50 题；Re:0 现有题池含动画前两季，不直接计入任何单季目标。跨番联考不计入这 200 个条目的目标。
+「已有可复用」指当前项目中确实存在且通过题量、三档难度、图片与来源校验的 50 题题池。其他条目不能因属于同一系列而自动记作完成。现有吉卜力综合题池不能当作清单中每部电影各 50 题；Re:0原有综合题池含动画前两季，不直接计入任何单季目标；现已另建第一季独立50题，仅该新题池对应第23项。跨番联考不计入这 200 个条目的目标。
 
 ## 接续位置与实际进度
 
-v0.29.0 完成 #22《Code Geass: Lelouch of the Rebellion》50题（第一季1–25集官网公开剧情及战术判断）。清单已对应23个条目、1150／10,000题；实际站内1322题，含未计入独立条目目标的综合题库。
+v0.30.0 完成 #23《Re:Zero - Starting Life in Another World》第一季独立50题（第1–25集公开剧情）。清单已对应24个条目、1200／10,000题；实际站内1372题，含未计入独立条目目标的综合题库。
 
-第1段20／20项、第2段2／20项已各有50题，题库范围以各自说明为准。下一未完成条目为第2段 #23《Re:Zero》，需先核查并拆分现有跨季题库，不能直接计入单季目标。
+第1段20／20项、第2段3／20项已各有50题，题库范围以各自说明为准。下一未完成条目为第2段 #24《Your Lie in April》（四月是你的谎言）。
 
-资料规则已获明确扩展：允许直接核查作品官网、出版方资料。Grok 缺少配置不再阻挡这一授权范围内的新题制作。本轮见 [Code Geass核验记录](sources-code-geass.md)；此前见 [游戏人生核验记录](sources-no-game-no-life.md)、 [巨人第三季后半部核验记录](sources-attack-on-titan-season-3-part-2.md)、 [声之形核验记录](sources-a-silent-voice.md)、 [巨人第三季上半部核验记录](sources-attack-on-titan-season-3.md)、 [我英第二季核验记录](sources-my-hero-academia-season-2.md)、 [疾风传核验记录](sources-naruto-shippuden.md)、 [命运石之门核验记录](sources-steins-gate.md)、 [巨人第二季核验记录](sources-attack-on-titan-season-2.md)、 [你的名字核验记录](sources-your-name.md)、 [东京喰种核验记录](sources-tokyo-ghoul.md)、 [咒术回战核验记录](sources-jujutsu-kaisen.md)、 [全职猎人核验记录](sources-hunter-x-hunter.md)、 [刀剑神域核验记录](sources-sword-art-online.md)、 [我的英雄学院核验记录](sources-my-hero-academia.md)、 [一拳超人核验记录](sources-one-punch-man.md)、 [Brotherhood 核验记录](sources-brotherhood.md)、[前两个条目核验记录](sources-batch-01.md)。
+资料规则已获明确扩展：允许直接核查作品官网、出版方资料。Grok 缺少配置不再阻挡这一授权范围内的新题制作。本轮见 [Re:0第一季核验记录](sources-rezero-season-1.md)；此前见 [Code Geass核验记录](sources-code-geass.md)、 [游戏人生核验记录](sources-no-game-no-life.md)、 [巨人第三季后半部核验记录](sources-attack-on-titan-season-3-part-2.md)、 [声之形核验记录](sources-a-silent-voice.md)、 [巨人第三季上半部核验记录](sources-attack-on-titan-season-3.md)、 [我英第二季核验记录](sources-my-hero-academia-season-2.md)、 [疾风传核验记录](sources-naruto-shippuden.md)、 [命运石之门核验记录](sources-steins-gate.md)、 [巨人第二季核验记录](sources-attack-on-titan-season-2.md)、 [你的名字核验记录](sources-your-name.md)、 [东京喰种核验记录](sources-tokyo-ghoul.md)、 [咒术回战核验记录](sources-jujutsu-kaisen.md)、 [全职猎人核验记录](sources-hunter-x-hunter.md)、 [刀剑神域核验记录](sources-sword-art-online.md)、 [我的英雄学院核验记录](sources-my-hero-academia.md)、 [一拳超人核验记录](sources-one-punch-man.md)、 [Brotherhood 核验记录](sources-brotherhood.md)、[前两个条目核验记录](sources-batch-01.md)。
 
 ### 第 1 段明细
 

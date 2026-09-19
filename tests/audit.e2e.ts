@@ -1,6 +1,17 @@
 import { test, expect } from '@playwright/test'
 import { quizzes } from '../src/data/quizzes'
 
+test('reselecting the active exam difficulty preserves the chosen question count', async ({ page }) => {
+  await page.goto('/')
+  await page.getByRole('button', { name: '进入专区：游戏人生', exact: true }).click()
+  const setup = page.locator('.exam-setup')
+  await setup.getByRole('button', { name: '困难 15 题可用', exact: true }).click()
+  await setup.getByRole('button', { name: '全部 15 题', exact: true }).click()
+  await setup.getByRole('button', { name: '困难 15 题可用', exact: true }).click()
+  await expect(setup.getByRole('button', { name: '全部 15 题', exact: true })).toHaveAttribute('aria-pressed', 'true')
+  await expect(setup).toContainText('本卷 15 题')
+})
+
 for (const control of ['.card-content h3 button', '.card-footer button']) {
   test(`abandoning a card challenge restores its actual opener: ${control}`, async ({ page }) => {
     await page.goto('/')

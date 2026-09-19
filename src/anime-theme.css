@@ -5,6 +5,7 @@
 }
 .anime-page .sidebar { background: #fffafeee; border-color: #e5d4ed; }
 .anime-page .topbar { background: #fffafbe8; border-color: #e5d4ed; }
+.anime-page .main-nav > button { color: #594863; }
 .anime-page .main-nav button.active { background: #ebe1ff; color: #58318a; }
 .anime-page .curiosity-card { background: linear-gradient(140deg, #f0e3ff, #ffe7ee); }
 .anime-page .page-intro h1 { color: #44245e; }
