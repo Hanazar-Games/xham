@@ -18,4 +18,5 @@ export const animeSeries: { id: AnimeSeriesId; title: string; subtitle: string; 
   { id: 'jujutsu-kaisen', title: '咒术回战 第一季', subtitle: '咒术高专 · 任务判断与战斗协作', aliases: '咒术 咒術 呪術廻戦 jujutsu kaisen jjk 虎杖 伏黑 五条 钉崎' },
   { id: 'tokyo-ghoul', title: '东京喰种 第一季', subtitle: '安定区 · 赫子机制与身份判断', aliases: '东京喰种 东京食尸鬼 東京喰種 トーキョーグール tokyo ghoul 金木 董香 赫子 库因克 昆克' },
   { id: 'your-name', title: '你的名字。', subtitle: '人物与交换生活 · 电影制作知识', aliases: '你的名字 你的名字。 君の名は 君の名は。 your name kimi no na wa 立花泷 宫水三叶 四叶' },
+  { id: 'attack-on-titan-season-2', title: '进击的巨人 第二季', subtitle: '墙内调查 · 战斗限制与夺还行动', aliases: '进击 巨人 進撃 aot attack on titan season 2 shingeki 第二季' },
 ]

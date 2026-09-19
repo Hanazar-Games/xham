@@ -12,6 +12,7 @@ import { hunterXHunterEntries } from './hunter-x-hunter'
 import { jujutsuKaisenEntries } from './jujutsu-kaisen'
 import { tokyoGhoulEntries } from './tokyo-ghoul'
 import { yourNameEntries } from './your-name'
+import { titanSeasonTwoEntries } from './attack-on-titan-season-2'
 
 function bank(series: AnimeSeriesId, title: string, scope: string, entries: ExpansionEntry[], source: (reference: ExpansionEntry[0]) => NonNullable<Question['source']>): QuestionBank {
   if (entries.length !== 50) throw new Error(`Expected 50 questions: ${series}`)
@@ -83,6 +84,10 @@ export const expansionBanks = [
     const [label, path] = pages[reference - 1]
     return { label: `电影官网${label}`, url: `https://www.kiminona.com/${path}` }
   }),
+  bank('attack-on-titan-season-2', '进击的巨人 第二季', '仅含 2017 年电视动画第二季第 26–37 集官网公开剧情，含古城战、墙内调查与艾伦夺还行动剧透；不考第三季、最终季或漫画后续，困难题侧重公开线索与战术条件推理。', titanSeasonTwoEntries, (reference) => {
+    if (typeof reference !== 'number' || !Number.isInteger(reference) || reference < 26 || reference > 37) throw new Error('Titan season two needs an episode reference from 26 to 37')
+    return { label: `第二季官网第 ${reference} 集简介`, url: `https://shingeki.tv/season2/story/episode.php#${reference}` }
+  }),
 ]
 
 const titles = ['人物与世界入门', '行动与规则应用', '证据与战术推演']
@@ -91,7 +96,7 @@ export const expansionQuizzes: Quiz[] = expansionBanks.flatMap((bank) => difficu
   series: bank.series, title: `${bank.title}，${titles[index]}`,
   description: `${bank.title}专题，12 道${difficulty}题。结合剧情与设定判断，每题附原创配图、解析和官方资料链接。`,
   category: '二次元', difficulty, duration: difficultySeconds[difficulty],
-  image: originalArt(bank.series === 'your-name' ? 'connections' : bank.series === 'tokyo-ghoul' ? 'city' : bank.series === 'jujutsu-kaisen' ? 'magic' : bank.series === 'hunter-x-hunter' ? 'adventure' : bank.series === 'my-hero-academia' ? 'academy' : bank.series === 'attack-on-titan' || bank.series === 'one-punch-man' || bank.series === 'sword-art-online' ? 'arena' : bank.series === 'fullmetal-alchemist-brotherhood' ? 'laboratory' : 'detective'),
+  image: originalArt(bank.series === 'your-name' ? 'connections' : bank.series === 'tokyo-ghoul' ? 'city' : bank.series === 'jujutsu-kaisen' ? 'magic' : bank.series === 'hunter-x-hunter' ? 'adventure' : bank.series === 'my-hero-academia' ? 'academy' : bank.series === 'attack-on-titan-season-2' || bank.series === 'attack-on-titan' || bank.series === 'one-punch-man' || bank.series === 'sword-art-online' ? 'arena' : bank.series === 'fullmetal-alchemist-brotherhood' ? 'laboratory' : 'detective'),
   color: index === 0 ? 'mint' : 'lavender', tag: '新 IP · 原创配图',
   scope: `${bank.scope} 配图为原创主题示意图，并非作品场景。`,
   questions: bank.questions.filter((question) => question.difficulty === difficulty).slice(0, 12),

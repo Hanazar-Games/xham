@@ -3,7 +3,18 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
-  it('adds 500 distinct illustrated sourced questions with explicit anime scopes', () => {
+  it('keeps Titan season two separate with all twelve episode sources', () => {
+    const bank = expansionBanks.find((bank) => String(bank.series) === 'attack-on-titan-season-2')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第 26–37 集')
+    expect(bank!.questions).toHaveLength(50)
+    expect(new Set(bank!.questions.map((q) => Number(q.source!.url.split('#')[1])))).toEqual(new Set(Array.from({ length: 12 }, (_, i) => i + 26)))
+    for (const [number, answer] of [['19', '墙上没有找到破洞'], ['28', '战斗后体力不足'], ['36', '巨人在墙内出现，但没有发现墙洞，入侵路径仍需调查']]) {
+      const q = bank!.questions.find((q) => q.id === `attack-on-titan-season-2-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+  })
+  it('adds 550 distinct illustrated sourced questions with explicit anime scopes', () => {
     const sources: Record<string, RegExp> = {
       'attack-on-titan': /^https:\/\/shingeki.tv\/season1\//,
       'death-note': /^https:\/\/www.ntv.co.jp\/deathnote\/static\/story2?\.html$/,
@@ -15,6 +26,7 @@ describe('catalog additions', () => {
       'jujutsu-kaisen': /^https:\/\/www\.b-ch\.com\/titles\/7071\/0(?:0[1-9]|1\d|2[0-4])$/,
       'tokyo-ghoul': /^https:\/\/www\.marv\.jp\/special\/tokyoghoul\/first\/(?:story_1st|glossary)\.html$/,
       'your-name': /^https:\/\/www\.kiminona\.com\/(?:#(?:story|chara|staff|interview_tanaka|interview_ando)|production\/|interview\/01shinkai\.html)$/,
+      'attack-on-titan-season-2': /^https:\/\/shingeki\.tv\/season2\/story\/episode\.php#(?:2[6-9]|3[0-7])$/,
     }
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
