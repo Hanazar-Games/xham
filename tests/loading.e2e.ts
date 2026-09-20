@@ -4,7 +4,7 @@ test('the app loads and starts a quiz when external font services never respond'
   await page.route('https://fonts.googleapis.com/**', () => new Promise<void>(() => {}))
   await page.route('https://fonts.gstatic.com/**', () => new Promise<void>(() => {}))
   await page.goto('/', { timeout: 5000 })
-  await expect(page.locator('.quiz-card')).toHaveCount(120)
+  await expect(page.locator('.quiz-card')).toHaveCount(123)
   await page.locator('.quiz-card .cover-link').first().click()
   await page.getByRole('button', { name: '准备好了，开始！' }).click()
   await expect(page.locator('.answer-option')).toHaveCount(4)

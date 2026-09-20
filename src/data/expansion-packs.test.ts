@@ -3,6 +3,18 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps Haikyuu in season one and distinguishes positions and tournament rounds', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'haikyuu')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第一季第 1–25 集')
+    expect(bank!.scope).toContain('不混入第二季')
+    expect(bank!.questions).toHaveLength(50)
+    for (const [number, answer] of [['03', '乌野高中'], ['07', '二传手'], ['15', '常波高中'], ['16', '伊达工业'], ['17', '青叶城西'], ['35', '宫城县']]) {
+      const q = bank!.questions.find((q) => q.id === `haikyuu-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    expect(new Set(bank!.questions.map((q) => q.source!.url))).toEqual(new Set(Array.from({ length: 25 }, (_, i) => `https://www.b-ch.com/titles/4065/${String(i + 1).padStart(3, '0')}`)))
+  })
   it('grounds Angel Beats in thirteen TV episodes without special or game routes', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'angel-beats')
     expect(bank).toBeDefined()
@@ -291,7 +303,7 @@ describe('catalog additions', () => {
       expect(q.options[q.answer]).toBe(answer)
     }
   })
-  it('adds 1600 distinct illustrated sourced questions with explicit anime scopes', () => {
+  it('adds 1650 distinct illustrated sourced questions with explicit anime scopes', () => {
     const sources: Record<string, RegExp> = {
       'attack-on-titan': /^https:\/\/shingeki.tv\/season1\//,
       'death-note': /^https:\/\/www.ntv.co.jp\/deathnote\/static\/story2?\.html$/,
@@ -326,6 +338,7 @@ describe('catalog additions', () => {
     sources['assassination-classroom'] = /^https:\/\/www\.ansatsu-anime\.com\/2014-2016\/(?:introduction\/|story\/detail_1st\.php\?id=\d+|character\/chara\/chara_(?:[1-4]|e(?:1|5|11|13|15|19))\.php)$/
     sources['seven-deadly-sins'] = /^https:\/\/1st\.7-taizai\.net\/story(?:0[1-9]|1\d|2[0-3])?\.html$/
     sources['angel-beats'] = /^https:\/\/www\.angelbeats\.jp\/story2\/(?:index|ep(?:0[2-9]|1[0-3]))\.html$/
+    sources['haikyuu'] = /^https:\/\/www\.b-ch\.com\/titles\/4065\/0(?:0[1-9]|1\d|2[0-5])$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
