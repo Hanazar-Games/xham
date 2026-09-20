@@ -1,6 +1,26 @@
 import { test, expect } from '@playwright/test'
 import axe from 'axe-core'
 
+test('Titan Final Season opens part one with production scope and leaves Part 2 planned', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 568 })
+  await page.goto('/')
+  await page.getByRole('button', { name: '查看 200 条目制作目录', exact: true }).click()
+  await page.getByLabel('目录分段').selectOption('all')
+  await page.getByLabel('目录作品搜索').fill('Attack on Titan: The Final Season')
+  await expect(page.locator('.catalog-item[data-number="92"]')).toContainText('待制作')
+  const entry = page.locator('.catalog-item[data-number="29"]')
+  await expect(entry).toContainText('50 / 50')
+  await entry.getByRole('button', { name: '进入题库：Attack on Titan: The Final Season', exact: true }).click()
+  await expect(page.locator('#exam-title')).toHaveText('进击的巨人 最终季前半部 · 模拟考试')
+  await expect(page.locator('.quiz-card')).toHaveCount(3)
+  await page.getByRole('button', { name: '全部 50 题', exact: true }).click()
+  await page.getByRole('button', { name: '生成试卷', exact: true }).click()
+  await expect(page.getByRole('dialog')).toContainText('第 60–75 集')
+  await expect(page.getByRole('dialog')).toContainText('制作资料')
+  await expect(page.getByRole('dialog')).toContainText('不混入Part 2')
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+})
+
 test('Noragami opens season one while Aragoto remains planned', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 568 })
   await page.goto('/')
@@ -150,14 +170,14 @@ test('No Game No Life opens a TV-only bank from batch two with searchable game m
   await expect(page.getByRole('dialog')).toContainText('不混入 Zero')
 })
 
-test('Titan part two completes batch one without unlocking Final Season', async ({ page }) => {
+test('Titan season three part two stays separate from Final Season Part 2', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 568 })
   await page.goto('/')
   await page.getByRole('button', { name: '查看 200 条目制作目录', exact: true }).click()
   await expect(page.locator('.catalog-item button')).toHaveCount(20)
   await page.getByLabel('目录分段').selectOption('all')
   await page.getByLabel('目录作品搜索').fill('Attack on Titan')
-  for (const number of [29, 92]) await expect(page.locator(`.catalog-item[data-number="${number}"]`)).toContainText('待制作')
+  for (const number of [92]) await expect(page.locator(`.catalog-item[data-number="${number}"]`)).toContainText('待制作')
   await page.getByRole('button', { name: '进入题库：Attack on Titan Season 3 Part 2', exact: true }).click()
   await expect(page.locator('#exam-title')).toHaveText('进击的巨人 第三季后半部 · 模拟考试')
   await page.getByRole('button', { name: '全部 50 题', exact: true }).click()
@@ -336,8 +356,8 @@ test('catalog preserves all ten batches and only opens existing question banks',
   await opener.click()
   const dialog = page.getByRole('dialog', { name: '动漫题库制作目录' })
   await expect(dialog.locator('.catalog-item')).toHaveCount(20)
-  await expect(dialog.locator('.catalog-summary')).toContainText('29 / 200')
-  await expect(dialog.locator('.catalog-summary')).toContainText('1,450 / 10,000')
+  await expect(dialog.locator('.catalog-summary')).toContainText('30 / 200')
+  await expect(dialog.locator('.catalog-summary')).toContainText('1,500 / 10,000')
   await expect(dialog.locator('.catalog-item').first()).toContainText('Attack on Titan')
   await expect(dialog.locator('.catalog-item').first().getByRole('button')).toHaveCount(1)
   for (let batch = 1; batch <= 10; batch++) {
@@ -436,9 +456,11 @@ test('catalog searches the selected scope without merging seasons or counting pa
   await expect(dialog.locator('.catalog-item')).toHaveCount(3)
   await expect(dialog.getByRole('button', { name: /^进入题库：/ })).toHaveCount(1)
   await dialog.getByLabel('目录作品搜索').fill('Attack on Titan')
-  await expect(dialog.getByRole('button', { name: /^进入题库：/ })).toHaveCount(4)
+  await expect(dialog.getByRole('button', { name: /^进入题库：/ })).toHaveCount(5)
   await expect(dialog.locator('[data-number="1"]')).toContainText('第 1–25 集')
   await expect(dialog.locator('[data-number="13"]')).toContainText('第 26–37 集')
+  await expect(dialog.locator('[data-number="29"]')).toContainText('第 60–75 集')
+  await expect(dialog.locator('[data-number="92"]')).toContainText('待制作')
   await dialog.getByLabel('目录作品搜索').fill('鬼灭')
   await expect(dialog.getByRole('button', { name: '进入题库：Demon Slayer', exact: true })).toBeVisible()
 })

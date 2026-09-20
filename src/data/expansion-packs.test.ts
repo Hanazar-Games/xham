@@ -3,6 +3,21 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('limits Titan Final Season to part one and separates inherited powers and release ranges', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'attack-on-titan-final-season')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第 60–75 集')
+    expect(bank!.scope).toContain('制作资料')
+    expect(bank!.questions).toHaveLength(50)
+    for (const [number, answer] of [['02', '四年'], ['07', '莱纳的表亲'], ['28', '同父异母的哥哥'], ['48', '16集']]) {
+      const q = bank!.questions.find((q) => q.id === `attack-on-titan-final-season-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    const episodes = bank!.questions.filter((q) => q.source!.url.includes('/story/'))
+    expect(episodes.every((q) => /^https:\/\/shingeki\.tv\/final\/story\/#\/episode\/(?:6\d|7[0-5])$/.test(q.source!.url))).toBe(true)
+    expect(new Set(episodes.map((q) => q.source!.url)).size).toBe(13)
+    expect(bank!.questions.every((q) => !q.source!.url.includes('/keyword/'))).toBe(true)
+  })
   it('grounds Noragami in its first-season archive and preserves purification requirements', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'noragami')
     expect(bank).toBeDefined()
@@ -201,7 +216,7 @@ describe('catalog additions', () => {
       expect(q.options[q.answer]).toBe(answer)
     }
   })
-  it('adds 1250 distinct illustrated sourced questions with explicit anime scopes', () => {
+  it('adds 1300 distinct illustrated sourced questions with explicit anime scopes', () => {
     const sources: Record<string, RegExp> = {
       'attack-on-titan': /^https:\/\/shingeki.tv\/season1\//,
       'death-note': /^https:\/\/www.ntv.co.jp\/deathnote\/static\/story2?\.html$/,
@@ -229,6 +244,7 @@ describe('catalog additions', () => {
     sources['toradora'] = /^https:\/\/www\.tv-tokyo\.co\.jp\/contents\/toradora\/episodes\/episodes[12]\/$/
     sources['mob-psycho-100'] = /^https:\/\/mobpsycho100\.com\/1st\/(?:story\/(?:0[1-9]|1[0-2])|chara\/(?:mob|reigen|ritsu|teru|ekubo|tome|musashi|tsubomi))\.html$/
     sources['noragami'] = /^https:\/\/noragami-anime\.net\/1\/(?:story\.html#headCts(?:[1-9]|1[0-2])|character\.html#charaScr(?:[1-9]|10))$/
+    sources['attack-on-titan-final-season'] = /^https:\/\/shingeki\.tv\/final\/(?:story\/#\/episode\/(?:6\d|7[0-5])|character\/|music\/(?:op|ed)\/|product\/final_[12]\/)$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
