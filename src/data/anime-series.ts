@@ -27,6 +27,7 @@ export const animeSeries: { id: AnimeSeriesId; title: string; subtitle: string; 
   { id: 'attack-on-titan-season-3-part-2', title: '进击的巨人 第三季后半部', subtitle: '夺还作战 · 剧情与制作知识', aliases: '进击 巨人 進撃 aot attack on titan season 3 part 2 shingeki 第三季 后半部 下半部 雷枪 地下室' },
   { id: 'no-game-no-life', title: '游戏人生', subtitle: '电视动画 · 游戏与心理博弈', aliases: 'no game no life ngnl ノーゲーム ノーライフ 游戏人生 空白 空 白 史蒂芙 吉普莉尔 克拉米 菲尔 伊纲 特图 血坏' },
   { id: 'code-geass', title: 'Code Geass 反叛的鲁路修', subtitle: '第一季 · 身份与战术博弈', aliases: 'code geass lelouch 鲁路修 反逆的鲁鲁修 叛逆 朱雀 卡莲 黑色骑士团 zero 兰斯洛特 红莲 C.C.' },
+  { id: 'cowboy-bebop', title: '星际牛仔', subtitle: 'Bebop号 · 赏金与案件线索', aliases: '星际牛仔 牛仔比波 cowboy bebop カウボーイビバップ 斯派克 史派克 杰特 菲 艾德 爱因' },
   { id: 'sword-art-online-2', title: '刀剑神域Ⅱ', subtitle: 'GGO与ALO · 调查与团队攻略', aliases: '刀剑神域2 刀剑神域II 刀剑神域Ⅱ 第二季 sao ii sao2 sword art online ii 幽灵子弹 圣剑 圣母圣咏 诗乃 优纪' },
   { id: 'future-diary', title: '未来日记', subtitle: '樱见 · 预知范围与信息盲点', aliases: '未来日记 未來日記 未来日記 mirai nikki the future diary 天野雪辉 我妻由乃 秋濑或 雨流美弥音' },
   { id: 'konosuba', title: '为美好的世界献上祝福！ 第一季', subtitle: '阿克塞尔 · 职业与技能配合', aliases: '为美好的世界献上祝福 素晴 konosuba この素晴らしい世界に祝福を 和真 阿库娅 惠惠 达克妮丝 维兹 第一季' },
