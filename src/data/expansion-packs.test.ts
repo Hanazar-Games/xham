@@ -3,6 +3,20 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps Mob Psycho in season one and distinguishes ordinary ability from borrowed energy', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'mob-psycho-100')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第一季第 1–12 集')
+    expect(bank!.questions).toHaveLength(50)
+    for (const [number, answer] of [['04', '本人没有灵能力'], ['06', '300日元'], ['18', '龙套把自己的能量交给了灵幻'], ['29', '翔']]) {
+      const q = bank!.questions.find((q) => q.id === `mob-psycho-100-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    const episodes = bank!.questions.filter((q) => q.source!.url.includes('/story/'))
+    expect(new Set(episodes.map((q) => Number(q.source!.url.match(/(\d+)\.html$/)![1])))).toEqual(new Set(Array.from({ length: 12 }, (_, i) => i + 1)))
+    expect(new Set(bank!.questions.map((q) => q.source!.url)).size).toBe(20)
+    expect(bank!.questions.every((q) => q.source!.url.startsWith('https://mobpsycho100.com/1st/'))).toBe(true)
+  })
   it('grounds Toradora in all 25 TV synopses with correct relationships and rescue facts', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'toradora')
     expect(bank).toBeDefined()
@@ -173,7 +187,7 @@ describe('catalog additions', () => {
       expect(q.options[q.answer]).toBe(answer)
     }
   })
-  it('adds 1150 distinct illustrated sourced questions with explicit anime scopes', () => {
+  it('adds 1200 distinct illustrated sourced questions with explicit anime scopes', () => {
     const sources: Record<string, RegExp> = {
       'attack-on-titan': /^https:\/\/shingeki.tv\/season1\//,
       'death-note': /^https:\/\/www.ntv.co.jp\/deathnote\/static\/story2?\.html$/,
@@ -199,6 +213,7 @@ describe('catalog additions', () => {
     sources['your-lie-in-april'] = /^https:\/\/www\.kimiuso\.jp\/story\/(?:0[1-9]|1\d|2[0-2])\.html$/
     sources['my-hero-academia-season-3'] = /^https:\/\/www\.ytv\.co\.jp\/heroaca\/story\/$/
     sources['toradora'] = /^https:\/\/www\.tv-tokyo\.co\.jp\/contents\/toradora\/episodes\/episodes[12]\/$/
+    sources['mob-psycho-100'] = /^https:\/\/mobpsycho100\.com\/1st\/(?:story\/(?:0[1-9]|1[0-2])|chara\/(?:mob|reigen|ritsu|teru|ekubo|tome|musashi|tsubomi))\.html$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
