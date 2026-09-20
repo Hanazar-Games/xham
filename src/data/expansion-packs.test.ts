@@ -3,6 +3,18 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('limits Bleach to the Substitute Soul Reaper arc and its early power rules', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'bleach')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第 1–20 集')
+    expect(bank!.scope).toContain('不混入千年血战篇')
+    expect(bank!.questions).toHaveLength(50)
+    for (const [number, answer] of [['01', '15岁'], ['09', '6月17日'], ['34', '72小时'], ['35', '呼唤斩魄刀的名字'], ['49', '三番队队长']]) {
+      const q = bank!.questions.find((q) => q.id === `bleach-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    expect(new Set(bank!.questions.map((q) => q.source!.url))).toEqual(new Set(Array.from({ length: 20 }, (_, i) => `https://www.b-ch.com/titles/4994/${String(i + 1).padStart(3, '0')}`)))
+  })
   it('grounds Akame in the TV story and preserves equipment limits', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'akame-ga-kill')
     expect(bank).toBeDefined()
@@ -241,7 +253,7 @@ describe('catalog additions', () => {
       expect(q.options[q.answer]).toBe(answer)
     }
   })
-  it('adds 1400 distinct illustrated sourced questions with explicit anime scopes', () => {
+  it('adds 1450 distinct illustrated sourced questions with explicit anime scopes', () => {
     const sources: Record<string, RegExp> = {
       'attack-on-titan': /^https:\/\/shingeki.tv\/season1\//,
       'death-note': /^https:\/\/www.ntv.co.jp\/deathnote\/static\/story2?\.html$/,
@@ -272,6 +284,7 @@ describe('catalog additions', () => {
     sources['attack-on-titan-final-season'] = /^https:\/\/shingeki\.tv\/final\/(?:story\/#\/episode\/(?:6\d|7[0-5])|character\/|music\/(?:op|ed)\/|product\/final_[12]\/)$/
     sources['erased'] = /^https:\/\/bokumachi-anime\.com\/story\/(?:0[1-9]|1[0-2])\/$/
     sources['akame-ga-kill'] = /^http:\/\/akame\.tv\/(?:teigu|story_(?:0[1-9]|1\d|2[0-4]))\.html$/
+    sources['bleach'] = /^https:\/\/www\.b-ch\.com\/titles\/4994\/0(?:0[1-9]|1\d|20)$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
