@@ -27,6 +27,7 @@ export const animeSeries: { id: AnimeSeriesId; title: string; subtitle: string; 
   { id: 'attack-on-titan-season-3-part-2', title: '进击的巨人 第三季后半部', subtitle: '夺还作战 · 剧情与制作知识', aliases: '进击 巨人 進撃 aot attack on titan season 3 part 2 shingeki 第三季 后半部 下半部 雷枪 地下室' },
   { id: 'no-game-no-life', title: '游戏人生', subtitle: '电视动画 · 游戏与心理博弈', aliases: 'no game no life ngnl ノーゲーム ノーライフ 游戏人生 空白 空 白 史蒂芙 吉普莉尔 克拉米 菲尔 伊纲 特图 血坏' },
   { id: 'code-geass', title: 'Code Geass 反叛的鲁路修', subtitle: '第一季 · 身份与战术博弈', aliases: 'code geass lelouch 鲁路修 反逆的鲁鲁修 叛逆 朱雀 卡莲 黑色骑士团 zero 兰斯洛特 红莲 C.C.' },
+  { id: 'angel-beats', title: 'Angel Beats!', subtitle: '死后世界战线 · 记忆、分身与毕业', aliases: 'angel beats angelbeats エンジェルビーツ 天使的心跳 音无 由理 奏 立华奏 日向 岩泽 唯' },
   { id: 'seven-deadly-sins', title: '七大罪 第一季', subtitle: '里昂妮丝 · 神器、幻术与王都救援', aliases: '七大罪 七宗罪 七つの大罪 the seven deadly sins nanatsu no taizai 梅利奥达斯 伊丽莎白 班 黛安 金 高瑟 玛琳 第一季' },
   { id: 'assassination-classroom', title: '暗杀教室 第一季', subtitle: '三年E班 · 特长、学业与团队救援', aliases: '暗杀教室 暗殺教室 assassination classroom ansatsu 殺せんせー 杀老师 潮田渚 赤羽业 第一季' },
   { id: 'bleach', title: '死神 死神代行篇', subtitle: '空座町 · 灵魂机制与救援准备', aliases: '死神 境界 BLEACH ブリーチ 黑崎一护 朽木露琪亚 石田雨龙 茶渡 死神代行' },
