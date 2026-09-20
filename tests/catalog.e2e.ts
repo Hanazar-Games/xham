@@ -1,6 +1,23 @@
 import { test, expect } from '@playwright/test'
 import axe from 'axe-core'
 
+test('Toradora opens its TV bank with three practices and a fifty-question exam', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 568 })
+  await page.goto('/')
+  await page.getByRole('button', { name: '查看 200 条目制作目录', exact: true }).click()
+  await page.getByLabel('目录分段').selectOption('2')
+  const entry = page.locator('.catalog-item[data-number="26"]')
+  await expect(entry).toContainText('50 / 50')
+  await entry.getByRole('button', { name: '进入题库：Toradora!', exact: true }).click()
+  await expect(page.locator('#exam-title')).toHaveText('龙与虎 · 模拟考试')
+  await expect(page.locator('.quiz-card')).toHaveCount(3)
+  await page.getByRole('button', { name: '全部 50 题', exact: true }).click()
+  await page.getByRole('button', { name: '生成试卷', exact: true }).click()
+  await expect(page.getByRole('dialog')).toContainText('第 1–25 集')
+  await expect(page.getByRole('dialog')).toContainText('不混入小说、游戏或OVA')
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+})
+
 test('Hero season three opens separately with its TV special exclusion', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 568 })
   await page.goto('/')
@@ -280,8 +297,8 @@ test('catalog preserves all ten batches and only opens existing question banks',
   await opener.click()
   const dialog = page.getByRole('dialog', { name: '动漫题库制作目录' })
   await expect(dialog.locator('.catalog-item')).toHaveCount(20)
-  await expect(dialog.locator('.catalog-summary')).toContainText('26 / 200')
-  await expect(dialog.locator('.catalog-summary')).toContainText('1,300 / 10,000')
+  await expect(dialog.locator('.catalog-summary')).toContainText('27 / 200')
+  await expect(dialog.locator('.catalog-summary')).toContainText('1,350 / 10,000')
   await expect(dialog.locator('.catalog-item').first()).toContainText('Attack on Titan')
   await expect(dialog.locator('.catalog-item').first().getByRole('button')).toHaveCount(1)
   for (let batch = 1; batch <= 10; batch++) {

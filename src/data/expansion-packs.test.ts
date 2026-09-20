@@ -3,6 +3,21 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('grounds Toradora in all 25 TV synopses with correct relationships and rescue facts', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'toradora')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第 1–25 集')
+    expect(bank!.questions).toHaveLength(50)
+    for (const [number, answer] of [['02', '栉枝实乃梨'], ['03', '北村祐作'], ['21', '北村输在感情告白，却当选学生会长'], ['28', '高须龙儿']]) {
+      const q = bank!.questions.find((q) => q.id === `toradora-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    expect(new Set(bank!.questions.map((q) => Number(q.source!.label.match(/第 (\d+) 集/)![1])))).toEqual(new Set(Array.from({ length: 25 }, (_, i) => i + 1)))
+    for (const q of bank!.questions) {
+      const episode = Number(q.source!.label.match(/第 (\d+) 集/)![1])
+      expect(q.source!.url).toBe(`https://www.tv-tokyo.co.jp/contents/toradora/episodes/episodes${episode <= 13 ? 1 : 2}/`)
+    }
+  })
   it('keeps Hero season three within TV scope and verifies exam and power limits', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'my-hero-academia-season-3')
     expect(bank).toBeDefined()
@@ -158,7 +173,7 @@ describe('catalog additions', () => {
       expect(q.options[q.answer]).toBe(answer)
     }
   })
-  it('adds 1100 distinct illustrated sourced questions with explicit anime scopes', () => {
+  it('adds 1150 distinct illustrated sourced questions with explicit anime scopes', () => {
     const sources: Record<string, RegExp> = {
       'attack-on-titan': /^https:\/\/shingeki.tv\/season1\//,
       'death-note': /^https:\/\/www.ntv.co.jp\/deathnote\/static\/story2?\.html$/,
@@ -183,6 +198,7 @@ describe('catalog additions', () => {
     sources['rezero-season-1'] = /^https:\/\/re-zero-anime\.jp\/tv\/story\/tv1r\.html#EP(?:[1-9]|1[013-9]|2[0-6])$/
     sources['your-lie-in-april'] = /^https:\/\/www\.kimiuso\.jp\/story\/(?:0[1-9]|1\d|2[0-2])\.html$/
     sources['my-hero-academia-season-3'] = /^https:\/\/www\.ytv\.co\.jp\/heroaca\/story\/$/
+    sources['toradora'] = /^https:\/\/www\.tv-tokyo\.co\.jp\/contents\/toradora\/episodes\/episodes[12]\/$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
