@@ -3,6 +3,20 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('provides an independent Spirited Away film bank with sourced plot and design facts', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'spirited-away')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('2001年动画电影')
+    expect(bank!.scope).toContain('不混入舞台版')
+    for (const [number, answer] of [['01', '10岁'], ['06', '千'], ['08', '猪'], ['20', '人类丢弃的垃圾'], ['29', '双胞胎姐妹'], ['33', '江户东京建筑园']]) {
+      const question = bank!.questions.find((q) => q.id === `spirited-away-${number}`)!
+      expect(question.options[question.answer]).toBe(answer)
+    }
+    for (let volume = 1; volume <= 5; volume++) {
+      expect(bank!.questions.some((q) => q.source!.url.endsWith(`/product/${4730 + volume}`))).toBe(true)
+    }
+    expect(bank!.questions.every((q) => q.image && q.explanation && q.source)).toBe(true)
+  })
   it('keeps Parasyte in the 24-episode TV continuity with sourced abilities and investigation facts', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'parasyte')
     expect(bank).toBeDefined()
@@ -442,6 +456,7 @@ describe('catalog additions', () => {
     sources['cowboy-bebop'] = /^https:\/\/www\.cowboy-bebop\.net\/(?:world\/#tv|story\/(?:0[2-5]\.html)?)$/
     sources['blue-exorcist'] = /^https:\/\/www\.ao-ex\.com\/tv\/story\/(?:(?:0[1-9]|1\d|2[0-4])\.html)?$/
     sources['parasyte'] = /^https:\/\/www\.vap\.co\.jp\/kiseiju\/(?:story\/(?:0[1-9]|1\d|2[0-4])|chara\/(?:shinichi|migi|satomi|ryoko|miki|gotou|kana|shimada|yuko|uda|nobuko|makiko|mitsuo|a|kuramori|hirama|uragami|hirokawa))\.html$/
+    sources['spirited-away'] = /^https:\/\/(?:www\.viz\.com\/manga-books\/film-comic\/spirited-away-film-comics-volume-[1-5]-0\/product\/473[1-5]|www\.ghibli\.jp\/works\/chihiro\/|kinro\.ntv\.co\.jp\/article\/detail\/(?:20220106|20231208))$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)

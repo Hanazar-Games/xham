@@ -7,7 +7,6 @@ const mappings: Record<string, string> = catalog.existingBanks
 const notes: Record<number, string> = {
   128: '已有跨季题库，待按季度整理',
   173: '已有跨季题库，待按季度整理',
-  44: '已有电影综合题库，待单独整理',
   99: '已有电影综合题库，待单独整理',
   106: '已有电影综合题库，待单独整理',
   144: '已有电影综合题库，待单独整理',
