@@ -1,6 +1,6 @@
 # 2 dimention
 
-hanazar 的二次元中心，一个类似 Kahoot 的中文 Quiz 小游戏。v0.44.0 提供四十个作品专区，每个 IP 50 题、简单／中等／困难三档，另有跨番联考 72 题，全站共 2072 道配图题。提供 126 套练习卷，并支持按 IP 生成模拟考试。
+hanazar 的二次元中心，一个类似 Kahoot 的中文 Quiz 小游戏。v0.45.0 提供四十一个作品专区，每个 IP 50 题、简单／中等／困难三档，另有跨番联考 72 题，全站共 2122 道配图题。提供 129 套练习卷，并支持按 IP 生成模拟考试。
 
 ## 本地运行
 
@@ -134,9 +134,9 @@ v0.2.1 将异步音频状态切换串行处理，延迟启动时只保留最近 
 
 v0.4.1 修复弹窗关闭后焦点被答题界面覆盖的问题，并让试听统一经过音频引擎的 400ms 过期机制，避免关闭设置后播放过期试听。
 
-首页与页脚均可打开「版本公告」。当前显示 v0.44.0，v0.43.0 及此前公告完整保留在历史公告中；由于旧版没有独立公告文件，v0.2.0 历史内容根据原提交与 README 整理补录。
+首页与页脚均可打开「版本公告」。当前显示 v0.45.0，v0.44.0 及此前公告完整保留在历史公告中；由于旧版没有独立公告文件，v0.2.0 历史内容根据原提交与 README 整理补录。
 
-本版检查记录见 [v0.44.0 检查记录](docs/qa-v0.44.0.md)；此前记录见 [v0.43.0](docs/qa-v0.43.0.md)、 [v0.42.0](docs/qa-v0.42.0.md)、 [v0.41.0](docs/qa-v0.41.0.md)、 [v0.40.0](docs/qa-v0.40.0.md)、 [v0.39.0](docs/qa-v0.39.0.md)、 [v0.38.0](docs/qa-v0.38.0.md)、 [v0.37.0](docs/qa-v0.37.0.md)、 [v0.36.0](docs/qa-v0.36.0.md)、 [v0.35.0](docs/qa-v0.35.0.md)、 [v0.34.0](docs/qa-v0.34.0.md)、 [v0.33.0](docs/qa-v0.33.0.md)、 [v0.32.0](docs/qa-v0.32.0.md)、 [v0.31.0](docs/qa-v0.31.0.md)、 [v0.30.0](docs/qa-v0.30.0.md)、 [v0.29.0](docs/qa-v0.29.0.md)、 [v0.28.0](docs/qa-v0.28.0.md)、 [v0.27.1](docs/qa-v0.27.1.md)、 [v0.27.0](docs/qa-v0.27.0.md)、 [v0.26.0](docs/qa-v0.26.0.md)、 [v0.25.0](docs/qa-v0.25.0.md)、 [v0.24.0](docs/qa-v0.24.0.md)、 [v0.23.0](docs/qa-v0.23.0.md)、 [v0.22.0](docs/qa-v0.22.0.md)、 [v0.21.0](docs/qa-v0.21.0.md)、 [v0.20.0](docs/qa-v0.20.0.md)、 [v0.19.0](docs/qa-v0.19.0.md)、 [v0.18.1](docs/qa-v0.18.1.md)、 [v0.18.0](docs/qa-v0.18.0.md)、 [v0.17.0](docs/qa-v0.17.0.md)、 [v0.16.0](docs/qa-v0.16.0.md)、 [v0.15.0](docs/qa-v0.15.0.md)、 [v0.14.0](docs/qa-v0.14.0.md)、 [v0.13.0](docs/qa-v0.13.0.md)、 [v0.12.0](docs/qa-v0.12.0.md)、[v0.11.2](docs/qa-v0.11.2.md)、 [v0.11.1](docs/qa-v0.11.1.md)、 [v0.11.0](docs/qa-v0.11.0.md)、 [v0.10.0](docs/qa-v0.10.0.md)、 [v0.9.0](docs/qa-v0.9.0.md)、[v0.8.1](docs/qa-v0.8.1.md)、 [v0.8.0](docs/qa-v0.8.0.md)、 [v0.7.0](docs/qa-v0.7.0.md)、 [v0.6.0](docs/qa-v0.6.0.md)、 [v0.5.0](docs/qa-v0.5.0.md)、[v0.4.1](docs/qa-v0.4.1.md)、[v0.4.0](docs/qa-v0.4.0.md)、[v0.3.0](docs/qa-v0.3.0.md)、[v0.2.1](docs/qa-v0.2.1.md)。
+本版检查记录见 [v0.45.0 检查记录](docs/qa-v0.45.0.md)；此前记录见 [v0.44.0](docs/qa-v0.44.0.md)、 [v0.43.0](docs/qa-v0.43.0.md)、 [v0.42.0](docs/qa-v0.42.0.md)、 [v0.41.0](docs/qa-v0.41.0.md)、 [v0.40.0](docs/qa-v0.40.0.md)、 [v0.39.0](docs/qa-v0.39.0.md)、 [v0.38.0](docs/qa-v0.38.0.md)、 [v0.37.0](docs/qa-v0.37.0.md)、 [v0.36.0](docs/qa-v0.36.0.md)、 [v0.35.0](docs/qa-v0.35.0.md)、 [v0.34.0](docs/qa-v0.34.0.md)、 [v0.33.0](docs/qa-v0.33.0.md)、 [v0.32.0](docs/qa-v0.32.0.md)、 [v0.31.0](docs/qa-v0.31.0.md)、 [v0.30.0](docs/qa-v0.30.0.md)、 [v0.29.0](docs/qa-v0.29.0.md)、 [v0.28.0](docs/qa-v0.28.0.md)、 [v0.27.1](docs/qa-v0.27.1.md)、 [v0.27.0](docs/qa-v0.27.0.md)、 [v0.26.0](docs/qa-v0.26.0.md)、 [v0.25.0](docs/qa-v0.25.0.md)、 [v0.24.0](docs/qa-v0.24.0.md)、 [v0.23.0](docs/qa-v0.23.0.md)、 [v0.22.0](docs/qa-v0.22.0.md)、 [v0.21.0](docs/qa-v0.21.0.md)、 [v0.20.0](docs/qa-v0.20.0.md)、 [v0.19.0](docs/qa-v0.19.0.md)、 [v0.18.1](docs/qa-v0.18.1.md)、 [v0.18.0](docs/qa-v0.18.0.md)、 [v0.17.0](docs/qa-v0.17.0.md)、 [v0.16.0](docs/qa-v0.16.0.md)、 [v0.15.0](docs/qa-v0.15.0.md)、 [v0.14.0](docs/qa-v0.14.0.md)、 [v0.13.0](docs/qa-v0.13.0.md)、 [v0.12.0](docs/qa-v0.12.0.md)、[v0.11.2](docs/qa-v0.11.2.md)、 [v0.11.1](docs/qa-v0.11.1.md)、 [v0.11.0](docs/qa-v0.11.0.md)、 [v0.10.0](docs/qa-v0.10.0.md)、 [v0.9.0](docs/qa-v0.9.0.md)、[v0.8.1](docs/qa-v0.8.1.md)、 [v0.8.0](docs/qa-v0.8.0.md)、 [v0.7.0](docs/qa-v0.7.0.md)、 [v0.6.0](docs/qa-v0.6.0.md)、 [v0.5.0](docs/qa-v0.5.0.md)、[v0.4.1](docs/qa-v0.4.1.md)、[v0.4.0](docs/qa-v0.4.0.md)、[v0.3.0](docs/qa-v0.3.0.md)、[v0.2.1](docs/qa-v0.2.1.md)。
 
 ### 静态部署
 

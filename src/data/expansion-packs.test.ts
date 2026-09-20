@@ -3,6 +3,18 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps KonoSuba in season one with skill limits and party roles intact', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'konosuba')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第一季第 1–10 集')
+    expect(bank!.scope).toContain('不混入第二季')
+    for (const [number, answer] of [['03', '冒险者（初级职业）'], ['07', '每天一发'], ['14', '幸运'], ['24', '惠惠与维兹'], ['35', '厄里斯']]) {
+      const q = bank!.questions.find((q) => q.id === `konosuba-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    expect(bank!.questions.filter((q) => q.source!.url.endsWith('/character/')).length).toBeGreaterThan(0)
+    expect(bank!.questions.filter((q) => q.source!.url.endsWith('/story/')).length).toBeGreaterThan(0)
+  })
   it('limits Promised Neverland to season one and preserves informer and escape facts', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'promised-neverland')
     expect(bank).toBeDefined()
@@ -316,7 +328,7 @@ describe('catalog additions', () => {
       expect(q.options[q.answer]).toBe(answer)
     }
   })
-  it('adds 1700 distinct illustrated sourced questions with explicit anime scopes', () => {
+  it('adds 1750 distinct illustrated sourced questions with explicit anime scopes', () => {
     const sources: Record<string, RegExp> = {
       'attack-on-titan': /^https:\/\/shingeki.tv\/season1\//,
       'death-note': /^https:\/\/www.ntv.co.jp\/deathnote\/static\/story2?\.html$/,
@@ -353,6 +365,7 @@ describe('catalog additions', () => {
     sources['angel-beats'] = /^https:\/\/www\.angelbeats\.jp\/story2\/(?:index|ep(?:0[2-9]|1[0-3]))\.html$/
     sources['haikyuu'] = /^https:\/\/www\.b-ch\.com\/titles\/4065\/0(?:0[1-9]|1\d|2[0-5])$/
     sources['promised-neverland'] = /^https:\/\/neverland-anime\.com\/1st\/(?:story\/(?:0[1-9]|1[0-2])\/|character\/)$/
+    sources['konosuba'] = /^https:\/\/konosuba\.com\/1st\/(?:story|character)\/$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
