@@ -3,6 +3,21 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps Parasyte in the 24-episode TV continuity with sourced abilities and investigation facts', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'parasyte')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第 1–24 集')
+    expect(bank!.scope).toContain('不混入真人电影')
+    for (const [number, answer] of [['02', '右臂'], ['06', '田宫良子'], ['12', '美术部'], ['21', '小右的细胞散布到全身'], ['30', '特殊传感器']]) {
+      const question = bank!.questions.find((q) => q.id === `parasyte-${number}`)!
+      expect(question.options[question.answer]).toBe(answer)
+    }
+    const episodes = bank!.questions.flatMap((q) => {
+      const match = q.source!.url.match(/\/story\/(\d+)\.html$/)
+      return match ? [Number(match[1])] : []
+    })
+    expect(new Set(episodes)).toEqual(new Set(Array.from({ length: 24 }, (_, i) => i + 1)))
+  })
   it('separates the 2011 Blue Exorcist continuity and resolves its finale source', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'blue-exorcist')
     expect(bank).toBeDefined()
@@ -426,6 +441,7 @@ describe('catalog additions', () => {
     sources['sword-art-online-2'] = /^https:\/\/www\.swordart-online\.net\/(?:phantom\/story\/\?id=ep(?:0[1-9]|1[0-4])|calibur\/story\/\?id=ep1[5-7]|mothers\/story\/\?id=ep(?:1[89]|2[0-4]))$/
     sources['cowboy-bebop'] = /^https:\/\/www\.cowboy-bebop\.net\/(?:world\/#tv|story\/(?:0[2-5]\.html)?)$/
     sources['blue-exorcist'] = /^https:\/\/www\.ao-ex\.com\/tv\/story\/(?:(?:0[1-9]|1\d|2[0-4])\.html)?$/
+    sources['parasyte'] = /^https:\/\/www\.vap\.co\.jp\/kiseiju\/(?:story\/(?:0[1-9]|1\d|2[0-4])|chara\/(?:shinichi|migi|satomi|ryoko|miki|gotou|kana|shimada|yuko|uda|nobuko|makiko|mitsuo|a|kuramori|hirama|uragami|hirokawa))\.html$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
