@@ -27,5 +27,6 @@ export const animeSeries: { id: AnimeSeriesId; title: string; subtitle: string; 
   { id: 'attack-on-titan-season-3-part-2', title: '进击的巨人 第三季后半部', subtitle: '夺还作战 · 剧情与制作知识', aliases: '进击 巨人 進撃 aot attack on titan season 3 part 2 shingeki 第三季 后半部 下半部 雷枪 地下室' },
   { id: 'no-game-no-life', title: '游戏人生', subtitle: '电视动画 · 游戏与心理博弈', aliases: 'no game no life ngnl ノーゲーム ノーライフ 游戏人生 空白 空 白 史蒂芙 吉普莉尔 克拉米 菲尔 伊纲 特图 血坏' },
   { id: 'code-geass', title: 'Code Geass 反叛的鲁路修', subtitle: '第一季 · 身份与战术博弈', aliases: 'code geass lelouch 鲁路修 反逆的鲁鲁修 叛逆 朱雀 卡莲 黑色骑士团 zero 兰斯洛特 红莲 C.C.' },
+  { id: 'your-lie-in-april', title: '四月是你的谎言', subtitle: '电视动画 · 音乐与人物成长', aliases: 'your lie in april shigatsu wa kimi no uso 四月 公生 宫园薰 椿 渡 武士 绘见' },
   { id: 'rezero-season-1', title: 'Re:0 第一季', subtitle: '第一季独立 · 循环调查与救援', aliases: 're0 re:zero re zero first season 1 从零开始的异世界生活 第一季 昴 爱蜜莉雅 雷姆 拉姆 碧翠丝 白鲸' },
 ]

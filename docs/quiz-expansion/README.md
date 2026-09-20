@@ -2,7 +2,7 @@
 
 用户清单已完整保存于 [catalog.json](catalog.json)，保持原英文标题、编号和顺序。原附件为连续编号，未包含「、」；按每 20 个条目切成 10 段，每条目目标 50 题，共约 10,000 题。
 
-v0.11.0 首页提供「查看 200 条目制作目录」，支持分段浏览、当前范围搜索与已有题库直达。目录按真实题池显示进度，不把待制作条目、跨季综合题库或电影合集记作完整独立题库；v0.30.0 已有 1372 道可玩题目。
+v0.11.0 首页提供「查看 200 条目制作目录」，支持分段浏览、当前范围搜索与已有题库直达。目录按真实题池显示进度，不把待制作条目、跨季综合题库或电影合集记作完整独立题库；v0.31.0 已有 1422 道可玩题目。
 
 ## 制作约定
 
@@ -32,11 +32,11 @@ v0.11.0 首页提供「查看 200 条目制作目录」，支持分段浏览、�
 
 ## 接续位置与实际进度
 
-v0.30.0 完成 #23《Re:Zero - Starting Life in Another World》第一季独立50题（第1–25集公开剧情）。清单已对应24个条目、1200／10,000题；实际站内1372题，含未计入独立条目目标的综合题库。
+v0.31.0 完成 #24《Your Lie in April》独立50题（电视动画第1–22集公开简介）。清单已对应25个条目、1250／10,000题；实际站内1422题，含未计入独立条目目标的综合题库。
 
-第1段20／20项、第2段3／20项已各有50题，题库范围以各自说明为准。下一未完成条目为第2段 #24《Your Lie in April》（四月是你的谎言）。
+第1段20／20项、第2段4／20项已各有50题，题库范围以各自说明为准。下一未完成条目为第2段 #25《My Hero Academia 3rd Season》。
 
-资料规则已获明确扩展：允许直接核查作品官网、出版方资料。Grok 缺少配置不再阻挡这一授权范围内的新题制作。本轮见 [Re:0第一季核验记录](sources-rezero-season-1.md)；此前见 [Code Geass核验记录](sources-code-geass.md)、 [游戏人生核验记录](sources-no-game-no-life.md)、 [巨人第三季后半部核验记录](sources-attack-on-titan-season-3-part-2.md)、 [声之形核验记录](sources-a-silent-voice.md)、 [巨人第三季上半部核验记录](sources-attack-on-titan-season-3.md)、 [我英第二季核验记录](sources-my-hero-academia-season-2.md)、 [疾风传核验记录](sources-naruto-shippuden.md)、 [命运石之门核验记录](sources-steins-gate.md)、 [巨人第二季核验记录](sources-attack-on-titan-season-2.md)、 [你的名字核验记录](sources-your-name.md)、 [东京喰种核验记录](sources-tokyo-ghoul.md)、 [咒术回战核验记录](sources-jujutsu-kaisen.md)、 [全职猎人核验记录](sources-hunter-x-hunter.md)、 [刀剑神域核验记录](sources-sword-art-online.md)、 [我的英雄学院核验记录](sources-my-hero-academia.md)、 [一拳超人核验记录](sources-one-punch-man.md)、 [Brotherhood 核验记录](sources-brotherhood.md)、[前两个条目核验记录](sources-batch-01.md)。
+资料规则已获明确扩展：允许直接核查作品官网、出版方资料。Grok 缺少配置不再阻挡这一授权范围内的新题制作。本轮见 [四月核验记录](sources-your-lie-in-april.md)；此前见 [Re:0第一季核验记录](sources-rezero-season-1.md)、 [Code Geass核验记录](sources-code-geass.md)、 [游戏人生核验记录](sources-no-game-no-life.md)、 [巨人第三季后半部核验记录](sources-attack-on-titan-season-3-part-2.md)、 [声之形核验记录](sources-a-silent-voice.md)、 [巨人第三季上半部核验记录](sources-attack-on-titan-season-3.md)、 [我英第二季核验记录](sources-my-hero-academia-season-2.md)、 [疾风传核验记录](sources-naruto-shippuden.md)、 [命运石之门核验记录](sources-steins-gate.md)、 [巨人第二季核验记录](sources-attack-on-titan-season-2.md)、 [你的名字核验记录](sources-your-name.md)、 [东京喰种核验记录](sources-tokyo-ghoul.md)、 [咒术回战核验记录](sources-jujutsu-kaisen.md)、 [全职猎人核验记录](sources-hunter-x-hunter.md)、 [刀剑神域核验记录](sources-sword-art-online.md)、 [我的英雄学院核验记录](sources-my-hero-academia.md)、 [一拳超人核验记录](sources-one-punch-man.md)、 [Brotherhood 核验记录](sources-brotherhood.md)、[前两个条目核验记录](sources-batch-01.md)。
 
 ### 第 1 段明细
 

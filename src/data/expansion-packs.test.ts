@@ -3,6 +3,18 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('scopes Your Lie in April to 22 TV episodes and distinguishes performance outcomes', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'your-lie-in-april')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第 1–22 集')
+    expect(bank!.questions).toHaveLength(50)
+    expect(new Set(bank!.questions.map((q) => q.source!.url)).size).toBe(22)
+    for (const [number, answer] of [['03', '口风琴'], ['09', '观众推荐'], ['22', '克莱斯勒《爱的悲伤》'], ['35', '再次与公生一起演奏']]) {
+      const q = bank!.questions.find((q) => q.id === `your-lie-in-april-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    expect(bank!.questions.every((q) => /^https:\/\/www\.kimiuso\.jp\/story\/(?:0[1-9]|1\d|2[0-2])\.html$/.test(q.source!.url))).toBe(true)
+  })
   it('keeps Re:Zero season one separate from the mixed bank and excludes recap extras', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'rezero-season-1')
     expect(bank).toBeDefined()
@@ -133,7 +145,7 @@ describe('catalog additions', () => {
       expect(q.options[q.answer]).toBe(answer)
     }
   })
-  it('adds 1000 distinct illustrated sourced questions with explicit anime scopes', () => {
+  it('adds 1050 distinct illustrated sourced questions with explicit anime scopes', () => {
     const sources: Record<string, RegExp> = {
       'attack-on-titan': /^https:\/\/shingeki.tv\/season1\//,
       'death-note': /^https:\/\/www.ntv.co.jp\/deathnote\/static\/story2?\.html$/,
@@ -156,6 +168,7 @@ describe('catalog additions', () => {
     sources['no-game-no-life'] = /^https:\/\/ngnl\.jp\/tv\/(?:story\/story(?:[1-9]|1[0-2])\.html|character\/(?:index|chara0[2-8])\.html)$/
     sources['code-geass'] = /^https:\/\/geass\.jp\/first\/story_(?:0[1-9]|1\d|2[0-3]|2425)\.html$/
     sources['rezero-season-1'] = /^https:\/\/re-zero-anime\.jp\/tv\/story\/tv1r\.html#EP(?:[1-9]|1[013-9]|2[0-6])$/
+    sources['your-lie-in-april'] = /^https:\/\/www\.kimiuso\.jp\/story\/(?:0[1-9]|1\d|2[0-2])\.html$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)

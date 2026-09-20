@@ -1,6 +1,7 @@
 import type { QuizImage } from '../types'
 
 export const originalScenes = {
+  'chamber-music': '舞台上的钢琴、小提琴与琴弓',
   boardgame: '棋盘、两枚棋子、卡片与骰子的桌游示意图',
   connections: '六个图形节点组成的知识连接图',
   voyage: '海面上的帆船与航线',

@@ -18,6 +18,7 @@ import { shippudenEntries } from './naruto-shippuden'
 import { heroSeasonTwoEntries } from './my-hero-academia-season-2'
 import { titanSeasonThreeEntries } from './attack-on-titan-season-3'
 import { silentVoiceEntries } from './a-silent-voice'
+import { yourLieInAprilEntries } from './your-lie-in-april'
 import { rezeroSeasonOneEntries } from './rezero-season-1'
 import { codeGeassEntries } from './code-geass'
 import { noGameNoLifeEntries } from './no-game-no-life'
@@ -150,15 +151,19 @@ export const expansionBanks = [
     if (typeof reference !== 'number' || !Number.isInteger(reference) || reference < 1 || reference > 25) throw new Error('Re:Zero season one needs an episode from 1 to 25')
     return { label: `第一季官网第 ${reference} 集简介（新编集版资料页）`, url: `https://re-zero-anime.jp/tv/story/tv1r.html#EP${reference > 11 ? reference + 1 : reference}` }
   }),
+  bank('your-lie-in-april', '四月是你的谎言', '限定2014–2015年电视动画第 1–22 集官网公开简介，含比赛、住院与人物成长剧透，侧重演奏诠释与人物关系；不混入第23话OAD、真人电影或漫画独有内容，不补写官网未展开的病名、信件和结局细节。', yourLieInAprilEntries, (reference) => {
+    if (typeof reference !== 'number' || !Number.isInteger(reference) || reference < 1 || reference > 22) throw new Error('Your Lie in April needs a TV episode from 1 to 22')
+    return { label: `电视动画官网第 ${reference} 集简介`, url: `https://www.kimiuso.jp/story/${String(reference).padStart(2, '0')}.html` }
+  }),
 ]
 
 const titles = ['人物与世界入门', '行动与规则应用', '证据与战术推演']
 export const expansionQuizzes: Quiz[] = expansionBanks.flatMap((bank) => difficulties.map((difficulty, index) => ({
   id: index === 0 ? bank.series : `${bank.series}-${index === 1 ? 'intermediate' : 'advanced'}`,
-  series: bank.series, title: `${bank.title}，${bank.series === 'a-silent-voice' ? ['人物与电影入门', '关系与制作知识', '声音设计与创作原理'][index] : bank.series === 'attack-on-titan-season-3-part-2' ? ['夺还作战入门', '剧情与制作知识', '战局判断与版本辨析'][index] : titles[index]}`,
+  series: bank.series, title: `${bank.title}，${bank.series === 'your-lie-in-april' ? ['人物与音乐入门', '比赛与成长轨迹', '演奏诠释与人物动机'][index] : bank.series === 'a-silent-voice' ? ['人物与电影入门', '关系与制作知识', '声音设计与创作原理'][index] : bank.series === 'attack-on-titan-season-3-part-2' ? ['夺还作战入门', '剧情与制作知识', '战局判断与版本辨析'][index] : titles[index]}`,
   description: `${bank.title}专题，12 道${difficulty}题。结合剧情与设定判断，每题附原创配图、解析和官方资料链接。`,
   category: '二次元', difficulty, duration: difficultySeconds[difficulty],
-  image: originalArt(bank.series === 'rezero-season-1' ? 'time' : bank.series === 'no-game-no-life' ? 'boardgame' : bank.series === 'attack-on-titan-season-3-part-2' ? 'arena' : bank.series === 'a-silent-voice' ? 'music' : bank.series === 'attack-on-titan-season-3' ? 'detective' : bank.series === 'naruto-shippuden' ? 'training' : bank.series === 'steins-gate' ? 'time' : bank.series === 'your-name' ? 'connections' : bank.series === 'tokyo-ghoul' ? 'city' : bank.series === 'jujutsu-kaisen' ? 'magic' : bank.series === 'hunter-x-hunter' ? 'adventure' : bank.series === 'my-hero-academia' || bank.series === 'my-hero-academia-season-2' ? 'academy' : bank.series === 'attack-on-titan-season-2' || bank.series === 'attack-on-titan' || bank.series === 'one-punch-man' || bank.series === 'sword-art-online' ? 'arena' : bank.series === 'fullmetal-alchemist-brotherhood' ? 'laboratory' : 'detective'),
+  image: originalArt(bank.series === 'your-lie-in-april' ? 'chamber-music' : bank.series === 'rezero-season-1' ? 'time' : bank.series === 'no-game-no-life' ? 'boardgame' : bank.series === 'attack-on-titan-season-3-part-2' ? 'arena' : bank.series === 'a-silent-voice' ? 'music' : bank.series === 'attack-on-titan-season-3' ? 'detective' : bank.series === 'naruto-shippuden' ? 'training' : bank.series === 'steins-gate' ? 'time' : bank.series === 'your-name' ? 'connections' : bank.series === 'tokyo-ghoul' ? 'city' : bank.series === 'jujutsu-kaisen' ? 'magic' : bank.series === 'hunter-x-hunter' ? 'adventure' : bank.series === 'my-hero-academia' || bank.series === 'my-hero-academia-season-2' ? 'academy' : bank.series === 'attack-on-titan-season-2' || bank.series === 'attack-on-titan' || bank.series === 'one-punch-man' || bank.series === 'sword-art-online' ? 'arena' : bank.series === 'fullmetal-alchemist-brotherhood' ? 'laboratory' : 'detective'),
   color: index === 0 ? 'mint' : 'lavender', tag: '新 IP · 原创配图',
   scope: `${bank.scope} 配图为原创主题示意图，并非作品场景。`,
   questions: bank.questions.filter((question) => question.difficulty === difficulty).slice(0, 12),
