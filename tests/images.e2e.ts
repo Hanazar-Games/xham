@@ -1,6 +1,34 @@
 import { test, expect } from '@playwright/test'
 import { quizzes } from '../src/data/quizzes'
 
+test('answer review retains every question image, credits and retry without timer instructions', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 568 })
+  const quiz = quizzes[0]
+  await page.goto('/')
+  await page.getByRole('button', { name: `开始：${quiz.title}`, exact: true }).click()
+  await page.getByRole('button', { name: '准备好了，开始！' }).click()
+  for (const question of quiz.questions) {
+    await page.keyboard.press(String(question.answer + 1))
+    await page.keyboard.press('Enter')
+  }
+  let fail = true
+  await page.route(`**${quiz.questions[0].image!.src}`, (route) => fail ? route.abort() : route.continue())
+  await page.getByRole('button', { name: '查看答案与解析' }).click()
+  await expect(page.locator('.answer-review .question-picture')).toHaveCount(quiz.questions.length)
+  const first = page.locator('.review-item').first()
+  await first.scrollIntoViewIfNeeded()
+  await expect(first.locator('.image-unavailable')).toBeVisible()
+  await expect(first).not.toContainText('重试不会暂停计时')
+  fail = false
+  await first.getByRole('button', { name: '重新加载图片' }).click()
+  await expect(first.locator('.question-picture')).toBeFocused()
+  await expect.poll(() => first.locator('img').evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true)
+  await expect(page.locator('.answer-review').getByRole('link', { name: '图片来源', exact: true })).toHaveCount(quiz.questions.length)
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+  await page.getByRole('button', { name: '收起答案回顾' }).click()
+  await expect(page.locator('.answer-review')).toHaveCount(0)
+})
+
 test('a failed question image can be retried without resetting the question or losing focus', async ({ page }) => {
   await page.clock.install()
   const quiz = quizzes[0]

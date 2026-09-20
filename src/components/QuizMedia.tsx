@@ -48,7 +48,12 @@ export function QuizArtwork({ quiz }: { quiz: Quiz }) {
   )
 }
 
-export function QuestionPicture({ image, showSource }: { image: QuizImage; showSource: boolean }) {
+export function QuestionPicture({ image, showSource, timed = false, loading = 'eager' }: {
+  image: QuizImage
+  showSource: boolean
+  timed?: boolean
+  loading?: 'eager' | 'lazy'
+}) {
   const figure = useRef<HTMLElement>(null)
   return (
     <figure
@@ -61,10 +66,10 @@ export function QuestionPicture({ image, showSource }: { image: QuizImage; showS
         key={image.src}
         image={image}
         className="question-image"
-        loading="eager"
+        loading={loading}
         fallback={(retry) => (
           <div className="question-image image-unavailable">
-            <p role="status">图片暂时无法显示，可重试或根据题目继续作答。重试不会暂停计时。</p>
+            <p role="status">图片暂时无法显示，可重试或阅读文字题面。{timed && '重试不会暂停计时。'}</p>
             <button className="secondary-button" onClick={() => {
               retry()
               figure.current?.focus({ preventScroll: true })

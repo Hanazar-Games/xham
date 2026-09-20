@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { Icon } from '../components/Icon'
+import { QuestionPicture } from '../components/QuizMedia'
 import { summarize, type GameState } from './engine'
 import { difficulties } from '../types'
-import { publicUrl } from '../public-url'
 
 export function QuizResults({
   state,
@@ -106,13 +106,13 @@ export function QuizResults({
                   <h3>
                     <span>{index + 1}.</span> {item.prompt}
                   </h3>
+                  {item.image && <QuestionPicture image={item.image} showSource loading="lazy" />}
                   <p>
                     你的答案：
                     {answer.selected === null ? '超时未作答' : item.options[answer.selected]}
                     <span className="review-correct">正确答案：{item.options[item.answer]}</span>
                   </p>
                   <p className="review-explanation">{item.explanation}</p>
-                  {quiz.mode === 'exam' && item.image && <p className="cover-credit">{item.image.credit} · <a href={publicUrl(item.image.sourceUrl)} target="_blank" rel="noreferrer">图片来源</a></p>}
                   {item.source && (
                     <a
                       className="answer-source"
