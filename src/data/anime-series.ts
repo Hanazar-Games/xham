@@ -27,6 +27,7 @@ export const animeSeries: { id: AnimeSeriesId; title: string; subtitle: string; 
   { id: 'attack-on-titan-season-3-part-2', title: '进击的巨人 第三季后半部', subtitle: '夺还作战 · 剧情与制作知识', aliases: '进击 巨人 進撃 aot attack on titan season 3 part 2 shingeki 第三季 后半部 下半部 雷枪 地下室' },
   { id: 'no-game-no-life', title: '游戏人生', subtitle: '电视动画 · 游戏与心理博弈', aliases: 'no game no life ngnl ノーゲーム ノーライフ 游戏人生 空白 空 白 史蒂芙 吉普莉尔 克拉米 菲尔 伊纲 特图 血坏' },
   { id: 'code-geass', title: 'Code Geass 反叛的鲁路修', subtitle: '第一季 · 身份与战术博弈', aliases: 'code geass lelouch 鲁路修 反逆的鲁鲁修 叛逆 朱雀 卡莲 黑色骑士团 zero 兰斯洛特 红莲 C.C.' },
+  { id: 'erased', title: '只有我不在的街道', subtitle: '电视动画 · 再上映与线索推理', aliases: 'erased boku dake ga inai machi 僕だけがいない街 只有我不在的街道 仆街 藤沼悟 加代 贤也 爱梨 佐知子 八代' },
   { id: 'attack-on-titan-final-season', title: '进击的巨人 最终季前半部', subtitle: '第60–75集 · 马莱与战争形势', aliases: 'attack on titan the final season part 1 shingeki 巨人 最终季 第四季 马莱 贾碧 法尔科 皮克 吉克' },
   { id: 'noragami', title: '野良神 第一季', subtitle: '神明与神器 · 羁绊与净化', aliases: 'noragami ノラガミ 野良神 夜斗 夜ト 日和 雪音 小福 大黑 毘沙门 兆麻 天神 野良 蠃蚌' },
   { id: 'mob-psycho-100', title: '灵能百分百 第一季', subtitle: '能力与成长 · 第七支部救援', aliases: 'mob psycho 100 モブサイコ100 灵能百分百 路人超能100 龙套 影山茂夫 影山律 灵幻 小酒窝 花泽 爪' },

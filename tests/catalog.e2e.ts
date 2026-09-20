@@ -1,6 +1,24 @@
 import { test, expect } from '@playwright/test'
 import axe from 'axe-core'
 
+test('Erased opens its complete TV bank with spoiler scope on mobile', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 568 })
+  await page.goto('/')
+  await page.getByRole('button', { name: '查看 200 条目制作目录', exact: true }).click()
+  await page.getByLabel('目录分段').selectOption('2')
+  const entry = page.locator('.catalog-item[data-number="30"]')
+  await expect(entry).toContainText('50 / 50')
+  await entry.getByRole('button', { name: '进入题库：Erased', exact: true }).click()
+  await expect(page.locator('#exam-title')).toHaveText('只有我不在的街道 · 模拟考试')
+  await expect(page.locator('.quiz-card')).toHaveCount(3)
+  await page.getByRole('button', { name: '全部 50 题', exact: true }).click()
+  await page.getByRole('button', { name: '生成试卷', exact: true }).click()
+  await expect(page.getByRole('dialog')).toContainText('第 1–12 集')
+  await expect(page.getByRole('dialog')).toContainText('真凶与结局剧透')
+  await expect(page.getByRole('dialog')).toContainText('不混入真人电影')
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+})
+
 test('Titan Final Season opens part one with production scope and leaves Part 2 planned', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 568 })
   await page.goto('/')
@@ -356,8 +374,8 @@ test('catalog preserves all ten batches and only opens existing question banks',
   await opener.click()
   const dialog = page.getByRole('dialog', { name: '动漫题库制作目录' })
   await expect(dialog.locator('.catalog-item')).toHaveCount(20)
-  await expect(dialog.locator('.catalog-summary')).toContainText('30 / 200')
-  await expect(dialog.locator('.catalog-summary')).toContainText('1,500 / 10,000')
+  await expect(dialog.locator('.catalog-summary')).toContainText('31 / 200')
+  await expect(dialog.locator('.catalog-summary')).toContainText('1,550 / 10,000')
   await expect(dialog.locator('.catalog-item').first()).toContainText('Attack on Titan')
   await expect(dialog.locator('.catalog-item').first().getByRole('button')).toHaveCount(1)
   for (let batch = 1; batch <= 10; batch++) {

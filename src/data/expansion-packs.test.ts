@@ -3,6 +3,18 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps Erased within the TV adaptation and distinguishes timeline and evidence', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'erased')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第 1–12 集')
+    expect(bank!.scope).toContain('真凶与结局剧透')
+    expect(bank!.questions).toHaveLength(50)
+    for (const [number, answer] of [['01', '29岁'], ['19', '2006年'], ['27', '2003年'], ['28', '15年'], ['35', '救助垫与同伴']]) {
+      const q = bank!.questions.find((q) => q.id === `erased-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    expect(new Set(bank!.questions.map((q) => q.source!.url))).toEqual(new Set(Array.from({ length: 12 }, (_, i) => `https://bokumachi-anime.com/story/${String(i + 1).padStart(2, '0')}/`)))
+  })
   it('limits Titan Final Season to part one and separates inherited powers and release ranges', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'attack-on-titan-final-season')
     expect(bank).toBeDefined()
@@ -216,7 +228,7 @@ describe('catalog additions', () => {
       expect(q.options[q.answer]).toBe(answer)
     }
   })
-  it('adds 1300 distinct illustrated sourced questions with explicit anime scopes', () => {
+  it('adds 1350 distinct illustrated sourced questions with explicit anime scopes', () => {
     const sources: Record<string, RegExp> = {
       'attack-on-titan': /^https:\/\/shingeki.tv\/season1\//,
       'death-note': /^https:\/\/www.ntv.co.jp\/deathnote\/static\/story2?\.html$/,
@@ -245,6 +257,7 @@ describe('catalog additions', () => {
     sources['mob-psycho-100'] = /^https:\/\/mobpsycho100\.com\/1st\/(?:story\/(?:0[1-9]|1[0-2])|chara\/(?:mob|reigen|ritsu|teru|ekubo|tome|musashi|tsubomi))\.html$/
     sources['noragami'] = /^https:\/\/noragami-anime\.net\/1\/(?:story\.html#headCts(?:[1-9]|1[0-2])|character\.html#charaScr(?:[1-9]|10))$/
     sources['attack-on-titan-final-season'] = /^https:\/\/shingeki\.tv\/final\/(?:story\/#\/episode\/(?:6\d|7[0-5])|character\/|music\/(?:op|ed)\/|product\/final_[12]\/)$/
+    sources['erased'] = /^https:\/\/bokumachi-anime\.com\/story\/(?:0[1-9]|1[0-2])\/$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
