@@ -8,6 +8,16 @@ describe('published question quality', () => {
   const bank = questionBanks[0]
   const question = bank.questions[0]
 
+  it('allows only the verified HTTP anime archive pages as source exceptions', () => {
+    for (const path of ['teigu.html', 'story_01.html', 'story_24.html']) {
+      expect(questionIssues({ ...question, source: { label: 'Official archive', url: `http://akame.tv/${path}` } })).toEqual([])
+    }
+    for (const url of ['http://example.com/story_01.html', 'http://akame.tv.evil.test/teigu.html', 'http://akame.tv@evil.test/teigu.html', 'http://akame.tv/story_25.html', 'http://akame.tv/teigu.html?redirect=elsewhere', 'javascript:alert(1)']) {
+      expect(questionIssues({ ...question, source: { label: 'Invalid', url } })).toContain('source')
+    }
+    expect(questionIssues({ ...question, image: { ...question.image!, sourceUrl: 'http://akame.tv/teigu.html' } })).toContain('image')
+  })
+
   it('checks every question, including exam-only additions and crossover questions', () => {
     for (const entry of questionBanks.flatMap((item) => item.questions)) {
       expect(questionIssues(entry), entry.id).toEqual([])

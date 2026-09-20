@@ -3,6 +3,19 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('grounds Akame in the TV story and preserves equipment limits', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'akame-ga-kill')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第 1–24 集')
+    expect(bank!.scope).toContain('不混入漫画')
+    expect(bank!.questions).toHaveLength(50)
+    for (const [number, answer] of [['04', '48件'], ['19', '产生拒绝反应，无法继续使用'], ['25', '赤瞳的妹妹'], ['33', '玛茵与须佐之男'], ['36', '造成伤口后，咒毒由伤口进入']]) {
+      const q = bank!.questions.find((q) => q.id === `akame-ga-kill-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    const episodes = bank!.questions.filter((q) => q.source!.url.includes('story_'))
+    expect(new Set(episodes.map((q) => q.source!.url)).size).toBe(24)
+  })
   it('keeps Erased within the TV adaptation and distinguishes timeline and evidence', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'erased')
     expect(bank).toBeDefined()
@@ -228,7 +241,7 @@ describe('catalog additions', () => {
       expect(q.options[q.answer]).toBe(answer)
     }
   })
-  it('adds 1350 distinct illustrated sourced questions with explicit anime scopes', () => {
+  it('adds 1400 distinct illustrated sourced questions with explicit anime scopes', () => {
     const sources: Record<string, RegExp> = {
       'attack-on-titan': /^https:\/\/shingeki.tv\/season1\//,
       'death-note': /^https:\/\/www.ntv.co.jp\/deathnote\/static\/story2?\.html$/,
@@ -258,6 +271,7 @@ describe('catalog additions', () => {
     sources['noragami'] = /^https:\/\/noragami-anime\.net\/1\/(?:story\.html#headCts(?:[1-9]|1[0-2])|character\.html#charaScr(?:[1-9]|10))$/
     sources['attack-on-titan-final-season'] = /^https:\/\/shingeki\.tv\/final\/(?:story\/#\/episode\/(?:6\d|7[0-5])|character\/|music\/(?:op|ed)\/|product\/final_[12]\/)$/
     sources['erased'] = /^https:\/\/bokumachi-anime\.com\/story\/(?:0[1-9]|1[0-2])\/$/
+    sources['akame-ga-kill'] = /^http:\/\/akame\.tv\/(?:teigu|story_(?:0[1-9]|1\d|2[0-4]))\.html$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)

@@ -1,3 +1,4 @@
+import { questionIssues } from './content-validation'
 import { describe, expect, it } from 'vitest'
 import { quizzes } from './quizzes'
 import { createGame, gameReducer, summarize } from '../game/engine'
@@ -9,7 +10,7 @@ import { originalScenes } from './original-art'
 
 describe('built-in question bank', () => {
   it('contains only illustrated anime packs', () => {
-    expect(quizzes).toHaveLength(105)
+    expect(quizzes).toHaveLength(108)
     for (const quiz of quizzes) {
       expect(quiz.category).toBe('二次元')
       expect(quiz.series).toBeTruthy()
@@ -33,7 +34,7 @@ describe('built-in question bank', () => {
     for (const question of questions) {
       expect(question.image?.src).toMatch(/^\/images\/original\//)
       expect(question.prompt).toMatch(/^【.+】/)
-      expect(question.source?.url).toMatch(/^https:\/\//)
+      expect(questionIssues(question)).not.toContain('source')
     }
   })
   it.each(animeSeries.map((series) => series.id))(
@@ -49,7 +50,7 @@ describe('built-in question bank', () => {
         expect(pack.scope).toBeTruthy()
         for (const question of pack.questions) {
           expect(question.image?.src).toMatch(/^\/images\/(anime|original)\//)
-          expect(question.source?.url).toMatch(/^https:\/\//)
+          expect(questionIssues(question)).not.toContain('source')
         }
       }
     },
@@ -89,7 +90,7 @@ describe('built-in question bank', () => {
       expect(quiz!.image?.src).toMatch(/^\/images\/anime\//)
       for (const question of quiz!.questions) {
         expect(question.image?.src).toMatch(/^\/images\/anime\//)
-        expect(question.source?.url).toMatch(/^https:\/\//)
+        expect(questionIssues(question)).not.toContain('source')
         expect(question.source?.label.trim()).toBeTruthy()
       }
     },
@@ -115,7 +116,7 @@ describe('built-in question bank', () => {
       expect(quiz.image?.src).toMatch(/^\/images\/original\//)
       for (const question of quiz.questions) {
         expect(question.image?.src).toMatch(/^\/images\/original\//)
-        expect(question.source?.url).toMatch(/^https:\/\//)
+        expect(questionIssues(question)).not.toContain('source')
       }
     }
   })

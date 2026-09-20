@@ -15,6 +15,7 @@ import { yourNameEntries } from './your-name'
 import { titanSeasonTwoEntries } from './attack-on-titan-season-2'
 import { steinsGateEntries } from './steins-gate'
 import { shippudenEntries } from './naruto-shippuden'
+import { akameEntries } from './akame-ga-kill'
 import { erasedEntries } from './erased'
 import { titanFinalSeasonEntries } from './attack-on-titan-final-season'
 import { noragamiEntries } from './noragami'
@@ -196,15 +197,20 @@ export const expansionBanks = [
     if (typeof reference !== 'number' || !Number.isInteger(reference) || reference < 1 || reference > 12) throw new Error('Erased needs a TV episode from 1 to 12')
     return { label: `电视动画官网第 ${reference} 集简介及剧透续文`, url: `https://bokumachi-anime.com/story/${String(reference).padStart(2, '0')}/` }
   }),
+  bank('akame-ga-kill', '斩！赤红之瞳', '限定2014年电视动画第 1–24 集官网简介与帝具说明，含后半段人物命运剧透；不混入漫画后续、零或其他衍生作品。重点考人物行动、帝具条件与战局判断。', akameEntries, (reference) => {
+    if (reference === 'terms') return { label: '电视动画官网帝具说明（HTTP旧站，含图片正文）', url: 'http://akame.tv/teigu.html' }
+    if (typeof reference !== 'number' || !Number.isInteger(reference) || reference < 1 || reference > 24) throw new Error('Akame needs a TV episode from 1 to 24')
+    return { label: `电视动画官网第 ${reference} 集简介（HTTP旧站）`, url: `http://akame.tv/story_${String(reference).padStart(2, '0')}.html` }
+  }),
 ]
 
 const titles = ['人物与世界入门', '行动与规则应用', '证据与战术推演']
 export const expansionQuizzes: Quiz[] = expansionBanks.flatMap((bank) => difficulties.map((difficulty, index) => ({
   id: index === 0 ? bank.series : `${bank.series}-${index === 1 ? 'intermediate' : 'advanced'}`,
-  series: bank.series, title: `${bank.title}，${bank.series === 'erased' ? ['人物与再上映入门', '时间线与案件线索', '证据判断与救援决策'][index] : bank.series === 'attack-on-titan-final-season' ? ['马莱人物与音乐入门', '剧情与制作资料', '战争形势与版本辨析'][index] : bank.series === 'toradora' ? ['人物与校园入门', '事件与关系脉络', '心意与行动辨析'][index] : bank.series === 'your-lie-in-april' ? ['人物与音乐入门', '比赛与成长轨迹', '演奏诠释与人物动机'][index] : bank.series === 'a-silent-voice' ? ['人物与电影入门', '关系与制作知识', '声音设计与创作原理'][index] : bank.series === 'attack-on-titan-season-3-part-2' ? ['夺还作战入门', '剧情与制作知识', '战局判断与版本辨析'][index] : titles[index]}`,
+  series: bank.series, title: `${bank.title}，${bank.series === 'akame-ga-kill' ? ['人物与帝具入门', '组织行动与能力机制', '帝具限制与战局判断'][index] : bank.series === 'erased' ? ['人物与再上映入门', '时间线与案件线索', '证据判断与救援决策'][index] : bank.series === 'attack-on-titan-final-season' ? ['马莱人物与音乐入门', '剧情与制作资料', '战争形势与版本辨析'][index] : bank.series === 'toradora' ? ['人物与校园入门', '事件与关系脉络', '心意与行动辨析'][index] : bank.series === 'your-lie-in-april' ? ['人物与音乐入门', '比赛与成长轨迹', '演奏诠释与人物动机'][index] : bank.series === 'a-silent-voice' ? ['人物与电影入门', '关系与制作知识', '声音设计与创作原理'][index] : bank.series === 'attack-on-titan-season-3-part-2' ? ['夺还作战入门', '剧情与制作知识', '战局判断与版本辨析'][index] : titles[index]}`,
   description: `${bank.title}专题，12 道${difficulty}题。结合剧情与设定判断，每题附原创配图、解析和官方资料链接。`,
   category: '二次元', difficulty, duration: difficultySeconds[difficulty],
-  image: originalArt(bank.series === 'erased' ? 'detective' : bank.series === 'attack-on-titan-final-season' ? 'arena' : bank.series === 'noragami' ? 'magic' : bank.series === 'mob-psycho-100' ? 'magic' : bank.series === 'toradora' ? 'connections' : bank.series === 'your-lie-in-april' ? 'chamber-music' : bank.series === 'rezero-season-1' ? 'time' : bank.series === 'no-game-no-life' ? 'boardgame' : bank.series === 'attack-on-titan-season-3-part-2' ? 'arena' : bank.series === 'a-silent-voice' ? 'music' : bank.series === 'attack-on-titan-season-3' ? 'detective' : bank.series === 'naruto-shippuden' ? 'training' : bank.series === 'steins-gate' ? 'time' : bank.series === 'your-name' ? 'connections' : bank.series === 'tokyo-ghoul' ? 'city' : bank.series === 'jujutsu-kaisen' ? 'magic' : bank.series === 'hunter-x-hunter' ? 'adventure' : bank.series === 'my-hero-academia' || bank.series === 'my-hero-academia-season-2' || bank.series === 'my-hero-academia-season-3' ? 'academy' : bank.series === 'attack-on-titan-season-2' || bank.series === 'attack-on-titan' || bank.series === 'one-punch-man' || bank.series === 'sword-art-online' ? 'arena' : bank.series === 'fullmetal-alchemist-brotherhood' ? 'laboratory' : 'detective'),
+  image: originalArt(bank.series === 'akame-ga-kill' ? 'arena' : bank.series === 'erased' ? 'detective' : bank.series === 'attack-on-titan-final-season' ? 'arena' : bank.series === 'noragami' ? 'magic' : bank.series === 'mob-psycho-100' ? 'magic' : bank.series === 'toradora' ? 'connections' : bank.series === 'your-lie-in-april' ? 'chamber-music' : bank.series === 'rezero-season-1' ? 'time' : bank.series === 'no-game-no-life' ? 'boardgame' : bank.series === 'attack-on-titan-season-3-part-2' ? 'arena' : bank.series === 'a-silent-voice' ? 'music' : bank.series === 'attack-on-titan-season-3' ? 'detective' : bank.series === 'naruto-shippuden' ? 'training' : bank.series === 'steins-gate' ? 'time' : bank.series === 'your-name' ? 'connections' : bank.series === 'tokyo-ghoul' ? 'city' : bank.series === 'jujutsu-kaisen' ? 'magic' : bank.series === 'hunter-x-hunter' ? 'adventure' : bank.series === 'my-hero-academia' || bank.series === 'my-hero-academia-season-2' || bank.series === 'my-hero-academia-season-3' ? 'academy' : bank.series === 'attack-on-titan-season-2' || bank.series === 'attack-on-titan' || bank.series === 'one-punch-man' || bank.series === 'sword-art-online' ? 'arena' : bank.series === 'fullmetal-alchemist-brotherhood' ? 'laboratory' : 'detective'),
   color: index === 0 ? 'mint' : 'lavender', tag: '新 IP · 原创配图',
   scope: `${bank.scope} 配图为原创主题示意图，并非作品场景。`,
   questions: bank.questions.filter((question) => question.difficulty === difficulty).slice(0, 12),

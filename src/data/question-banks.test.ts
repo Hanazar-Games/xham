@@ -1,3 +1,4 @@
+import { questionIssues } from './content-validation'
 import { describe, expect, it } from 'vitest'
 import { questionBanks } from './question-banks'
 import { createExam } from '../game/exams'
@@ -7,7 +8,7 @@ import { existsSync } from 'node:fs'
 describe('IP question banks and exams', () => {
   it('provides exactly 50 sourced illustrated questions in three levels for each IP', () => {
     const banks = questionBanks.filter((bank) => bank.series !== 'crossover')
-    expect(banks).toHaveLength(33)
+    expect(banks).toHaveLength(34)
     for (const bank of banks) {
       expect(bank.questions).toHaveLength(50)
       expect(new Set(bank.questions.map((q) => q.id)).size).toBe(50)
@@ -16,7 +17,7 @@ describe('IP question banks and exams', () => {
       for (const question of bank.questions) {
         expect(question.image?.src).toMatch(/^\/images\//)
         expect(existsSync(new URL(`../../public${question.image!.src}`, import.meta.url))).toBe(true)
-        expect(question.source?.url).toMatch(/^https:\/\//)
+        expect(questionIssues(question)).not.toContain('source')
         expect(question.explanation.trim()).toBeTruthy()
         expect(new Set(question.options).size).toBe(4)
         expect(question.options[question.answer]).toBeTruthy()
@@ -42,8 +43,8 @@ describe('IP question banks and exams', () => {
 
   it('keeps global IDs unique and produces new orders while preserving full bank membership', () => {
     const questions = questionBanks.flatMap((bank) => bank.questions)
-    expect(questions).toHaveLength(1722)
-    expect(new Set(questions.map((q) => q.id)).size).toBe(1722)
+    expect(questions).toHaveLength(1772)
+    expect(new Set(questions.map((q) => q.id)).size).toBe(1772)
     const bank = questionBanks[1]
     const first = createExam(bank, '混合', 50, () => 0.1)
     const second = createExam(bank, '混合', 50, () => 0.9)

@@ -21,6 +21,8 @@ export function questionIssues(question: Question): string[] {
   if (!image || !/^\/images\/(anime|original)\/[\w-]+\.(webp|svg)$/.test(image.src) ||
       !image.alt?.trim() || !image.credit?.trim() ||
       !(image.sourceUrl === '/images/original/credits.html' || httpsUrl(image.sourceUrl))) issues.push('image')
-  if (!question.source?.label?.trim() || !httpsUrl(question.source?.url)) issues.push('source')
+  const sourceUrl = question.source?.url
+  const officialHttpArchive = /^http:\/\/akame\.tv\/(?:teigu|story_(?:0[1-9]|1\d|2[0-4]))\.html$/.test(sourceUrl ?? '')
+  if (!question.source?.label?.trim() || !(httpsUrl(sourceUrl) || officialHttpArchive)) issues.push('source')
   return issues
 }
