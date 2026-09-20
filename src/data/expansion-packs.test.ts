@@ -3,6 +3,18 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('grounds Seven Deadly Sins in the first-season archive and preserves battle distinctions', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'seven-deadly-sins')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第一季第 1–24 集')
+    expect(bank!.scope).toContain('不混入戒律的复活')
+    expect(bank!.questions).toHaveLength(50)
+    for (const [number, answer] of [['01', '里昂妮丝王国'], ['13', '强夺（Snatch）'], ['31', '700年前'], ['42', '魔术师薇薇安'], ['50', '鼓舞他们一起面对亨德里克森']]) {
+      const q = bank!.questions.find((q) => q.id === `seven-deadly-sins-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    expect(new Set(bank!.questions.map((q) => q.source!.url))).toEqual(new Set(Array.from({ length: 24 }, (_, i) => `https://1st.7-taizai.net/story${i === 23 ? '' : String(i + 1).padStart(2, '0')}.html`)))
+  })
   it('keeps Assassination Classroom in season one with distinct teacher roles and deadlines', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'assassination-classroom')
     expect(bank).toBeDefined()
@@ -267,7 +279,7 @@ describe('catalog additions', () => {
       expect(q.options[q.answer]).toBe(answer)
     }
   })
-  it('adds 1500 distinct illustrated sourced questions with explicit anime scopes', () => {
+  it('adds 1550 distinct illustrated sourced questions with explicit anime scopes', () => {
     const sources: Record<string, RegExp> = {
       'attack-on-titan': /^https:\/\/shingeki.tv\/season1\//,
       'death-note': /^https:\/\/www.ntv.co.jp\/deathnote\/static\/story2?\.html$/,
@@ -300,6 +312,7 @@ describe('catalog additions', () => {
     sources['akame-ga-kill'] = /^http:\/\/akame\.tv\/(?:teigu|story_(?:0[1-9]|1\d|2[0-4]))\.html$/
     sources['bleach'] = /^https:\/\/www\.b-ch\.com\/titles\/4994\/0(?:0[1-9]|1\d|20)$/
     sources['assassination-classroom'] = /^https:\/\/www\.ansatsu-anime\.com\/2014-2016\/(?:introduction\/|story\/detail_1st\.php\?id=\d+|character\/chara\/chara_(?:[1-4]|e(?:1|5|11|13|15|19))\.php)$/
+    sources['seven-deadly-sins'] = /^https:\/\/1st\.7-taizai\.net\/story(?:0[1-9]|1\d|2[0-3])?\.html$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
