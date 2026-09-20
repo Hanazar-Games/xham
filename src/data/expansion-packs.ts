@@ -15,6 +15,7 @@ import { yourNameEntries } from './your-name'
 import { titanSeasonTwoEntries } from './attack-on-titan-season-2'
 import { steinsGateEntries } from './steins-gate'
 import { shippudenEntries } from './naruto-shippuden'
+import { assassinationEntries } from './assassination-classroom'
 import { bleachEntries } from './bleach'
 import { akameEntries } from './akame-ga-kill'
 import { erasedEntries } from './erased'
@@ -207,15 +208,24 @@ export const expansionBanks = [
     if (typeof reference !== 'number' || !Number.isInteger(reference) || reference < 1 || reference > 20) throw new Error('Bleach needs a Substitute Soul Reaper episode from 1 to 20')
     return { label: `万代频道正版发行第 ${reference} 集简介`, url: `https://www.b-ch.com/titles/4994/${String(reference).padStart(3, '0')}` }
   }),
+  bank('assassination-classroom', '暗杀教室 第一季', '限定2015年电视动画第一季第 1–22 集及官网基础人物资料，含转学生、海岛救援与鹰冈相关剧透；不混入第二季、剧场版或漫画后续身份与结局。涉及战斗的题目只考剧情与能力判断，不提供现实操作步骤。', assassinationEntries, (reference) => {
+    if (reference === 'terms') return { label: '动画官网故事介绍（仅引用开篇设定，页面含第二季信息）', url: 'https://www.ansatsu-anime.com/2014-2016/introduction/' }
+    if (typeof reference !== 'number' || !Number.isInteger(reference)) throw new Error('Assassination Classroom needs a numbered reference')
+    const episodes = ['1000302', '1000303', '1000316', '1000326', '1000345', '1000356', '1000361', '1000370', '1000372', '1000378', '1000394', '1000397', '1000407', '1000410', '1000415', '1000419', '1000422', '1000425', '1000514', '1000524', '1000528', '1000532']
+    if (reference >= 1 && reference <= 22) return { label: `动画官网第一季第 ${reference} 集简介`, url: `https://www.ansatsu-anime.com/2014-2016/story/detail_1st.php?id=${episodes[reference - 1]}` }
+    const characters = ['1', '2', '3', '4', 'e11', 'e1', 'e5', 'e13', 'e15', 'e19']
+    if (reference >= 101 && reference <= 110) return { label: '动画官网人物资料（仅引用第一季基础信息）', url: `https://www.ansatsu-anime.com/2014-2016/character/chara/chara_${characters[reference - 101]}.php` }
+    throw new Error('Assassination Classroom reference outside first-season sources')
+  }),
 ]
 
 const titles = ['人物与世界入门', '行动与规则应用', '证据与战术推演']
 export const expansionQuizzes: Quiz[] = expansionBanks.flatMap((bank) => difficulties.map((difficulty, index) => ({
   id: index === 0 ? bank.series : `${bank.series}-${index === 1 ? 'intermediate' : 'advanced'}`,
-  series: bank.series, title: `${bank.title}，${bank.series === 'bleach' ? ['人物与代行入门', '灵魂机制与事件线索', '能力限制与救援准备'][index] : bank.series === 'akame-ga-kill' ? ['人物与帝具入门', '组织行动与能力机制', '帝具限制与战局判断'][index] : bank.series === 'erased' ? ['人物与再上映入门', '时间线与案件线索', '证据判断与救援决策'][index] : bank.series === 'attack-on-titan-final-season' ? ['马莱人物与音乐入门', '剧情与制作资料', '战争形势与版本辨析'][index] : bank.series === 'toradora' ? ['人物与校园入门', '事件与关系脉络', '心意与行动辨析'][index] : bank.series === 'your-lie-in-april' ? ['人物与音乐入门', '比赛与成长轨迹', '演奏诠释与人物动机'][index] : bank.series === 'a-silent-voice' ? ['人物与电影入门', '关系与制作知识', '声音设计与创作原理'][index] : bank.series === 'attack-on-titan-season-3-part-2' ? ['夺还作战入门', '剧情与制作知识', '战局判断与版本辨析'][index] : titles[index]}`,
+  series: bank.series, title: `${bank.title}，${bank.series === 'assassination-classroom' ? ['人物与课堂入门', '特长与事件线索', '教学判断与团队救援'][index] : bank.series === 'bleach' ? ['人物与代行入门', '灵魂机制与事件线索', '能力限制与救援准备'][index] : bank.series === 'akame-ga-kill' ? ['人物与帝具入门', '组织行动与能力机制', '帝具限制与战局判断'][index] : bank.series === 'erased' ? ['人物与再上映入门', '时间线与案件线索', '证据判断与救援决策'][index] : bank.series === 'attack-on-titan-final-season' ? ['马莱人物与音乐入门', '剧情与制作资料', '战争形势与版本辨析'][index] : bank.series === 'toradora' ? ['人物与校园入门', '事件与关系脉络', '心意与行动辨析'][index] : bank.series === 'your-lie-in-april' ? ['人物与音乐入门', '比赛与成长轨迹', '演奏诠释与人物动机'][index] : bank.series === 'a-silent-voice' ? ['人物与电影入门', '关系与制作知识', '声音设计与创作原理'][index] : bank.series === 'attack-on-titan-season-3-part-2' ? ['夺还作战入门', '剧情与制作知识', '战局判断与版本辨析'][index] : titles[index]}`,
   description: `${bank.title}专题，12 道${difficulty}题。结合剧情与设定判断，每题附原创配图、解析和官方资料链接。`,
   category: '二次元', difficulty, duration: difficultySeconds[difficulty],
-  image: originalArt(bank.series === 'bleach' ? 'magic' : bank.series === 'akame-ga-kill' ? 'arena' : bank.series === 'erased' ? 'detective' : bank.series === 'attack-on-titan-final-season' ? 'arena' : bank.series === 'noragami' ? 'magic' : bank.series === 'mob-psycho-100' ? 'magic' : bank.series === 'toradora' ? 'connections' : bank.series === 'your-lie-in-april' ? 'chamber-music' : bank.series === 'rezero-season-1' ? 'time' : bank.series === 'no-game-no-life' ? 'boardgame' : bank.series === 'attack-on-titan-season-3-part-2' ? 'arena' : bank.series === 'a-silent-voice' ? 'music' : bank.series === 'attack-on-titan-season-3' ? 'detective' : bank.series === 'naruto-shippuden' ? 'training' : bank.series === 'steins-gate' ? 'time' : bank.series === 'your-name' ? 'connections' : bank.series === 'tokyo-ghoul' ? 'city' : bank.series === 'jujutsu-kaisen' ? 'magic' : bank.series === 'hunter-x-hunter' ? 'adventure' : bank.series === 'my-hero-academia' || bank.series === 'my-hero-academia-season-2' || bank.series === 'my-hero-academia-season-3' ? 'academy' : bank.series === 'attack-on-titan-season-2' || bank.series === 'attack-on-titan' || bank.series === 'one-punch-man' || bank.series === 'sword-art-online' ? 'arena' : bank.series === 'fullmetal-alchemist-brotherhood' ? 'laboratory' : 'detective'),
+  image: originalArt(bank.series === 'assassination-classroom' ? 'academy' : bank.series === 'bleach' ? 'magic' : bank.series === 'akame-ga-kill' ? 'arena' : bank.series === 'erased' ? 'detective' : bank.series === 'attack-on-titan-final-season' ? 'arena' : bank.series === 'noragami' ? 'magic' : bank.series === 'mob-psycho-100' ? 'magic' : bank.series === 'toradora' ? 'connections' : bank.series === 'your-lie-in-april' ? 'chamber-music' : bank.series === 'rezero-season-1' ? 'time' : bank.series === 'no-game-no-life' ? 'boardgame' : bank.series === 'attack-on-titan-season-3-part-2' ? 'arena' : bank.series === 'a-silent-voice' ? 'music' : bank.series === 'attack-on-titan-season-3' ? 'detective' : bank.series === 'naruto-shippuden' ? 'training' : bank.series === 'steins-gate' ? 'time' : bank.series === 'your-name' ? 'connections' : bank.series === 'tokyo-ghoul' ? 'city' : bank.series === 'jujutsu-kaisen' ? 'magic' : bank.series === 'hunter-x-hunter' ? 'adventure' : bank.series === 'my-hero-academia' || bank.series === 'my-hero-academia-season-2' || bank.series === 'my-hero-academia-season-3' ? 'academy' : bank.series === 'attack-on-titan-season-2' || bank.series === 'attack-on-titan' || bank.series === 'one-punch-man' || bank.series === 'sword-art-online' ? 'arena' : bank.series === 'fullmetal-alchemist-brotherhood' ? 'laboratory' : 'detective'),
   color: index === 0 ? 'mint' : 'lavender', tag: '新 IP · 原创配图',
   scope: `${bank.scope} 配图为原创主题示意图，并非作品场景。`,
   questions: bank.questions.filter((question) => question.difficulty === difficulty).slice(0, 12),
