@@ -15,6 +15,7 @@ import { yourNameEntries } from './your-name'
 import { titanSeasonTwoEntries } from './attack-on-titan-season-2'
 import { steinsGateEntries } from './steins-gate'
 import { shippudenEntries } from './naruto-shippuden'
+import { noragamiEntries } from './noragami'
 import { mobPsychoEntries } from './mob-psycho-100'
 import { toradoraEntries } from './toradora'
 import { heroSeasonThreeEntries } from './my-hero-academia-season-3'
@@ -173,6 +174,12 @@ export const expansionBanks = [
     const names = ['影山茂夫', '灵幻新隆', '影山律', '花泽辉气', '小酒窝', '暗田留', '武藏', '小蕾']
     return { label: `第一季官网人物：${names[reference - 13]}`, url: `https://mobpsycho100.com/1st/chara/${characters[reference - 13]}.html` }
   }),
+  bank('noragami', '野良神 第一季', '限定2014年电视动画第一季第 1–12 集及同期官网人物设定，含雪音的禊、日和异变与蠃蚌篇剧透；不混入Aragoto第二季、OAD或漫画后续。蠃蚌为原作者提供原案的动画原创角色，不推定与漫画剧情一致。', noragamiEntries, (reference) => {
+    if (typeof reference !== 'number' || !Number.isInteger(reference) || reference < 1 || reference > 22) throw new Error('Noragami needs a first-season episode or character reference')
+    if (reference <= 12) return { label: `第一季官网第 ${reference} 集简介`, url: `https://noragami-anime.net/1/story.html#headCts${reference}` }
+    const names = ['夜斗', '日和', '雪音', '小福', '大黑', '毘沙门', '兆麻', '天神', '野良', '蠃蚌']
+    return { label: `第一季官网人物：${names[reference - 13]}`, url: `https://noragami-anime.net/1/character.html#charaScr${reference - 12}` }
+  }),
 ]
 
 const titles = ['人物与世界入门', '行动与规则应用', '证据与战术推演']
@@ -181,7 +188,7 @@ export const expansionQuizzes: Quiz[] = expansionBanks.flatMap((bank) => difficu
   series: bank.series, title: `${bank.title}，${bank.series === 'toradora' ? ['人物与校园入门', '事件与关系脉络', '心意与行动辨析'][index] : bank.series === 'your-lie-in-april' ? ['人物与音乐入门', '比赛与成长轨迹', '演奏诠释与人物动机'][index] : bank.series === 'a-silent-voice' ? ['人物与电影入门', '关系与制作知识', '声音设计与创作原理'][index] : bank.series === 'attack-on-titan-season-3-part-2' ? ['夺还作战入门', '剧情与制作知识', '战局判断与版本辨析'][index] : titles[index]}`,
   description: `${bank.title}专题，12 道${difficulty}题。结合剧情与设定判断，每题附原创配图、解析和官方资料链接。`,
   category: '二次元', difficulty, duration: difficultySeconds[difficulty],
-  image: originalArt(bank.series === 'mob-psycho-100' ? 'magic' : bank.series === 'toradora' ? 'connections' : bank.series === 'your-lie-in-april' ? 'chamber-music' : bank.series === 'rezero-season-1' ? 'time' : bank.series === 'no-game-no-life' ? 'boardgame' : bank.series === 'attack-on-titan-season-3-part-2' ? 'arena' : bank.series === 'a-silent-voice' ? 'music' : bank.series === 'attack-on-titan-season-3' ? 'detective' : bank.series === 'naruto-shippuden' ? 'training' : bank.series === 'steins-gate' ? 'time' : bank.series === 'your-name' ? 'connections' : bank.series === 'tokyo-ghoul' ? 'city' : bank.series === 'jujutsu-kaisen' ? 'magic' : bank.series === 'hunter-x-hunter' ? 'adventure' : bank.series === 'my-hero-academia' || bank.series === 'my-hero-academia-season-2' || bank.series === 'my-hero-academia-season-3' ? 'academy' : bank.series === 'attack-on-titan-season-2' || bank.series === 'attack-on-titan' || bank.series === 'one-punch-man' || bank.series === 'sword-art-online' ? 'arena' : bank.series === 'fullmetal-alchemist-brotherhood' ? 'laboratory' : 'detective'),
+  image: originalArt(bank.series === 'noragami' ? 'magic' : bank.series === 'mob-psycho-100' ? 'magic' : bank.series === 'toradora' ? 'connections' : bank.series === 'your-lie-in-april' ? 'chamber-music' : bank.series === 'rezero-season-1' ? 'time' : bank.series === 'no-game-no-life' ? 'boardgame' : bank.series === 'attack-on-titan-season-3-part-2' ? 'arena' : bank.series === 'a-silent-voice' ? 'music' : bank.series === 'attack-on-titan-season-3' ? 'detective' : bank.series === 'naruto-shippuden' ? 'training' : bank.series === 'steins-gate' ? 'time' : bank.series === 'your-name' ? 'connections' : bank.series === 'tokyo-ghoul' ? 'city' : bank.series === 'jujutsu-kaisen' ? 'magic' : bank.series === 'hunter-x-hunter' ? 'adventure' : bank.series === 'my-hero-academia' || bank.series === 'my-hero-academia-season-2' || bank.series === 'my-hero-academia-season-3' ? 'academy' : bank.series === 'attack-on-titan-season-2' || bank.series === 'attack-on-titan' || bank.series === 'one-punch-man' || bank.series === 'sword-art-online' ? 'arena' : bank.series === 'fullmetal-alchemist-brotherhood' ? 'laboratory' : 'detective'),
   color: index === 0 ? 'mint' : 'lavender', tag: '新 IP · 原创配图',
   scope: `${bank.scope} 配图为原创主题示意图，并非作品场景。`,
   questions: bank.questions.filter((question) => question.difficulty === difficulty).slice(0, 12),

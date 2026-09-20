@@ -3,6 +3,20 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('grounds Noragami in its first-season archive and preserves purification requirements', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'noragami')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第一季第 1–12 集')
+    expect(bank!.questions).toHaveLength(50)
+    for (const [number, answer] of [['01', '五日元'], ['09', '剑'], ['16', '由原作者提供原案的电视动画原创角色'], ['18', '三名'], ['28', '让雪音接受禊并忏悔所犯的罪']]) {
+      const q = bank!.questions.find((q) => q.id === `noragami-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    const episodes = bank!.questions.filter((q) => q.source!.url.includes('story.html'))
+    expect(new Set(episodes.map((q) => Number(q.source!.url.split('#headCts')[1])))).toEqual(new Set(Array.from({ length: 12 }, (_, i) => i + 1)))
+    expect(new Set(bank!.questions.map((q) => q.source!.url)).size).toBe(22)
+    expect(bank!.questions.every((q) => q.source!.url.startsWith('https://noragami-anime.net/1/'))).toBe(true)
+  })
   it('keeps Mob Psycho in season one and distinguishes ordinary ability from borrowed energy', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'mob-psycho-100')
     expect(bank).toBeDefined()
@@ -187,7 +201,7 @@ describe('catalog additions', () => {
       expect(q.options[q.answer]).toBe(answer)
     }
   })
-  it('adds 1200 distinct illustrated sourced questions with explicit anime scopes', () => {
+  it('adds 1250 distinct illustrated sourced questions with explicit anime scopes', () => {
     const sources: Record<string, RegExp> = {
       'attack-on-titan': /^https:\/\/shingeki.tv\/season1\//,
       'death-note': /^https:\/\/www.ntv.co.jp\/deathnote\/static\/story2?\.html$/,
@@ -214,6 +228,7 @@ describe('catalog additions', () => {
     sources['my-hero-academia-season-3'] = /^https:\/\/www\.ytv\.co\.jp\/heroaca\/story\/$/
     sources['toradora'] = /^https:\/\/www\.tv-tokyo\.co\.jp\/contents\/toradora\/episodes\/episodes[12]\/$/
     sources['mob-psycho-100'] = /^https:\/\/mobpsycho100\.com\/1st\/(?:story\/(?:0[1-9]|1[0-2])|chara\/(?:mob|reigen|ritsu|teru|ekubo|tome|musashi|tsubomi))\.html$/
+    sources['noragami'] = /^https:\/\/noragami-anime\.net\/1\/(?:story\.html#headCts(?:[1-9]|1[0-2])|character\.html#charaScr(?:[1-9]|10))$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
