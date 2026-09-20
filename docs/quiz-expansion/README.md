@@ -2,7 +2,7 @@
 
 用户清单已完整保存于 [catalog.json](catalog.json)，保持原英文标题、编号和顺序。原附件为连续编号，未包含「、」；按每 20 个条目切成 10 段，每条目目标 50 题，共约 10,000 题。
 
-v0.11.0 首页提供「查看 200 条目制作目录」，支持分段浏览、当前范围搜索与已有题库直达。目录按真实题池显示进度，不把待制作条目、跨季综合题库或电影合集记作完整独立题库；v0.45.0 已有 2122 道可玩题目。
+v0.11.0 首页提供「查看 200 条目制作目录」，支持分段浏览、当前范围搜索与已有题库直达。目录按真实题池显示进度，不把待制作条目、跨季综合题库或电影合集记作完整独立题库；v0.46.0 已有 2172 道可玩题目。
 
 ## 制作约定
 
@@ -32,11 +32,11 @@ v0.11.0 首页提供「查看 200 条目制作目录」，支持分段浏览、�
 
 ## 接续位置与实际进度
 
-v0.45.0 完成 #38《KonoSuba: God's Blessing on This Wonderful World!》第一季独立50题（第1–10集，含维兹身份与要塞战剧透）。清单已对应39个条目、1950／10,000题；实际站内2122题，含未计入独立条目目标的综合题库。
+v0.46.0 完成 #39《The Future Diary》电视正篇独立50题（第1–26集，含日记规则与世界重启剧透）。清单已对应40个条目、2000／10,000题；实际站内2172题，含未计入独立条目目标的综合题库。
 
-第1段20／20项、第2段18／20项已各有50题，题库范围以各自说明为准。下一未完成条目为第2段 #39《The Future Diary／未来日记》。
+第1段20／20项、第2段19／20项已各有50题，题库范围以各自说明为准。下一未完成条目为第2段 #40《Sword Art Online II／刀剑神域Ⅱ》。
 
-资料规则已获明确扩展：允许直接核查作品官网、出版方资料。Grok 缺少配置不再阻挡这一授权范围内的新题制作。本轮见 [素晴核验记录](sources-konosuba.md)；此前见 [约定的梦幻岛核验记录](sources-promised-neverland.md)、 [排球少年核验记录](sources-haikyuu.md)、 [Angel Beats!核验记录](sources-angel-beats.md)、 [七大罪核验记录](sources-seven-deadly-sins.md)、 [暗杀教室核验记录](sources-assassination-classroom.md)、 [死神代行篇核验记录](sources-bleach.md)、 [斩！赤红之瞳核验记录](sources-akame-ga-kill.md)、 [只有我不在的街道核验记录](sources-erased.md)、 [巨人最终季前半部核验记录](sources-attack-on-titan-final-season.md)、 [野良神核验记录](sources-noragami.md)、 [灵能百分百核验记录](sources-mob-psycho-100.md)、 [龙与虎核验记录](sources-toradora.md)、 [我英第三季核验记录](sources-my-hero-academia-season-3.md)、 [四月核验记录](sources-your-lie-in-april.md)、 [Re:0第一季核验记录](sources-rezero-season-1.md)、 [Code Geass核验记录](sources-code-geass.md)、 [游戏人生核验记录](sources-no-game-no-life.md)、 [巨人第三季后半部核验记录](sources-attack-on-titan-season-3-part-2.md)、 [声之形核验记录](sources-a-silent-voice.md)、 [巨人第三季上半部核验记录](sources-attack-on-titan-season-3.md)、 [我英第二季核验记录](sources-my-hero-academia-season-2.md)、 [疾风传核验记录](sources-naruto-shippuden.md)、 [命运石之门核验记录](sources-steins-gate.md)、 [巨人第二季核验记录](sources-attack-on-titan-season-2.md)、 [你的名字核验记录](sources-your-name.md)、 [东京喰种核验记录](sources-tokyo-ghoul.md)、 [咒术回战核验记录](sources-jujutsu-kaisen.md)、 [全职猎人核验记录](sources-hunter-x-hunter.md)、 [刀剑神域核验记录](sources-sword-art-online.md)、 [我的英雄学院核验记录](sources-my-hero-academia.md)、 [一拳超人核验记录](sources-one-punch-man.md)、 [Brotherhood 核验记录](sources-brotherhood.md)、[前两个条目核验记录](sources-batch-01.md)。
+资料规则已获明确扩展：允许直接核查作品官网、出版方资料。Grok 缺少配置不再阻挡这一授权范围内的新题制作。本轮见 [未来日记核验记录](sources-future-diary.md)；此前见 [素晴核验记录](sources-konosuba.md)、 [约定的梦幻岛核验记录](sources-promised-neverland.md)、 [排球少年核验记录](sources-haikyuu.md)、 [Angel Beats!核验记录](sources-angel-beats.md)、 [七大罪核验记录](sources-seven-deadly-sins.md)、 [暗杀教室核验记录](sources-assassination-classroom.md)、 [死神代行篇核验记录](sources-bleach.md)、 [斩！赤红之瞳核验记录](sources-akame-ga-kill.md)、 [只有我不在的街道核验记录](sources-erased.md)、 [巨人最终季前半部核验记录](sources-attack-on-titan-final-season.md)、 [野良神核验记录](sources-noragami.md)、 [灵能百分百核验记录](sources-mob-psycho-100.md)、 [龙与虎核验记录](sources-toradora.md)、 [我英第三季核验记录](sources-my-hero-academia-season-3.md)、 [四月核验记录](sources-your-lie-in-april.md)、 [Re:0第一季核验记录](sources-rezero-season-1.md)、 [Code Geass核验记录](sources-code-geass.md)、 [游戏人生核验记录](sources-no-game-no-life.md)、 [巨人第三季后半部核验记录](sources-attack-on-titan-season-3-part-2.md)、 [声之形核验记录](sources-a-silent-voice.md)、 [巨人第三季上半部核验记录](sources-attack-on-titan-season-3.md)、 [我英第二季核验记录](sources-my-hero-academia-season-2.md)、 [疾风传核验记录](sources-naruto-shippuden.md)、 [命运石之门核验记录](sources-steins-gate.md)、 [巨人第二季核验记录](sources-attack-on-titan-season-2.md)、 [你的名字核验记录](sources-your-name.md)、 [东京喰种核验记录](sources-tokyo-ghoul.md)、 [咒术回战核验记录](sources-jujutsu-kaisen.md)、 [全职猎人核验记录](sources-hunter-x-hunter.md)、 [刀剑神域核验记录](sources-sword-art-online.md)、 [我的英雄学院核验记录](sources-my-hero-academia.md)、 [一拳超人核验记录](sources-one-punch-man.md)、 [Brotherhood 核验记录](sources-brotherhood.md)、[前两个条目核验记录](sources-batch-01.md)。
 
 ### 第 1 段明细
 

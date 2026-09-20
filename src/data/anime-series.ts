@@ -27,6 +27,7 @@ export const animeSeries: { id: AnimeSeriesId; title: string; subtitle: string; 
   { id: 'attack-on-titan-season-3-part-2', title: '进击的巨人 第三季后半部', subtitle: '夺还作战 · 剧情与制作知识', aliases: '进击 巨人 進撃 aot attack on titan season 3 part 2 shingeki 第三季 后半部 下半部 雷枪 地下室' },
   { id: 'no-game-no-life', title: '游戏人生', subtitle: '电视动画 · 游戏与心理博弈', aliases: 'no game no life ngnl ノーゲーム ノーライフ 游戏人生 空白 空 白 史蒂芙 吉普莉尔 克拉米 菲尔 伊纲 特图 血坏' },
   { id: 'code-geass', title: 'Code Geass 反叛的鲁路修', subtitle: '第一季 · 身份与战术博弈', aliases: 'code geass lelouch 鲁路修 反逆的鲁鲁修 叛逆 朱雀 卡莲 黑色骑士团 zero 兰斯洛特 红莲 C.C.' },
+  { id: 'future-diary', title: '未来日记', subtitle: '樱见 · 预知范围与信息盲点', aliases: '未来日记 未來日記 未来日記 mirai nikki the future diary 天野雪辉 我妻由乃 秋濑或 雨流美弥音' },
   { id: 'konosuba', title: '为美好的世界献上祝福！ 第一季', subtitle: '阿克塞尔 · 职业与技能配合', aliases: '为美好的世界献上祝福 素晴 konosuba この素晴らしい世界に祝福を 和真 阿库娅 惠惠 达克妮丝 维兹 第一季' },
   { id: 'promised-neverland', title: '约定的梦幻岛 第一季', subtitle: '农园 · 情报与信任判断', aliases: '约定的梦幻岛 約束のネバーランド the promised neverland yakusoku 艾玛 诺曼 雷 第一季' },
   { id: 'haikyuu', title: '排球少年 第一季', subtitle: '乌野 · 位置职责与团队战术', aliases: '排球少年 排球 ハイキュー haikyuu haikyu 日向翔阳 影山飞雄 乌野 青叶城西 音驹 第一季' },
