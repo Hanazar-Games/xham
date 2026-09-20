@@ -3,6 +3,21 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('covers all three SAO II arcs without mixing recap or later adaptations', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'sword-art-online-2')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第二季第 1–24 集')
+    expect(bank!.scope).toContain('不含14.5集总集篇')
+    for (const [number, answer] of [['04', '赫卡忒Ⅱ'], ['15', '第22层'], ['18', 'Medicuboid（医疗立方）'], ['22', '30人'], ['34', '第27层']]) {
+      const q = bank!.questions.find((q) => q.id === `sword-art-online-2-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    expect(new Set(bank!.questions.map((q) => q.source!.url))).toEqual(new Set(Array.from({ length: 24 }, (_, index) => {
+      const episode = index + 1
+      const arc = episode <= 14 ? 'phantom' : episode <= 17 ? 'calibur' : 'mothers'
+      return `https://www.swordart-online.net/${arc}/story/?id=ep${String(episode).padStart(2, '0')}`
+    })))
+  })
   it('keeps Future Diary in the TV series and preserves prediction limits', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'future-diary')
     expect(bank).toBeDefined()
@@ -341,7 +356,7 @@ describe('catalog additions', () => {
       expect(q.options[q.answer]).toBe(answer)
     }
   })
-  it('adds 1800 distinct illustrated sourced questions with explicit anime scopes', () => {
+  it('adds 1850 distinct illustrated sourced questions with explicit anime scopes', () => {
     const sources: Record<string, RegExp> = {
       'attack-on-titan': /^https:\/\/shingeki.tv\/season1\//,
       'death-note': /^https:\/\/www.ntv.co.jp\/deathnote\/static\/story2?\.html$/,
@@ -380,6 +395,7 @@ describe('catalog additions', () => {
     sources['promised-neverland'] = /^https:\/\/neverland-anime\.com\/1st\/(?:story\/(?:0[1-9]|1[0-2])\/|character\/)$/
     sources['konosuba'] = /^https:\/\/konosuba\.com\/1st\/(?:story|character)\/$/
     sources['future-diary'] = /^https:\/\/future-diary\.tv\/(?:story\/story(?:0[1-9]|1\d|2[0-6])|chara\/(?:1st|2nd|3rd|[4-6]th|7thm|[89]th|1[0-2]th|deus|murmur))\.html$/
+    sources['sword-art-online-2'] = /^https:\/\/www\.swordart-online\.net\/(?:phantom\/story\/\?id=ep(?:0[1-9]|1[0-4])|calibur\/story\/\?id=ep1[5-7]|mothers\/story\/\?id=ep(?:1[89]|2[0-4]))$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)

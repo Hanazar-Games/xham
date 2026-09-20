@@ -1,6 +1,28 @@
 import { test, expect } from '@playwright/test'
 import axe from 'axe-core'
 
+test('SAO II completes batch two with all three arcs and leaves batch three planned', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 568 })
+  await page.goto('/')
+  await page.getByRole('button', { name: '查看 200 条目制作目录', exact: true }).click()
+  await page.getByLabel('目录分段').selectOption('2')
+  const entry = page.locator('.catalog-item[data-number="40"]')
+  await expect(entry).toContainText('50 / 50')
+  await expect(page.locator('.catalog-item').filter({ hasText: '50 / 50' })).toHaveCount(20)
+  await page.getByLabel('目录分段').selectOption('3')
+  await expect(page.locator('.catalog-item[data-number="41"]')).toContainText('待制作')
+  await page.getByLabel('目录分段').selectOption('2')
+  await entry.getByRole('button', { name: '进入题库：Sword Art Online II', exact: true }).click()
+  await expect(page.locator('#exam-title')).toHaveText('刀剑神域Ⅱ · 模拟考试')
+  await expect(page.locator('.quiz-card')).toHaveCount(3)
+  await page.getByRole('button', { name: '全部 50 题', exact: true }).click()
+  await page.getByRole('button', { name: '生成试卷', exact: true }).click()
+  await expect(page.getByRole('dialog')).toContainText('第二季第 1–24 集')
+  await expect(page.getByRole('dialog')).toContainText('不含14.5集总集篇')
+  await expect(page.getByRole('dialog')).toContainText('圣母圣咏')
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+})
+
 test('Future Diary opens its TV bank without Redial or live-action content', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 568 })
   await page.goto('/')
@@ -8,7 +30,7 @@ test('Future Diary opens its TV bank without Redial or live-action content', asy
   await page.getByLabel('目录分段').selectOption('2')
   const entry = page.locator('.catalog-item[data-number="39"]')
   await expect(entry).toContainText('50 / 50')
-  await expect(page.locator('.catalog-item[data-number="40"]')).toContainText('待制作')
+  await expect(page.locator('.catalog-item[data-number="40"]')).toContainText('50 / 50')
   await entry.getByRole('button', { name: '进入题库：The Future Diary', exact: true }).click()
   await expect(page.locator('#exam-title')).toHaveText('未来日记 · 模拟考试')
   await expect(page.locator('.quiz-card')).toHaveCount(3)
@@ -27,7 +49,7 @@ test('KonoSuba opens its first-season bank with skill and adaptation scope', asy
   await page.getByLabel('目录分段').selectOption('2')
   const entry = page.locator('.catalog-item[data-number="38"]')
   await expect(entry).toContainText('50 / 50')
-  await expect(page.locator('.catalog-item[data-number="40"]')).toContainText('待制作')
+  await expect(page.locator('.catalog-item[data-number="40"]')).toContainText('50 / 50')
   await entry.getByRole('button', { name: "进入题库：KonoSuba: God's Blessing on This Wonderful World!", exact: true }).click()
   await expect(page.locator('#exam-title')).toHaveText('为美好的世界献上祝福！ 第一季 · 模拟考试')
   await expect(page.locator('.quiz-card')).toHaveCount(3)
@@ -46,7 +68,7 @@ test('Promised Neverland opens its first-season fifty-question bank', async ({ p
   await page.getByLabel('目录分段').selectOption('2')
   const entry = page.locator('.catalog-item[data-number="37"]')
   await expect(entry).toContainText('50 / 50')
-  await expect(page.locator('.catalog-item[data-number="40"]')).toContainText('待制作')
+  await expect(page.locator('.catalog-item[data-number="40"]')).toContainText('50 / 50')
   await entry.getByRole('button', { name: '进入题库：The Promised Neverland', exact: true }).click()
   await expect(page.locator('#exam-title')).toHaveText('约定的梦幻岛 第一季 · 模拟考试')
   await expect(page.locator('.quiz-card')).toHaveCount(3)
@@ -65,7 +87,7 @@ test('Haikyuu opens season one with fifty questions and later adaptations exclud
   await page.getByLabel('目录分段').selectOption('2')
   const entry = page.locator('.catalog-item[data-number="36"]')
   await expect(entry).toContainText('50 / 50')
-  await expect(page.locator('.catalog-item[data-number="40"]')).toContainText('待制作')
+  await expect(page.locator('.catalog-item[data-number="40"]')).toContainText('50 / 50')
   await entry.getByRole('button', { name: '进入题库：Haikyuu!!', exact: true }).click()
   await expect(page.locator('#exam-title')).toHaveText('排球少年 第一季 · 模拟考试')
   await expect(page.locator('.quiz-card')).toHaveCount(3)
@@ -84,7 +106,7 @@ test('Angel Beats opens its TV bank with special and game exclusions', async ({ 
   await page.getByLabel('目录分段').selectOption('2')
   const entry = page.locator('.catalog-item[data-number="35"]')
   await expect(entry).toContainText('50 / 50')
-  await expect(page.locator('.catalog-item[data-number="40"]')).toContainText('待制作')
+  await expect(page.locator('.catalog-item[data-number="40"]')).toContainText('50 / 50')
   await entry.getByRole('button', { name: '进入题库：Angel Beats!', exact: true }).click()
   await expect(page.locator('#exam-title')).toHaveText('Angel Beats! · 模拟考试')
   await expect(page.locator('.quiz-card')).toHaveCount(3)
@@ -103,7 +125,7 @@ test('Seven Deadly Sins opens its first-season bank with sequel exclusions', asy
   await page.getByLabel('目录分段').selectOption('2')
   const entry = page.locator('.catalog-item[data-number="34"]')
   await expect(entry).toContainText('50 / 50')
-  await expect(page.locator('.catalog-item[data-number="40"]')).toContainText('待制作')
+  await expect(page.locator('.catalog-item[data-number="40"]')).toContainText('50 / 50')
   await entry.getByRole('button', { name: '进入题库：The Seven Deadly Sins', exact: true }).click()
   await expect(page.locator('#exam-title')).toHaveText('七大罪 第一季 · 模拟考试')
   await expect(page.locator('.quiz-card')).toHaveCount(3)
@@ -142,7 +164,7 @@ test('Bleach opens the Substitute Soul Reaper arc with fifty questions', async (
   await page.getByLabel('目录分段').selectOption('2')
   const entry = page.locator('.catalog-item[data-number="32"]')
   await expect(entry).toContainText('50 / 50')
-  await expect(page.locator('.catalog-item[data-number="40"]')).toContainText('待制作')
+  await expect(page.locator('.catalog-item[data-number="40"]')).toContainText('50 / 50')
   await entry.getByRole('button', { name: '进入题库：Bleach', exact: true }).click()
   await expect(page.locator('#exam-title')).toHaveText('死神 死神代行篇 · 模拟考试')
   await expect(page.locator('.quiz-card')).toHaveCount(3)
@@ -161,7 +183,7 @@ test('Akame opens fifty illustrated TV questions with adaptation boundaries', as
   await page.getByLabel('目录分段').selectOption('2')
   const entry = page.locator('.catalog-item[data-number="31"]')
   await expect(entry).toContainText('50 / 50')
-  await expect(page.locator('.catalog-item[data-number="40"]')).toContainText('待制作')
+  await expect(page.locator('.catalog-item[data-number="40"]')).toContainText('50 / 50')
   await entry.getByRole('button', { name: '进入题库：Akame ga Kill!', exact: true }).click()
   await expect(page.locator('#exam-title')).toHaveText('斩！赤红之瞳 · 模拟考试')
   await expect(page.locator('.quiz-card')).toHaveCount(3)
@@ -489,7 +511,7 @@ test('Hunter x Hunter exposes the 2011 scope and a full exam from the catalog', 
   await expect(page.locator('.quiz-card')).toHaveCount(3)
 })
 
-test('SAO opens both first-season arcs without marking sequels as complete', async ({ page }) => {
+test('SAO keeps the first season separate from SAO II and the planned Alicization bank', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 568 })
   await page.goto('/')
   await page.getByRole('button', { name: '查看 200 条目制作目录', exact: true }).click()
@@ -497,8 +519,8 @@ test('SAO opens both first-season arcs without marking sequels as complete', asy
   await dialog.getByLabel('目录分段').selectOption('all')
   await dialog.getByLabel('目录作品搜索').fill('Sword Art Online')
   await expect(dialog.locator('.catalog-item')).toHaveCount(3)
-  await expect(dialog.getByRole('button', { name: /^进入题库：/ })).toHaveCount(1)
-  for (const number of [40, 149]) {
+  await expect(dialog.getByRole('button', { name: /^进入题库：/ })).toHaveCount(2)
+  for (const number of [149]) {
     await expect(dialog.locator(`[data-number="${number}"]`)).toContainText('待制作')
   }
   await dialog.getByRole('button', { name: '进入题库：Sword Art Online', exact: true }).click()
@@ -512,7 +534,7 @@ test('SAO opens both first-season arcs without marking sequels as complete', asy
   await page.keyboard.press('Escape')
   await page.getByRole('button', { name: '全部专区', exact: true }).click()
   await page.getByRole('textbox', { name: '搜索 Quiz' }).fill('刀剑')
-  await expect(page.locator('.quiz-card')).toHaveCount(3)
+  await expect(page.locator('.quiz-card')).toHaveCount(6)
 })
 
 test('My Hero Academia preserves season one with fifty illustrated exam questions', async ({ page }) => {
@@ -546,8 +568,8 @@ test('catalog preserves all ten batches and only opens existing question banks',
   await opener.click()
   const dialog = page.getByRole('dialog', { name: '动漫题库制作目录' })
   await expect(dialog.locator('.catalog-item')).toHaveCount(20)
-  await expect(dialog.locator('.catalog-summary')).toContainText('40 / 200')
-  await expect(dialog.locator('.catalog-summary')).toContainText('2,000 / 10,000')
+  await expect(dialog.locator('.catalog-summary')).toContainText('41 / 200')
+  await expect(dialog.locator('.catalog-summary')).toContainText('2,050 / 10,000')
   await expect(dialog.locator('.catalog-item').first()).toContainText('Attack on Titan')
   await expect(dialog.locator('.catalog-item').first().getByRole('button')).toHaveCount(1)
   for (let batch = 1; batch <= 10; batch++) {
