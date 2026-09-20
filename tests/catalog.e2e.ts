@@ -1,6 +1,25 @@
 import { test, expect } from '@playwright/test'
 import axe from 'axe-core'
 
+test('Blue Exorcist opens the 2011 continuity and excludes Kyoto and later arcs', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 568 })
+  await page.goto('/')
+  await page.getByRole('button', { name: '查看 200 条目制作目录', exact: true }).click()
+  await page.getByLabel('目录分段').selectOption('3')
+  const entry = page.locator('.catalog-item[data-number="42"]')
+  await expect(entry).toContainText('50 / 50')
+  await expect(page.locator('.catalog-item[data-number="43"]')).toContainText('待制作')
+  await entry.getByRole('button', { name: '进入题库：Blue Exorcist', exact: true }).click()
+  await expect(page.locator('#exam-title')).toHaveText('青之驱魔师 第一季 · 模拟考试')
+  await expect(page.locator('.quiz-card')).toHaveCount(3)
+  await page.getByRole('button', { name: '全部 50 题', exact: true }).click()
+  await page.getByRole('button', { name: '生成试卷', exact: true }).click()
+  await expect(page.getByRole('dialog')).toContainText('2011年电视动画第一季第 1–25 集')
+  await expect(page.getByRole('dialog')).toContainText('不混入京都不净王篇')
+  await expect(page.getByRole('dialog')).toContainText('动画原创展开')
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+})
+
 test('Cowboy Bebop opens the TV bank without the film or live-action adaptation', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 568 })
   await page.goto('/')
@@ -8,7 +27,7 @@ test('Cowboy Bebop opens the TV bank without the film or live-action adaptation'
   await page.getByLabel('目录分段').selectOption('3')
   const entry = page.locator('.catalog-item[data-number="41"]')
   await expect(entry).toContainText('50 / 50')
-  await expect(page.locator('.catalog-item[data-number="42"]')).toContainText('待制作')
+  await expect(page.locator('.catalog-item[data-number="43"]')).toContainText('待制作')
   await entry.getByRole('button', { name: '进入题库：Cowboy Bebop', exact: true }).click()
   await expect(page.locator('#exam-title')).toHaveText('星际牛仔 · 模拟考试')
   await expect(page.locator('.quiz-card')).toHaveCount(3)
@@ -29,7 +48,7 @@ test('SAO II completes batch two with all three arcs and leaves later batch thre
   await expect(entry).toContainText('50 / 50')
   await expect(page.locator('.catalog-item').filter({ hasText: '50 / 50' })).toHaveCount(20)
   await page.getByLabel('目录分段').selectOption('3')
-  await expect(page.locator('.catalog-item[data-number="42"]')).toContainText('待制作')
+  await expect(page.locator('.catalog-item[data-number="43"]')).toContainText('待制作')
   await page.getByLabel('目录分段').selectOption('2')
   await entry.getByRole('button', { name: '进入题库：Sword Art Online II', exact: true }).click()
   await expect(page.locator('#exam-title')).toHaveText('刀剑神域Ⅱ · 模拟考试')
@@ -587,8 +606,8 @@ test('catalog preserves all ten batches and only opens existing question banks',
   await opener.click()
   const dialog = page.getByRole('dialog', { name: '动漫题库制作目录' })
   await expect(dialog.locator('.catalog-item')).toHaveCount(20)
-  await expect(dialog.locator('.catalog-summary')).toContainText('42 / 200')
-  await expect(dialog.locator('.catalog-summary')).toContainText('2,100 / 10,000')
+  await expect(dialog.locator('.catalog-summary')).toContainText('43 / 200')
+  await expect(dialog.locator('.catalog-summary')).toContainText('2,150 / 10,000')
   await expect(dialog.locator('.catalog-item').first()).toContainText('Attack on Titan')
   await expect(dialog.locator('.catalog-item').first().getByRole('button')).toHaveCount(1)
   for (let batch = 1; batch <= 10; batch++) {

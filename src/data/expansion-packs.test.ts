@@ -3,6 +3,19 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('separates the 2011 Blue Exorcist continuity and resolves its finale source', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'blue-exorcist')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('2011年电视动画第一季第 1–25 集')
+    expect(bank!.scope).toContain('动画原创展开')
+    expect(bank!.scope).toContain('不混入京都不净王篇')
+    for (const [number, answer] of [['01', '15岁'], ['06', '奥村雪男'], ['09', '手骑士'], ['25', '三天'], ['33', '虚无界']]) {
+      const q = bank!.questions.find((q) => q.id === `blue-exorcist-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    expect(new Set(bank!.questions.map((q) => q.source!.url))).toEqual(new Set(Array.from({ length: 25 }, (_, i) =>
+      `https://www.ao-ex.com/tv/story/${i === 24 ? '' : `${String(i + 1).padStart(2, '0')}.html`}`)))
+  })
   it('keeps Cowboy Bebop in the TV series with sourced crew and case facts', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'cowboy-bebop')
     expect(bank).toBeDefined()
@@ -371,7 +384,7 @@ describe('catalog additions', () => {
       expect(q.options[q.answer]).toBe(answer)
     }
   })
-  it('adds 1900 distinct illustrated sourced questions with explicit anime scopes', () => {
+  it('adds 1950 distinct illustrated sourced questions with explicit anime scopes', () => {
     const sources: Record<string, RegExp> = {
       'attack-on-titan': /^https:\/\/shingeki.tv\/season1\//,
       'death-note': /^https:\/\/www.ntv.co.jp\/deathnote\/static\/story2?\.html$/,
@@ -412,6 +425,7 @@ describe('catalog additions', () => {
     sources['future-diary'] = /^https:\/\/future-diary\.tv\/(?:story\/story(?:0[1-9]|1\d|2[0-6])|chara\/(?:1st|2nd|3rd|[4-6]th|7thm|[89]th|1[0-2]th|deus|murmur))\.html$/
     sources['sword-art-online-2'] = /^https:\/\/www\.swordart-online\.net\/(?:phantom\/story\/\?id=ep(?:0[1-9]|1[0-4])|calibur\/story\/\?id=ep1[5-7]|mothers\/story\/\?id=ep(?:1[89]|2[0-4]))$/
     sources['cowboy-bebop'] = /^https:\/\/www\.cowboy-bebop\.net\/(?:world\/#tv|story\/(?:0[2-5]\.html)?)$/
+    sources['blue-exorcist'] = /^https:\/\/www\.ao-ex\.com\/tv\/story\/(?:(?:0[1-9]|1\d|2[0-4])\.html)?$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
