@@ -3,6 +3,19 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('limits Promised Neverland to season one and preserves informer and escape facts', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'promised-neverland')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第一季第 1–12 集')
+    expect(bank!.scope).toContain('不混入第二季')
+    expect(bank!.questions).toHaveLength(50)
+    for (const [number, answer] of [['02', '11岁'], ['09', '雷'], ['12', '摩尔斯电码'], ['32', '4岁及以下'], ['33', '5岁及以上']]) {
+      const q = bank!.questions.find((q) => q.id === `promised-neverland-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    const episodes = bank!.questions.filter((q) => q.source!.url.includes('/story/'))
+    expect(new Set(episodes.map((q) => q.source!.url))).toEqual(new Set(Array.from({ length: 12 }, (_, i) => `https://neverland-anime.com/1st/story/${String(i + 1).padStart(2, '0')}/`)))
+  })
   it('keeps Haikyuu in season one and distinguishes positions and tournament rounds', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'haikyuu')
     expect(bank).toBeDefined()
@@ -303,7 +316,7 @@ describe('catalog additions', () => {
       expect(q.options[q.answer]).toBe(answer)
     }
   })
-  it('adds 1650 distinct illustrated sourced questions with explicit anime scopes', () => {
+  it('adds 1700 distinct illustrated sourced questions with explicit anime scopes', () => {
     const sources: Record<string, RegExp> = {
       'attack-on-titan': /^https:\/\/shingeki.tv\/season1\//,
       'death-note': /^https:\/\/www.ntv.co.jp\/deathnote\/static\/story2?\.html$/,
@@ -339,6 +352,7 @@ describe('catalog additions', () => {
     sources['seven-deadly-sins'] = /^https:\/\/1st\.7-taizai\.net\/story(?:0[1-9]|1\d|2[0-3])?\.html$/
     sources['angel-beats'] = /^https:\/\/www\.angelbeats\.jp\/story2\/(?:index|ep(?:0[2-9]|1[0-3]))\.html$/
     sources['haikyuu'] = /^https:\/\/www\.b-ch\.com\/titles\/4065\/0(?:0[1-9]|1\d|2[0-5])$/
+    sources['promised-neverland'] = /^https:\/\/neverland-anime\.com\/1st\/(?:story\/(?:0[1-9]|1[0-2])\/|character\/)$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
