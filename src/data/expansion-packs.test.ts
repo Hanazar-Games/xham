@@ -3,6 +3,20 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps Death Parade in the TV series and distinguishes adjudication roles', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'death-parade')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('2015年电视动画第 1–12 集')
+    expect(bank!.scope).toContain('不混入前作短片《死亡台球》')
+    for (const [number, answer] of [['01', '德基姆'], ['03', '15层'], ['19', '飞镖'], ['27', '带血的菜刀'], ['35', '奥克鲁斯']]) {
+      const q = bank!.questions.find((item) => item.id === `death-parade-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    expect(new Set(bank!.questions.map((q) => q.source!.url))).toEqual(new Set([
+      ...Array.from({ length: 12 }, (_, i) => `https://www.vap.co.jp/deathparade/story/${String(i + 1).padStart(2, '0')}.html`),
+      ...Array.from({ length: 9 }, (_, i) => `https://www.vap.co.jp/deathparade/character/${i === 0 ? 'index' : String(i).padStart(2, '0')}.html`),
+    ]))
+  })
   it('keeps Chainsaw Man in the 2022 TV series with distinct contracts and mission conditions', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'chainsaw-man')
     expect(bank).toBeDefined()
@@ -552,6 +566,7 @@ describe('catalog additions', () => {
     sources['dr-stone'] = /^https:\/\/www\.b-ch\.com\/titles\/6616\/0(?:0[1-9]|1\d|2[0-4])$/
     sources['kaguya-sama'] = /^https:\/\/kaguya\.love\/1st\/(?:character\/|story\/(?:0[1-9]|1[0-2])\.html)$/
     sources['chainsaw-man'] = /^https:\/\/(?:chainsawman\.dog\/tvseries\/character\/|www\.b-ch\.com\/titles\/7889\/0(?:0[1-9]|1[0-2]))$/
+    sources['death-parade'] = /^https:\/\/www\.vap\.co\.jp\/deathparade\/(?:story\/(?:0[1-9]|1[0-2])|character\/(?:index|0[1-8]))\.html$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
