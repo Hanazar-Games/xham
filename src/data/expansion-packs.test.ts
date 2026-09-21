@@ -3,6 +3,19 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps Kakegurui in season one and distinguishes game-specific rules', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'kakegurui')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('2017年第一季第 1–12 集')
+    expect(bank!.scope).toContain('不混入《××》《双》或真人版')
+    expect(bank!.questions).toHaveLength(50)
+    for (const [number, answer] of [['01', '私立百花王学园'], ['19', '数字与花色都相同'], ['25', '牌的数字相同'], ['35', '梦子、绮罗莉、铃井凉太'], ['37', '103张，其中只有1张'], ['43', '甲排在乙之前'], ['50', '把决定强牌还是弱牌获胜的选择权握在手中']]) {
+      const q = bank!.questions.find((item) => item.id === `kakegurui-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    expect(bank!.questions[36].explanation).toContain('公平随机')
+    expect(bank!.questions[42].explanation).toContain('合计金额')
+  })
   it('keeps Slime season one including its prequel and verifies naming and skill boundaries', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'slime-season-1')
     expect(bank).toBeDefined()
@@ -917,6 +930,7 @@ describe('catalog additions', () => {
     sources['danmachi'] = /^https:\/\/danmachi\.com\/danmachi\/story\/(?:introduction|episode(?:[1-9]|1[0-3]))\.html$/
     sources['konosuba-season-2'] = /^https:\/\/konosuba\.com\/2nd\/story\/\?mode=detail&id=(?:0[1-9]|10)$/
     sources['slime-season-1'] = /^https:\/\/www\.ten-sura\.com\/anime\/tensura\/story\/no(?:[1-9]|1[0-9]|2[0-4])$/
+    sources['kakegurui'] = /^https:\/\/kakegurui-anime\.com\/1st\/(?:game_rules\/|story\/detail\.php\?id=(?:1000217|1000221|1000223|100022[6-8]|100025[3-8]))$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
