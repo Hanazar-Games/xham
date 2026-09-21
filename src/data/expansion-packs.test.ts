@@ -3,6 +3,18 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps Devil Is a Part-Timer in season one and separates dreams from actual events', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'devil-is-a-part-timer')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('2013年第一季第 1–13 集')
+    expect(bank!.scope).toContain('不混入第二季')
+    expect(bank!.questions).toHaveLength(50)
+    for (const [number, answer] of [['01', '安特·伊苏拉'], ['19', '六叠一间的公寓'], ['25', '人类的绝望与恐惧'], ['35', '一星期'], ['50', '千穗梦见真奥要回异世界，真奥现实中请假但否认就此不归']]) {
+      const q = bank!.questions.find((item) => item.id === `devil-is-a-part-timer-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    expect(bank!.questions[47].explanation).toContain('今の真奥')
+  })
   it('keeps Anohana in the TV series and distinguishes wishes from observed outcomes', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'anohana')
     expect(bank).toBeDefined()
@@ -865,6 +877,7 @@ describe('catalog additions', () => {
     sources['demon-slayer-entertainment-district'] = /^https:\/\/kimetsu\.com\/anime\/yukakuhen\/story\/\?id=ep(?:[1-9]|1[01])$/
     sources['mob-psycho-100-ii'] = /^https:\/\/mobpsycho100\.com\/2nd\/(?:story\/(?:0[1-9]|1[0-3])|chara\/(?:serizawa|shimazaki|suzuki))\.html$/
     sources['anohana'] = /^https:\/\/www\.anohana\.jp\/tv\/(?:story\/(?:index|0[2-9]|1[01])|chara\/chara0[1-6]|intro\/index)\.html$/
+    sources['devil-is-a-part-timer'] = /^https:\/\/maousama\.jp\/1st\/story\.html$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)

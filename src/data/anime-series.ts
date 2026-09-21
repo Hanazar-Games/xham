@@ -27,6 +27,7 @@ export const animeSeries: { id: AnimeSeriesId; title: string; subtitle: string; 
   { id: 'attack-on-titan-season-3-part-2', title: '进击的巨人 第三季后半部', subtitle: '夺还作战 · 剧情与制作知识', aliases: '进击 巨人 進撃 aot attack on titan season 3 part 2 shingeki 第三季 后半部 下半部 雷枪 地下室' },
   { id: 'no-game-no-life', title: '游戏人生', subtitle: '电视动画 · 游戏与心理博弈', aliases: 'no game no life ngnl ノーゲーム ノーライフ 游戏人生 空白 空 白 史蒂芙 吉普莉尔 克拉米 菲尔 伊纲 特图 血坏' },
   { id: 'code-geass', title: 'Code Geass 反叛的鲁路修', subtitle: '第一季 · 身份与战术博弈', aliases: 'code geass lelouch 鲁路修 反逆的鲁鲁修 叛逆 朱雀 卡莲 黑色骑士团 zero 兰斯洛特 红莲 C.C.' },
+  { id: 'devil-is-a-part-timer', title: '打工吧！魔王大人 第一季', subtitle: '魔王打工 · 身份与魔力', aliases: 'The Devil Is a Part-Timer Hataraku Maou-sama はたらく魔王さま 打工吧 魔王大人 第一季 真奥贞夫 芦屋四郎 游佐惠美 千穗 铃乃 漆原' },
   { id: 'anohana', title: '未闻花名 电视版', subtitle: '夏日重聚 · 愿望与心意', aliases: 'Anohana The Flower We Saw That Day あの日見た花の名前を僕達はまだ知らない あの花 未闻花名 我们仍未知道那天所看见的花的名字 面码 仁太 雪集 鹤子 波波 安鸣' },
   { id: 'mob-psycho-100-ii', title: '灵能百分百 第二季', subtitle: '师徒与友情 · 感知与能量', aliases: 'Mob Psycho 100 II Mob Psycho 100 2 モブサイコ100 II モブサイコ100Ⅱ 灵能百分百 第二季 龙套 灵幻 最上 芹泽 岛崎 铃木统一郎' },
   { id: 'demon-slayer-entertainment-district', title: '鬼灭之刃 游郭篇', subtitle: '潜入游郭 · 合击与救援', aliases: 'Demon Slayer Entertainment District Arc Kimetsu no Yaiba 鬼滅の刃 遊郭編 游郭篇 宇髄 堕姬 妓夫太郎 雏鹤' },
