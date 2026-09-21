@@ -3,6 +3,17 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps My Hero Academia season four separate with sourced rescue and festival facts', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'my-hero-academia-season-4')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第四季第 1–25 集')
+    expect(bank!.scope).toContain('不混入其他季度、电影或OVA')
+    for (const [number, answer] of [['01', '特田种男'], ['03', '通形百万'], ['19', '三分钟'], ['35', '霍克斯'], ['50', '霍克斯兼顾人命救助和支援安德瓦']]) {
+      const q = bank!.questions.find((item) => item.id === `my-hero-academia-season-4-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    expect(new Set(bank!.questions.map((q) => q.source!.url))).toEqual(new Set(Array.from({ length: 25 }, (_, i) => `https://www.b-ch.com/titles/6728/${String(i + 1).padStart(3, '0')}`)))
+  })
   it('keeps Death Parade in the TV series and distinguishes adjudication roles', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'death-parade')
     expect(bank).toBeDefined()
@@ -567,6 +578,7 @@ describe('catalog additions', () => {
     sources['kaguya-sama'] = /^https:\/\/kaguya\.love\/1st\/(?:character\/|story\/(?:0[1-9]|1[0-2])\.html)$/
     sources['chainsaw-man'] = /^https:\/\/(?:chainsawman\.dog\/tvseries\/character\/|www\.b-ch\.com\/titles\/7889\/0(?:0[1-9]|1[0-2]))$/
     sources['death-parade'] = /^https:\/\/www\.vap\.co\.jp\/deathparade\/(?:story\/(?:0[1-9]|1[0-2])|character\/(?:index|0[1-8]))\.html$/
+    sources['my-hero-academia-season-4'] = /^https:\/\/www\.b-ch\.com\/titles\/6728\/0(?:0[1-9]|1\d|2[0-5])$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
