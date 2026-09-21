@@ -3,6 +3,17 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps Dr. Stone in season one and checks its science roadmap facts', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'dr-stone')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第一季第 1–24 集')
+    expect(bank!.scope).toContain('不混入STONE WARS、龙水及后续季度')
+    for (const [number, answer] of [['01', '约3700年'], ['07', '琉璃'], ['18', '钨'], ['28', '六人'], ['35', '扬声器']]) {
+      const question = bank!.questions.find((q) => q.id === `dr-stone-${number}`)!
+      expect(question.options[question.answer]).toBe(answer)
+    }
+    expect(new Set(bank!.questions.map((q) => q.source!.url))).toEqual(new Set(Array.from({ length: 24 }, (_, i) => `https://www.b-ch.com/titles/6616/${String(i + 1).padStart(3, '0')}`)))
+  })
   it('keeps Bunny Girl Senpai within the 2018 TV story and distinguishes its phenomena', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'bunny-girl-senpai')
     expect(bank).toBeDefined()
@@ -510,6 +521,7 @@ describe('catalog additions', () => {
     sources['violet-evergarden'] = /^https:\/\/tv\.violet-evergarden\.jp\/story\/$/
     sources['code-geass-r2'] = /^https:\/\/geass\.jp\/r2\/story_(?:0[1-9]|1\d|2[0-5])\.html$/
     sources['bunny-girl-senpai'] = /^https:\/\/ao-buta\.com\/tv\/(?:character\/|story\/(?:0[1-9]|1[0-3])\.html)$/
+    sources['dr-stone'] = /^https:\/\/www\.b-ch\.com\/titles\/6616\/0(?:0[1-9]|1\d|2[0-4])$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
