@@ -3,6 +3,17 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps Fairy Tail in the first 48 episodes and checks spell conditions', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'fairy-tail')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第 1–48 集')
+    expect(bank!.scope).toContain('不混入2014版')
+    for (const [number, answer] of [['01', '妖精的尾巴'], ['26', '牺牲自己的生命'], ['35', '蕾比'], ['50', '施术者将对方认定为敌人']]) {
+      const q = bank!.questions.find((item) => item.id === `fairy-tail-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    expect(bank!.questions).toHaveLength(50)
+  })
   it('keeps Kill la Kill in the TV story and checks clothing and tactical constraints', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'kill-la-kill')
     expect(bank).toBeDefined()
@@ -639,6 +650,7 @@ describe('catalog additions', () => {
     sources['one-punch-man-season-2'] = /^https:\/\/www\.b-ch\.com\/titles\/6518\/0(?:0[1-9]|1[0-2])$/
     sources['spy-family'] = /^https:\/\/www\.b-ch\.com\/titles\/7713\/0(?:0[1-9]|1[0-2])$/
     sources['kill-la-kill'] = /^https:\/\/www\.b-ch\.com\/titles\/3867\/0(?:0[1-9]|1\d|2[0-4])$/
+    sources['fairy-tail'] = /^https:\/\/www\.b-ch\.com\/titles\/4189\/0(?:0[1-9]|[1-3]\d|4[0-8])$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)

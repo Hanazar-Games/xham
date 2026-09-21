@@ -8,7 +8,7 @@ import { existsSync } from 'node:fs'
 describe('IP question banks and exams', () => {
   it('provides exactly 50 sourced illustrated questions in three levels for each IP', () => {
     const banks = questionBanks.filter((bank) => bank.series !== 'crossover')
-    expect(banks).toHaveLength(61)
+    expect(banks).toHaveLength(62)
     for (const bank of banks) {
       expect(bank.questions).toHaveLength(50)
       expect(new Set(bank.questions.map((q) => q.id)).size).toBe(50)
@@ -43,8 +43,8 @@ describe('IP question banks and exams', () => {
 
   it('keeps global IDs unique and produces new orders while preserving full bank membership', () => {
     const questions = questionBanks.flatMap((bank) => bank.questions)
-    expect(questions).toHaveLength(3122)
-    expect(new Set(questions.map((q) => q.id)).size).toBe(3122)
+    expect(questions).toHaveLength(3172)
+    expect(new Set(questions.map((q) => q.id)).size).toBe(3172)
     const bank = questionBanks[1]
     const first = createExam(bank, '混合', 50, () => 0.1)
     const second = createExam(bank, '混合', 50, () => 0.9)
