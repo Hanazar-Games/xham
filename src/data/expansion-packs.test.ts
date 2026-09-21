@@ -3,6 +3,22 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps the 2003 Fullmetal Alchemist continuity separate from Brotherhood', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'fullmetal-alchemist-2003')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('2003年电视版第 1–51 集')
+    expect(bank!.scope).toContain('不混用FA版')
+    expect(bank!.questions).toHaveLength(50)
+    const answer = (id: string) => {
+      const q = bank!.questions.find((item) => item.id === `fullmetal-alchemist-2003-${id}`)!
+      return q.options[q.answer]
+    }
+    expect(answer('03')).toBe('12岁')
+    expect(answer('35')).toBe('20世纪初的伦敦')
+    expect(answer('45')).toBe('拉斯的右臂和左腿原属爱德，诞生于伊兹米失败的人体炼成')
+    expect(bank!.questions[34].source!.url).toBe('https://www.b-ch.com/titles/215/050')
+  })
+
   it('keeps Oregairu season one and its TV extra distinct from sequels and OVA', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'oregairu-season-1')
     expect(bank).toBeDefined()
@@ -1036,6 +1052,7 @@ describe('catalog additions', () => {
     sources['assassination-classroom-season-2'] = /^https:\/\/www\.ansatsu-anime\.com\/2014-2016\/story\/detail\.php\?id=(?:1000726|1000731|1000733|1000754|1000759|1000764|1000770|1000775|1000779|1000784|1000795|1000800|1000803|1000814|1000816|1000828|1000834|1000836|1000838|1000839|1000851|1000854|1000860|1000865|1000876)$/
     sources['haikyuu-season-2'] = /^https:\/\/www\.b-ch\.com\/titles\/4898\/0(?:0[1-9]|1\d|2[0-5])$/
     sources['oregairu-season-1'] = /^https:\/\/www\.tbs\.co\.jp\/anime\/oregairu\/1st\/(?:chara\/|story\/#story(?:0[1-9]|1[0-3]))$/
+    sources['fullmetal-alchemist-2003'] = /^https:\/\/www\.b-ch\.com\/titles\/215\/0(?:0[1-9]|[1-4]\d|5[01])$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)

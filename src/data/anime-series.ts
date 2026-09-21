@@ -27,6 +27,7 @@ export const animeSeries: { id: AnimeSeriesId; title: string; subtitle: string; 
   { id: 'attack-on-titan-season-3-part-2', title: '进击的巨人 第三季后半部', subtitle: '夺还作战 · 剧情与制作知识', aliases: '进击 巨人 進撃 aot attack on titan season 3 part 2 shingeki 第三季 后半部 下半部 雷枪 地下室' },
   { id: 'no-game-no-life', title: '游戏人生', subtitle: '电视动画 · 游戏与心理博弈', aliases: 'no game no life ngnl ノーゲーム ノーライフ 游戏人生 空白 空 白 史蒂芙 吉普莉尔 克拉米 菲尔 伊纲 特图 血坏' },
   { id: 'code-geass', title: 'Code Geass 反叛的鲁路修', subtitle: '第一季 · 身份与战术博弈', aliases: 'code geass lelouch 鲁路修 反逆的鲁鲁修 叛逆 朱雀 卡莲 黑色骑士团 zero 兰斯洛特 红莲 C.C.' },
+  { id: 'fullmetal-alchemist-2003', title: '钢之炼金术师 2003版', subtitle: '旧版旅程 · 炼成与代价', aliases: '钢炼 旧钢炼 鋼の錬金術師 Fullmetal Alchemist FMA 2003 fma2003 爱德华 阿尔冯斯 但丁 贤者之石' },
   { id: 'oregairu-season-1', title: '我的青春恋爱物语果然有问题 第一季', subtitle: '奉仕部 · 委托与人际关系', aliases: '春物 我的青春恋爱物语果然有问题 やはり俺の青春ラブコメはまちがっている 俺ガイル Oregairu SNAFU oregairu1 比企谷八幡 雪之下雪乃 由比滨结衣' },
   { id: 'haikyuu-season-2', title: '排球少年 第二季', subtitle: '东京合宿 · 进化与半决赛', aliases: '排球少年 第二季 排球 ハイキュー セカンドシーズン Haikyuu Second Season haikyuu2 日向翔阳 影山飞雄 乌野 山口 月岛' },
   { id: 'assassination-classroom-season-2', title: '暗杀教室 第二季', subtitle: '成长与分歧 · 研究与毕业', aliases: '暗杀教室 第二季 暗殺教室 第2期 Assassination Classroom Season 2 ansatsu2 杀老师 潮田渚 赤羽业 茅野枫' },
