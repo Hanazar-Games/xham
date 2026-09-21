@@ -27,6 +27,7 @@ export const animeSeries: { id: AnimeSeriesId; title: string; subtitle: string; 
   { id: 'attack-on-titan-season-3-part-2', title: '进击的巨人 第三季后半部', subtitle: '夺还作战 · 剧情与制作知识', aliases: '进击 巨人 進撃 aot attack on titan season 3 part 2 shingeki 第三季 后半部 下半部 雷枪 地下室' },
   { id: 'no-game-no-life', title: '游戏人生', subtitle: '电视动画 · 游戏与心理博弈', aliases: 'no game no life ngnl ノーゲーム ノーライフ 游戏人生 空白 空 白 史蒂芙 吉普莉尔 克拉米 菲尔 伊纲 特图 血坏' },
   { id: 'code-geass', title: 'Code Geass 反叛的鲁路修', subtitle: '第一季 · 身份与战术博弈', aliases: 'code geass lelouch 鲁路修 反逆的鲁鲁修 叛逆 朱雀 卡莲 黑色骑士团 zero 兰斯洛特 红莲 C.C.' },
+  { id: 'chainsaw-man', title: '电锯人 第一季', subtitle: '公安特异4课 · 契约与任务判断', aliases: '电锯人 鏈鋸人 链锯人 chainsaw man チェンソーマン 电次 帕瓦 玛奇玛 早川秋 波奇塔' },
   { id: 'kaguya-sama', title: '辉夜大小姐想让我告白 第一季', subtitle: '秀知院 · 心意与心理战', aliases: '辉夜大小姐 辉夜姬 告白 kaguya sama love is war かぐや様 四宫辉夜 白银御行 藤原千花 石上优' },
   { id: 'dr-stone', title: '石纪元 第一季', subtitle: '科学王国 · 材料与协作', aliases: '石纪元 新石纪 Dr. Stone dr stone dr.stone ドクターストーン 千空 大树 琥珀 克罗姆' },
   { id: 'bunny-girl-senpai', title: '青春猪头少年不会梦到兔女郎学姐', subtitle: '电视版 · 思春期与人物心意', aliases: '青春猪头少年 青春野狼 兔女郎学姐 青春ブタ野郎 青豚 青猪 bunny girl senpai rascal does not dream aobuta 樱岛麻衣 梓川咲太' },

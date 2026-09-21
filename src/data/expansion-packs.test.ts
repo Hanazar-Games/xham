@@ -3,6 +3,20 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps Chainsaw Man in the 2022 TV series with distinct contracts and mission conditions', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'chainsaw-man')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('2022年电视动画第 1–12 集')
+    expect(bank!.scope).toContain('不混入总集篇、蕾塞篇及后续剧情')
+    for (const [number, answer] of [['01', '波奇塔'], ['06', '血之魔人'], ['19', '八楼'], ['27', '未来恶魔'], ['35', '拉动胸前的启动拉绳']]) {
+      const q = bank!.questions.find((item) => item.id === `chainsaw-man-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    expect(new Set(bank!.questions.map((q) => q.source!.url))).toEqual(new Set([
+      'https://chainsawman.dog/tvseries/character/',
+      ...Array.from({ length: 12 }, (_, i) => `https://www.b-ch.com/titles/7889/${String(i + 1).padStart(3, '0')}`),
+    ]))
+  })
   it('keeps Kaguya-sama in season one with sourced council roles and event conditions', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'kaguya-sama')
     expect(bank).toBeDefined()
@@ -537,6 +551,7 @@ describe('catalog additions', () => {
     sources['bunny-girl-senpai'] = /^https:\/\/ao-buta\.com\/tv\/(?:character\/|story\/(?:0[1-9]|1[0-3])\.html)$/
     sources['dr-stone'] = /^https:\/\/www\.b-ch\.com\/titles\/6616\/0(?:0[1-9]|1\d|2[0-4])$/
     sources['kaguya-sama'] = /^https:\/\/kaguya\.love\/1st\/(?:character\/|story\/(?:0[1-9]|1[0-2])\.html)$/
+    sources['chainsaw-man'] = /^https:\/\/(?:chainsawman\.dog\/tvseries\/character\/|www\.b-ch\.com\/titles\/7889\/0(?:0[1-9]|1[0-2]))$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
