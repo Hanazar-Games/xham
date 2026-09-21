@@ -3,6 +3,19 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps Overlord in season one and checks rank, combat skills and resurrection uncertainty', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'overlord')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第一季第 1–13 集')
+    expect(bank!.scope).toContain('不混入第二季')
+    expect(bank!.questions).toHaveLength(50)
+    for (const [number, answer] of [['01', 'YGGDRASIL（世界树）'], ['19', '铜级'], ['29', '身体能力很高，但没有剑士职业技能'], ['34', '尚未确认复活魔法在这个世界能否使用'], ['35', '使用所持的复活道具']]) {
+      const q = bank!.questions.find((item) => item.id === `overlord-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    expect(bank!.questions[48].explanation).toContain('完全耐性')
+    expect(bank!.questions[49].explanation).toContain('MP和技能')
+  })
   it('keeps Charlotte in the TV series and verifies target, duration and cost constraints', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'charlotte')
     expect(bank).toBeDefined()
@@ -785,6 +798,7 @@ describe('catalog additions', () => {
     sources['gurren-lagann'] = /^https:\/\/www\.(?:b-ch\.com\/titles\/4447\/0(?:0[1-9]|1\d|2[0-7])|gurren-lagann\.net\/tv\/mecha\/(?:lagann|gulaparl|arcgurren|archgurrenlagann|chogingadaigurren|chogingaglagann|mugann|spacegunmen)\.html)$/
     sources['shield-hero'] = /^https:\/\/(?:www\.b-ch\.com\/titles\/6384\/0(?:0[1-9]|1\d|2[0-5])|shieldhero-anime\.jp\/1st\/)$/
     sources['charlotte'] = /^https:\/\/(?:www\.b-ch\.com\/titles\/4602\/0(?:0[1-9]|1[0-3])|www\.pa-works\.jp\/works\/charlotte\/|charlotte-anime\.jp\/character\/#\/(?:yuu|nao|jojiro|yusa|misa|ayumi|kumagami|sala|shunsuke|shichino|medoki|maedomari))$/
+    sources['overlord'] = /^https:\/\/overlord-anime\.com\/_season1\/(?:story\.html\?st=(?:[1-9]|1[0-3])|character\.html\?c=[3-7])$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
