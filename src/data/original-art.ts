@@ -20,6 +20,7 @@ export const originalScenes = {
   academy: '教室里的课桌与黑板',
   adventure: '地图、指南针与露营背包',
   arena: '竞技场与交叉的训练剑',
+  volleyball: '排球、球网与室内球场的原创示意图',
   creatures: '森林中的原创圆形小生物',
 } as const
 
