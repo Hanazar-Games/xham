@@ -3,6 +3,20 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps Horimiya in the 2021 series and separates established and pretend relationships', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'horimiya')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('2021年电视版第 1–13 集')
+    expect(bank!.scope).toContain('不混入《piece》、OVA或真人版')
+    expect(bank!.questions).toHaveLength(50)
+    for (const [number, answer] of [['01', '堀京子'], ['13', '视力不好，容易认错人'], ['18', '3月'], ['30', '一星期'], ['33', '为了让由纪有借口拒绝柳的告白'], ['45', '仙石与礼美正式交往，石川与由纪当时是假扮恋人'], ['50', '众人从片桐高中毕业，带着相遇和回忆走向未来']]) {
+      const q = bank!.questions.find((item) => item.id === `horimiya-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    expect(bank!.questions.find((q) => q.id === 'horimiya-19')!.source!.url).toBe('https://horimiya-anime.com/1st/story/?id=01')
+    expect(bank!.questions.find((q) => q.id === 'horimiya-50')!.source!.url).toBe('https://horimiya-anime.com/1st/story/?id=13')
+    expect(bank!.questions[48].explanation).toContain('不能')
+  })
   it('keeps Elfen Lied in thirteen TV episodes and separates abilities from outcomes', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'elfen-lied')
     expect(bank).toBeDefined()
@@ -945,6 +959,7 @@ describe('catalog additions', () => {
     sources['slime-season-1'] = /^https:\/\/www\.ten-sura\.com\/anime\/tensura\/story\/no(?:[1-9]|1[0-9]|2[0-4])$/
     sources['kakegurui'] = /^https:\/\/kakegurui-anime\.com\/1st\/(?:game_rules\/|story\/detail\.php\?id=(?:1000217|1000221|1000223|100022[6-8]|100025[3-8]))$/
     sources['elfen-lied'] = /^https:\/\/(?:www\.vap\.co\.jp\/elfenlied\/bd\/|animestore\.docomo\.ne\.jp\/animestore\/ci_pc\?workId=21868(?:&partId=218680(?:0[1-9]|1[0-3]))?)$/
+    sources['horimiya'] = /^https:\/\/horimiya-anime\.com\/1st\/(?:character\/|story\/\?id=(?:01|ep0[2-9]|ep1[0-2]|13))$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
