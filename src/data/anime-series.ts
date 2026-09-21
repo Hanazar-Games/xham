@@ -27,6 +27,7 @@ export const animeSeries: { id: AnimeSeriesId; title: string; subtitle: string; 
   { id: 'attack-on-titan-season-3-part-2', title: '进击的巨人 第三季后半部', subtitle: '夺还作战 · 剧情与制作知识', aliases: '进击 巨人 進撃 aot attack on titan season 3 part 2 shingeki 第三季 后半部 下半部 雷枪 地下室' },
   { id: 'no-game-no-life', title: '游戏人生', subtitle: '电视动画 · 游戏与心理博弈', aliases: 'no game no life ngnl ノーゲーム ノーライフ 游戏人生 空白 空 白 史蒂芙 吉普莉尔 克拉米 菲尔 伊纲 特图 血坏' },
   { id: 'code-geass', title: 'Code Geass 反叛的鲁路修', subtitle: '第一季 · 身份与战术博弈', aliases: 'code geass lelouch 鲁路修 反逆的鲁鲁修 叛逆 朱雀 卡莲 黑色骑士团 zero 兰斯洛特 红莲 C.C.' },
+  { id: 'shield-hero', title: '盾之勇者成名录 第一季', subtitle: '四圣勇者 · 防御与团队作战', aliases: 'The Rising of the Shield Hero 盾の勇者の成り上がり 盾之勇者 盾勇 岩谷尚文 拉芙塔莉雅 菲洛 梅尔蒂 葛拉丝' },
   { id: 'gurren-lagann', title: '天元突破 红莲螺岩', subtitle: '电视版 · 合体与螺旋作战', aliases: 'Gurren Lagann 天元突破グレンラガン 红莲螺岩 红莲之眼 西蒙 卡米那 妮娅 优子 罗修 维拉尔' },
   { id: 'soul-eater', title: '噬魂师 电视版', subtitle: '职人与武器 · 灵魂共鸣', aliases: 'Soul Eater ソウルイーター 噬魂师 噬魂者 玛嘉 索尔 Black Star ブラックスター 中务椿 Death the Kid 克洛纳 斯坦因 死武专' },
   { id: 'demon-slayer-mugen-train', title: '鬼灭之刃 无限列车篇', subtitle: '剧场版 · 梦境与护卫作战', aliases: 'Demon Slayer Mugen Train Kimetsu no Yaiba 鬼滅の刃 無限列車 无限列车 炼狱杏寿郎 魇梦 猗窝座' },
