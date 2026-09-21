@@ -27,6 +27,7 @@ export const animeSeries: { id: AnimeSeriesId; title: string; subtitle: string; 
   { id: 'attack-on-titan-season-3-part-2', title: '进击的巨人 第三季后半部', subtitle: '夺还作战 · 剧情与制作知识', aliases: '进击 巨人 進撃 aot attack on titan season 3 part 2 shingeki 第三季 后半部 下半部 雷枪 地下室' },
   { id: 'no-game-no-life', title: '游戏人生', subtitle: '电视动画 · 游戏与心理博弈', aliases: 'no game no life ngnl ノーゲーム ノーライフ 游戏人生 空白 空 白 史蒂芙 吉普莉尔 克拉米 菲尔 伊纲 特图 血坏' },
   { id: 'code-geass', title: 'Code Geass 反叛的鲁路修', subtitle: '第一季 · 身份与战术博弈', aliases: 'code geass lelouch 鲁路修 反逆的鲁鲁修 叛逆 朱雀 卡莲 黑色骑士团 zero 兰斯洛特 红莲 C.C.' },
+  { id: 'assassination-classroom-season-2', title: '暗杀教室 第二季', subtitle: '成长与分歧 · 研究与毕业', aliases: '暗杀教室 第二季 暗殺教室 第2期 Assassination Classroom Season 2 ansatsu2 杀老师 潮田渚 赤羽业 茅野枫' },
   { id: 'fate-zero', title: 'Fate/Zero 第一季', subtitle: '契约与共斗 · 王道与抉择', aliases: 'Fate Zero Fate/Zero フェイトゼロ 命运零 卫宫切嗣 Saber 爱丽丝菲尔 韦伯 圣杯战争' },
   { id: 'highschool-of-the-dead', title: '学园默示录 电视版', subtitle: '团队与撤离 · 资源与判断', aliases: 'Highschool of the Dead High School of the Dead HOTD 学園黙示録 ハイスクールオブザデッド 学园默示录 小室孝 宫本丽 毒岛冴子' },
   { id: 'horimiya', title: '堀与宫村 2021电视版', subtitle: '秘密与日常 · 心意与毕业', aliases: 'Horimiya ホリミヤ 堀与宫村 堀京子 宫村伊澄 石川透 吉川由纪 仙石翔' },
