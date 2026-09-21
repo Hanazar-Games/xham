@@ -3,6 +3,19 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps Fate Zero in season one and distinguishes orders, observations and outcomes', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'fate-zero')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第一季第 1–13 集')
+    expect(bank!.scope).toContain('不混入第14–25集')
+    expect(bank!.questions).toHaveLength(50)
+    for (const [number, answer] of [['01', '七名魔术师召唤七名英灵'], ['19', '过去圣杯战争中未用完的令咒'], ['25', '魔力注入的水银'], ['35', '从书中了解Rider追求东方尽头的理由'], ['50', 'Caster从与龙之介的对话中获得新启示，准备施展某种魔术']]) {
+      const q = bank!.questions.find((item) => item.id === `fate-zero-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    expect(bank!.questions[48].explanation).toContain('未说明')
+    expect(bank!.questions.find((q) => q.id === 'fate-zero-50')!.source!.url).toBe('https://www.fate-zero.jp/story/#STORY13')
+  })
   it('keeps Highschool of the Dead in the TV series and checks resource and character boundaries', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'highschool-of-the-dead')
     expect(bank).toBeDefined()
@@ -974,6 +987,7 @@ describe('catalog additions', () => {
     sources['elfen-lied'] = /^https:\/\/(?:www\.vap\.co\.jp\/elfenlied\/bd\/|animestore\.docomo\.ne\.jp\/animestore\/ci_pc\?workId=21868(?:&partId=218680(?:0[1-9]|1[0-3]))?)$/
     sources['horimiya'] = /^https:\/\/horimiya-anime\.com\/1st\/(?:character\/|story\/\?id=(?:01|ep0[2-9]|ep1[0-2]|13))$/
     sources['highschool-of-the-dead'] = /^https:\/\/www\.nbcuni\.co\.jp\/rondorobe\/anime\/hotd\/contents\/(?:hp0003\/index00010000|hp0006\/index000[2-7]0000|hp0005\/index00(?:16|18|19|20|25|27|28|29|30|31|32|33)0000)\.html$/
+    sources['fate-zero'] = /^https:\/\/www\.fate-zero\.jp\/(?:characters\/index\.html|story\/#STORY(?:0[1-9]|1[0-3]))$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
