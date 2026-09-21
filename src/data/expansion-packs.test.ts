@@ -3,6 +3,20 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps Food Wars in season one and checks cooking tasks and qualifier boundaries', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'food-wars')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第一季第 1–24 集')
+    expect(bank!.scope).toContain('不混入第二季')
+    expect(bank!.questions).toHaveLength(50)
+    for (const [number, answer] of [['01', '幸平创真'], ['19', '做出让宿管认可味道的料理'], ['29', '两小时内让客人吃下至少200份'], ['34', '每组4人'], ['35', '鱼头咖喱']]) {
+      const q = bank!.questions.find((item) => item.id === `food-wars-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    expect(bank!.questions[42].explanation).toContain('塌陷')
+    expect(bank!.questions[49].explanation).toContain('没有公布')
+    expect(bank!.questions.some((q) => q.image?.src === '/images/original/kitchen.svg')).toBe(true)
+  })
   it('keeps Overlord in season one and checks rank, combat skills and resurrection uncertainty', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'overlord')
     expect(bank).toBeDefined()
@@ -799,6 +813,7 @@ describe('catalog additions', () => {
     sources['shield-hero'] = /^https:\/\/(?:www\.b-ch\.com\/titles\/6384\/0(?:0[1-9]|1\d|2[0-5])|shieldhero-anime\.jp\/1st\/)$/
     sources['charlotte'] = /^https:\/\/(?:www\.b-ch\.com\/titles\/4602\/0(?:0[1-9]|1[0-3])|www\.pa-works\.jp\/works\/charlotte\/|charlotte-anime\.jp\/character\/#\/(?:yuu|nao|jojiro|yusa|misa|ayumi|kumagami|sala|shunsuke|shichino|medoki|maedomari))$/
     sources['overlord'] = /^https:\/\/overlord-anime\.com\/_season1\/(?:story\.html\?st=(?:[1-9]|1[0-3])|character\.html\?c=[3-7])$/
+    sources['food-wars'] = /^https:\/\/www\.b-ch\.com\/titles\/4532\/0(?:0[1-9]|1\d|2[0-4])$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
