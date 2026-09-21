@@ -32,7 +32,7 @@ export function AudioSettings({ onClose }: { onClose: () => void }) {
           <Icon name="music" />
           <div>
             <h3>背景音乐</h3>
-            <p>轻快循环，暂停挑战时安静下来</p>
+            <p>轻快循环，答题反馈时自动降低音乐音量</p>
           </div>
         </div>
         <button

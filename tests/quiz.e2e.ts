@@ -118,10 +118,10 @@ for (const [width, height] of [[320, 568], [390, 844], [540, 720], [768, 1024], 
     await expect(page.locator('.latest-release')).toContainText(`v${version}`)
     await auditLayout(page)
     await page.getByRole('button', { name: '历史公告', exact: true }).click()
-    await expect(page.locator('.historical-release')).toHaveCount(71)
+    await expect(page.locator('.historical-release')).toHaveCount(72)
     await page.locator('.historical-release summary').first().click()
-    await expect(page.locator('.historical-release').first()).toContainText('v0.65.0')
-    await expect(page.locator('.historical-release').first()).toContainText('新增《间谍过家家 第一季前半部》50道配图题')
+    await expect(page.locator('.historical-release').first()).toContainText('v0.66.0')
+    await expect(page.locator('.historical-release').first()).toContainText('新增《斩服少女》50道配图题')
     await auditLayout(page)
     await page.keyboard.press('Escape')
     await page.getByRole('button', { name: /^(查看)?玩法指南$/ }).click()
@@ -260,4 +260,19 @@ test('reduced motion preserves visible feedback without an entrance animation', 
   await page.keyboard.press('2')
   await expect(page.getByRole('button', { name: '下一题' })).toBeInViewport({ ratio: 1 })
   expect(await page.locator('.answer-feedback').evaluate((node) => getComputedStyle(node).animationName)).toBe('none')
+})
+
+
+test('narrow phones keep sentence-length answer choices in one readable column', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 568 })
+  const quiz = quizzes.find((item) => item.id === 'kill-la-kill-advanced')!
+  await start(page, quiz)
+  const choices = page.locator('.answer-option')
+  const first = await choices.nth(0).boundingBox()
+  const second = await choices.nth(1).boundingBox()
+  expect(second!.y).toBeGreaterThan(first!.y)
+  expect(first!.width).toBeGreaterThan(250)
+  await page.keyboard.press(String(quiz.questions[0].answer + 1))
+  await expect(page.getByRole('button', { name: '下一题' })).toBeInViewport({ ratio: 1 })
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
 })

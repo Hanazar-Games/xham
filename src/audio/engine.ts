@@ -44,6 +44,7 @@ export class AudioEngine {
   private voices = new Set<Voice>()
   private step = 0
   private nextNote = 0
+  private duckUntil = 0
   private transition?: Promise<boolean>
   private pendingCue?: { cue: Cue; expires: number }
 
@@ -72,11 +73,9 @@ export class AudioEngine {
     this.options.volume = Number.isFinite(this.options.volume)
       ? Math.max(0, Math.min(1, this.options.volume))
       : defaultAudio.volume
-    this.applyVolume()
     if (!this.options.sfx || this.options.volume === 0) {
-      this.pendingCue = undefined
-      this.stopVoices('sfx')
-    }
+      this.stopSfx()
+    } else this.applyVolume()
     this.syncMusic()
   }
 
@@ -95,6 +94,8 @@ export class AudioEngine {
     }
     this.stopVoices('sfx')
     const time = this.context.currentTime + 0.01
+    this.duckUntil = cue === 'tick' || cue === 'tap' ? 0 : time + (cues[cue].length - 1) * 0.11 + 0.25
+    this.applyVolume()
     cues[cue].forEach((note, index) =>
       this.note(
         note,
@@ -115,14 +116,15 @@ export class AudioEngine {
   stopSfx() {
     this.pendingCue = undefined
     this.stopVoices('sfx')
+    this.duckUntil = 0
+    this.applyVolume()
   }
 
   setVisible(visible: boolean) {
     this.visible = visible
     if (!visible) {
-      this.pendingCue = undefined
       this.stopMusic()
-      this.stopVoices('sfx')
+      this.stopSfx()
     }
     if (this.context && !this.disposed) void this.reconcile()
   }
@@ -176,7 +178,13 @@ export class AudioEngine {
       [this.music, this.options.music ? this.options.volume * 0.35 : 0],
     ] as const) {
       if (initial) node.gain.setValueAtTime(value, this.context.currentTime)
-      else node.gain.setTargetAtTime(value, this.context.currentTime, 0.025)
+      else {
+        const now = this.context.currentTime
+        node.gain.cancelScheduledValues(now)
+        const ducked = node === this.music && this.duckUntil > now
+        node.gain.setTargetAtTime(ducked ? value * 0.35 : value, now, 0.025)
+        if (ducked) node.gain.setTargetAtTime(value, this.duckUntil, 0.12)
+      }
     }
   }
 

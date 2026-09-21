@@ -49,6 +49,44 @@ function audioContext() {
 afterEach(() => vi.useRealTimers())
 
 describe('audio lifecycle', () => {
+  it('ducks music during feedback and cancels the recovery schedule when feedback is stopped', async () => {
+    vi.useFakeTimers()
+    const { factory, context, gains } = audioContext()
+    const engine = new AudioEngine(factory)
+    await engine.unlock()
+    engine.configure({ music: true })
+    engine.play('correct')
+    const music = gains[1]
+    const base = 0.55 * 0.35
+    expect(music.setTargetAtTime).toHaveBeenCalledWith(base * 0.35, 0, 0.025)
+    expect(music.setTargetAtTime).toHaveBeenLastCalledWith(base, 0.48, 0.12)
+    context.currentTime = 0.1
+    engine.configure({ volume: 0.4 })
+    expect(music.setTargetAtTime).toHaveBeenCalledWith(0.4 * 0.35 * 0.35, 0.1, 0.025)
+    engine.stopSfx()
+    expect(music.cancelScheduledValues).toHaveBeenLastCalledWith(0.1)
+    expect(music.setTargetAtTime).toHaveBeenLastCalledWith(0.4 * 0.35, 0.1, 0.025)
+    expect(vi.getTimerCount()).toBe(1)
+    engine.dispose()
+  })
+
+  it('muting feedback or hiding the page cancels music ducking without a stale recovery', async () => {
+    vi.useFakeTimers()
+    for (const action of ['mute', 'hide'] as const) {
+      const { factory, context, gains } = audioContext()
+      const engine = new AudioEngine(factory)
+      await engine.unlock()
+      engine.configure({ music: true })
+      engine.play('finish')
+      context.currentTime = 0.1
+      if (action === 'mute') engine.configure({ sfx: false })
+      else engine.setVisible(false)
+      expect(gains[1].cancelScheduledValues).toHaveBeenLastCalledWith(0.1)
+      expect(gains[1].setTargetAtTime).toHaveBeenLastCalledWith(0.55 * 0.35, 0.1, 0.025)
+      engine.dispose()
+    }
+  })
+
   it('cancels preview voices without stopping music or blocking future feedback', async () => {
     vi.useFakeTimers()
     const { factory, oscillators } = audioContext()

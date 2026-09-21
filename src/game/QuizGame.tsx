@@ -258,7 +258,7 @@ export function QuizGame({
               </div>
             </section>
             <div
-              className={`answer-grid ${question.options.some((option) => option.length > 12) ? 'answer-grid-long' : ''}`}
+              className={`answer-grid ${question.options.some((option) => option.length > 8) ? 'answer-grid-long' : ''}`}
             >
               {question.options.map((option, index) => {
                 const revealed = !exam && state.phase === 'reveal'

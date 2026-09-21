@@ -28,6 +28,12 @@ export function Dialog({
       ref={ref}
       className="dialog"
       aria-labelledby={titleId}
+      onKeyDown={(event) => {
+        if (event.key !== 'Escape' || event.nativeEvent.isComposing) return
+        event.preventDefault()
+        event.stopPropagation()
+        onClose()
+      }}
       onCancel={(event) => {
         event.preventDefault()
         onClose()

@@ -47,3 +47,17 @@ test('IME composition digits do not submit an answer', async ({ page }) => {
   await page.keyboard.press('1')
   await expect(page.locator('.answer-feedback')).toBeVisible()
 })
+
+
+test('Escape closes a populated catalog search and returns focus to its opener', async ({ page }) => {
+  await page.goto('/')
+  const opener = page.getByRole('button', { name: '查看 200 条目制作目录', exact: true })
+  await opener.click()
+  const dialog = page.getByRole('dialog')
+  await dialog.getByLabel('目录作品搜索').fill('One Punch Man')
+  await dialog.getByLabel('目录作品搜索').dispatchEvent('keydown', { key: 'Escape', isComposing: true })
+  await expect(dialog).toBeVisible()
+  await page.keyboard.press('Escape')
+  await expect(dialog).not.toBeVisible()
+  await expect(opener).toBeFocused()
+})

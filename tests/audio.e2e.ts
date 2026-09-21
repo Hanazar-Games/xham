@@ -171,3 +171,47 @@ test('unavailable audio reports its state and leaves the quiz playable', async (
   await page.keyboard.press('2')
   await expect(page.locator('.correct-answer')).toHaveText('正确答案：嗅觉')
 })
+
+test('feedback ducks BGM and restores its level without changing SFX volume', async ({ page }) => {
+  await page.addInitScript(() => {
+    const Native = window.AudioContext
+    const audit = window as typeof window & { audioBuses: GainNode[]; audioMeters: AnalyserNode[] }
+    audit.audioBuses = []
+    audit.audioMeters = []
+    window.AudioContext = class extends Native {
+      createGain() {
+        const gain = super.createGain()
+        if (audit.audioBuses.length < 2) {
+          audit.audioBuses.push(gain)
+          const meter = this.createAnalyser()
+          gain.connect(meter)
+          audit.audioMeters.push(meter)
+        }
+        return gain
+      }
+    }
+  })
+  const level = (bus: number) => page.evaluate((index) =>
+    (window as unknown as { audioBuses: GainNode[]; audioMeters: AnalyserNode[] }).audioBuses[index].gain.value, bus)
+  const peak = (bus: number) => page.evaluate((index) => {
+    const meter = (window as unknown as { audioMeters: AnalyserNode[] }).audioMeters[index]
+    const samples = new Float32Array(meter.fftSize)
+    meter.getFloatTimeDomainData(samples)
+    return Math.max(...samples.map(Math.abs))
+  }, bus)
+  await page.goto('/')
+  await page.getByRole('button', { name: '声音设置' }).click()
+  await page.getByRole('switch', { name: '背景音乐' }).click()
+  await expect.poll(() => level(1)).toBeGreaterThan(0.18)
+  await page.getByRole('button', { name: '试听音效' }).click()
+  await expect.poll(() => level(1), { intervals: [20] }).toBeLessThan(0.1)
+  expect(await level(0)).toBeCloseTo(0.44)
+  await expect.poll(() => level(1)).toBeGreaterThan(0.18)
+  await page.getByRole('button', { name: '试听音效' }).click()
+  await expect.poll(() => level(1), { intervals: [20] }).toBeLessThan(0.1)
+  await page.getByRole('switch', { name: '游戏音效' }).click()
+  await expect.poll(() => level(1)).toBeGreaterThan(0.18)
+  await expect.poll(() => peak(0)).toBeLessThan(0.001)
+  await page.getByRole('switch', { name: '背景音乐' }).click()
+  await expect.poll(() => peak(1)).toBeLessThan(0.001)
+})
