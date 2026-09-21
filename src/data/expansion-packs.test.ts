@@ -3,6 +3,20 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps Mugen Train separate from the general bank and checks dream and battle constraints', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'demon-slayer-mugen-train')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('2020年剧场版')
+    expect(bank!.scope).toContain('不含电视版第一集原创故事')
+    for (const [number, answer] of [['02', '炎柱'], ['08', '下弦之壹'], ['09', '上弦之叁'], ['19', '全集中·常中'], ['29', '精神之核']]) {
+      const q = bank!.questions.find((item) => item.id === `demon-slayer-mugen-train-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    expect(bank!.questions[39].explanation).toContain('梦境内')
+    expect(bank!.questions[46].explanation).toContain('恢复能力')
+    expect(bank!.questions).toHaveLength(50)
+    expect(bank!.questions.every((q) => q.source!.url.startsWith('https://kimetsu.com/anime/mugenresshahen_'))).toBe(true)
+  })
   it('keeps Another in the TV series and separates suspicion from verified identity', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'another')
     expect(bank).toBeDefined()
@@ -709,6 +723,7 @@ describe('catalog additions', () => {
     sources['darling-in-the-franxx'] = /^https:\/\/darli-fra\.jp\/(?:keyword\/|character\/|story\/\?no=(?:[1-9]|1\d|2[0-4]))$/
     sources['vinland-saga'] = /^https:\/\/(?:www\.b-ch\.com\/titles\/7349\/0(?:0[1-9]|1\d|2[0-4])|vinlandsaga\.jp\/character\/)$/
     sources['another'] = /^https:\/\/www\.(?:b-ch\.com\/titles\/4255\/0(?:0[1-9]|1[0-2])|pa-works\.jp\/works\/another\/)$/
+    sources['demon-slayer-mugen-train'] = /^https:\/\/kimetsu\.com\/anime\/mugenresshahen_(?:movie\/(?:music\/|story\/|character\/\?chara=c(?:0[1-9]|10))|tv\/story\/\?id=ep[3-7])$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
