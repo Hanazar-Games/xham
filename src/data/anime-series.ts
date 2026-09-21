@@ -27,6 +27,7 @@ export const animeSeries: { id: AnimeSeriesId; title: string; subtitle: string; 
   { id: 'attack-on-titan-season-3-part-2', title: '进击的巨人 第三季后半部', subtitle: '夺还作战 · 剧情与制作知识', aliases: '进击 巨人 進撃 aot attack on titan season 3 part 2 shingeki 第三季 后半部 下半部 雷枪 地下室' },
   { id: 'no-game-no-life', title: '游戏人生', subtitle: '电视动画 · 游戏与心理博弈', aliases: 'no game no life ngnl ノーゲーム ノーライフ 游戏人生 空白 空 白 史蒂芙 吉普莉尔 克拉米 菲尔 伊纲 特图 血坏' },
   { id: 'code-geass', title: 'Code Geass 反叛的鲁路修', subtitle: '第一季 · 身份与战术博弈', aliases: 'code geass lelouch 鲁路修 反逆的鲁鲁修 叛逆 朱雀 卡莲 黑色骑士团 zero 兰斯洛特 红莲 C.C.' },
+  { id: 'jojo-2012', title: 'JOJO的奇妙冒险 2012版', subtitle: '幻影之血与战斗潮流 · 波纹与策略', aliases: "JOJO的奇妙冒险 JoJo's Bizarre Adventure ジョジョの奇妙な冒険 幻影之血 战斗潮流 乔纳森 乔瑟夫 迪奥 西撒 莉莎莉莎" },
   { id: 'fairy-tail', title: '妖精的尾巴 初期篇', subtitle: '公会与魔法 · 第1–48集', aliases: '妖精的尾巴 魔导少年 FAIRY TAIL フェアリーテイル 纳兹 露西 艾露莎 格雷 哈比' },
   { id: 'kill-la-kill', title: '斩服少女', subtitle: '神衣与生命战维 · 战术与阵营', aliases: '斩服少女 双斩少女 kill la kill キルラキル 缠流子 纏流子 鲜血 鬼龙院皋月 满舰饰真子' },
   { id: 'spy-family', title: '间谍过家家 第一季前半部', subtitle: '第1–12集 · 家庭伪装与校园任务', aliases: '间谍过家家 间谍家家酒 SPY×FAMILY spy x family part 1 阿尼亚 安妮亚 洛伊德 劳埃德 约尔 黄昏 伊甸' },

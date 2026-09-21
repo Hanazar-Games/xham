@@ -3,6 +3,18 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps JoJo in the 2012 series and checks inheritance and power constraints', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'jojo-2012')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第 1–26 集')
+    expect(bank!.scope).toContain('不混入星尘斗士')
+    expect(bank!.questions[0].prompt).toContain('亲生儿子')
+    for (const [number, answer] of [['01', '乔纳森·乔斯达'], ['29', '33天'], ['35', '服下毒之戒指的解药'], ['49', '太阳光对他的威胁']]) {
+      const q = bank!.questions.find((item) => item.id === `jojo-2012-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    expect(new Set(bank!.questions.map((q) => q.source!.url))).toEqual(new Set(Array.from({ length: 26 }, (_, i) => `https://www.b-ch.com/titles/3446/${String(i + 1).padStart(3, '0')}`)))
+  })
   it('keeps Fairy Tail in the first 48 episodes and checks spell conditions', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'fairy-tail')
     expect(bank).toBeDefined()
@@ -651,6 +663,7 @@ describe('catalog additions', () => {
     sources['spy-family'] = /^https:\/\/www\.b-ch\.com\/titles\/7713\/0(?:0[1-9]|1[0-2])$/
     sources['kill-la-kill'] = /^https:\/\/www\.b-ch\.com\/titles\/3867\/0(?:0[1-9]|1\d|2[0-4])$/
     sources['fairy-tail'] = /^https:\/\/www\.b-ch\.com\/titles\/4189\/0(?:0[1-9]|[1-3]\d|4[0-8])$/
+    sources['jojo-2012'] = /^https:\/\/www\.b-ch\.com\/titles\/3446\/0(?:0[1-9]|1\d|2[0-6])$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
