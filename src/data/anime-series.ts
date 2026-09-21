@@ -27,6 +27,7 @@ export const animeSeries: { id: AnimeSeriesId; title: string; subtitle: string; 
   { id: 'attack-on-titan-season-3-part-2', title: '进击的巨人 第三季后半部', subtitle: '夺还作战 · 剧情与制作知识', aliases: '进击 巨人 進撃 aot attack on titan season 3 part 2 shingeki 第三季 后半部 下半部 雷枪 地下室' },
   { id: 'no-game-no-life', title: '游戏人生', subtitle: '电视动画 · 游戏与心理博弈', aliases: 'no game no life ngnl ノーゲーム ノーライフ 游戏人生 空白 空 白 史蒂芙 吉普莉尔 克拉米 菲尔 伊纲 特图 血坏' },
   { id: 'code-geass', title: 'Code Geass 反叛的鲁路修', subtitle: '第一季 · 身份与战术博弈', aliases: 'code geass lelouch 鲁路修 反逆的鲁鲁修 叛逆 朱雀 卡莲 黑色骑士团 zero 兰斯洛特 红莲 C.C.' },
+  { id: 'highschool-of-the-dead', title: '学园默示录 电视版', subtitle: '团队与撤离 · 资源与判断', aliases: 'Highschool of the Dead High School of the Dead HOTD 学園黙示録 ハイスクールオブザデッド 学园默示录 小室孝 宫本丽 毒岛冴子' },
   { id: 'horimiya', title: '堀与宫村 2021电视版', subtitle: '秘密与日常 · 心意与毕业', aliases: 'Horimiya ホリミヤ 堀与宫村 堀京子 宫村伊澄 石川透 吉川由纪 仙石翔' },
   { id: 'elfen-lied', title: '妖精的旋律 电视版', subtitle: '记忆与相遇 · 追捕与归宿', aliases: 'Elfen Lied エルフェンリート 妖精的旋律 变异体少女 露西 妮悠 耕太 娜娜' },
   { id: 'kakegurui', title: '狂赌之渊 第一季', subtitle: '规则与信息 · 选择与博弈', aliases: 'Kakegurui 賭ケグルイ 狂赌之渊 蛇喰梦子 早乙女芽亚里 桃喰绮罗莉' },

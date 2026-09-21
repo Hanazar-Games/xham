@@ -3,6 +3,19 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps Highschool of the Dead in the TV series and checks resource and character boundaries', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'highschool-of-the-dead')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('2010年电视版第 1–12 集')
+    expect(bank!.scope).toContain('不混入OVA或漫画后续')
+    expect(bank!.questions).toHaveLength(50)
+    for (const [number, answer] of [['01', '私立藤美学园'], ['19', '年长一岁，但因留级成为同年级'], ['25', '海外短期留学期间'], ['33', '持续消耗后弹药用尽'], ['35', '电磁脉冲使集成电路失效'], ['50', '电子设备因电磁脉冲失效，敌群涌入，众人判断消耗战不利并决定乘车撤离']]) {
+      const q = bank!.questions.find((item) => item.id === `highschool-of-the-dead-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    expect(bank!.questions[46].explanation).toContain('不等于')
+    expect(bank!.questions[49].explanation).toContain('未说明')
+  })
   it('keeps Horimiya in the 2021 series and separates established and pretend relationships', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'horimiya')
     expect(bank).toBeDefined()
@@ -960,6 +973,7 @@ describe('catalog additions', () => {
     sources['kakegurui'] = /^https:\/\/kakegurui-anime\.com\/1st\/(?:game_rules\/|story\/detail\.php\?id=(?:1000217|1000221|1000223|100022[6-8]|100025[3-8]))$/
     sources['elfen-lied'] = /^https:\/\/(?:www\.vap\.co\.jp\/elfenlied\/bd\/|animestore\.docomo\.ne\.jp\/animestore\/ci_pc\?workId=21868(?:&partId=218680(?:0[1-9]|1[0-3]))?)$/
     sources['horimiya'] = /^https:\/\/horimiya-anime\.com\/1st\/(?:character\/|story\/\?id=(?:01|ep0[2-9]|ep1[0-2]|13))$/
+    sources['highschool-of-the-dead'] = /^https:\/\/www\.nbcuni\.co\.jp\/rondorobe\/anime\/hotd\/contents\/(?:hp0003\/index00010000|hp0006\/index000[2-7]0000|hp0005\/index00(?:16|18|19|20|25|27|28|29|30|31|32|33)0000)\.html$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
