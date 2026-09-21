@@ -3,6 +3,20 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps Gurren Lagann in the TV version and verifies transformation and combat constraints', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'gurren-lagann')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第 1–27 集')
+    expect(bank!.scope).toContain('不混入《红莲篇》《螺岩篇》')
+    for (const [number, answer] of [['01', '西蒙'], ['17', '7年'], ['18', '100万人'], ['31', '30万名城市及附近居民'], ['33', '罗杰诺姆的旗舰卡特德拉尔·泰拉']]) {
+      const q = bank!.questions.find((item) => item.id === `gurren-lagann-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    expect(bank!.questions[42].explanation).toContain('分裂爆散')
+    expect(bank!.questions[43].explanation).toContain('情绪')
+    expect(bank!.questions).toHaveLength(50)
+    expect(new Set(bank!.questions.filter((q) => q.source!.url.includes('/mecha/')).map((q) => q.source!.url)).size).toBe(8)
+  })
   it('keeps Soul Eater in the TV continuity and distinguishes resonance limits from exam folklore', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'soul-eater')
     expect(bank).toBeDefined()
@@ -740,6 +754,7 @@ describe('catalog additions', () => {
     sources['another'] = /^https:\/\/www\.(?:b-ch\.com\/titles\/4255\/0(?:0[1-9]|1[0-2])|pa-works\.jp\/works\/another\/)$/
     sources['demon-slayer-mugen-train'] = /^https:\/\/kimetsu\.com\/anime\/mugenresshahen_(?:movie\/(?:music\/|story\/|character\/\?chara=c(?:0[1-9]|10))|tv\/story\/\?id=ep[3-7])$/
     sources['soul-eater'] = /^https:\/\/www\.(?:b-ch\.com\/titles\/1972\/0(?:0[1-9]|[1-4]\d|5[01])|bones\.co\.jp\/work\/soul-eater\/)$/
+    sources['gurren-lagann'] = /^https:\/\/www\.(?:b-ch\.com\/titles\/4447\/0(?:0[1-9]|1\d|2[0-7])|gurren-lagann\.net\/tv\/mecha\/(?:lagann|gulaparl|arcgurren|archgurrenlagann|chogingadaigurren|chogingaglagann|mugann|spacegunmen)\.html)$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
