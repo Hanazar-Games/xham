@@ -3,6 +3,18 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps Slime season one including its prequel and verifies naming and skill boundaries', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'slime-season-1')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第一季第 1–24 集')
+    expect(bank!.scope).toContain('含第24集静的前日谭')
+    expect(bank!.questions).toHaveLength(50)
+    for (const [number, answer] of [['01', '三上悟'], ['19', '解析并解除维鲁德拉的封印'], ['25', '20万'], ['35', '拉米莉丝'], ['50', '发生在利姆鲁转生之前，围绕静接受讨伐恶魔的委托展开']]) {
+      const q = bank!.questions.find((item) => item.id === `slime-season-1-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    expect(bank!.questions[48].explanation).toContain('不是普通精灵')
+  })
   it('keeps KonoSuba II in ten TV episodes and checks legal and journey states', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'konosuba-season-2')
     expect(bank).toBeDefined()
@@ -904,6 +916,7 @@ describe('catalog additions', () => {
     sources['devil-is-a-part-timer'] = /^https:\/\/maousama\.jp\/1st\/story\.html$/
     sources['danmachi'] = /^https:\/\/danmachi\.com\/danmachi\/story\/(?:introduction|episode(?:[1-9]|1[0-3]))\.html$/
     sources['konosuba-season-2'] = /^https:\/\/konosuba\.com\/2nd\/story\/\?mode=detail&id=(?:0[1-9]|10)$/
+    sources['slime-season-1'] = /^https:\/\/www\.ten-sura\.com\/anime\/tensura\/story\/no(?:[1-9]|1[0-9]|2[0-4])$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
