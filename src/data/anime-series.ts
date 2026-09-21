@@ -27,6 +27,7 @@ export const animeSeries: { id: AnimeSeriesId; title: string; subtitle: string; 
   { id: 'attack-on-titan-season-3-part-2', title: '进击的巨人 第三季后半部', subtitle: '夺还作战 · 剧情与制作知识', aliases: '进击 巨人 進撃 aot attack on titan season 3 part 2 shingeki 第三季 后半部 下半部 雷枪 地下室' },
   { id: 'no-game-no-life', title: '游戏人生', subtitle: '电视动画 · 游戏与心理博弈', aliases: 'no game no life ngnl ノーゲーム ノーライフ 游戏人生 空白 空 白 史蒂芙 吉普莉尔 克拉米 菲尔 伊纲 特图 血坏' },
   { id: 'code-geass', title: 'Code Geass 反叛的鲁路修', subtitle: '第一季 · 身份与战术博弈', aliases: 'code geass lelouch 鲁路修 反逆的鲁鲁修 叛逆 朱雀 卡莲 黑色骑士团 zero 兰斯洛特 红莲 C.C.' },
+  { id: 'code-geass-r2', title: '反叛的鲁路修 R2', subtitle: '第二季 · 战局与政治判断', aliases: 'code geass lelouch of the rebellion r2 鲁路修 第二季 反逆的鲁鲁修 叛逆 R2 零之镇魂曲' },
   { id: 'violet-evergarden', title: '紫罗兰永恒花园', subtitle: '电视系列 · 书信与心意', aliases: 'violet evergarden ヴァイオレット エヴァーガーデン 紫罗兰 薇尔莉特 京紫 基尔伯特' },
   { id: 'evangelion', title: '新世纪福音战士', subtitle: '电视系列 · 作战条件与人物判断', aliases: 'EVA evangelion neon genesis evangelion 新世纪福音战士 新世紀エヴァンゲリオン 碇真嗣 绫波丽 惣流 明日香' },
   { id: 'spirited-away', title: '千与千寻', subtitle: '油屋冒险 · 人物与美术设计', aliases: '千与千寻 千と千尋の神隠し spirited away sen chihiro 千寻 白龙 汤婆婆 钱婆婆 无脸男 宫崎骏' },
