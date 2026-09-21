@@ -3,6 +3,20 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps Kaguya-sama in season one with sourced council roles and event conditions', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'kaguya-sama')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('2019年电视动画第一季第 1–12 集')
+    expect(bank!.scope).toContain('不混入后续季度、电影或漫画后续')
+    for (const [number, answer] of [['01', '秀知院学园'], ['05', '会计'], ['19', '半年'], ['27', '记忆翻牌游戏'], ['35', '早坂爱']]) {
+      const q = bank!.questions.find((item) => item.id === `kaguya-sama-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    expect(new Set(bank!.questions.map((q) => q.source!.url))).toEqual(new Set([
+      'https://kaguya.love/1st/character/',
+      ...Array.from({ length: 12 }, (_, i) => `https://kaguya.love/1st/story/${String(i + 1).padStart(2, '0')}.html`),
+    ]))
+  })
   it('keeps Dr. Stone in season one and checks its science roadmap facts', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'dr-stone')
     expect(bank).toBeDefined()
@@ -522,6 +536,7 @@ describe('catalog additions', () => {
     sources['code-geass-r2'] = /^https:\/\/geass\.jp\/r2\/story_(?:0[1-9]|1\d|2[0-5])\.html$/
     sources['bunny-girl-senpai'] = /^https:\/\/ao-buta\.com\/tv\/(?:character\/|story\/(?:0[1-9]|1[0-3])\.html)$/
     sources['dr-stone'] = /^https:\/\/www\.b-ch\.com\/titles\/6616\/0(?:0[1-9]|1\d|2[0-4])$/
+    sources['kaguya-sama'] = /^https:\/\/kaguya\.love\/1st\/(?:character\/|story\/(?:0[1-9]|1[0-2])\.html)$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
