@@ -27,6 +27,7 @@ export const animeSeries: { id: AnimeSeriesId; title: string; subtitle: string; 
   { id: 'attack-on-titan-season-3-part-2', title: '进击的巨人 第三季后半部', subtitle: '夺还作战 · 剧情与制作知识', aliases: '进击 巨人 進撃 aot attack on titan season 3 part 2 shingeki 第三季 后半部 下半部 雷枪 地下室' },
   { id: 'no-game-no-life', title: '游戏人生', subtitle: '电视动画 · 游戏与心理博弈', aliases: 'no game no life ngnl ノーゲーム ノーライフ 游戏人生 空白 空 白 史蒂芙 吉普莉尔 克拉米 菲尔 伊纲 特图 血坏' },
   { id: 'code-geass', title: 'Code Geass 反叛的鲁路修', subtitle: '第一季 · 身份与战术博弈', aliases: 'code geass lelouch 鲁路修 反逆的鲁鲁修 叛逆 朱雀 卡莲 黑色骑士团 zero 兰斯洛特 红莲 C.C.' },
+  { id: 'evangelion', title: '新世纪福音战士', subtitle: '电视系列 · 作战条件与人物判断', aliases: 'EVA evangelion neon genesis evangelion 新世纪福音战士 新世紀エヴァンゲリオン 碇真嗣 绫波丽 惣流 明日香' },
   { id: 'spirited-away', title: '千与千寻', subtitle: '油屋冒险 · 人物与美术设计', aliases: '千与千寻 千と千尋の神隠し spirited away sen chihiro 千寻 白龙 汤婆婆 钱婆婆 无脸男 宫崎骏' },
   { id: 'parasyte', title: '寄生兽 生命的准则', subtitle: '共生与变化 · 线索与生存判断', aliases: '寄生兽 寄生獣 セイの格率 parasyte the maxim kiseiju 泉新一 小右 migi 田村玲子 后藤' },
   { id: 'blue-exorcist', title: '青之驱魔师 第一季', subtitle: '正十字学园 · 考试与团队应对', aliases: '青之驱魔师 青之祓魔师 青の祓魔師 blue exorcist ao no exorcist 奥村燐 奥村雪男 诗惠美 胜吕 2011 第一季' },

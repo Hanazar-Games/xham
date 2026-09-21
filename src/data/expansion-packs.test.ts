@@ -3,6 +3,18 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps Evangelion in the TV continuity and validates battle conditions across all episodes', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'evangelion')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('电视系列第 1–26 集')
+    expect(bank!.scope).toContain('不混入旧剧场版、新剧场版')
+    for (const [number, answer] of [['01', '第三新东京市'], ['08', '惣流·明日香·兰格雷'], ['19', '日本全国的电力'], ['22', '同时对两个核心发动攻击'], ['33', '400%']]) {
+      const question = bank!.questions.find((q) => q.id === `evangelion-${number}`)!
+      expect(question.options[question.answer]).toBe(answer)
+    }
+    expect(new Set(bank!.questions.map((q) => q.source!.url))).toEqual(new Set(Array.from({ length: 26 }, (_, i) =>
+      `https://www.b-ch.com/titles/466/${String(i + 1).padStart(3, '0')}`)))
+  })
   it('provides an independent Spirited Away film bank with sourced plot and design facts', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'spirited-away')
     expect(bank).toBeDefined()
@@ -457,6 +469,7 @@ describe('catalog additions', () => {
     sources['blue-exorcist'] = /^https:\/\/www\.ao-ex\.com\/tv\/story\/(?:(?:0[1-9]|1\d|2[0-4])\.html)?$/
     sources['parasyte'] = /^https:\/\/www\.vap\.co\.jp\/kiseiju\/(?:story\/(?:0[1-9]|1\d|2[0-4])|chara\/(?:shinichi|migi|satomi|ryoko|miki|gotou|kana|shimada|yuko|uda|nobuko|makiko|mitsuo|a|kuramori|hirama|uragami|hirokawa))\.html$/
     sources['spirited-away'] = /^https:\/\/(?:www\.viz\.com\/manga-books\/film-comic\/spirited-away-film-comics-volume-[1-5]-0\/product\/473[1-5]|www\.ghibli\.jp\/works\/chihiro\/|kinro\.ntv\.co\.jp\/article\/detail\/(?:20220106|20231208))$/
+    sources['evangelion'] = /^https:\/\/www\.b-ch\.com\/titles\/466\/0(?:0[1-9]|1\d|2[0-6])$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
