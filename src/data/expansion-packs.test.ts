@@ -3,6 +3,22 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps Oregairu season one and its TV extra distinct from sequels and OVA', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'oregairu-season-1')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第 1–12 集及电视番外篇第 13 集')
+    expect(bank!.scope).toContain('不混入OVA、第二季')
+    expect(bank!.questions).toHaveLength(50)
+    const answer = (id: string) => {
+      const q = bank!.questions.find((item) => item.id === `oregairu-season-1-${id}`)!
+      return q.options[q.answer]
+    }
+    expect(answer('01')).toBe('奉仕部')
+    expect(answer('16')).toBe('副委员长')
+    expect(answer('18')).toBe('城廻巡')
+    expect(bank!.questions[17].source!.url).toBe('https://www.tbs.co.jp/anime/oregairu/1st/story/#story13')
+  })
+
   it('keeps Haikyuu season two within the road to the final and distinguishes tactical roles', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'haikyuu-season-2')
     expect(bank).toBeDefined()
@@ -1019,6 +1035,7 @@ describe('catalog additions', () => {
     sources['fate-zero'] = /^https:\/\/www\.fate-zero\.jp\/(?:characters\/index\.html|story\/#STORY(?:0[1-9]|1[0-3]))$/
     sources['assassination-classroom-season-2'] = /^https:\/\/www\.ansatsu-anime\.com\/2014-2016\/story\/detail\.php\?id=(?:1000726|1000731|1000733|1000754|1000759|1000764|1000770|1000775|1000779|1000784|1000795|1000800|1000803|1000814|1000816|1000828|1000834|1000836|1000838|1000839|1000851|1000854|1000860|1000865|1000876)$/
     sources['haikyuu-season-2'] = /^https:\/\/www\.b-ch\.com\/titles\/4898\/0(?:0[1-9]|1\d|2[0-5])$/
+    sources['oregairu-season-1'] = /^https:\/\/www\.tbs\.co\.jp\/anime\/oregairu\/1st\/(?:chara\/|story\/#story(?:0[1-9]|1[0-3]))$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
