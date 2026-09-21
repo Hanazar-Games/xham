@@ -27,6 +27,7 @@ export const animeSeries: { id: AnimeSeriesId; title: string; subtitle: string; 
   { id: 'attack-on-titan-season-3-part-2', title: '进击的巨人 第三季后半部', subtitle: '夺还作战 · 剧情与制作知识', aliases: '进击 巨人 進撃 aot attack on titan season 3 part 2 shingeki 第三季 后半部 下半部 雷枪 地下室' },
   { id: 'no-game-no-life', title: '游戏人生', subtitle: '电视动画 · 游戏与心理博弈', aliases: 'no game no life ngnl ノーゲーム ノーライフ 游戏人生 空白 空 白 史蒂芙 吉普莉尔 克拉米 菲尔 伊纲 特图 血坏' },
   { id: 'code-geass', title: 'Code Geass 反叛的鲁路修', subtitle: '第一季 · 身份与战术博弈', aliases: 'code geass lelouch 鲁路修 反逆的鲁鲁修 叛逆 朱雀 卡莲 黑色骑士团 zero 兰斯洛特 红莲 C.C.' },
+  { id: 'konosuba-season-2', title: '为美好的世界献上祝福！ 第二季', subtitle: '审判与旅行 · 队伍与任务', aliases: 'KonoSuba Season 2 KonoSuba 2 このすば2 この素晴らしい世界に祝福を2 为美好的世界献上祝福 第二季 素晴 第二季 和真 芸芸 巴尼尔 汉斯' },
   { id: 'danmachi', title: '地错 第一季', subtitle: '地下城冒险 · 成长与协作', aliases: 'DanMachi Is It Wrong to Try to Pick Up Girls in a Dungeon ダンまち 在地下城寻求邂逅是否搞错了什么 地错 第一季 贝尔 赫斯缇雅 艾丝 莉莉 韦尔夫 欧拉丽' },
   { id: 'devil-is-a-part-timer', title: '打工吧！魔王大人 第一季', subtitle: '魔王打工 · 身份与魔力', aliases: 'The Devil Is a Part-Timer Hataraku Maou-sama はたらく魔王さま 打工吧 魔王大人 第一季 真奥贞夫 芦屋四郎 游佐惠美 千穗 铃乃 漆原' },
   { id: 'anohana', title: '未闻花名 电视版', subtitle: '夏日重聚 · 愿望与心意', aliases: 'Anohana The Flower We Saw That Day あの日見た花の名前を僕達はまだ知らない あの花 未闻花名 我们仍未知道那天所看见的花的名字 面码 仁太 雪集 鹤子 波波 安鸣' },

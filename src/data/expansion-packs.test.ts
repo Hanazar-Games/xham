@@ -3,6 +3,18 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps KonoSuba II in ten TV episodes and checks legal and journey states', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'konosuba-season-2')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第二季第 1–10 集')
+    expect(bank!.scope).toContain('不混入OVA、剧场版或外传')
+    expect(bank!.questions).toHaveLength(50)
+    for (const [number, answer] of [['01', '国家颠覆罪'], ['19', '暂缓执行死刑，但家中物品仍因赔偿被查封'], ['25', '达克妮丝'], ['35', '维兹'], ['50', '阿库娅想清除污染，一行前往源泉，维兹认出汉斯']]) {
+      const q = bank!.questions.find((item) => item.id === `konosuba-season-2-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    expect(bank!.questions[43].explanation).toContain('商谈')
+  })
   it('keeps DanMachi in season one and verifies growth conditions and dungeon floors', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'danmachi')
     expect(bank).toBeDefined()
@@ -891,6 +903,7 @@ describe('catalog additions', () => {
     sources['anohana'] = /^https:\/\/www\.anohana\.jp\/tv\/(?:story\/(?:index|0[2-9]|1[01])|chara\/chara0[1-6]|intro\/index)\.html$/
     sources['devil-is-a-part-timer'] = /^https:\/\/maousama\.jp\/1st\/story\.html$/
     sources['danmachi'] = /^https:\/\/danmachi\.com\/danmachi\/story\/(?:introduction|episode(?:[1-9]|1[0-3]))\.html$/
+    sources['konosuba-season-2'] = /^https:\/\/konosuba\.com\/2nd\/story\/\?mode=detail&id=(?:0[1-9]|10)$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
