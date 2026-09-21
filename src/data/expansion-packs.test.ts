@@ -3,6 +3,17 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps Kill la Kill in the TV story and checks clothing and tactical constraints', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'kill-la-kill')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('电视动画第 1–24 集')
+    expect(bank!.scope).toContain('不混入第25集番外或漫画改编')
+    for (const [number, answer] of [['01', '本能字学园'], ['05', '鲜血'], ['19', '吸收穿着者的血液'], ['35', '四天王'], ['50', '流子是人类与生命战维的融合体，未受绝对服从控制']]) {
+      const q = bank!.questions.find((item) => item.id === `kill-la-kill-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    expect(new Set(bank!.questions.map((q) => q.source!.url))).toEqual(new Set(Array.from({ length: 24 }, (_, i) => `https://www.b-ch.com/titles/3867/${String(i + 1).padStart(3, '0')}`)))
+  })
   it('keeps Spy x Family Part 1 separate and checks school and identity conditions', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'spy-family')
     expect(bank).toBeDefined()
@@ -627,6 +638,7 @@ describe('catalog additions', () => {
     sources['black-clover'] = /^https:\/\/www\.b-ch\.com\/titles\/5757\/0(?:0[1-9]|[1-4]\d|5[01])$/
     sources['one-punch-man-season-2'] = /^https:\/\/www\.b-ch\.com\/titles\/6518\/0(?:0[1-9]|1[0-2])$/
     sources['spy-family'] = /^https:\/\/www\.b-ch\.com\/titles\/7713\/0(?:0[1-9]|1[0-2])$/
+    sources['kill-la-kill'] = /^https:\/\/www\.b-ch\.com\/titles\/3867\/0(?:0[1-9]|1\d|2[0-4])$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
