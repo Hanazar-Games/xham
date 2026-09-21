@@ -3,6 +3,18 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps Vinland Saga in season one and checks motives and temporary alliances', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'vinland-saga')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第一季第 1–24 集')
+    expect(bank!.scope).toContain('不混入第二季')
+    for (const [number, answer] of [['01', '冰岛'], ['06', '弗洛基'], ['26', '英格兰一方'], ['34', '阿谢拉特与托尔克尔']]) {
+      const q = bank!.questions.find((item) => item.id === `vinland-saga-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    expect(bank!.questions[46].explanation).toContain('不能将临时共斗解释成关系已经和解')
+    expect(bank!.questions.map((q) => q.source!.url)).toContain('https://vinlandsaga.jp/character/')
+  })
   it('keeps Darling in the FranXX in the TV continuity and checks pilot and combat conditions', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'darling-in-the-franxx')
     expect(bank).toBeDefined()
@@ -680,6 +692,7 @@ describe('catalog additions', () => {
     sources['fairy-tail'] = /^https:\/\/www\.b-ch\.com\/titles\/4189\/0(?:0[1-9]|[1-3]\d|4[0-8])$/
     sources['jojo-2012'] = /^https:\/\/www\.b-ch\.com\/titles\/3446\/0(?:0[1-9]|1\d|2[0-6])$/
     sources['darling-in-the-franxx'] = /^https:\/\/darli-fra\.jp\/(?:keyword\/|character\/|story\/\?no=(?:[1-9]|1\d|2[0-4]))$/
+    sources['vinland-saga'] = /^https:\/\/(?:www\.b-ch\.com\/titles\/7349\/0(?:0[1-9]|1\d|2[0-4])|vinlandsaga\.jp\/character\/)$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
