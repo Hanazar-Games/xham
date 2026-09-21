@@ -3,6 +3,16 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps Entertainment District within eleven episodes and verifies battle conditions', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'demon-slayer-entertainment-district')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('游郭篇第 1–11 集')
+    expect(bank!.questions).toHaveLength(50)
+    for (const [number, answer] of [['01', '蝶屋敷'], ['19', '堕姬也识破了善逸的鬼杀队身份'], ['25', '藤花之毒'], ['35', '伊之助与宇髄'], ['50', '先同时斩首，再遭遇血鬼术破坏，随后仍须面对中毒危机']]) {
+      const question = bank!.questions.find((item) => item.id === `demon-slayer-entertainment-district-${number}`)!
+      expect(question.options[question.answer]).toBe(answer)
+    }
+  })
   it('keeps Psycho-Pass in the original first season and distinguishes readings from evidence', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'psycho-pass')
     expect(bank).toBeDefined()
@@ -828,6 +838,7 @@ describe('catalog additions', () => {
     sources['overlord'] = /^https:\/\/overlord-anime\.com\/_season1\/(?:story\.html\?st=(?:[1-9]|1[0-3])|character\.html\?c=[3-7])$/
     sources['food-wars'] = /^https:\/\/www\.b-ch\.com\/titles\/4532\/0(?:0[1-9]|1\d|2[0-4])$/
     sources['psycho-pass'] = /^https:\/\/www\.(?:b-ch\.com\/titles\/4106\/0(?:0[1-9]|1\d|2[0-2])|fujitv\.co\.jp\/b_hp\/psycho-pass\/)$/
+    sources['demon-slayer-entertainment-district'] = /^https:\/\/kimetsu\.com\/anime\/yukakuhen\/story\/\?id=ep(?:[1-9]|1[01])$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)

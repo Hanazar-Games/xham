@@ -27,6 +27,7 @@ export const animeSeries: { id: AnimeSeriesId; title: string; subtitle: string; 
   { id: 'attack-on-titan-season-3-part-2', title: '进击的巨人 第三季后半部', subtitle: '夺还作战 · 剧情与制作知识', aliases: '进击 巨人 進撃 aot attack on titan season 3 part 2 shingeki 第三季 后半部 下半部 雷枪 地下室' },
   { id: 'no-game-no-life', title: '游戏人生', subtitle: '电视动画 · 游戏与心理博弈', aliases: 'no game no life ngnl ノーゲーム ノーライフ 游戏人生 空白 空 白 史蒂芙 吉普莉尔 克拉米 菲尔 伊纲 特图 血坏' },
   { id: 'code-geass', title: 'Code Geass 反叛的鲁路修', subtitle: '第一季 · 身份与战术博弈', aliases: 'code geass lelouch 鲁路修 反逆的鲁鲁修 叛逆 朱雀 卡莲 黑色骑士团 zero 兰斯洛特 红莲 C.C.' },
+  { id: 'demon-slayer-entertainment-district', title: '鬼灭之刃 游郭篇', subtitle: '潜入游郭 · 合击与救援', aliases: 'Demon Slayer Entertainment District Arc Kimetsu no Yaiba 鬼滅の刃 遊郭編 游郭篇 宇髄 堕姬 妓夫太郎 雏鹤' },
   { id: 'psycho-pass', title: '心理测量者 第一季', subtitle: '公安局 · 系数与调查证据', aliases: 'PSYCHO-PASS Psycho Pass サイコパス 心理测量者 心理测量 常守朱 狡啮慎也 狡噛慎也 槙岛圣护 宜野座 西比拉 支配者' },
   { id: 'food-wars', title: '食戟之灵 第一季', subtitle: '远月 · 料理条件与选拔规则', aliases: 'Food Wars Shokugeki no Soma 食戟のソーマ 食戟之灵 药王 幸平创真 薙切绘里奈 田所惠 极星寮' },
   { id: 'overlord', title: 'Overlord 第一季', subtitle: '纳萨力克 · 情报与战斗资源', aliases: 'overlord オーバーロード 不死者之王 骨王 安兹 飞鼠 莫莫 雅儿贝德 夏提雅 纳萨力克' },
