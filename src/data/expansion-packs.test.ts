@@ -3,6 +3,18 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps DanMachi in season one and verifies growth conditions and dungeon floors', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'danmachi')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第一季第 1–13 集')
+    expect(bank!.scope).toContain('不混入OVA、外传或后续季度')
+    expect(bank!.questions).toHaveLength(50)
+    for (const [number, answer] of [['01', '欧拉丽'], ['19', '思慕持续存在，并随思慕的强烈程度带来显著成长'], ['25', '莉莉露卡'], ['35', '此前彼此不和的冒险者也跟随贝尔迎战'], ['50', '常规状态不产怪的第18层，后来发生歌利亚现身的异常']]) {
+      const q = bank!.questions.find((item) => item.id === `danmachi-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    expect(bank!.questions[47].explanation).toContain('人际风险')
+  })
   it('keeps Devil Is a Part-Timer in season one and separates dreams from actual events', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'devil-is-a-part-timer')
     expect(bank).toBeDefined()
@@ -878,6 +890,7 @@ describe('catalog additions', () => {
     sources['mob-psycho-100-ii'] = /^https:\/\/mobpsycho100\.com\/2nd\/(?:story\/(?:0[1-9]|1[0-3])|chara\/(?:serizawa|shimazaki|suzuki))\.html$/
     sources['anohana'] = /^https:\/\/www\.anohana\.jp\/tv\/(?:story\/(?:index|0[2-9]|1[01])|chara\/chara0[1-6]|intro\/index)\.html$/
     sources['devil-is-a-part-timer'] = /^https:\/\/maousama\.jp\/1st\/story\.html$/
+    sources['danmachi'] = /^https:\/\/danmachi\.com\/danmachi\/story\/(?:introduction|episode(?:[1-9]|1[0-3]))\.html$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
