@@ -3,6 +3,18 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps Mob Psycho II separate and verifies psychic mechanics and episode states', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'mob-psycho-100-ii')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第二季第 1–13 集')
+    expect(bank!.scope).toContain('不混入OVA或第三季')
+    expect(bank!.questions).toHaveLength(50)
+    for (const [number, answer] of [['01', '田地里出现的不明黑影'], ['19', '前10名以内'], ['25', '岛崎'], ['32', '把先前分给成员的能量收回自身'], ['35', '超能力者的能量流动'], ['50', '劝说未能奏效，转而尝试倾尽力量迎战']]) {
+      const q = bank!.questions.find((item) => item.id === `mob-psycho-100-ii-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    expect(bank!.questions[42].explanation).toContain('本人的自信')
+  })
   it('keeps Entertainment District within eleven episodes and verifies battle conditions', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'demon-slayer-entertainment-district')
     expect(bank).toBeDefined()
@@ -839,6 +851,7 @@ describe('catalog additions', () => {
     sources['food-wars'] = /^https:\/\/www\.b-ch\.com\/titles\/4532\/0(?:0[1-9]|1\d|2[0-4])$/
     sources['psycho-pass'] = /^https:\/\/www\.(?:b-ch\.com\/titles\/4106\/0(?:0[1-9]|1\d|2[0-2])|fujitv\.co\.jp\/b_hp\/psycho-pass\/)$/
     sources['demon-slayer-entertainment-district'] = /^https:\/\/kimetsu\.com\/anime\/yukakuhen\/story\/\?id=ep(?:[1-9]|1[01])$/
+    sources['mob-psycho-100-ii'] = /^https:\/\/mobpsycho100\.com\/2nd\/(?:story\/(?:0[1-9]|1[0-3])|chara\/(?:serizawa|shimazaki|suzuki))\.html$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
