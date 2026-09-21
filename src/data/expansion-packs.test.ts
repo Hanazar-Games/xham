@@ -3,6 +3,19 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps Psycho-Pass in the original first season and distinguishes readings from evidence', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'psycho-pass')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('原版第一季第 1–22 集')
+    expect(bank!.scope).toContain('不混入新编集版')
+    expect(bank!.questions).toHaveLength(50)
+    for (const [number, answer] of [['01', '常守朱'], ['19', '执行官负责实地行动，监视官负责监督和指挥'], ['24', '常守朱的朋友小雪'], ['29', '犯案时仍被测出清澈色相'], ['35', '为了阻止狡啮对槙岛实施私刑']]) {
+      const q = bank!.questions.find((item) => item.id === `psycho-pass-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    expect(bank!.questions[45].explanation).toContain('组织定性')
+    expect(bank!.questions[49].explanation).toContain('未展开')
+  })
   it('keeps Food Wars in season one and checks cooking tasks and qualifier boundaries', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'food-wars')
     expect(bank).toBeDefined()
@@ -814,6 +827,7 @@ describe('catalog additions', () => {
     sources['charlotte'] = /^https:\/\/(?:www\.b-ch\.com\/titles\/4602\/0(?:0[1-9]|1[0-3])|www\.pa-works\.jp\/works\/charlotte\/|charlotte-anime\.jp\/character\/#\/(?:yuu|nao|jojiro|yusa|misa|ayumi|kumagami|sala|shunsuke|shichino|medoki|maedomari))$/
     sources['overlord'] = /^https:\/\/overlord-anime\.com\/_season1\/(?:story\.html\?st=(?:[1-9]|1[0-3])|character\.html\?c=[3-7])$/
     sources['food-wars'] = /^https:\/\/www\.b-ch\.com\/titles\/4532\/0(?:0[1-9]|1\d|2[0-4])$/
+    sources['psycho-pass'] = /^https:\/\/www\.(?:b-ch\.com\/titles\/4106\/0(?:0[1-9]|1\d|2[0-2])|fujitv\.co\.jp\/b_hp\/psycho-pass\/)$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
