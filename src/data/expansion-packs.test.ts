@@ -3,6 +3,20 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps Bunny Girl Senpai within the 2018 TV story and distinguishes its phenomena', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'bunny-girl-senpai')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('2018年电视动画第 1–13 集')
+    expect(bank!.scope).toContain('不混入后续电影及大学篇')
+    for (const [number, answer] of [['01', '图书馆'], ['19', '试图帮助迷路女孩，却被误认成可疑人物'], ['27', '两年'], ['34', '曾发生暴力事件的传闻'], ['50', '花枫过去的记忆恢复，但近两年“かえで”的记忆消失']]) {
+      const question = bank!.questions.find((q) => q.id === `bunny-girl-senpai-${number}`)!
+      expect(question.options[question.answer]).toBe(answer)
+    }
+    expect(new Set(bank!.questions.map((q) => q.source!.url))).toEqual(new Set([
+      'https://ao-buta.com/tv/character/',
+      ...Array.from({ length: 13 }, (_, i) => `https://ao-buta.com/tv/story/${String(i + 1).padStart(2, '0')}.html`),
+    ]))
+  })
   it('keeps Code Geass R2 separate and checks its political and battle conditions', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'code-geass-r2')
     expect(bank).toBeDefined()
@@ -495,6 +509,7 @@ describe('catalog additions', () => {
     sources['evangelion'] = /^https:\/\/www\.b-ch\.com\/titles\/466\/0(?:0[1-9]|1\d|2[0-6])$/
     sources['violet-evergarden'] = /^https:\/\/tv\.violet-evergarden\.jp\/story\/$/
     sources['code-geass-r2'] = /^https:\/\/geass\.jp\/r2\/story_(?:0[1-9]|1\d|2[0-5])\.html$/
+    sources['bunny-girl-senpai'] = /^https:\/\/ao-buta\.com\/tv\/(?:character\/|story\/(?:0[1-9]|1[0-3])\.html)$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
