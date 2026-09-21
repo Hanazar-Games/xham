@@ -3,6 +3,21 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps Another in the TV series and separates suspicion from verified identity', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'another')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第 1–12 集')
+    expect(bank!.scope).toContain('不混入OVA')
+    for (const [number, answer] of [['01', '1998年'], ['04', '三年三班'], ['22', '26年前'], ['27', '15年前']]) {
+      const q = bank!.questions.find((item) => item.id === `another-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    expect(bank!.questions[47].explanation).toContain('没有在简介中确认她的判断正确')
+    expect(new Set(bank!.questions.map((q) => q.source!.url))).toEqual(new Set([
+      'https://www.pa-works.jp/works/another/',
+      ...Array.from({ length: 12 }, (_, i) => `https://www.b-ch.com/titles/4255/${String(i + 1).padStart(3, '0')}`),
+    ]))
+  })
   it('keeps Vinland Saga in season one and checks motives and temporary alliances', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'vinland-saga')
     expect(bank).toBeDefined()
@@ -693,6 +708,7 @@ describe('catalog additions', () => {
     sources['jojo-2012'] = /^https:\/\/www\.b-ch\.com\/titles\/3446\/0(?:0[1-9]|1\d|2[0-6])$/
     sources['darling-in-the-franxx'] = /^https:\/\/darli-fra\.jp\/(?:keyword\/|character\/|story\/\?no=(?:[1-9]|1\d|2[0-4]))$/
     sources['vinland-saga'] = /^https:\/\/(?:www\.b-ch\.com\/titles\/7349\/0(?:0[1-9]|1\d|2[0-4])|vinlandsaga\.jp\/character\/)$/
+    sources['another'] = /^https:\/\/www\.(?:b-ch\.com\/titles\/4255\/0(?:0[1-9]|1[0-2])|pa-works\.jp\/works\/another\/)$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)

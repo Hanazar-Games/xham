@@ -27,6 +27,7 @@ export const animeSeries: { id: AnimeSeriesId; title: string; subtitle: string; 
   { id: 'attack-on-titan-season-3-part-2', title: '进击的巨人 第三季后半部', subtitle: '夺还作战 · 剧情与制作知识', aliases: '进击 巨人 進撃 aot attack on titan season 3 part 2 shingeki 第三季 后半部 下半部 雷枪 地下室' },
   { id: 'no-game-no-life', title: '游戏人生', subtitle: '电视动画 · 游戏与心理博弈', aliases: 'no game no life ngnl ノーゲーム ノーライフ 游戏人生 空白 空 白 史蒂芙 吉普莉尔 克拉米 菲尔 伊纲 特图 血坏' },
   { id: 'code-geass', title: 'Code Geass 反叛的鲁路修', subtitle: '第一季 · 身份与战术博弈', aliases: 'code geass lelouch 鲁路修 反逆的鲁鲁修 叛逆 朱雀 卡莲 黑色骑士团 zero 兰斯洛特 红莲 C.C.' },
+  { id: 'another', title: 'Another 电视版', subtitle: '三年三班 · 调查与证据判断', aliases: 'Another 替身 アナザー 榊原恒一 见崎鸣 赤泽 敕使河原 望月 夜见山' },
   { id: 'vinland-saga', title: '冰海战记 第一季', subtitle: '复仇与远航 · 战场与交涉', aliases: '冰海战记 海盗战记 文兰传奇 Vinland Saga ヴィンランド・サガ 托尔芬 托尔兹 阿谢拉特 克努特 雷夫' },
   { id: 'darling-in-the-franxx', title: 'DARLING in the FRANXX', subtitle: '2018电视版 · 机体与搭档', aliases: 'darling in the franxx ditf ダーリン・イン・ザ・フランキス 国家队 广 02 莓 五郎 满 心 鹤望兰' },
   { id: 'jojo-2012', title: 'JOJO的奇妙冒险 2012版', subtitle: '幻影之血与战斗潮流 · 波纹与策略', aliases: "JOJO的奇妙冒险 JoJo's Bizarre Adventure ジョジョの奇妙な冒険 幻影之血 战斗潮流 乔纳森 乔瑟夫 迪奥 西撒 莉莎莉莎" },
