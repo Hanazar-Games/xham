@@ -3,6 +3,21 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps Soul Eater in the TV continuity and distinguishes resonance limits from exam folklore', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'soul-eater')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第 1–51 集')
+    expect(bank!.scope).toContain('不混入漫画差异或《噬魂师NOT!》')
+    for (const [number, answer] of [['03', '魔镰'], ['11', '拉格纳洛克'], ['19', '99个鬼神之卵化的灵魂，加1个魔女灵魂'], ['31', '20分钟'], ['33', '索尔的钢琴演奏']]) {
+      const q = bank!.questions.find((item) => item.id === `soul-eater-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    expect(bank!.questions[38].explanation).toContain('传闻')
+    expect(bank!.questions[45].explanation).toContain('人类无法进入')
+    expect(bank!.questions[49].explanation).toContain('真正的索尔的心')
+    expect(bank!.questions).toHaveLength(50)
+    expect(bank!.questions.map((q) => q.source!.url)).toContain('https://www.bones.co.jp/work/soul-eater/')
+  })
   it('keeps Mugen Train separate from the general bank and checks dream and battle constraints', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'demon-slayer-mugen-train')
     expect(bank).toBeDefined()
@@ -724,6 +739,7 @@ describe('catalog additions', () => {
     sources['vinland-saga'] = /^https:\/\/(?:www\.b-ch\.com\/titles\/7349\/0(?:0[1-9]|1\d|2[0-4])|vinlandsaga\.jp\/character\/)$/
     sources['another'] = /^https:\/\/www\.(?:b-ch\.com\/titles\/4255\/0(?:0[1-9]|1[0-2])|pa-works\.jp\/works\/another\/)$/
     sources['demon-slayer-mugen-train'] = /^https:\/\/kimetsu\.com\/anime\/mugenresshahen_(?:movie\/(?:music\/|story\/|character\/\?chara=c(?:0[1-9]|10))|tv\/story\/\?id=ep[3-7])$/
+    sources['soul-eater'] = /^https:\/\/www\.(?:b-ch\.com\/titles\/1972\/0(?:0[1-9]|[1-4]\d|5[01])|bones\.co\.jp\/work\/soul-eater\/)$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
