@@ -646,8 +646,8 @@ test('catalog preserves all ten batches and only opens existing question banks',
   await opener.click()
   const dialog = page.getByRole('dialog', { name: '动漫题库制作目录' })
   await expect(dialog.locator('.catalog-item')).toHaveCount(20)
-  await expect(dialog.locator('.catalog-summary')).toContainText('61 / 200')
-  await expect(dialog.locator('.catalog-summary')).toContainText('3,050 / 10,000')
+  await expect(dialog.locator('.catalog-summary')).toContainText('62 / 200')
+  await expect(dialog.locator('.catalog-summary')).toContainText('3,100 / 10,000')
   await expect(dialog.locator('.catalog-item').first()).toContainText('Attack on Titan')
   await expect(dialog.locator('.catalog-item').first().getByRole('button')).toHaveCount(1)
   for (let batch = 1; batch <= 10; batch++) {
@@ -1102,14 +1102,14 @@ test('jojo-2012 TV bank opens fifty illustrated questions on mobile', async ({ p
 })
 
 
-test('JoJo completes batch three while later JoJo arcs and batch four stay planned', async ({ page }) => {
+test('JoJo completes batch three while later JoJo arcs and the next unfinished entry stay planned', async ({ page }) => {
   await page.goto('/')
   await page.getByRole('button', { name: '查看 200 条目制作目录', exact: true }).click()
   const dialog = page.getByRole('dialog')
   await dialog.getByLabel('目录分段').selectOption('3')
   await expect(dialog.locator('.catalog-item').filter({ hasText: '50 / 50' })).toHaveCount(20)
   await dialog.getByLabel('目录分段').selectOption('4')
-  await expect(dialog.locator('[data-number="61"]')).toContainText('待制作')
+  await expect(dialog.locator('[data-number="62"]')).toContainText('待制作')
   await dialog.getByLabel('目录分段').selectOption('all')
   await dialog.getByLabel('目录作品搜索').fill('JoJo')
   await expect(dialog.locator('.catalog-item')).toHaveCount(5)
@@ -1117,4 +1117,33 @@ test('JoJo completes batch three while later JoJo arcs and batch four stay plann
     await expect(dialog.locator(`[data-number="${number}"]`)).toContainText('待制作')
   }
   await expect(dialog.getByRole('button', { name: /^进入题库：/ })).toHaveCount(1)
+})
+
+test('darling-in-the-franxx TV bank opens fifty illustrated questions on mobile', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 568 })
+  await page.goto('/')
+  await page.getByRole('button', { name: '查看 200 条目制作目录', exact: true }).click()
+  await page.getByLabel('目录分段').selectOption('4')
+  await expect(page.locator('.catalog-item[data-number="61"]')).toContainText('50 / 50')
+  await page.getByRole('button', { name: "进入题库：Darling in the FranXX", exact: true }).click()
+  await expect(page.locator('.quiz-card')).toHaveCount(3)
+  await expect(page.locator('#exam-title')).toHaveText('DARLING in the FRANXX · 模拟考试')
+  await page.getByRole('button', { name: '全部 50 题', exact: true }).click()
+  await page.getByRole('button', { name: '生成试卷', exact: true }).click()
+  await expect(page.getByRole('dialog')).toContainText('电视动画第 1–24 集')
+  await expect(page.getByRole('dialog')).toContainText('不混入漫画改编')
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+})
+
+test('Darling in the FranXX starts batch four and is discoverable by its Chinese nickname', async ({ page }) => {
+  await page.goto('/')
+  await page.getByRole('button', { name: '查看 200 条目制作目录', exact: true }).click()
+  const dialog = page.getByRole('dialog')
+  await dialog.getByLabel('目录分段').selectOption('4')
+  await expect(dialog.locator('.catalog-item').filter({ hasText: '50 / 50' })).toHaveCount(1)
+  await expect(dialog.locator('[data-number="62"]')).toContainText('待制作')
+  await dialog.getByRole('button', { name: '关闭', exact: true }).click()
+  await page.getByRole('textbox', { name: '搜索 Quiz' }).fill('国家队')
+  await expect(page.locator('.quiz-card')).toHaveCount(3)
+  await expect(page.locator('.quiz-card h3').first()).toContainText('DARLING in the FRANXX')
 })

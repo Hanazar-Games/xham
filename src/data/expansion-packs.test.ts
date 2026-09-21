@@ -3,6 +3,21 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps Darling in the FranXX in the TV continuity and checks pilot and combat conditions', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'darling-in-the-franxx')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第 1–24 集')
+    expect(bank!.scope).toContain('不混入漫画改编')
+    for (const [number, answer] of [['01', '016'], ['18', '满与心'], ['20', '搭乘中的驾驶员与机体之间的同步程度'], ['27', '在第13部队内部更换搭档']]) {
+      const q = bank!.questions.find((item) => item.id === `darling-in-the-franxx-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    expect(bank!.questions[40].explanation).toContain('传闻不应改写为绝无例外')
+    const urls = bank!.questions.map((q) => q.source!.url)
+    expect(urls).toContain('https://darli-fra.jp/keyword/')
+    expect(urls).toContain('https://darli-fra.jp/character/')
+    expect(urls).toContain('https://darli-fra.jp/story/?no=24')
+  })
   it('keeps JoJo in the 2012 series and checks inheritance and power constraints', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'jojo-2012')
     expect(bank).toBeDefined()
@@ -664,6 +679,7 @@ describe('catalog additions', () => {
     sources['kill-la-kill'] = /^https:\/\/www\.b-ch\.com\/titles\/3867\/0(?:0[1-9]|1\d|2[0-4])$/
     sources['fairy-tail'] = /^https:\/\/www\.b-ch\.com\/titles\/4189\/0(?:0[1-9]|[1-3]\d|4[0-8])$/
     sources['jojo-2012'] = /^https:\/\/www\.b-ch\.com\/titles\/3446\/0(?:0[1-9]|1\d|2[0-6])$/
+    sources['darling-in-the-franxx'] = /^https:\/\/darli-fra\.jp\/(?:keyword\/|character\/|story\/\?no=(?:[1-9]|1\d|2[0-4]))$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
