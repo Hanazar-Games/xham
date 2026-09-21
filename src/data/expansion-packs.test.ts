@@ -3,6 +3,17 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps Spy x Family Part 1 separate and checks school and identity conditions', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'spy-family')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('前半部第 1–12 集')
+    expect(bank!.scope).toContain('不混入Part 2、后续季度、电影或漫画后续')
+    for (const [number, answer] of [['01', '黄昏'], ['05', '读取他人的心声'], ['19', '德斯蒙德'], ['35', '医院'], ['50', '先安排水族馆出游展示家庭和睦，现场又出现WISE新任务']]) {
+      const q = bank!.questions.find((item) => item.id === `spy-family-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    expect(new Set(bank!.questions.map((q) => q.source!.url))).toEqual(new Set(Array.from({ length: 12 }, (_, i) => `https://www.b-ch.com/titles/7713/${String(i + 1).padStart(3, '0')}`)))
+  })
   it('keeps One Punch Man season two separate and checks tournament and rescue conditions', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'one-punch-man-season-2')
     expect(bank).toBeDefined()
@@ -615,6 +626,7 @@ describe('catalog additions', () => {
     sources['tokyo-ghoul-root-a'] = /^https:\/\/www\.marv\.jp\/special\/tokyoghoul\/first\/story\.html$/
     sources['black-clover'] = /^https:\/\/www\.b-ch\.com\/titles\/5757\/0(?:0[1-9]|[1-4]\d|5[01])$/
     sources['one-punch-man-season-2'] = /^https:\/\/www\.b-ch\.com\/titles\/6518\/0(?:0[1-9]|1[0-2])$/
+    sources['spy-family'] = /^https:\/\/www\.b-ch\.com\/titles\/7713\/0(?:0[1-9]|1[0-2])$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)

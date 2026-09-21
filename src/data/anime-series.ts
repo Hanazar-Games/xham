@@ -27,6 +27,7 @@ export const animeSeries: { id: AnimeSeriesId; title: string; subtitle: string; 
   { id: 'attack-on-titan-season-3-part-2', title: '进击的巨人 第三季后半部', subtitle: '夺还作战 · 剧情与制作知识', aliases: '进击 巨人 進撃 aot attack on titan season 3 part 2 shingeki 第三季 后半部 下半部 雷枪 地下室' },
   { id: 'no-game-no-life', title: '游戏人生', subtitle: '电视动画 · 游戏与心理博弈', aliases: 'no game no life ngnl ノーゲーム ノーライフ 游戏人生 空白 空 白 史蒂芙 吉普莉尔 克拉米 菲尔 伊纲 特图 血坏' },
   { id: 'code-geass', title: 'Code Geass 反叛的鲁路修', subtitle: '第一季 · 身份与战术博弈', aliases: 'code geass lelouch 鲁路修 反逆的鲁鲁修 叛逆 朱雀 卡莲 黑色骑士团 zero 兰斯洛特 红莲 C.C.' },
+  { id: 'spy-family', title: '间谍过家家 第一季前半部', subtitle: '第1–12集 · 家庭伪装与校园任务', aliases: '间谍过家家 间谍家家酒 SPY×FAMILY spy x family part 1 阿尼亚 安妮亚 洛伊德 劳埃德 约尔 黄昏 伊甸' },
   { id: 'one-punch-man-season-2', title: '一拳超人 第二季', subtitle: '英雄狩猎与武术大会 · 战局判断', aliases: '一拳超人 ワンパンマン one punch man season 2 second season 第二季 埼玉 饿狼 水龙 King 吹雪' },
   { id: 'black-clover', title: '黑色四叶草', subtitle: '第1–51集 · 反魔法与团队协作', aliases: '黑色四叶草 黑色五叶草 black clover ブラッククローバー 亚斯塔 阿斯塔 尤诺 夜见 诺艾尔 黑色暴牛' },
   { id: 'tokyo-ghoul-root-a', title: '东京喰种√A', subtitle: '青桐与安定区 · 身份与战局', aliases: '东京食尸鬼 东京喰种 東京喰種 tokyo ghoul root a √A 第二季 金木 董香 亚门 雏实' },
