@@ -3,6 +3,17 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('bounds Black Clover to its first 51 episodes and checks magic and teamwork facts', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'black-clover')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第 1–51 集')
+    expect(bank!.scope).toContain('不代表全篇覆盖')
+    for (const [number, answer] of [['01', '风魔法'], ['03', '九个'], ['19', '团长是否愿意招收该考生'], ['35', '钻石王国'], ['50', '取得魔石完成任务，但多数团员需要休养']]) {
+      const q = bank!.questions.find((item) => item.id === `black-clover-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    expect(new Set(bank!.questions.map((q) => q.source!.url))).toEqual(new Set(Array.from({ length: 51 }, (_, i) => i + 1).filter((n) => n !== 29).map((n) => `https://www.b-ch.com/titles/5757/${String(n).padStart(3, '0')}`)))
+  })
   it('keeps Tokyo Ghoul Root A in its own anime continuity with sourced tactical facts', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'tokyo-ghoul-root-a')
     expect(bank).toBeDefined()
@@ -591,6 +602,7 @@ describe('catalog additions', () => {
     sources['death-parade'] = /^https:\/\/www\.vap\.co\.jp\/deathparade\/(?:story\/(?:0[1-9]|1[0-2])|character\/(?:index|0[1-8]))\.html$/
     sources['my-hero-academia-season-4'] = /^https:\/\/www\.b-ch\.com\/titles\/6728\/0(?:0[1-9]|1\d|2[0-5])$/
     sources['tokyo-ghoul-root-a'] = /^https:\/\/www\.marv\.jp\/special\/tokyoghoul\/first\/story\.html$/
+    sources['black-clover'] = /^https:\/\/www\.b-ch\.com\/titles\/5757\/0(?:0[1-9]|[1-4]\d|5[01])$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
