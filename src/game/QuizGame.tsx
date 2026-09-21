@@ -76,13 +76,13 @@ export function QuizGame({
       state.phase === 'finished'
         ? 'finish'
         : state.phase === 'reveal'
-          ? exam
-            ? 'tap'
-            : response.correct
-            ? 'correct'
-            : response.selected === null
-              ? 'timeout'
-              : 'wrong'
+          ? response.selected === null
+            ? 'timeout'
+            : exam
+              ? 'tap'
+              : response.correct
+                ? 'correct'
+                : 'wrong'
           : state.phase === 'answering' && state.index === 0 && state.responses.length === 0
             ? 'start'
             : null

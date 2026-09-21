@@ -2,6 +2,7 @@ import catalog from '../../docs/quiz-expansion/catalog.json'
 import { questionBanks } from './question-banks'
 import { animeSeries } from './anime-series'
 import { questionIssues } from './content-validation'
+import { normalizeSearch, searchTerms } from '../search'
 
 const mappings: Record<string, string> = catalog.existingBanks
 const notes: Record<number, string> = {
@@ -22,7 +23,7 @@ export const expansionItems = catalog.entries.map((entry) => {
   const series = animeSeries.find((item) => item.id === bank?.series)
   return {
     ...entry, bank,
-    searchText: `${entry.title} ${series?.title ?? ''} ${series?.aliases ?? ''}`.normalize('NFKC').toLowerCase(),
+    searchText: normalizeSearch(`${entry.title} ${series?.title ?? ''} ${series?.aliases ?? ''}`),
     note: bank ? bank.scope : notes[entry.number],
   }
 })
@@ -32,6 +33,6 @@ export const expansionBatchCount = Math.ceil(expansionItems.length / catalog.bat
 export const expansionReady = expansionItems.filter((item) => item.bank).length
 
 export function filterExpansion(batch: number | 'all', query: string) {
-  const terms = query.normalize('NFKC').trim().toLowerCase().split(/\s+/).filter(Boolean)
+  const terms = searchTerms(query)
   return expansionItems.filter((item) => (batch === 'all' || item.batch === batch) && terms.every((term) => item.searchText.includes(term)))
 }

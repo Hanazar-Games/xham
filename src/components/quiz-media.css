@@ -42,6 +42,10 @@
   text-align: left;
 }
 .question-picture a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding-inline: 4px;
   color: #53683e;
   white-space: nowrap;
   text-underline-offset: 3px;

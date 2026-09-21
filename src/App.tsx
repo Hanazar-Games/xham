@@ -18,9 +18,9 @@ import { useAudio } from './audio/AudioProvider'
 import { ReleaseNotes } from './components/ReleaseNotes'
 import { currentRelease } from './data/releases'
 import './anime-theme.css'
+import { normalizeSearch, searchTerms } from './search'
 
 type View = 'anime' | 'saved' | 'results'
-const normalizeSearch = (value: string) => value.normalize('NFKC').toLowerCase().replace(/[\s:：·-]/g, '')
 const searchIndex = new Map(quizzes.map((quiz) => [quiz.id, normalizeSearch([
   quiz.title, quiz.description, quiz.category, quiz.tag,
   ...animeSeries.filter((series) => series.id === quiz.series ||
@@ -51,7 +51,7 @@ export default function App() {
   const [releaseOpen, setReleaseOpen] = useState(false)
   const { play } = useAudio()
   const search = query.trim()
-  const searchTerms = search.split(/\s+/).map(normalizeSearch)
+  const terms = searchTerms(search)
   const onComplete = useCallback((game: GameState) =>
     setHistory((items) => [{ id: gameId, game }, ...items]), [gameId])
 
@@ -118,7 +118,7 @@ export default function App() {
         (view !== 'saved' || saved.includes(quiz.id)) &&
         (!series || quiz.series === series) &&
         (difficulty === '全部' || quiz.difficulty === difficulty) &&
-        searchTerms.every((term) => searchIndex.get(quiz.id)!.includes(term)),
+        terms.every((term) => searchIndex.get(quiz.id)!.includes(term)),
     )
     .sort((a, b) =>
       sort === 'recommended'

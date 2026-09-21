@@ -1,8 +1,18 @@
 import { describe, expect, it } from 'vitest'
 import catalog from '../../docs/quiz-expansion/catalog.json'
 import { questionBanks } from './question-banks'
+import { filterExpansion } from './expansion'
 
 describe('user supplied expansion catalog', () => {
+  it.each(['PSYCHO‑PASS', 'ＰＳＹＣＨＯ－ＰＡＳＳ', 'psycho–pass', 'psychopass'])(
+    'finds the original first-season entry with copied typography: %s', (query) => {
+      expect(filterExpansion(4, query).map((item) => item.number)).toEqual([71])
+    },
+  )
+  it('keeps multiword search conjunctive and scoped to the selected batch', () => {
+    expect(filterExpansion(1, 'Titan Season 2').map((item) => item.number)).toEqual([13, 20])
+    expect(filterExpansion(1, 'psycho‑pass')).toEqual([])
+  })
   it('preserves 200 ordered titles in ten batches of twenty', () => {
     expect(catalog.entries).toHaveLength(200)
     expect(catalog.entries.map((entry) => entry.number)).toEqual(Array.from({ length: 200 }, (_, i) => i + 1))

@@ -26,7 +26,7 @@ export function ExamSetup({ series, settings, onChange, onStart }: {
         <div><span className="eyebrow">IP KNOWLEDGE TEST</span><h2 id="exam-title" tabIndex={-1}>{bank.title} · 模拟考试</h2></div>
         <strong>{bank.questions.length}<small> 道配图题</small></strong>
       </div>
-      <p>选好难度，抽一张属于你的试卷。混合卷均衡覆盖三档难度，题目与选项顺序随机。</p>
+      <p>选好难度，抽一张属于你的试卷。混合卷优先均衡抽取三档题目，某档题量不足时由其余难度补足。题目与选项顺序随机。</p>
       <details className="exam-scope">
         <summary>考试范围与剧透说明</summary>
         <p>{bank.scope}</p>
