@@ -27,6 +27,7 @@ export const animeSeries: { id: AnimeSeriesId; title: string; subtitle: string; 
   { id: 'attack-on-titan-season-3-part-2', title: '进击的巨人 第三季后半部', subtitle: '夺还作战 · 剧情与制作知识', aliases: '进击 巨人 進撃 aot attack on titan season 3 part 2 shingeki 第三季 后半部 下半部 雷枪 地下室' },
   { id: 'no-game-no-life', title: '游戏人生', subtitle: '电视动画 · 游戏与心理博弈', aliases: 'no game no life ngnl ノーゲーム ノーライフ 游戏人生 空白 空 白 史蒂芙 吉普莉尔 克拉米 菲尔 伊纲 特图 血坏' },
   { id: 'code-geass', title: 'Code Geass 反叛的鲁路修', subtitle: '第一季 · 身份与战术博弈', aliases: 'code geass lelouch 鲁路修 反逆的鲁鲁修 叛逆 朱雀 卡莲 黑色骑士团 zero 兰斯洛特 红莲 C.C.' },
+  { id: 'elfen-lied', title: '妖精的旋律 电视版', subtitle: '记忆与相遇 · 追捕与归宿', aliases: 'Elfen Lied エルフェンリート 妖精的旋律 变异体少女 露西 妮悠 耕太 娜娜' },
   { id: 'kakegurui', title: '狂赌之渊 第一季', subtitle: '规则与信息 · 选择与博弈', aliases: 'Kakegurui 賭ケグルイ 狂赌之渊 蛇喰梦子 早乙女芽亚里 桃喰绮罗莉' },
   { id: 'slime-season-1', title: '转生史莱姆 第一季', subtitle: '命名与进化 · 技能与共存', aliases: 'That Time I Got Reincarnated as a Slime 転生したらスライムだった件 転スラ 关于我转生变成史莱姆这档事 利姆鲁 维鲁德拉' },
   { id: 'konosuba-season-2', title: '为美好的世界献上祝福！ 第二季', subtitle: '审判与旅行 · 队伍与任务', aliases: 'KonoSuba Season 2 KonoSuba 2 このすば2 この素晴らしい世界に祝福を2 为美好的世界献上祝福 第二季 素晴 第二季 和真 芸芸 巴尼尔 汉斯' },

@@ -3,6 +3,19 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps Elfen Lied in thirteen TV episodes and separates abilities from outcomes', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'elfen-lied')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('2004年电视版第 1–13 集')
+    expect(bank!.scope).toContain('不混入EXTRA特别篇或漫画后续')
+    expect(bank!.questions).toHaveLength(50)
+    for (const [number, answer] of [['01', '露西'], ['03', '向量（Vector）'], ['16', '13集'], ['23', '娜娜的向量更长'], ['35', '留下耕太，独自跳入海中'], ['45', '真由的哭脸让她想起幼年的耕太，于是变回妮悠'], ['50', '露西独自入海，抵达研究设施，迎战真理子']]) {
+      const q = bank!.questions.find((item) => item.id === `elfen-lied-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    expect(bank!.questions[38].explanation).toContain('不能')
+    expect(bank!.questions[49].explanation).toContain('未说明')
+  })
   it('keeps Kakegurui in season one and distinguishes game-specific rules', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'kakegurui')
     expect(bank).toBeDefined()
@@ -931,6 +944,7 @@ describe('catalog additions', () => {
     sources['konosuba-season-2'] = /^https:\/\/konosuba\.com\/2nd\/story\/\?mode=detail&id=(?:0[1-9]|10)$/
     sources['slime-season-1'] = /^https:\/\/www\.ten-sura\.com\/anime\/tensura\/story\/no(?:[1-9]|1[0-9]|2[0-4])$/
     sources['kakegurui'] = /^https:\/\/kakegurui-anime\.com\/1st\/(?:game_rules\/|story\/detail\.php\?id=(?:1000217|1000221|1000223|100022[6-8]|100025[3-8]))$/
+    sources['elfen-lied'] = /^https:\/\/(?:www\.vap\.co\.jp\/elfenlied\/bd\/|animestore\.docomo\.ne\.jp\/animestore\/ci_pc\?workId=21868(?:&partId=218680(?:0[1-9]|1[0-3]))?)$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
