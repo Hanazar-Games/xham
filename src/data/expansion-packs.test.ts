@@ -3,6 +3,20 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps Charlotte in the TV series and verifies target, duration and cost constraints', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'charlotte')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第 1–13 集')
+    expect(bank!.scope).toContain('不混入未放送特别篇')
+    for (const [number, answer] of [['01', '乙坂有宇'], ['19', '5秒'], ['20', '指定的一人'], ['22', '已故姐姐美砂'], ['34', '只穿过一堵墙也会非常疲惫']]) {
+      const q = bank!.questions.find((item) => item.id === `charlotte-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    expect(bank!.questions[42].explanation).toContain('自己也会睡着')
+    expect(bank!.questions[43].explanation).toContain('长时间接触')
+    expect(bank!.questions).toHaveLength(50)
+    expect(new Set(bank!.questions.filter((q) => q.source!.url.includes('/character/')).map((q) => q.source!.url)).size).toBe(12)
+  })
   it('keeps Shield Hero in season one and verifies party roles and curse restrictions', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'shield-hero')
     expect(bank).toBeDefined()
@@ -770,6 +784,7 @@ describe('catalog additions', () => {
     sources['soul-eater'] = /^https:\/\/www\.(?:b-ch\.com\/titles\/1972\/0(?:0[1-9]|[1-4]\d|5[01])|bones\.co\.jp\/work\/soul-eater\/)$/
     sources['gurren-lagann'] = /^https:\/\/www\.(?:b-ch\.com\/titles\/4447\/0(?:0[1-9]|1\d|2[0-7])|gurren-lagann\.net\/tv\/mecha\/(?:lagann|gulaparl|arcgurren|archgurrenlagann|chogingadaigurren|chogingaglagann|mugann|spacegunmen)\.html)$/
     sources['shield-hero'] = /^https:\/\/(?:www\.b-ch\.com\/titles\/6384\/0(?:0[1-9]|1\d|2[0-5])|shieldhero-anime\.jp\/1st\/)$/
+    sources['charlotte'] = /^https:\/\/(?:www\.b-ch\.com\/titles\/4602\/0(?:0[1-9]|1[0-3])|www\.pa-works\.jp\/works\/charlotte\/|charlotte-anime\.jp\/character\/#\/(?:yuu|nao|jojiro|yusa|misa|ayumi|kumagami|sala|shunsuke|shichino|medoki|maedomari))$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
