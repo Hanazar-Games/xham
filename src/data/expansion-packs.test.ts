@@ -3,6 +3,17 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps One Punch Man season two separate and checks tournament and rescue conditions', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'one-punch-man-season-2')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第二季第 1–12 集')
+    expect(bank!.scope).toContain('不混入第三季、OVA或漫画后续')
+    for (const [number, answer] of [['01', 'King'], ['05', '吹雪'], ['19', '三名A级英雄及聚集的悬赏犯'], ['35', '三天'], ['50', '邦古与邦普先和杰诺斯会合，蜈蚣长老随后来袭，King与埼玉也参战']]) {
+      const q = bank!.questions.find((item) => item.id === `one-punch-man-season-2-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    expect(new Set(bank!.questions.map((q) => q.source!.url))).toEqual(new Set(Array.from({ length: 12 }, (_, i) => `https://www.b-ch.com/titles/6518/${String(i + 1).padStart(3, '0')}`)))
+  })
   it('bounds Black Clover to its first 51 episodes and checks magic and teamwork facts', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'black-clover')
     expect(bank).toBeDefined()
@@ -603,6 +614,7 @@ describe('catalog additions', () => {
     sources['my-hero-academia-season-4'] = /^https:\/\/www\.b-ch\.com\/titles\/6728\/0(?:0[1-9]|1\d|2[0-5])$/
     sources['tokyo-ghoul-root-a'] = /^https:\/\/www\.marv\.jp\/special\/tokyoghoul\/first\/story\.html$/
     sources['black-clover'] = /^https:\/\/www\.b-ch\.com\/titles\/5757\/0(?:0[1-9]|[1-4]\d|5[01])$/
+    sources['one-punch-man-season-2'] = /^https:\/\/www\.b-ch\.com\/titles\/6518\/0(?:0[1-9]|1[0-2])$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
