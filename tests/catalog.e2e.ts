@@ -9,7 +9,7 @@ test('Spirited Away opens its own film bank without counting the Ghibli collecti
   const entry = page.locator('.catalog-item[data-number="44"]')
   await expect(entry).toContainText('50 / 50')
   await expect(entry).not.toContainText('待单独整理')
-  await expect(page.locator('.catalog-item[data-number="54"]')).toContainText('待制作')
+  await expect(page.locator('.catalog-item[data-number="55"]')).toContainText('待制作')
   await entry.getByRole('button', { name: '进入题库：Spirited Away', exact: true }).click()
   await expect(page.locator('#exam-title')).toHaveText('千与千寻 · 模拟考试')
   await expect(page.locator('.quiz-card')).toHaveCount(3)
@@ -30,7 +30,7 @@ test('Parasyte opens a complete TV bank with three levels and adaptation boundar
   await page.getByLabel('目录分段').selectOption('3')
   const entry = page.locator('.catalog-item[data-number="43"]')
   await expect(entry).toContainText('50 / 50')
-  await expect(page.locator('.catalog-item[data-number="54"]')).toContainText('待制作')
+  await expect(page.locator('.catalog-item[data-number="55"]')).toContainText('待制作')
   await entry.getByRole('button', { name: '进入题库：Parasyte: The Maxim', exact: true }).click()
   await expect(page.locator('#exam-title')).toHaveText('寄生兽 生命的准则 · 模拟考试')
   await expect(page.locator('.quiz-card')).toHaveCount(3)
@@ -48,7 +48,7 @@ test('Blue Exorcist opens the 2011 continuity and excludes Kyoto and later arcs'
   await page.getByLabel('目录分段').selectOption('3')
   const entry = page.locator('.catalog-item[data-number="42"]')
   await expect(entry).toContainText('50 / 50')
-  await expect(page.locator('.catalog-item[data-number="54"]')).toContainText('待制作')
+  await expect(page.locator('.catalog-item[data-number="55"]')).toContainText('待制作')
   await entry.getByRole('button', { name: '进入题库：Blue Exorcist', exact: true }).click()
   await expect(page.locator('#exam-title')).toHaveText('青之驱魔师 第一季 · 模拟考试')
   await expect(page.locator('.quiz-card')).toHaveCount(3)
@@ -67,7 +67,7 @@ test('Cowboy Bebop opens the TV bank without the film or live-action adaptation'
   await page.getByLabel('目录分段').selectOption('3')
   const entry = page.locator('.catalog-item[data-number="41"]')
   await expect(entry).toContainText('50 / 50')
-  await expect(page.locator('.catalog-item[data-number="54"]')).toContainText('待制作')
+  await expect(page.locator('.catalog-item[data-number="55"]')).toContainText('待制作')
   await entry.getByRole('button', { name: '进入题库：Cowboy Bebop', exact: true }).click()
   await expect(page.locator('#exam-title')).toHaveText('星际牛仔 · 模拟考试')
   await expect(page.locator('.quiz-card')).toHaveCount(3)
@@ -88,7 +88,7 @@ test('SAO II completes batch two with all three arcs and leaves later batch thre
   await expect(entry).toContainText('50 / 50')
   await expect(page.locator('.catalog-item').filter({ hasText: '50 / 50' })).toHaveCount(20)
   await page.getByLabel('目录分段').selectOption('3')
-  await expect(page.locator('.catalog-item[data-number="54"]')).toContainText('待制作')
+  await expect(page.locator('.catalog-item[data-number="55"]')).toContainText('待制作')
   await page.getByLabel('目录分段').selectOption('2')
   await entry.getByRole('button', { name: '进入题库：Sword Art Online II', exact: true }).click()
   await expect(page.locator('#exam-title')).toHaveText('刀剑神域Ⅱ · 模拟考试')
@@ -519,7 +519,7 @@ test('Your Name exposes the film knowledge scope and a fifty-question exam', asy
   await expect(page.locator('.quiz-card')).toHaveCount(3)
 })
 
-test('Tokyo Ghoul opens season one while all three sequel entries remain planned', async ({ page }) => {
+test('Tokyo Ghoul opens season one while both re sequel entries remain planned', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 568 })
   await page.goto('/')
   await page.getByRole('button', { name: '查看 200 条目制作目录', exact: true }).click()
@@ -527,8 +527,8 @@ test('Tokyo Ghoul opens season one while all three sequel entries remain planned
   await dialog.getByLabel('目录分段').selectOption('all')
   await dialog.getByLabel('目录作品搜索').fill('Tokyo Ghoul')
   await expect(dialog.locator('.catalog-item')).toHaveCount(4)
-  await expect(dialog.getByRole('button', { name: /^进入题库：/ })).toHaveCount(1)
-  for (const number of [54, 121, 195]) {
+  await expect(dialog.getByRole('button', { name: /^进入题库：/ })).toHaveCount(2)
+  for (const number of [121, 195]) {
     await expect(dialog.locator(`[data-number="${number}"]`)).toContainText('待制作')
   }
   await dialog.getByRole('button', { name: '进入题库：Tokyo Ghoul', exact: true }).click()
@@ -541,7 +541,7 @@ test('Tokyo Ghoul opens season one while all three sequel entries remain planned
   await page.keyboard.press('Escape')
   await page.getByRole('button', { name: '全部专区', exact: true }).click()
   await page.getByRole('textbox', { name: '搜索 Quiz' }).fill('东京食尸鬼')
-  await expect(page.locator('.quiz-card')).toHaveCount(3)
+  await expect(page.locator('.quiz-card')).toHaveCount(6)
 })
 
 test('Jujutsu Kaisen exposes season one without completing the sequel or film', async ({ page }) => {
@@ -646,8 +646,8 @@ test('catalog preserves all ten batches and only opens existing question banks',
   await opener.click()
   const dialog = page.getByRole('dialog', { name: '动漫题库制作目录' })
   await expect(dialog.locator('.catalog-item')).toHaveCount(20)
-  await expect(dialog.locator('.catalog-summary')).toContainText('54 / 200')
-  await expect(dialog.locator('.catalog-summary')).toContainText('2,700 / 10,000')
+  await expect(dialog.locator('.catalog-summary')).toContainText('55 / 200')
+  await expect(dialog.locator('.catalog-summary')).toContainText('2,750 / 10,000')
   await expect(dialog.locator('.catalog-item').first()).toContainText('Attack on Titan')
   await expect(dialog.locator('.catalog-item').first().getByRole('button')).toHaveCount(1)
   for (let batch = 1; batch <= 10; batch++) {
@@ -959,5 +959,21 @@ test('my-hero-academia-season-4 TV bank opens fifty illustrated questions on mob
   await page.getByRole('button', { name: '生成试卷', exact: true }).click()
   await expect(page.getByRole('dialog')).toContainText('第四季第 1–25 集')
   await expect(page.getByRole('dialog')).toContainText('不混入其他季度、电影或OVA')
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+})
+
+test('tokyo-ghoul-root-a TV bank opens fifty illustrated questions on mobile', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 568 })
+  await page.goto('/')
+  await page.getByRole('button', { name: '查看 200 条目制作目录', exact: true }).click()
+  await page.getByLabel('目录分段').selectOption('3')
+  await expect(page.locator('.catalog-item[data-number="54"]')).toContainText('50 / 50')
+  await page.getByRole('button', { name: '进入题库：Tokyo Ghoul √A', exact: true }).click()
+  await expect(page.locator('.quiz-card')).toHaveCount(3)
+  await expect(page.locator('#exam-title')).toHaveText('东京喰种√A · 模拟考试')
+  await page.getByRole('button', { name: '全部 50 题', exact: true }).click()
+  await page.getByRole('button', { name: '生成试卷', exact: true }).click()
+  await expect(page.getByRole('dialog')).toContainText('第二季√A第 1–12 集')
+  await expect(page.getByRole('dialog')).toContainText('不混入漫画独有剧情、:re、OVA或真人版')
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
 })

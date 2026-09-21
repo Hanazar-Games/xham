@@ -3,6 +3,17 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps Tokyo Ghoul Root A in its own anime continuity with sourced tactical facts', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'tokyo-ghoul-root-a')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第二季√A第 1–12 集')
+    expect(bank!.scope).toContain('不混入漫画独有剧情、:re、OVA或真人版')
+    for (const [number, answer] of [['01', '雾岛绚都'], ['05', '高槻泉'], ['19', '23区'], ['35', '亚门钢太朗'], ['50', '担心金木等人的安危']]) {
+      const q = bank!.questions.find((item) => item.id === `tokyo-ghoul-root-a-${number}`)!
+      expect(q.options[q.answer]).toBe(answer)
+    }
+    expect(new Set(bank!.questions.map((q) => q.source!.label))).toEqual(new Set(Array.from({ length: 12 }, (_, i) => `第二季动画官网第 ${i + 1} 集简介`)))
+  })
   it('keeps My Hero Academia season four separate with sourced rescue and festival facts', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'my-hero-academia-season-4')
     expect(bank).toBeDefined()
@@ -579,6 +590,7 @@ describe('catalog additions', () => {
     sources['chainsaw-man'] = /^https:\/\/(?:chainsawman\.dog\/tvseries\/character\/|www\.b-ch\.com\/titles\/7889\/0(?:0[1-9]|1[0-2]))$/
     sources['death-parade'] = /^https:\/\/www\.vap\.co\.jp\/deathparade\/(?:story\/(?:0[1-9]|1[0-2])|character\/(?:index|0[1-8]))\.html$/
     sources['my-hero-academia-season-4'] = /^https:\/\/www\.b-ch\.com\/titles\/6728\/0(?:0[1-9]|1\d|2[0-5])$/
+    sources['tokyo-ghoul-root-a'] = /^https:\/\/www\.marv\.jp\/special\/tokyoghoul\/first\/story\.html$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
