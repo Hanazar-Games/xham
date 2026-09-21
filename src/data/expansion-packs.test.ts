@@ -3,6 +3,18 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps Violet Evergarden in the TV series with sourced correspondence and character facts', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'violet-evergarden')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('电视动画第 1–13 集')
+    expect(bank!.scope).toContain('不混入番外篇、外传电影和剧场版')
+    for (const [number, answer] of [['01', '自动手记人偶'], ['19', '打字快速准确，学科成绩优秀'], ['27', '50年'], ['33', '嘉德丽雅'], ['50', '基尔伯特少佐']]) {
+      const question = bank!.questions.find((q) => q.id === `violet-evergarden-${number}`)!
+      expect(question.options[question.answer]).toBe(answer)
+    }
+    expect(bank!.questions.every((q) => q.source!.url === 'https://tv.violet-evergarden.jp/story/')).toBe(true)
+    expect(new Set(bank!.questions.map((q) => q.source!.label)).size).toBe(13)
+  })
   it('keeps Evangelion in the TV continuity and validates battle conditions across all episodes', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'evangelion')
     expect(bank).toBeDefined()
@@ -470,6 +482,7 @@ describe('catalog additions', () => {
     sources['parasyte'] = /^https:\/\/www\.vap\.co\.jp\/kiseiju\/(?:story\/(?:0[1-9]|1\d|2[0-4])|chara\/(?:shinichi|migi|satomi|ryoko|miki|gotou|kana|shimada|yuko|uda|nobuko|makiko|mitsuo|a|kuramori|hirama|uragami|hirokawa))\.html$/
     sources['spirited-away'] = /^https:\/\/(?:www\.viz\.com\/manga-books\/film-comic\/spirited-away-film-comics-volume-[1-5]-0\/product\/473[1-5]|www\.ghibli\.jp\/works\/chihiro\/|kinro\.ntv\.co\.jp\/article\/detail\/(?:20220106|20231208))$/
     sources['evangelion'] = /^https:\/\/www\.b-ch\.com\/titles\/466\/0(?:0[1-9]|1\d|2[0-6])$/
+    sources['violet-evergarden'] = /^https:\/\/tv\.violet-evergarden\.jp\/story\/$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
