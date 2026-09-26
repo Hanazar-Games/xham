@@ -15,12 +15,14 @@ export function Dialog({
   const backdropPress = useRef(false)
   useLayoutEffect(() => {
     const dialog = ref.current!
+    const previousFocus = document.activeElement as HTMLElement | null
     const previousOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
-    dialog.showModal()
+    if (!dialog.open) dialog.showModal()
     return () => {
-      dialog.close()
+      if (dialog.open) dialog.close()
       document.body.style.overflow = previousOverflow
+      previousFocus?.focus({ preventScroll: true })
     }
   }, [])
   return (
