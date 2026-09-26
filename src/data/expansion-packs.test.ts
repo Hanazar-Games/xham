@@ -3,6 +3,23 @@ import { expansionBanks, expansionQuizzes, expansionAdditions } from './expansio
 import { questionIssues } from './content-validation'
 
 describe('catalog additions', () => {
+  it('keeps Noragami Aragoto scoped and checks evolving status and soul-call conditions', () => {
+    const bank = expansionBanks.find((item) => String(item.series) === 'noragami-aragoto')
+    expect(bank).toBeDefined()
+    expect(bank!.scope).toContain('第二季第 1–13 集')
+    expect(bank!.scope).toContain('不混入第一季、OAD')
+    expect(bank!.questions).toHaveLength(50)
+    const answer = (id: string) => {
+      const q = bank!.questions.find((item) => item.id === `noragami-aragoto-${id}`)!
+      return q.options[q.answer]
+    }
+    expect(answer('11')).toBe('高中生')
+    expect(answer('16')).toBe('缚布')
+    expect(answer('17')).toBe('魂呼')
+    expect(bank!.questions[16].source!.url).toBe('https://noragami-anime.net/story/detail.php?id=1000040')
+    expect(bank!.questions[46].explanation).toContain('此岸')
+  })
+
   it('keeps the 2003 Fullmetal Alchemist continuity separate from Brotherhood', () => {
     const bank = expansionBanks.find((item) => String(item.series) === 'fullmetal-alchemist-2003')
     expect(bank).toBeDefined()
@@ -1053,6 +1070,7 @@ describe('catalog additions', () => {
     sources['haikyuu-season-2'] = /^https:\/\/www\.b-ch\.com\/titles\/4898\/0(?:0[1-9]|1\d|2[0-5])$/
     sources['oregairu-season-1'] = /^https:\/\/www\.tbs\.co\.jp\/anime\/oregairu\/1st\/(?:chara\/|story\/#story(?:0[1-9]|1[0-3]))$/
     sources['fullmetal-alchemist-2003'] = /^https:\/\/www\.b-ch\.com\/titles\/215\/0(?:0[1-9]|[1-4]\d|5[01])$/
+    sources['noragami-aragoto'] = /^https:\/\/noragami-anime\.net\/(?:chara\/|story\/detail\.php\?id=(?:1000006|1000014|1000015|1000017|1000025|1000029|1000027|1000031|1000032|1000035|1000036|1000040|1000041))$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
