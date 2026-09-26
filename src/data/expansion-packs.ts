@@ -17,6 +17,7 @@ import { steinsGateEntries } from './steins-gate'
 import { shippudenEntries } from './naruto-shippuden'
 import { noragamiAragotoEntries } from './noragami-aragoto'
 import { mushokuTenseiEntries } from './mushoku-tensei'
+import { bungoStrayDogsEntries } from './bungo-stray-dogs'
 import { fma2003Entries } from './fullmetal-alchemist-2003'
 import { oregairuEntries } from './oregairu-season-1'
 import { haikyuuTwoEntries } from './haikyuu-season-2'
@@ -557,7 +558,11 @@ export const expansionBanks = [
     if (typeof reference !== 'number' || !Number.isInteger(reference) || reference < 1 || reference > 11) throw new Error('Mushoku Tensei needs first-cour episodes from 1 to 11')
     return { label: `万代频道第一批第 ${reference} 集简介`, url: `https://www.b-ch.com/titles/7187/${String(reference).padStart(3, '0')}` }
   }),
-]
+
+  bank('bungo-stray-dogs', '文豪野犬 第一季', '限定电视动画第一季第 1–13 集剧情与设定，含武装侦探社、港口黑手党、异能力冲突剧透；不混入后续季度、剧场版或原作后续。', bungoStrayDogsEntries, (reference) => {
+    if (typeof reference !== 'number' || reference < 1 || reference > 13) throw new Error('Bungo Stray Dogs needs episodes from 1 to 13')
+    return { label: `正版发行第一季第 ${reference} 集简介`, url: `https://www.b-ch.com/titles/5250/${String(reference).padStart(3, '0')}` }
+  }),]
 
 const titles = ['人物与世界入门', '行动与规则应用', '证据与战术推演']
 export const expansionQuizzes: Quiz[] = expansionBanks.flatMap((bank) => difficulties.map((difficulty, index) => ({

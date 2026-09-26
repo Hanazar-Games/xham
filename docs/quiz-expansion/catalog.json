@@ -187,7 +187,7 @@
     {"number": 87, "id": "title-087", "batch": 5, "title": "Fullmetal Alchemist"},
     {"number": 88, "id": "title-088", "batch": 5, "title": "Noragami Aragoto"},
     {"number": 89, "id": "title-089", "batch": 5, "title": "Mushoku Tensei: Jobless Reincarnation", "series": "mushoku-tensei"},
-    {"number": 90, "id": "title-090", "batch": 5, "title": "Bungo Stray Dogs"},
+    {"number": 90, "id": "title-090", "batch": 5, "title": "Bungo Stray Dogs", "series": "bungo-stray-dogs"},
     {"number": 91, "id": "title-091", "batch": 5, "title": "Made in Abyss"},
     {"number": 92, "id": "title-092", "batch": 5, "title": "Attack on Titan: The Final Season Part 2"},
     {"number": 93, "id": "title-093", "batch": 5, "title": "High School DxD"},
