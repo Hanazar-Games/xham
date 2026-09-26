@@ -16,6 +16,7 @@ import { titanSeasonTwoEntries } from './attack-on-titan-season-2'
 import { steinsGateEntries } from './steins-gate'
 import { shippudenEntries } from './naruto-shippuden'
 import { noragamiAragotoEntries } from './noragami-aragoto'
+import { mushokuTenseiEntries } from './mushoku-tensei'
 import { fma2003Entries } from './fullmetal-alchemist-2003'
 import { oregairuEntries } from './oregairu-season-1'
 import { haikyuuTwoEntries } from './haikyuu-season-2'
@@ -551,6 +552,10 @@ export const expansionBanks = [
     const episodes = [1000006, 1000014, 1000015, 1000017, 1000025, 1000029, 1000027, 1000031, 1000032, 1000035, 1000036, 1000040, 1000041]
     if (typeof reference !== 'number' || !Number.isInteger(reference) || reference < 1 || reference > episodes.length) throw new Error('Noragami Aragoto needs an episode from 1 to 13')
     return { label: `ARAGOTO官网第 ${reference} 集简介`, url: `https://noragami-anime.net/story/detail.php?id=${episodes[reference - 1]}` }
+  }),
+  bank('mushoku-tensei', '无职转生 第一季', '限定第一批电视动画第 1–11 集万代频道简介，含鲁迪乌斯转生、家庭教师、艾莉丝、魔大陆与石化之森剧透；不混入Part 2、第二季、OVA或原作后续。', mushokuTenseiEntries, (reference) => {
+    if (typeof reference !== 'number' || !Number.isInteger(reference) || reference < 1 || reference > 11) throw new Error('Mushoku Tensei needs first-cour episodes from 1 to 11')
+    return { label: `万代频道第一批第 ${reference} 集简介`, url: `https://www.b-ch.com/titles/7187/${String(reference).padStart(3, '0')}` }
   }),
 ]
 

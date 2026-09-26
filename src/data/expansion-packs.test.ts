@@ -1071,6 +1071,7 @@ describe('catalog additions', () => {
     sources['oregairu-season-1'] = /^https:\/\/www\.tbs\.co\.jp\/anime\/oregairu\/1st\/(?:chara\/|story\/#story(?:0[1-9]|1[0-3]))$/
     sources['fullmetal-alchemist-2003'] = /^https:\/\/www\.b-ch\.com\/titles\/215\/0(?:0[1-9]|[1-4]\d|5[01])$/
     sources['noragami-aragoto'] = /^https:\/\/noragami-anime\.net\/(?:chara\/|story\/detail\.php\?id=(?:1000006|1000014|1000015|1000017|1000025|1000029|1000027|1000031|1000032|1000035|1000036|1000040|1000041))$/
+    sources['mushoku-tensei'] = /^https:\/\/www\.b-ch\.com\/titles\/7187\/0(?:0[1-9]|1[01])$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
