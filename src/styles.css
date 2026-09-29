@@ -2083,6 +2083,11 @@ h1:focus {
   }
 }
 @media (max-width: 540px) {
+  .game-main { padding: 16px; }
+  .game-topline { margin-bottom: 12px; }
+  .question-steps { margin-bottom: 16px; }
+  .answer-grid { margin-block: 14px; gap: 10px; }
+  .answer-option { min-height: 64px; }
   .quiz-grid {
     grid-template-columns: 1fr;
   }

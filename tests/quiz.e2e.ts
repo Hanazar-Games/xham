@@ -1,5 +1,6 @@
 import { test, expect, type Page } from '@playwright/test'
 import { quizzes } from '../src/data/quizzes'
+import { releaseHistory } from '../src/data/releases'
 import axe from 'axe-core'
 import { createRequire } from 'node:module'
 
@@ -118,10 +119,10 @@ for (const [width, height] of [[320, 568], [390, 844], [540, 720], [768, 1024], 
     await expect(page.locator('.latest-release')).toContainText(`v${version}`)
     await auditLayout(page)
     await page.getByRole('button', { name: '历史公告', exact: true }).click()
-    await expect(page.locator('.historical-release')).toHaveCount(103)
+    await expect(page.locator('.historical-release')).toHaveCount(releaseHistory.length)
     await page.locator('.historical-release summary').first().click()
-    await expect(page.locator('.historical-release').first()).toContainText('v0.96.0')
-    await expect(page.locator('.historical-release').first()).toContainText('新增《钢之炼金术师 2003版》50道配图题')
+    await expect(page.locator('.historical-release').first()).toContainText(`v${releaseHistory[0].version}`)
+    await expect(page.locator('.historical-release').first()).toContainText(releaseHistory[0].summary)
     await auditLayout(page)
     await page.keyboard.press('Escape')
     await page.getByRole('button', { name: /^(查看)?玩法指南$/ }).click()
@@ -161,7 +162,6 @@ test('discovery filters, sorting, favorites and reset on refresh', async ({ page
   await expect(page.locator('.empty-state')).toBeVisible()
   await page.getByRole('button', { name: '重置筛选' }).click()
   await expect(page.locator('.quiz-card')).toHaveCount(quizzes.length)
-  await expect(page.locator('.quiz-card')).toHaveCount(279)
   await page.getByRole('combobox', { name: '题库排序' }).selectOption('challenge')
   await expect(page.locator('.quiz-card .difficulty').first()).toHaveText('困难')
   await page.getByRole('button', { name: `收藏：${quizzes[0].title}`, exact: true }).click()

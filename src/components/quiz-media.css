@@ -114,6 +114,11 @@
   }
 }
 @media (max-width: 540px) {
+  .question-panel:has(.question-picture) { padding: 36px 14px 14px; }
+  .question-panel:has(.question-picture) .question-label { margin-bottom: 8px; }
+  .question-panel:has(.question-picture) h1 { font-size: 18px; line-height: 1.55; }
+  .question-panel .question-picture { margin-top: 12px; }
+  .question-panel img.question-image { max-height: min(160px, 22dvh); }
   .answer-grid.answer-grid-long {
     grid-template-columns: 1fr;
   }

@@ -34,7 +34,8 @@ export function AnimeHub({ selected, onSelect }: {
         <div><span className="eyebrow">CHOOSE YOUR WORLD</span><h2>从喜欢的那一部开始</h2></div>
         <button id="anime-all-series" className="secondary-button" aria-pressed={!selected} onClick={() => onSelect(null)}>全部专区</button>
       </div>
-      <div className="anime-series-grid">
+      <p className="anime-directory-hint" id="anime-directory-hint">上下滚动浏览 {animeSeries.length} 个专区，也可在页首搜索作品、角色或技能。</p>
+      <div className="anime-series-grid" role="region" aria-label="作品列表" aria-describedby="anime-directory-hint" tabIndex={0}>
         {animeSeries.map((series) => {
           const packs = library.filter((quiz) => quiz.series === series.id)
           const cover = packs.find((quiz) => quiz.id === series.id)!

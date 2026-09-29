@@ -41,7 +41,9 @@ try {
   page.on('response', (response) => { if (response.status() >= 400) failures.push(response.url()) })
   await page.goto(`${origin}/xham/`)
   await page.locator('.quiz-card').first().waitFor()
-  assert.equal(await page.locator('.quiz-card').count(), 279)
+  const practiceCount = Number(await page.locator('.anime-stats > div').nth(1).locator('dd').innerText())
+  assert(practiceCount > 0)
+  assert.equal(await page.locator('.quiz-card').count(), practiceCount)
   const localImages = await page.locator('img').evaluateAll((images) => images.map((image) => image.src))
   for (const url of localImages) {
     assert(url.startsWith(`${origin}/xham/`))

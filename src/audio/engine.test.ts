@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import { AudioEngine } from './engine'
 
 function audioContext() {
+  const events = new EventTarget()
   const parameter = () => ({
     value: 1,
     cancelScheduledValues: vi.fn(),
@@ -15,6 +16,9 @@ function audioContext() {
     state: 'running',
     currentTime: 0,
     destination: {},
+    addEventListener: vi.fn(events.addEventListener.bind(events)),
+    removeEventListener: vi.fn(events.removeEventListener.bind(events)),
+    dispatchEvent: events.dispatchEvent.bind(events),
     createGain: () => {
       const gain = parameter()
       gains.push(gain)
@@ -49,6 +53,33 @@ function audioContext() {
 afterEach(() => vi.useRealTimers())
 
 describe('audio lifecycle', () => {
+  it('clears interrupted notes and restarts a single music scheduler when the context recovers', async () => {
+    vi.useFakeTimers()
+    const { factory, context, oscillators } = audioContext()
+    const engine = new AudioEngine(factory)
+    await engine.unlock()
+    engine.configure({ music: true })
+    engine.play('finish')
+    expect(vi.getTimerCount()).toBe(1)
+
+    context.state = 'interrupted'
+    context.dispatchEvent(new Event('statechange'))
+    expect(vi.getTimerCount()).toBe(0)
+    expect(oscillators.every((note) => note.stop.mock.lastCall?.[0] <= context.currentTime)).toBe(true)
+
+    context.state = 'running'
+    context.dispatchEvent(new Event('statechange'))
+    context.dispatchEvent(new Event('statechange'))
+    expect(vi.getTimerCount()).toBe(1)
+    const count = oscillators.length
+    engine.play('correct')
+    expect(oscillators).toHaveLength(count + 3)
+    engine.dispose()
+    expect(context.removeEventListener).toHaveBeenCalledWith('statechange', expect.any(Function))
+    context.dispatchEvent(new Event('statechange'))
+    expect(vi.getTimerCount()).toBe(0)
+  })
+
   it('ducks music during feedback and cancels the recovery schedule when feedback is stopped', async () => {
     vi.useFakeTimers()
     const { factory, context, gains } = audioContext()

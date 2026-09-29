@@ -1,5 +1,36 @@
 import { test, expect } from '@playwright/test'
 import { questionBanks } from '../src/data/question-banks'
+import { animeSeries } from '../src/data/anime-series'
+import { quizzes } from '../src/data/quizzes'
+
+test('the mobile series directory stays compact and its final bank remains reachable', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 568 })
+  await page.goto('/')
+  const directory = page.getByRole('region', { name: '作品列表', exact: true })
+  const bounds = await directory.boundingBox()
+  expect(bounds!.height).toBeLessThanOrEqual(440)
+  await expect(directory.locator('.anime-series-card')).toHaveCount(animeSeries.length)
+  const last = animeSeries.at(-1)!
+  await directory.getByRole('button', { name: `进入专区：${last.title}`, exact: true }).click()
+  await expect(page.locator('#exam-title')).toBeFocused()
+  await expect(page.locator('#exam-title')).toBeInViewport()
+  await expect(page.locator('.quiz-card')).toHaveCount(quizzes.filter((quiz) => quiz.series === last.id).length)
+  await page.getByRole('button', { name: '切换专区', exact: true }).click()
+  await expect(page.getByRole('button', { name: '全部专区', exact: true })).toBeFocused()
+  await directory.focus()
+  await page.keyboard.press('Home')
+  await page.keyboard.press('ArrowDown')
+  await expect.poll(() => directory.evaluate((element) => element.scrollTop)).toBeGreaterThan(0)
+})
+
+test('a small phone shows an answer choice without scrolling past decorative spacing', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 568 })
+  await page.goto('/')
+  await page.getByRole('button', { name: `开始：${quizzes[0].title}`, exact: true }).click()
+  await page.getByRole('button', { name: '准备好了，开始！' }).click()
+  await expect(page.locator('.answer-option').first()).toBeInViewport({ ratio: 1 })
+  await expect(page.locator('.question-panel h1')).toBeInViewport({ ratio: 1 })
+})
 
 for (const query of ['PSYCHO‑PASS', 'ＰＳＹＣＨＯ－ＰＡＳＳ', 'psycho–pass']) {
   test(`copied title typography finds the same first-season library: ${query}`, async ({ page }) => {

@@ -60,6 +60,7 @@ export class AudioEngine {
         this.sfx.connect(this.context.destination)
         this.music.connect(this.context.destination)
         this.applyVolume(true)
+        this.context.addEventListener('statechange', this.handleStateChange)
       }
       return await this.reconcile()
     } catch {
@@ -132,6 +133,7 @@ export class AudioEngine {
   dispose() {
     if (this.disposed) return
     this.disposed = true
+    this.context?.removeEventListener('statechange', this.handleStateChange)
     this.pendingCue = undefined
     this.stopMusic()
     this.stopVoices('sfx')
@@ -141,6 +143,12 @@ export class AudioEngine {
     }
     this.voices.clear()
     void this.context?.close().catch(() => {})
+  }
+
+  private handleStateChange = () => {
+    if (this.disposed) return
+    if (this.context?.state !== 'running') this.stopSfx()
+    this.syncMusic()
   }
 
   private reconcile(): Promise<boolean> {
