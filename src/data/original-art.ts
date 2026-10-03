@@ -1,6 +1,11 @@
 import type { QuizImage } from '../types'
 
 export const originalScenes = {
+  'urban-rider': '霓虹街道、摩托车与消息窗口的原创都市传说示意图',
+  'student-council': '学生会选票、信封与会议桌的原创校园示意图',
+  oddities: '五枚动物剪纸、书页与月亮的原创怪异故事示意图',
+  'walking-castle': '机械足、拼接房屋与炉火的原创移动建筑示意图',
+  anthology: '校园文集、放大镜与线索便笺的原创日常推理示意图',
   abyss: '深层峡谷、探险绳索与发光矿石的原创探窟示意图',
   walls: '高墙、城门与远方烟尘的原创城防示意图',
   pact: '红色晶石、魔法圆环与棋子的原创契约示意图',

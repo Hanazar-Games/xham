@@ -1078,6 +1078,11 @@ describe('catalog additions', () => {
     sources['high-school-dxd'] = /^https:\/\/(?:www\.b-ch\.com\/titles\/3199\/0(?:0[1-9]|1[0-2])|www\.haremking\.tv\/season1\/story\.html\?st=(?:[1-9]|1[0-2]))$/
     sources['fire-force'] = /^https:\/\/fireforce-anime\.jp\/season1\/(?:character\/|story\/(?:[1-9]|1\d|2[0-4])\.php)$/
     sources['clannad'] = /^https:\/\/www\.tbs\.co\.jp\/clannad\/clannad1\/(?:03story\/story\/(?:0[1-9]|1\d|2[0-2])|04chara\/characters\/chara0[0-7])\.html$/
+    sources['durarara'] = /^https:\/\/www\.durarara\.com\/1st\/(?:chara\/|story\/story(?:0[1-9]|1\d|2[0-4])\.html)$/
+    sources['kaguya-sama-season-2'] = /^https:\/\/kaguya\.love\/2nd\/(?:character\/|music\/(?:opening|ending)\/|story\/\?id=(?:0[1-9]|1[0-2]))$/
+    sources['bakemonogatari'] = /^https:\/\/(?:www\.b-ch\.com\/titles\/2774\/0(?:0[1-9]|1[0-5])|www\.monogatari-series\.com\/bakemonogatari\/(?:chara\/(?:c0[2-7]\.html)?|staff\/|music\/|pac\/bd-box\.html))$/
+    sources['howls-moving-castle'] = /^https:\/\/(?:www\.ghibli\.jp\/works\/howl\/|www\.viz\.com\/(?:howl-s-moving-castle|manga-books\/(?:film-comic\/howls-moving-castle-film-comics-volume-[1-4]-0\/product\/50[6-9]|art-book\/art-of-howls-moving-castle\/product\/510))|kinro\.ntv\.co\.jp\/article\/detail\/(?:20241213|2022121601))$/
+    sources['hyouka'] = /^https:\/\/www\.kyotoanimation\.co\.jp\/kotenbu\/(?:character\/|staff-cast\/|interview\/|story\/(?:(?:0[1-9]|1\d|2[0-2])\/)?)$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)

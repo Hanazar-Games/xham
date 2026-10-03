@@ -100,5 +100,10 @@ export const animeSeries: { id: AnimeSeriesId; title: string; subtitle: string; 
   { id: 'high-school-dxd', title: '恶魔高校 D×D 第一季', subtitle: '驹王学园 · 契约与团队', aliases: 'High School DxD Highschool ハイスクールD×D 恶魔高校 高校龙中龙 莉雅丝 莉亚丝 一诚 爱西亚 朱乃 小猫' },
   { id: 'fire-force', title: '炎炎消防队 第一季', subtitle: '第8队 · 调查与救援', aliases: 'Fire Force Enen no Shouboutai 炎炎ノ消防隊 炎炎消防队 森罗 亚瑟 樱备 火绳 红丸 爱丽丝' },
   { id: 'clannad', title: 'CLANNAD 第一季', subtitle: '校园舞台 · 记忆与心意', aliases: 'CLANNAD クラナド 团子大家族 冈崎朋也 古河渚 风子 琴美 杏 椋 智代 春原' },
+  { id: 'durarara', title: '无头骑士异闻录!! 第一季', subtitle: '池袋群像 · 都市传说与组织冲突', aliases: 'Durarara DRRR デュラララ 无头骑士 帝人 正臣 杏里 塞尔提 静雄 临也 Dollars 黄巾贼' },
+  { id: 'kaguya-sama-season-2', title: '辉夜大小姐想让我告白 第二季', subtitle: '学生会选举 · 体育祭与心意', aliases: 'Kaguya-sama Love is War Season 2 かぐや様は告らせたい 辉夜二期 辉夜2 四宫辉夜 白银御行 藤原千花 石上优 伊井野弥子 伊井野御子 大佛小钵' },
+  { id: 'bakemonogatari', title: '化物语', subtitle: '怪异与心愿 · 篇章和创作细节', aliases: 'Bakemonogatari 化物語 阿良良木历 战场原黑仪 八九寺真宵 神原骏河 千石抚子 羽川翼 忍野咩咩 忍野忍' },
+  { id: 'howls-moving-castle', title: '哈尔的移动城堡', subtitle: '2004年电影 · 魔法之家与制作知识', aliases: "Howls Moving Castle Howl's Moving Castle ハウルの動く城 哈尔 霍尔 苏菲 苏西 卡西法 马鲁克 莎莉曼 宫崎骏" },
+  { id: 'hyouka', title: '冰菓', subtitle: '古典部 · 日常谜题与画面细节', aliases: 'Hyouka 氷菓 冰果 古典部 折木奉太郎 千反田爱瑠 千反田爱留 福部里志 伊原摩耶花 入须冬实 神山高校' },
 
 ]

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" fill="none">
+  <rect width="800" height="450" rx="28" fill="#34344e"/>
+  <circle cx="401" cy="188" r="143" fill="#55516e"/>
+  <circle cx="663" cy="88" r="34" fill="#e8cf99"/>
+  <g stroke="#aa98ae" stroke-width="2"><path d="m400 64-225 87 86 162 280 0 85-162Z"/><path d="m175 151 366 162L400 64 261 313l365-162Z"/></g>
+  <g fill="#f4ead6" stroke="#272b42" stroke-width="5" stroke-linejoin="round">
+    <rect x="127" y="109" width="98" height="86" rx="12" transform="rotate(-12 176 152)"/>
+    <rect x="351" y="29" width="98" height="86" rx="12"/>
+    <rect x="577" y="109" width="98" height="86" rx="12" transform="rotate(12 626 152)"/>
+    <rect x="211" y="265" width="98" height="86" rx="12" transform="rotate(-7 260 308)"/>
+    <rect x="491" y="265" width="98" height="86" rx="12" transform="rotate(7 540 308)"/>
+  </g>
+  <g stroke="#7e637e" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <ellipse cx="176" cy="155" rx="19" ry="12" fill="#d89b9e"/><path d="m157 151-17-9 1-12m54 21 17-9-1-12m-54 35-16 8m54-8 16 8"/>
+    <path d="M370 83h53l10-16m-10 16V64m10 3V54"/><circle cx="391" cy="69" r="18" fill="#c4b0d3"/><path d="M392 61c-14 0-11 17 1 14"/>
+    <circle cx="605" cy="151" r="9" fill="#d8b685"/><circle cx="647" cy="151" r="9" fill="#d8b685"/><ellipse cx="626" cy="153" rx="19" ry="22" fill="#d8b685"/>
+    <path d="M237 324c52 12 54-21 20-16-33 6-29-25 6-19" stroke="#7a9b91" stroke-width="10"/>
+    <path d="m518 316 3-28 18 13 18-11 5 29-18 14Z" fill="#aac0cb"/>
+  </g>
+  <g fill="#303348"><circle cx="620" cy="148" r="3"/><circle cx="632" cy="148" r="3"/><circle cx="534" cy="313" r="3"/><circle cx="549" cy="314" r="3"/></g>
+  <path d="M318 364c26-9 56-8 82 4 26-12 56-13 82-4v49c-27-9-56-9-82 2-26-11-55-11-82-2Z" fill="#eee3cd" stroke="#aa98ae" stroke-width="4"/>
+  <path d="M400 369v45" stroke="#aa98ae" stroke-width="3"/>
+  <rect x="18" y="18" width="764" height="414" rx="18" stroke="#ad9bb4" stroke-opacity=".5" stroke-width="2"/>
+</svg>

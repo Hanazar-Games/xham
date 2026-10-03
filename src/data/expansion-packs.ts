@@ -23,6 +23,11 @@ import { titanFinalPartTwoEntries } from './attack-on-titan-final-season-part-2'
 import { highSchoolDxdEntries } from './high-school-dxd'
 import { fireForceEntries } from './fire-force'
 import { clannadEntries } from './clannad'
+import { durararaEntries } from './durarara'
+import { kaguyaSeasonTwoEntries } from './kaguya-sama-season-2'
+import { bakemonogatariEntries } from './bakemonogatari'
+import { howlsCastleEntries } from './howls-moving-castle'
+import { hyoukaEntries } from './hyouka'
 import { fma2003Entries } from './fullmetal-alchemist-2003'
 import { oregairuEntries } from './oregairu-season-1'
 import { haikyuuTwoEntries } from './haikyuu-season-2'
@@ -599,9 +604,54 @@ export const expansionBanks = [
     if (reference < 1 || reference > 22) throw new Error('Clannad episode outside season one')
     return { label: `TBS第一季第 ${reference} 集简介`, url: `https://www.tbs.co.jp/clannad/clannad1/03story/story/${String(reference).padStart(2, '0')}.html` }
   }),
+  bank('durarara', '无头骑士异闻录!! 第一季', '限定2010年电视动画第一季第 1–24 集及同期人物资料，含失踪事件、罪歌与组织冲突剧透；不含第12.5、25集番外、×2续作或小说后续。', durararaEntries, (reference) => {
+    if (reference === 'characters') return { label: '第一季官网人物卡', url: 'https://www.durarara.com/1st/chara/' }
+    if (typeof reference !== 'number' || !Number.isInteger(reference) || reference < 1 || reference > 24) throw new Error('Durarara needs a first-season episode from 1 to 24')
+    return { label: `第一季官网第 ${reference} 集简介`, url: `https://www.durarara.com/1st/story/story${String(reference).padStart(2, '0')}.html` }
+  }),
+  bank('kaguya-sama-season-2', '辉夜大小姐想让我告白 第二季', '限定2020年电视动画第二季第 1–12 集与本季人物、音乐资料，含选举、体育祭和合照事件剧透；不含OVA、第三季、电影及漫画后续。', kaguyaSeasonTwoEntries, (reference) => {
+    if (reference === 'characters') return { label: '第二季官网人物资料', url: 'https://kaguya.love/2nd/character/' }
+    if (reference === 101 || reference === 102) return { label: `第二季官网${reference === 101 ? '片头' : '片尾'}曲资料`, url: `https://kaguya.love/2nd/music/${reference === 101 ? 'opening' : 'ending'}/` }
+    if (typeof reference !== 'number' || !Number.isInteger(reference) || reference < 1 || reference > 12) throw new Error('Kaguya season two needs an episode from 1 to 12')
+    return { label: `第二季官网第 ${reference} 集简介`, url: `https://kaguya.love/2nd/story/?id=${String(reference).padStart(2, '0')}` }
+  }),
+  bank('bakemonogatari', '化物语', '限定2009–2010年动画第 1–15 集（含网络播出的第13–15集）及官网人物、音乐与制作知识，含五个怪异篇章剧透；不混入伤物语、伪物语或其他续篇。', bakemonogatariEntries, (reference) => {
+    if (typeof reference !== 'number' || !Number.isInteger(reference)) throw new Error('Bakemonogatari needs a verified source')
+    if (reference >= 101 && reference <= 107) return { label: '化物语官网人物卡', url: `https://www.monogatari-series.com/bakemonogatari/chara/${reference === 101 ? '' : `c0${reference - 100}.html`}` }
+    if (reference === 201) return { label: '化物语官网制作与配音名单', url: 'https://www.monogatari-series.com/bakemonogatari/staff/' }
+    if (reference === 202) return { label: '化物语官网音乐资料', url: 'https://www.monogatari-series.com/bakemonogatari/music/' }
+    if (reference === 203) return { label: '化物语官网完整蓝光目录', url: 'https://www.monogatari-series.com/bakemonogatari/pac/bd-box.html' }
+    if (reference < 1 || reference > 15) throw new Error('Bakemonogatari episode outside its 15-part run')
+    return { label: `万代频道第 ${reference} 集简介`, url: `https://www.b-ch.com/titles/2774/${String(reference).padStart(3, '0')}` }
+  }),
+  bank('howls-moving-castle', '哈尔的移动城堡', '限定2004年动画电影的公开剧情与制作知识，含诅咒、王宫之行、搬家等剧透；电影漫画仅用于核查电影剧情，不混入原著小说独有设定或舞台改编。', howlsCastleEntries, (reference) => {
+    const sources = [
+      { label: '吉卜力电影作品资料', url: 'https://www.ghibli.jp/works/howl/' },
+      { label: 'VIZ电影系列介绍', url: 'https://www.viz.com/howl-s-moving-castle' },
+      ...[1, 2, 3, 4].map((volume) => ({ label: `VIZ电影漫画第 ${volume} 卷简介`, url: `https://www.viz.com/manga-books/film-comic/howls-moving-castle-film-comics-volume-${volume}-0/product/${505 + volume}` })),
+      { label: 'VIZ官方电影美术书介绍', url: 'https://www.viz.com/manga-books/art-book/art-of-howls-moving-castle/product/510' },
+      { label: '日本电视台电影介绍与制作秘话（2024）', url: 'https://kinro.ntv.co.jp/article/detail/20241213' },
+      { label: '日本电视台电影与演员介绍（2022）', url: 'https://kinro.ntv.co.jp/article/detail/2022121601' },
+    ]
+    if (typeof reference !== 'number' || !Number.isInteger(reference) || reference < 1 || reference > sources.length) throw new Error('Howl needs a verified film source')
+    return sources[reference - 1]!
+  }),
+  bank('hyouka', '冰菓', '限定2012年电视动画第 1–22 集及京阿尼人物、制作访谈，含古典部旧事、电影、文化祭与后期事件剧透；不含第11.5集OVA和小说后续，年代按电视版。', hyoukaEntries, (reference) => {
+    if (reference === 'characters') return { label: '京阿尼古典部人物卡', url: 'https://www.kyotoanimation.co.jp/kotenbu/character/' }
+    if (reference === 101) return { label: '京阿尼故事总览', url: 'https://www.kyotoanimation.co.jp/kotenbu/story/' }
+    if (reference === 102) return { label: '京阿尼制作与配音名单', url: 'https://www.kyotoanimation.co.jp/kotenbu/staff-cast/' }
+    if (reference === 103) return { label: '京阿尼逐集制作访谈', url: 'https://www.kyotoanimation.co.jp/kotenbu/interview/' }
+    if (typeof reference !== 'number' || !Number.isInteger(reference) || reference < 1 || reference > 22) throw new Error('Hyouka needs a television episode from 1 to 22')
+    return { label: `京阿尼第 ${reference} 集简介`, url: `https://www.kyotoanimation.co.jp/kotenbu/story/${String(reference).padStart(2, '0')}/` }
+  }),
 ]
 
 const seriesPresentation: Partial<Record<AnimeSeriesId, { titles: [string, string, string]; scene: OriginalScene }>> = {
+  durarara: { titles: ['人物与池袋入门', '都市传说与行动线索', '调查与组织冲突'], scene: 'urban-rider' },
+  'kaguya-sama-season-2': { titles: ['新学生会与校园入门', '竞选与体育祭', '心意与音乐细节'], scene: 'student-council' },
+  bakemonogatari: { titles: ['人物与怪异入门', '篇章与求助线索', '终盘与创作知识'], scene: 'oddities' },
+  'howls-moving-castle': { titles: ['人物与城堡入门', '旅程与共同生活', '设计与电影制作'], scene: 'walking-castle' },
+  hyouka: { titles: ['古典部与校园入门', '调查与文化祭', '线索与画面细节'], scene: 'anthology' },
   'made-in-abyss': { titles: ['人物与深界入门', '探索与生存线索', '风险与身世辨析'], scene: 'abyss' },
   'attack-on-titan-final-season-part-2': { titles: ['人物与地鸣入门', '继承与能力机制', '限制与阵营辨析'], scene: 'walls' },
   'high-school-dxd': { titles: ['人物与社团入门', '契约与训练线索', '战局与救援辨析'], scene: 'pact' },
