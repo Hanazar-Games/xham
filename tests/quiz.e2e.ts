@@ -136,7 +136,7 @@ for (const [width, height] of [[320, 568], [390, 844], [540, 720], [768, 1024], 
     await page.keyboard.press(String((quiz.questions[0].answer + 1) % 4 + 1))
     await expect(page.getByRole('button', { name: '下一题' })).toBeInViewport({ ratio: 1 })
     await auditLayout(page)
-    await page.getByRole('button', { name: '声音设置' }).click()
+    await page.getByRole('button', { name: '声音设置', exact: true }).click()
     await auditLayout(page)
     await page.keyboard.press('Escape')
     await page.getByRole('button', { name: '退出挑战', exact: true }).click()
@@ -236,7 +236,7 @@ test('a real countdown freezes in dialogs and in the background, then expires on
 
 test('dialog keeps background controls inert and distinguishes an internal drag from a backdrop click', async ({ page }) => {
   await page.goto('/')
-  await page.getByRole('button', { name: '声音设置' }).click()
+  await page.getByRole('button', { name: '声音设置', exact: true }).click()
   for (let index = 0; index < 12; index++) {
     await page.keyboard.press('Tab')
     expect(await page.evaluate(() => document.activeElement === document.body || !!document.activeElement?.closest('dialog'))).toBe(true)
@@ -249,7 +249,7 @@ test('dialog keeps background controls inert and distinguishes an internal drag 
   await expect(page.getByRole('dialog')).toBeVisible()
   await page.mouse.click(2, 2)
   await expect(page.getByRole('dialog')).toHaveCount(0)
-  await expect(page.getByRole('button', { name: '声音设置' })).toBeFocused()
+  await expect(page.getByRole('button', { name: '声音设置', exact: true })).toBeFocused()
   expect(await page.evaluate(() => document.body.style.overflow)).toBe('')
 })
 

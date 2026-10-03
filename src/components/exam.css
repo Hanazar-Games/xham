@@ -9,7 +9,7 @@
 .exam-setup fieldset { border: 0; padding: 0; margin: 16px 0; min-width: 0; }
 .exam-setup legend { font-size: 13px; font-weight: 600; margin-bottom: 8px; }
 .exam-options { display: flex; flex-wrap: wrap; gap: 8px; }
-.exam-options button { border: 1px solid #c8d3bd; background: #fff; color: #405536; border-radius: 8px; min-height: 44px; padding: 10px 16px; }
+.exam-options button { border: 1px solid #c8d3bd; background: #fff; color: #405536; border-radius: 8px; min-height: 44px; padding: 10px 16px; transition: none; }
 .exam-options button small { display: block; font-size: 11px; margin-top: 5px; }
 .exam-options button[aria-pressed='true'] { background: #2d3c29; border-color: #2d3c29; color: #fff; }
 .exam-options button:disabled { color: #73786e; background: #e8ede2; cursor: not-allowed; }

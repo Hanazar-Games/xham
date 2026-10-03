@@ -60,6 +60,34 @@ for (const bank of questionBanks.filter((item) => item.series !== 'crossover')) 
   })
 }
 
+test('difficulty choices remain readable throughout selection changes', async ({ page }) => {
+  await page.goto('/')
+  await page.getByRole('button', { name: '进入专区：Re:0', exact: true }).click()
+  await page.addScriptTag({ content: axe.source })
+  for (const [selector, label] of [
+    ['.exam-options', '困难 15 题可用'],
+    ['.exam-options', '混合 50 题可用'],
+    ['.difficulty-filters', '困难'],
+    ['.difficulty-filters', '全部难度'],
+  ]) {
+    await page.locator(selector).getByRole('button', { name: label, exact: true }).evaluate((button: HTMLButtonElement) => {
+      button.click()
+      for (const animation of document.getAnimations()) {
+        if (animation instanceof CSSTransition && animation.transitionProperty === 'background-color') {
+          animation.pause()
+          animation.currentTime = 0
+        }
+      }
+    })
+    const violations = await page.evaluate(async (selector) =>
+      (await (window as typeof window & { axe: typeof axe }).axe.run(document.querySelector(selector)!, {
+        runOnly: ['color-contrast'],
+      })).violations.map(({ id, nodes }) => ({ id, targets: nodes.map(({ target }) => target) })), selector)
+    expect(violations).toEqual([])
+    await page.evaluate(() => document.getAnimations().forEach((animation) => animation.finish()))
+  }
+})
+
 test('exam settings follow the available pool, reset across IPs and remain accessible on small screens', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 568 })
   await page.goto('/')

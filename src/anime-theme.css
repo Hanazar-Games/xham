@@ -79,3 +79,10 @@
   .showcase-actions button { font-size: 12px; padding: 10px 12px; }
   .showcase-stats { gap: 10px; font-size: 10px; }
 }
+@media (max-width: 400px) {
+  .showcase-copy h2, .showcase-copy p { max-width: none; }
+  .showcase-actions { flex-direction: column; align-items: flex-start; }
+  .showcase-art { top: auto; bottom: 65px; right: 8px; width: 68px; height: 130px; }
+  .showcase-art img { right: 0; bottom: 0; width: 68px; max-width: 100%; }
+  .showcase-orbit, .showcase-star { display: none; }
+}

@@ -38,7 +38,7 @@
 .anime-library-tools > p { color: #596a48; font-size: 12px; line-height: 1.8; }
 .anime-library-tools .secondary-button:disabled { opacity: .55; transform: none; }
 .difficulty-filters { display: flex; gap: 6px; padding: 4px; border: 1px solid #dfe7d6; border-radius: 10px; background: #fff; }
-.difficulty-filters button { padding: 9px 14px; border-radius: 7px; color: #526440; font-size: 12px; min-height: 38px; }
+.difficulty-filters button { padding: 9px 14px; border-radius: 7px; color: #526440; font-size: 12px; min-height: 38px; transition: none; }
 .difficulty-filters button[aria-pressed='true'] { background: #2d3c29; color: #fff; }
 .quiz-library { scroll-margin-top: 24px; }
 .library-heading h2:focus { outline: none; }

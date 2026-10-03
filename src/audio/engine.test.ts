@@ -10,7 +10,7 @@ function audioContext() {
     linearRampToValueAtTime: vi.fn(),
     setTargetAtTime: vi.fn(),
   })
-  const oscillators: { start: ReturnType<typeof vi.fn>; stop: ReturnType<typeof vi.fn> }[] = []
+  const oscillators: { start: ReturnType<typeof vi.fn>; stop: ReturnType<typeof vi.fn>; disconnect: ReturnType<typeof vi.fn> }[] = []
   const gains: ReturnType<typeof parameter>[] = []
   const context = {
     state: 'running',
@@ -53,6 +53,32 @@ function audioContext() {
 afterEach(() => vi.useRealTimers())
 
 describe('audio lifecycle', () => {
+  for (const fading of [false, true]) {
+    it(`disconnects interrupted active voices immediately (${fading ? 'already fading' : 'still playing'})`, async () => {
+      vi.useFakeTimers()
+      const { factory, context, oscillators } = audioContext()
+      const engine = new AudioEngine(factory)
+      await engine.unlock()
+      engine.configure({ music: true })
+      engine.play('correct')
+      context.currentTime = 0.1
+      if (fading) {
+        engine.stopSfx()
+        engine.setPaused(true)
+      }
+      const active = oscillators.filter((note) => note.start.mock.lastCall![0] < context.currentTime)
+      expect(active.length).toBeGreaterThan(0)
+      context.state = 'interrupted'
+      context.dispatchEvent(new Event('statechange'))
+      expect(vi.getTimerCount()).toBe(0)
+      for (const note of active) {
+        expect(note.stop).toHaveBeenLastCalledWith(context.currentTime)
+        expect(note.disconnect).toHaveBeenCalled()
+      }
+      engine.dispose()
+    })
+  }
+
   it('clears interrupted notes and restarts a single music scheduler when the context recovers', async () => {
     vi.useFakeTimers()
     const { factory, context, oscillators } = audioContext()

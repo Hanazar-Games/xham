@@ -100,7 +100,7 @@
 }
 .volume-control input {
   width: 100%;
-  height: 24px;
+  height: 44px;
   accent-color: #86a85c;
   cursor: pointer;
 }
@@ -118,6 +118,20 @@
   color: #876525;
   line-height: 1.8;
   font-size: 12px;
+}
+@media (max-width: 540px) {
+  .dialog:has(.volume-control) .dialog-description { margin-bottom: 8px; }
+  .audio-option { padding: 12px 0; gap: 12px; }
+  .audio-option > div { gap: 10px; }
+  .volume-control { margin: 18px 0 12px; }
+  .dialog:has(.volume-control) .dialog-actions { margin-top: 16px; gap: 8px; }
+  .dialog:has(.volume-control) .dialog-actions button {
+    flex: 1;
+    padding-inline: 10px;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  .audio-note { margin-top: 14px; }
 }
 .dialog button:disabled {
   opacity: 0.45;

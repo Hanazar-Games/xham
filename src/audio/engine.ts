@@ -227,16 +227,18 @@ export class AudioEngine {
 
   private stopVoices(channel: Voice['channel']) {
     const now = this.context?.currentTime ?? 0
+    const running = this.context?.state === 'running'
     for (const voice of this.voices) {
-      if (voice.channel !== channel || voice.stopping) continue
-      voice.stopping = true
-      if (now <= voice.time) {
+      if (voice.channel !== channel) continue
+      if (!running || now <= voice.time) {
         voice.oscillator.stop(now)
         voice.oscillator.disconnect()
         voice.envelope.disconnect()
         this.voices.delete(voice)
         continue
       }
+      if (voice.stopping) continue
+      voice.stopping = true
       const elapsed = now - voice.time
       const gain =
         voice.volume *

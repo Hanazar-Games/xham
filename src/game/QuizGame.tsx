@@ -67,6 +67,7 @@ export function QuizGame({
 
   useEffect(() => () => {
     stopSfx()
+    lastCue.current = ''
     pauseMusic(false)
   }, [pauseMusic, stopSfx])
 
@@ -360,7 +361,7 @@ export function QuizGame({
         <Icon name="sparkles" size={15} />
         每一次思考，都值得一个小小的喝彩。
       </footer>
-      {overlay === 'audio' && <AudioSettings onClose={closeOverlay} />}
+      {overlay === 'audio' && <AudioSettings paused={state.phase === 'paused'} onClose={closeOverlay} />}
       {overlay === 'pause' && (
         <Dialog title="中场休息，冒险稍后继续。" onClose={closeOverlay}>
           <div className="pause-illustration">
