@@ -95,4 +95,10 @@ export const animeSeries: { id: AnimeSeriesId; title: string; subtitle: string; 
   { id: 'my-hero-academia-season-3', title: '我的英雄学院 第三季', subtitle: '合宿与神野 · 临时执照考核', aliases: 'my hero academia 3rd season boku no hero academia 我英 第三季 出久 爆豪 轰 神野 临时执照 夜岚 洸汰' },
   { id: 'your-lie-in-april', title: '四月是你的谎言', subtitle: '电视动画 · 音乐与人物成长', aliases: 'your lie in april shigatsu wa kimi no uso 四月 公生 宫园薰 椿 渡 武士 绘见' },
   { id: 'rezero-season-1', title: 'Re:0 第一季', subtitle: '第一季独立 · 循环调查与救援', aliases: 're0 re:zero re zero first season 1 从零开始的异世界生活 第一季 昴 爱蜜莉雅 雷姆 拉姆 碧翠丝 白鲸' },
+  { id: 'made-in-abyss', title: '来自深渊 第一季', subtitle: '深界探索 · 生存与伙伴', aliases: 'Made in Abyss メイドインアビス 来自深渊 莉可 雷格 娜娜奇 奥森 莱莎' },
+  { id: 'attack-on-titan-final-season-part-2', title: '进击的巨人 最终季 Part 2', subtitle: '第76–87集 · 巨人能力与选择', aliases: 'Attack on Titan The Final Season Part 2 Shingeki 巨人最终季后半部 地鸣 艾伦 吉克 尤弥尔' },
+  { id: 'high-school-dxd', title: '恶魔高校 D×D 第一季', subtitle: '驹王学园 · 契约与团队', aliases: 'High School DxD Highschool ハイスクールD×D 恶魔高校 高校龙中龙 莉雅丝 莉亚丝 一诚 爱西亚 朱乃 小猫' },
+  { id: 'fire-force', title: '炎炎消防队 第一季', subtitle: '第8队 · 调查与救援', aliases: 'Fire Force Enen no Shouboutai 炎炎ノ消防隊 炎炎消防队 森罗 亚瑟 樱备 火绳 红丸 爱丽丝' },
+  { id: 'clannad', title: 'CLANNAD 第一季', subtitle: '校园舞台 · 记忆与心意', aliases: 'CLANNAD クラナド 团子大家族 冈崎朋也 古河渚 风子 琴美 杏 椋 智代 春原' },
+
 ]

@@ -1,6 +1,11 @@
 import type { QuizImage } from '../types'
 
 export const originalScenes = {
+  abyss: '深层峡谷、探险绳索与发光矿石的原创探窟示意图',
+  walls: '高墙、城门与远方烟尘的原创城防示意图',
+  pact: '红色晶石、魔法圆环与棋子的原创契约示意图',
+  'fire-rescue': '消防头盔、水带与城市救援路线的原创示意图',
+  theater: '校园舞台上的帷幕、聚光灯与剧本的原创示意图',
   kitchen: '料理台上的锅、鸡蛋、蔬菜与调味瓶',
   'chamber-music': '舞台上的钢琴、小提琴与琴弓',
   boardgame: '棋盘、两枚棋子、卡片与骰子的桌游示意图',

@@ -1073,6 +1073,11 @@ describe('catalog additions', () => {
     sources['noragami-aragoto'] = /^https:\/\/noragami-anime\.net\/(?:chara\/|story\/detail\.php\?id=(?:1000006|1000014|1000015|1000017|1000025|1000029|1000027|1000031|1000032|1000035|1000036|1000040|1000041))$/
     sources['mushoku-tensei'] = /^https:\/\/www\.b-ch\.com\/titles\/7187\/0(?:0[1-9]|1[01])$/
     sources['bungo-stray-dogs'] = /^https:\/\/www\.b-ch\.com\/titles\/5250\/0(?:0[1-9]|1[0-3])$/
+    sources['made-in-abyss'] = /^https:\/\/miabyss\.com\/(?:intro|story(?:0[1-9]|1[0-3])|chara0[1-6])\.html$/
+    sources['attack-on-titan-final-season-part-2'] = /^https:\/\/shingeki\.tv\/final\/(?:keyword\/|music\/(?:op2|ed2)\/|staff\/|story\/#\/episode\/(?:7[6-9]|8[0-7]))$/
+    sources['high-school-dxd'] = /^https:\/\/(?:www\.b-ch\.com\/titles\/3199\/0(?:0[1-9]|1[0-2])|www\.haremking\.tv\/season1\/story\.html\?st=(?:[1-9]|1[0-2]))$/
+    sources['fire-force'] = /^https:\/\/fireforce-anime\.jp\/season1\/(?:character\/|story\/(?:[1-9]|1\d|2[0-4])\.php)$/
+    sources['clannad'] = /^https:\/\/www\.tbs\.co\.jp\/clannad\/clannad1\/(?:03story\/story\/(?:0[1-9]|1\d|2[0-2])|04chara\/characters\/chara0[0-7])\.html$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
