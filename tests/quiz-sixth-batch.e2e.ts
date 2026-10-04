@@ -43,10 +43,10 @@ for (const [number, alias, title, scene] of additions) {
 test('sixth batch: summary and pending sequel stay consistent', async ({ page }) => {
   await page.goto('/')
   await page.getByRole('button', { name: '查看 200 条目制作目录', exact: true }).click()
-    await expect(page.locator('.catalog-summary')).toContainText('121 / 200')
-    await expect(page.locator('.catalog-summary')).toContainText('6,050 / 10,000')
+    await expect(page.locator('.catalog-summary')).toContainText('131 / 200')
+    await expect(page.locator('.catalog-summary')).toContainText('6,550 / 10,000')
   await page.getByLabel('目录分段').selectOption('6')
-  const pending = page.locator('.catalog-item[data-number="122"]')
+  const pending = page.locator('.catalog-item[data-number="132"]')
   await expect(pending).toContainText('待制作')
   await expect(pending.getByRole('button')).toHaveCount(0)
 })

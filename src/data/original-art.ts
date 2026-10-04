@@ -1,6 +1,7 @@
 import type { QuizImage } from '../types'
 
 export const originalScenes = {
+  'cosplay-sewing': '布料、针线与舞台灯光的角色创作示意图', 'family-bonds': '家庭餐桌、窗光与团子图案的羁绊示意图', 'lost-christmas': '王冠、荆棘与数据碎片的科幻反抗示意图', 'cipher-city': '密码屏幕、城市夜景与双重轨迹的悬疑示意图', 'demon-butler': '黑手套、茶杯与契约印记的执事示意图', 'demon-heart': '破碎心形、红月与恶魔剪影的黑暗示意图', 'sanctuary-loop': '庭院、循环钟表与白色道路的异世界示意图', 'morioh-town': '小镇电线杆、星形徽记与替身轨迹示意图', 'locket-heart': '吊坠、校园信纸与心形锁的恋爱示意图', 'blood-blade': '血色刀刃、雨伞与边界裂缝的幻想示意图',
   'cursed-seal': '咒符、封印匣与城市夜色的术式示意图',
   'maid-cafe': '女仆咖啡、学生会徽章与心形便签的校园示意图',
   'dragon-tail': '龙尾、咖啡杯与现代公寓的日常幻想示意图',

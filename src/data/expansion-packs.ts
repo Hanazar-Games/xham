@@ -9,6 +9,7 @@ import { stardustEntries } from './jojo-stardust-crusaders'
 import { champlooEntries } from './samurai-champloo'
 import { heroSeasonFiveEntries } from './my-hero-academia-season-5'
 import { batchEntries } from './batch-111-121'
+import { batchEntries as batch122Entries } from './batch-122-131'
 import { difficulties, difficultySeconds, type AnimeSeriesId, type Question, type Quiz } from '../types'
 import type { BankQuestion, QuestionBank } from './question-banks'
 import type { ExpansionEntry } from './expansion-entry'
@@ -738,9 +739,13 @@ export const expansionBanks = [
     ['kuroko-basketball', '黑子的篮球', '限定电视动画公开剧情与篮球设定，含剧透。', '诚凛与奇迹世代'],
     ['tokyo-ghoul-re', '东京喰种:re', '限定电视动画公开剧情与喰种设定，含剧透。', 'CCG与喰种冲突'],
   ] as const).map(([series, title, scope, label]) => bank(series as AnimeSeriesId, title, scope, batchEntries[series], () => ({ label: `${label}资料页`, url: `https://www.animenewsnetwork.com/encyclopedia/search/name=${series}` }))),
+  ...([
+    ['dress-up-darling', '更衣人偶坠入爱河', '限定电视动画公开剧情与Cosplay创作，含剧透。', '服装制作与人物资料'], ['clannad-after-story', 'CLANNAD ～After Story～', '限定续篇动画家庭与成长剧情，含剧透。', '光坂高中与家庭资料'], ['guilty-crown', '罪恶王冠', '限定电视动画科幻剧情与人物设定，含剧透。', '失落圣诞与葬仪社资料'], ['terror-in-resonance', '恐怖残响', '限定电视动画悬疑剧情与人物设定，含剧透。', '东京事件与官方资料'], ['black-butler', '黑执事', '限定电视动画公开剧情与契约设定，含剧透。', '凡多姆海伍与执事资料'], ['devilman-crybaby', '恶魔人 Crybaby', '限定电视动画公开剧情与恶魔设定，含剧透。', '恶魔人与人类资料'], ['rezero-season-2', 'Re:从零开始的异世界生活 第二季', '限定第二季动画公开剧情，含剧透。', '圣域与循环资料'], ['jojo-diamond', 'JOJO 不灭钻石', '限定第四部公开剧情与替身设定，含剧透。', '杜王町与替身资料'], ['nisekoi', '伪恋', '限定电视动画校园恋爱剧情，含剧透。', '吊坠与校园资料'], ['beyond-boundary', '境界的彼方', '限定电视动画公开剧情与异界士设定，含剧透。', '血刃与妖梦资料'],
+  ] as const).map(([series, title, scope, label]) => bank(series as AnimeSeriesId, title, scope, batch122Entries[series], () => ({ label: `${label}资料页`, url: `https://www.animenewsnetwork.com/encyclopedia/search/name=${series}` }))),
 ]
 
 const seriesPresentation: Partial<Record<AnimeSeriesId, { titles: [string, string, string]; scene: OriginalScene }>> = {
+  ['dress-up-darling' as AnimeSeriesId]: { titles: ['人物与校园入门', 'Cosplay与制作线索', '创作与关系辨析'], scene: 'cosplay-sewing' }, ['clannad-after-story' as AnimeSeriesId]: { titles: ['人物与家庭入门', '成长与生活线索', '羁绊与选择辨析'], scene: 'family-bonds' }, ['guilty-crown' as AnimeSeriesId]: { titles: ['人物与世界入门', '王之力与行动线索', '身份与阵营辨析'], scene: 'lost-christmas' }, ['terror-in-resonance' as AnimeSeriesId]: { titles: ['少年与事件入门', '密码与调查线索', '身份与动机辨析'], scene: 'cipher-city' }, ['black-butler' as AnimeSeriesId]: { titles: ['人物与契约入门', '执事与调查线索', '身份与代价辨析'], scene: 'demon-butler' }, ['devilman-crybaby' as AnimeSeriesId]: { titles: ['人物与恶魔入门', '融合与冲突线索', '人性与结局辨析'], scene: 'demon-heart' }, ['rezero-season-2' as AnimeSeriesId]: { titles: ['人物与圣域入门', '试炼与循环线索', '选择与代价辨析'], scene: 'sanctuary-loop' }, ['jojo-diamond' as AnimeSeriesId]: { titles: ['人物与小镇入门', '替身与案件线索', '能力与策略辨析'], scene: 'morioh-town' }, ['nisekoi' as AnimeSeriesId]: { titles: ['人物与校园入门', '吊坠与关系线索', '承诺与选择辨析'], scene: 'locket-heart' }, ['beyond-boundary' as AnimeSeriesId]: { titles: ['人物与异界入门', '妖梦与行动线索', '血刃与身份辨析'], scene: 'blood-blade' },
   ['jujutsu-kaisen-season-2' as AnimeSeriesId]: { titles: ['咒术与人物入门', '术式与涩谷线索', '封印与阵营辨析'], scene: 'cursed-seal' },
   ['maid-sama' as AnimeSeriesId]: { titles: ['校园与人物入门', '学生会与女仆线索', '关系与秘密辨析'], scene: 'maid-cafe' },
   ['dragon-maid' as AnimeSeriesId]: { titles: ['龙族与日常入门', '同居与行动线索', '关系与身份辨析'], scene: 'dragon-tail' },
