@@ -1,6 +1,7 @@
 import type { QuizImage } from '../types'
 
 export const originalScenes = {
+  quintessential: '五色丝带、课本与心形便签的校园恋爱示意图', 'rezero2p2': '庭院钟表、白色道路与循环符文的异世界示意图', 'haikyuu-top': '排球、球网与体育馆灯光的比赛示意图', foodwars3: '料理刀、火焰与评审桌的美食竞技示意图', tanya: '军帽、齿轮与空中战线的异世界军务示意图', 'end-evangelion': '巨型机体、城市天际线与橙色警报的科幻示意图', chivalry: '魔剑、学院徽记与竞技场的骑士示意图', 'plastic-memories': '机械心形、终端屏与黄昏公园的记忆示意图', 'oshi-no-ko': '舞台灯、星形眼睛与偶像麦克风的艺能示意图', cyberpunk: '霓虹城市、义体线路与高塔的赛博示意图',
   slime2: '史莱姆王国、魔法晶核与伙伴徽记的异世界示意图', 'solo-leveling': '黑色传送门、等级符文与猎人剪影的升级示意图', 'prison-school': '铁门、校徽与监狱走廊的校园示意图', 'kaguya-ultra': '学生会桌、月亮与心形战术卡的恋爱示意图', wotakoi: '游戏手柄、漫画书与办公室咖啡的恋爱示意图', 'demon-swordsmith': '刀匠锤、山村与日轮刀的锻造示意图', 'rent-girlfriend': '手机预约、海边伞与心形便签的恋爱示意图', 'fairy-tail-2014': '公会徽章、魔法火焰与任务纸的冒险示意图', 'kimi-ni-todoke': '教室窗光、信纸与樱花的青春示意图', 'tower-god': '高塔阶梯、星门与试炼符文的冒险示意图',
   'golden-time': '校园钟表、记忆碎片与秋色长路的青春示意图', 'overlord2': '地下大坟墓、王冠与蜥蜴人纹样的异世界示意图', 'k-on': '吉他、茶杯与放学后乐谱的音乐示意图', weathering: '雨云、晴空与透明伞的城市天气示意图', magi: '迷宫、金属器与沙漠商路的冒险示意图', 'spy-family2': '家庭餐桌、任务文件与秘密徽章的间谍示意图', 'date-live': '时钟、空间裂纹与约会便签的幻想示意图', 'black-lagoon': '快艇、港口霓虹与双枪轮廓的犯罪示意图', mushoku2: '魔杖、旅途地图与异世界篝火的成长示意图', pancreas: '病历、校舍窗光与樱花便签的电影示意图',
   'my-little-monster': '课桌、书本与校园便签的青春示意图',
