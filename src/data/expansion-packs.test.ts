@@ -1093,6 +1093,7 @@ describe('catalog additions', () => {
     sources['jojo-stardust-crusaders'] = /^https:\/\/www\.b-ch\.com\/titles\/4080\/0(?:0[1-9]|1\d|2[0-4])$/
     sources['samurai-champloo'] = /^https:\/\/www\.b-ch\.com\/titles\/328\/0(?:0[1-9]|1\d|2[0-6])$/
     sources['my-hero-academia-season-5'] = /^https:\/\/www\.b-ch\.com\/titles\/7275\/0(?:0[1-9]|1\d|2[0-5])$/
+    for (const series of ['jujutsu-kaisen-season-2', 'maid-sama', 'dragon-maid', 'pet-girl-sakurasou', 'dragon-ball-z', 'haikyuu-season-3', 'deadman-wonderland', 'monster', 'kuroko-basketball', 'tokyo-ghoul-re']) sources[series] = /^https:\/\/www\.animenewsnetwork\.com\/encyclopedia\/search\/name=/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)

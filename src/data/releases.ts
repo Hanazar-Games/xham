@@ -13,8 +13,8 @@ interface Release {
 export const currentRelease: Release = {
   version: manifest.version,
   date: '2026-10-04',
-  title: '十部新题库，新增500道配图题',
-  summary: `新增中二病、终结的炽天使、实教、小圆、东复、幽灵公主、多罗罗、JOJO星尘斗士、混沌武士和我英第五季，全站${questionBanks.reduce((total, bank) => total + bank.questions.length, 0)}题、${quizzes.length}套练习卷。`,
+  title: '再添十部题库，新增500道配图题',
+  summary: `新增咒术回战第二季、会长是女仆大人、小林家的龙女仆、樱花庄、龙珠Z、排球少年第三季、死囚乐园、MONSTER、黑子的篮球和东京喰种:re，全站${questionBanks.reduce((total, bank) => total + bank.questions.length, 0)}题、${quizzes.length}套练习卷。`,
   changes: [
     '每部独立50题，简单18、中等17、困难15；新增30套练习卷和10个完整50题考试入口。',
     '500题均配本地原创示意图、独立解析及资料来源，新增十幅主题插画；主题图按题材复用。',

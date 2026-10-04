@@ -8,6 +8,7 @@ import { dororoEntries } from './dororo'
 import { stardustEntries } from './jojo-stardust-crusaders'
 import { champlooEntries } from './samurai-champloo'
 import { heroSeasonFiveEntries } from './my-hero-academia-season-5'
+import { batchEntries } from './batch-111-121'
 import { difficulties, difficultySeconds, type AnimeSeriesId, type Question, type Quiz } from '../types'
 import type { BankQuestion, QuestionBank } from './question-banks'
 import type { ExpansionEntry } from './expansion-entry'
@@ -725,9 +726,31 @@ export const expansionBanks = [
     if (typeof reference !== 'number' || !Number.isInteger(reference) || reference < 89 || reference > 113) throw new Error('my-hero-academia-season-5 source outside its scope')
     return { label: `万代频道第 ${reference} 集简介（我的英雄学院 第五季）`, url: `https://www.b-ch.com/titles/7275/${String(reference - 88).padStart(3, '0')}` }
   }),
+  ...([
+    ['jujutsu-kaisen-season-2', '咒术回战 第二季', '限定第二季动画公开剧情与角色设定，含剧透。', '涩谷事变与术式资料'],
+    ['maid-sama', '会长是女仆大人！', '限定电视动画公开剧情与校园人物，含剧透。', '星华高中与女仆咖啡'],
+    ['dragon-maid', '小林家的龙女仆', '限定电视动画公开剧情与日常人物，含剧透。', '龙族与现代生活'],
+    ['pet-girl-sakurasou', '樱花庄的宠物女孩', '限定电视动画公开剧情与创作主题，含剧透。', '樱花庄与青春创作'],
+    ['dragon-ball-z', '龙珠Z', '限定动画公开剧情与经典战斗设定，含剧透。', '七龙珠与赛亚人'],
+    ['haikyuu-season-3', '排球少年 第三季', '限定第三季白鸟泽决赛篇公开剧情，含剧透。', '乌野与白鸟泽'],
+    ['deadman-wonderland', '死囚乐园', '限定电视动画公开剧情与罪之枝设定，含剧透。', '监狱乐园与生存战'],
+    ['monster', 'MONSTER', '限定电视动画公开剧情与人物主题，含剧透。', '天马与欧洲悬疑'],
+    ['kuroko-basketball', '黑子的篮球', '限定电视动画公开剧情与篮球设定，含剧透。', '诚凛与奇迹世代'],
+    ['tokyo-ghoul-re', '东京喰种:re', '限定电视动画公开剧情与喰种设定，含剧透。', 'CCG与喰种冲突'],
+  ] as const).map(([series, title, scope, label]) => bank(series as AnimeSeriesId, title, scope, batchEntries[series], () => ({ label: `${label}资料页`, url: `https://www.animenewsnetwork.com/encyclopedia/search/name=${series}` }))),
 ]
 
 const seriesPresentation: Partial<Record<AnimeSeriesId, { titles: [string, string, string]; scene: OriginalScene }>> = {
+  ['jujutsu-kaisen-season-2' as AnimeSeriesId]: { titles: ['咒术与人物入门', '术式与涩谷线索', '封印与阵营辨析'], scene: 'cursed-seal' },
+  ['maid-sama' as AnimeSeriesId]: { titles: ['校园与人物入门', '学生会与女仆线索', '关系与秘密辨析'], scene: 'maid-cafe' },
+  ['dragon-maid' as AnimeSeriesId]: { titles: ['龙族与日常入门', '同居与行动线索', '关系与身份辨析'], scene: 'dragon-tail' },
+  ['pet-girl-sakurasou' as AnimeSeriesId]: { titles: ['住户与校园入门', '创作与成长线索', '选择与关系辨析'], scene: 'sakura-room' },
+  ['dragon-ball-z' as AnimeSeriesId]: { titles: ['七龙珠与人物入门', '赛亚人与战斗线索', '能力与阵营辨析'], scene: 'seven-orbs' },
+  ['haikyuu-season-3' as AnimeSeriesId]: { titles: ['乌野与赛场入门', '白鸟泽与战术线索', '位置与局势辨析'], scene: 'volleyball-court' },
+  ['deadman-wonderland' as AnimeSeriesId]: { titles: ['监狱与人物入门', '罪之枝与生存线索', '能力与代价辨析'], scene: 'prison-carnival' },
+  ['monster' as AnimeSeriesId]: { titles: ['医生与人物入门', '欧洲与追查线索', '人性与证据辨析'], scene: 'european-train' },
+  ['kuroko-basketball' as AnimeSeriesId]: { titles: ['球员与学校入门', '奇迹世代与比赛', '位置与战术辨析'], scene: 'basketball-court' },
+  ['tokyo-ghoul-re' as AnimeSeriesId]: { titles: ['CCG与人物入门', 'Qs与身份线索', '能力与阵营辨析'], scene: 'ghoul-mask' },
   'chunibyo-season-1': { titles: ['人物与校园入门', '幻想与心意', '人物细节与制作'], scene: 'eyepatch' },
   'seraph-of-the-end': { titles: ['月鬼组入门', '契约与新宿战役', '身份与制作知识'], scene: 'blood-moon' },
   'classroom-of-the-elite': { titles: ['校园制度入门', '证言与无人岛', '班级关系与制作'], scene: 'merit-class' },

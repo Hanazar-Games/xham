@@ -1,6 +1,16 @@
 import type { QuizImage } from '../types'
 
 export const originalScenes = {
+  'cursed-seal': '咒符、封印匣与城市夜色的术式示意图',
+  'maid-cafe': '女仆咖啡、学生会徽章与心形便签的校园示意图',
+  'dragon-tail': '龙尾、咖啡杯与现代公寓的日常幻想示意图',
+  'sakura-room': '樱花宿舍、画板与电脑的青春创作示意图',
+  'seven-orbs': '七颗光球、武道台与星空的冒险示意图',
+  'volleyball-court': '排球网、球鞋与体育馆灯光的比赛示意图',
+  'prison-carnival': '监狱围栏、红色血滴与游乐园灯牌的生存示意图',
+  'european-train': '欧洲列车、手术灯与长路的悬疑示意图',
+  'basketball-court': '篮球、球场线与五枚战术磁贴的运动示意图',
+  'ghoul-mask': '面具、霓虹街道与黑红纹理的都市异闻示意图',
   'eyepatch': '眼罩、幻想手记与星星的校园幻想示意图',
   'blood-moon': '红月、城垣与交叉训练剑的夜战示意图',
   'merit-class': '课堂积分卡、分班阶梯与棋子的校园制度示意图',

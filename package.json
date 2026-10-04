@@ -1,7 +1,7 @@
 {
   "name": "quizpop",
   "private": true,
-  "version": "0.102.0",
+  "version": "0.103.0",
   "type": "module",
   "engines": {
     "node": "^20.19.0 || >=22.12.0"
