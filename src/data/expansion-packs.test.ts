@@ -1096,6 +1096,7 @@ describe('catalog additions', () => {
     for (const series of ['jujutsu-kaisen-season-2', 'maid-sama', 'dragon-maid', 'pet-girl-sakurasou', 'dragon-ball-z', 'haikyuu-season-3', 'deadman-wonderland', 'monster', 'kuroko-basketball', 'tokyo-ghoul-re']) sources[series] = /^https:\/\/www\.animenewsnetwork\.com\/encyclopedia\/search\/name=/
     for (const series of ['dress-up-darling', 'clannad-after-story', 'guilty-crown', 'terror-in-resonance', 'black-butler', 'devilman-crybaby', 'rezero-season-2', 'jojo-diamond', 'nisekoi', 'beyond-boundary']) sources[series] = /^https:\/\/www\.animenewsnetwork\.com\/encyclopedia\/search\/name=/
     for (const series of ['saiki-k', 'jojo-egypt', 'goblin-slayer', 'ouran', 'jjk0', 'foodwars2', 'seven-sins2', 'fate-zero2', 'drstone2', 'log-horizon']) sources[series] = /^https:\/\/www\.animenewsnetwork\.com\/encyclopedia\/search\/name=/
+    for (const series of ['ubw', 'little-monster', 'totoro', 'oregairu2', 'jojo-golden', 'gintama', 'mahoukoukou', 'alicization', 'dragonball', 'relife']) sources[series] = /^https:\/\/www\.animenewsnetwork\.com\/encyclopedia\/search\/name=/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
