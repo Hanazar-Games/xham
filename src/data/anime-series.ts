@@ -106,4 +106,14 @@ export const animeSeries: { id: AnimeSeriesId; title: string; subtitle: string; 
   { id: 'howls-moving-castle', title: '哈尔的移动城堡', subtitle: '2004年电影 · 魔法之家与制作知识', aliases: "Howls Moving Castle Howl's Moving Castle ハウルの動く城 哈尔 霍尔 苏菲 苏西 卡西法 马鲁克 莎莉曼 宫崎骏" },
   { id: 'hyouka', title: '冰菓', subtitle: '古典部 · 日常谜题与画面细节', aliases: 'Hyouka 氷菓 冰果 古典部 折木奉太郎 千反田爱瑠 千反田爱留 福部里志 伊原摩耶花 入须冬实 神山高校' },
 
+  { id: 'chunibyo-season-1', title: '中二病也要谈恋爱！ 第一季', subtitle: '幻想与校园 · 心意及制作知识', aliases: "Love Chunibyo Other Delusions 中二病でも恋がしたい 中二病第一季 中二病一期 勇太 六花 凸守 森夏 Love, Chunibyo & Other Delusions!" },
+  { id: 'seraph-of-the-end', title: '终结的炽天使 第一部分', subtitle: '月鬼组 · 契约与新宿战役', aliases: 'Seraph of the End 終わりのセラフ 终结的炽天使 优一郎 米迦尔 红莲 筱娅' },
+  { id: 'classroom-of-the-elite', title: '欢迎来到实力至上主义的教室 第一季', subtitle: 'D班 · 积分、证言与无人岛', aliases: 'Classroom of the Elite ようこそ実力至上主義の教室へ 实教 实力至上 绫小路 堀北 龙园' },
+  { id: 'madoka-magica', title: '魔法少女小圆 2011电视版', subtitle: '契约与心意 · 代价及创作知识', aliases: 'Puella Magi Madoka Magica 魔法少女まどか マギカ 小圆 鹿目圆 晓美焰 麻美 沙耶香 杏子 丘比' },
+  { id: 'tokyo-revengers', title: '东京复仇者 第一季', subtitle: '十二年前 · 救援与时间线', aliases: 'Tokyo Revengers 東京リベンジャーズ 东复 东京卍复仇者 武道 日向 直人 Mikey Draken 场地 千冬' },
+  { id: 'princess-mononoke', title: '幽灵公主', subtitle: '1997电影 · 森林、制作与音乐', aliases: 'Princess Mononoke もののけ姫 魔法公主 阿席达卡 珊 黑帽 宫崎骏 久石让' },
+  { id: 'dororo', title: '多罗罗 2019版', subtitle: '十二鬼神 · 身体与旅途', aliases: 'Dororo どろろ 多罗罗 2019 百鬼丸 多宝丸 景光 寿海 琵琶丸' },
+  { id: 'jojo-stardust-crusaders', title: 'JOJO的奇妙冒险 星尘斗士 前半部', subtitle: '第1–24集 · 替身与远行', aliases: "JoJo Bizarre Adventure Stardust Crusaders ジョジョ スターダストクルセイダース 星尘斗士 星尘远征军 承太郎 花京院 波鲁那雷夫 JoJo's Bizarre Adventure: Stardust Crusaders" },
+  { id: 'samurai-champloo', title: '混沌武士', subtitle: '向日葵之旅 · 委托与抉择', aliases: 'Samurai Champloo サムライチャンプルー 琉球狂侍 混沌武士 无幻 仁 风' },
+  { id: 'my-hero-academia-season-5', title: '我的英雄学院 第五季', subtitle: '联合训练 · 实习与敌联盟', aliases: 'My Hero Academia 5th Season 僕のヒーローアカデミア 第5期 我英第五季 英雄学院 mha 心操 黑鞭 泥花市' },
 ]

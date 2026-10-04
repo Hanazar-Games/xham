@@ -1,6 +1,17 @@
 import type { QuizImage } from '../types'
 
 export const originalScenes = {
+  'eyepatch': '眼罩、幻想手记与星星的校园幻想示意图',
+  'blood-moon': '红月、城垣与交叉训练剑的夜战示意图',
+  'merit-class': '课堂积分卡、分班阶梯与棋子的校园制度示意图',
+  'soul-gem': '抽象宝石、花瓣与天平的魔法代价示意图',
+  'time-rider': '双轮车、钟面与回环道路的时间旅行示意图',
+  'forest-spirit': '森林、鹿角轮廓与暖色炉火的自然共存示意图',
+  'prosthetic-sword': '义肢工坊、刀具与山路的修复旅途示意图',
+  'star-journey': '星形罗盘、旅行箱与远行地图的冒险示意图',
+  'sunflower': '向日葵、旅行斗笠与唱片的旅途音乐示意图',
+  'hero-training': '护目镜、团队锥筒与训练路线的英雄训练示意图',
+
   'urban-rider': '霓虹街道、摩托车与消息窗口的原创都市传说示意图',
   'student-council': '学生会选票、信封与会议桌的原创校园示意图',
   oddities: '五枚动物剪纸、书页与月亮的原创怪异故事示意图',

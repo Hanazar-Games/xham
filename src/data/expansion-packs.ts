@@ -1,3 +1,13 @@
+import { chunibyoEntries } from './chunibyo-season-1'
+import { seraphEntries } from './seraph-of-the-end'
+import { classroomEntries } from './classroom-of-the-elite'
+import { madokaEntries } from './madoka-magica'
+import { tokyoRevengersEntries } from './tokyo-revengers'
+import { mononokeEntries } from './princess-mononoke'
+import { dororoEntries } from './dororo'
+import { stardustEntries } from './jojo-stardust-crusaders'
+import { champlooEntries } from './samurai-champloo'
+import { heroSeasonFiveEntries } from './my-hero-academia-season-5'
 import { difficulties, difficultySeconds, type AnimeSeriesId, type Question, type Quiz } from '../types'
 import type { BankQuestion, QuestionBank } from './question-banks'
 import type { ExpansionEntry } from './expansion-entry'
@@ -644,9 +654,90 @@ export const expansionBanks = [
     if (typeof reference !== 'number' || !Number.isInteger(reference) || reference < 1 || reference > 22) throw new Error('Hyouka needs a television episode from 1 to 22')
     return { label: `京阿尼第 ${reference} 集简介`, url: `https://www.kyotoanimation.co.jp/kotenbu/story/${String(reference).padStart(2, '0')}/` }
   }),
+  bank('chunibyo-season-1', '中二病也要谈恋爱！ 第一季', '限定2012年电视动画第一季第 1–12 集、同期人物及制作资料，含关系变化与最终集剧透；不含番外、第二季和电影。', chunibyoEntries, (reference) => {
+    if (reference === 201) return { label: '第一季官网制作与配音名单', url: 'https://www.anime-chu-2.com/tv/staff-cast/' }
+    if (typeof reference === 'number' && Number.isInteger(reference) && reference >= 101 && reference <= 111) {
+      const characters = ['yuta', 'rikka', 'nibutani', 'kumin', 'dekomori', 'yuta_mom', 'kuzuha', 'yumeha', 'isshiki', 'nanase', 'toka']
+      return { label: '第一季官网人物卡（含图中文字）', url: `https://www.anime-chu-2.com/tv/character/${characters[reference - 101]}/` }
+    }
+    if (typeof reference !== 'number' || !Number.isInteger(reference) || reference < 1 || reference > 12) throw new Error('chunibyo-season-1 source outside its scope')
+    return { label: `万代频道第 ${reference} 集简介（中二病也要谈恋爱！ 第一季）`, url: `https://www.b-ch.com/titles/3630/${String(reference).padStart(3, '0')}` }
+  }),
+  bank('seraph-of-the-end', '终结的炽天使 第一部分', '限定2015年电视动画第一部分第 1–12 集及其中人物、制作知识，含吸血鬼身份与新宿战役剧透；不混入第13集起的名古屋决战篇或漫画后续。', seraphEntries, (reference) => {
+    if (reference === 201) return { label: '官网制作与配音名单', url: 'https://owarino-seraph.jp/staff/index.html' }
+    if (typeof reference === 'number' && Number.isInteger(reference) && reference >= 101 && reference <= 110) {
+      const characters = ['yu', 'mika', 'guren', 'shinoa', 'yoichi', 'kimizuki', 'mitsuba', 'ferid', 'krul', 'asuramaru']
+      return { label: '官网人物资料（页面含后半部信息）', url: `https://owarino-seraph.jp/chara/${characters[reference - 101]}.html` }
+    }
+    if (typeof reference !== 'number' || !Number.isInteger(reference) || reference < 1 || reference > 12) throw new Error('seraph-of-the-end source outside its scope')
+    return { label: `万代频道第 ${reference} 集简介（终结的炽天使 第一部分）`, url: `https://www.b-ch.com/titles/4529/${String(reference).padStart(3, '0')}` }
+  }),
+  bank('classroom-of-the-elite', '欢迎来到实力至上主义的教室 第一季', '限定2017年电视动画第一季第 1–12 集及同期人物、制作资料，含积分规则、须藤事件和无人岛考试剧透；不含第二季或小说后续。', classroomEntries, (reference) => {
+    if (reference === 'characters') return { label: '第一季官网人物资料', url: 'https://you-zitsu.com/1st/character/' }
+    if (reference === 201) return { label: '第一季官网制作与配音名单', url: 'https://you-zitsu.com/1st/staffcast/' }
+    if (typeof reference !== 'number' || !Number.isInteger(reference) || reference < 1 || reference > 12) throw new Error('classroom-of-the-elite source outside its scope')
+    return { label: `万代频道第 ${reference} 集简介（欢迎来到实力至上主义的教室 第一季）`, url: `https://www.b-ch.com/titles/5689/${String(reference).padStart(3, '0')}` }
+  }),
+  bank('madoka-magica', '魔法少女小圆 2011电视版', '限定2011年原版电视动画第 1–12 集及其制作音乐资料，含灵魂宝石、魔女与人物命运重大剧透；不混入电影、外传或2025年电影重剪TV Edition。', madokaEntries, (reference) => {
+    if (reference === 'characters') return { label: '2011原版动画官网人物资料', url: 'https://www.madoka-magica.com/tv/youtube-streaming/character/' }
+    if (reference === 101) return { label: '2011原版动画官网故事介绍', url: 'https://www.madoka-magica.com/tv/youtube-streaming/' }
+    if (reference === 201) return { label: '2011原版动画官网制作及音乐名单', url: 'https://www.madoka-magica.com/tv/youtube-streaming/staff/' }
+    if (typeof reference !== 'number' || !Number.isInteger(reference) || reference < 1 || reference > 12) throw new Error('madoka-magica source outside its scope')
+    return { label: `万代频道第 ${reference} 集简介（魔法少女小圆 2011电视版）`, url: `https://www.b-ch.com/titles/3071/${String(reference).padStart(3, '0')}` }
+  }),
+  bank('tokyo-revengers', '东京复仇者 第一季', '限定2021年电视动画第一季第 1–24 集，含八三抗争、血色万圣节和时间线变化剧透；原时间线与介入后按题干区分，不含圣夜决战及天竺篇。', tokyoRevengersEntries, (reference) => {
+    if (typeof reference !== 'number' || !Number.isInteger(reference) || reference < 1 || reference > 24) throw new Error('tokyo-revengers source outside its scope')
+    return { label: `万代频道第 ${reference} 集简介（东京复仇者 第一季）`, url: `https://www.b-ch.com/titles/7265/${String(reference).padStart(3, '0')}` }
+  }),
+  bank('princess-mononoke', '幽灵公主', '限定1997年动画电影的公开剧情、配音、制作日志及1998年交响组曲知识，含诅咒与森林冲突剧透；电影漫画仅核对影片剧情，不含早期绘本的不同故事。', mononokeEntries, (reference) => {
+    const sources = [
+      { label: '吉卜力电影作品资料', url: 'https://www.ghibli.jp/works/mononoke/' },
+      { label: '日本电视台电影介绍（2025年文章）', url: 'https://kinro.ntv.co.jp/article/detail/20250725' },
+      { label: '日本电视台电影介绍（2023年文章）', url: 'https://kinro.ntv.co.jp/article/detail/20230616' },
+      { label: 'VIZ电影漫画合订本简介', url: 'https://www.viz.com/manga-books/manga/princess-mononoke-film-comic-all-in-one-edition/product/8678' },
+      { label: 'VIZ电影漫画第2卷简介', url: 'https://www.viz.com/manga-books/film-comic/princess-mononoke-film-comics-volume-2-0/product/738' },
+      { label: 'VIZ电影漫画第3卷简介', url: 'https://www.viz.com/manga-books/film-comic/princess-mononoke-film-comics-volume-3-0/product/739' },
+      { label: 'VIZ电影漫画第4卷简介', url: 'https://www.viz.com/manga-books/film-comic/princess-mononoke-film-comics-volume-4-0/product/740' },
+      { label: 'VIZ电影漫画第5卷简介', url: 'https://www.viz.com/manga-books/film-comic/princess-mononoke-film-comics-volume-5-0/product/741' },
+      { label: '吉卜力1997年2月制作日志', url: 'https://www.ghibli.jp/diary_m/972.html' },
+      { label: '吉卜力1997年3月制作日志', url: 'https://www.ghibli.jp/diary_m/973.html' },
+      { label: '吉卜力1997年4月制作日志', url: 'https://www.ghibli.jp/diary_m/974.html' },
+      { label: '吉卜力1997年6月制作日志', url: 'https://www.ghibli.jp/diary_m/976.html' },
+      { label: '吉卜力1998年交响组曲录音记录', url: 'https://www.ghibli.jp/diary_m/ceska/' },
+    ]
+    if (typeof reference !== 'number' || !Number.isInteger(reference) || reference < 1 || reference > sources.length) throw new Error('Mononoke needs a verified film or production source')
+    return sources[reference - 1]
+  }),
+  bank('dororo', '多罗罗 2019版', '限定2019年电视动画第 1–24 集及官网人物资料，含身世、十二鬼神与醍醐城之战剧透；不混用1969年动画或漫画的身体部位数量。', dororoEntries, (reference) => {
+    if (reference === 'characters') return { label: '2019版官网人物资料', url: 'https://dororo-anime.com/character.html' }
+    if (typeof reference !== 'number' || !Number.isInteger(reference) || reference < 1 || reference > 24) throw new Error('dororo source outside its scope')
+    return { label: `万代频道第 ${reference} 集简介（多罗罗 2019版）`, url: `https://www.b-ch.com/titles/7546/${String(reference).padStart(3, '0')}` }
+  }),
+  bank('jojo-stardust-crusaders', 'JOJO的奇妙冒险 星尘斗士 前半部', '限定2014年《星尘斗士》前半部第 1–24 集，含替身能力与旅途袭击剧透；不含第25集起的埃及篇、OVA或后续部数。', stardustEntries, (reference) => {
+    if (typeof reference !== 'number' || !Number.isInteger(reference) || reference < 1 || reference > 24) throw new Error('jojo-stardust-crusaders source outside its scope')
+    return { label: `万代频道第 ${reference} 集简介（JOJO的奇妙冒险 星尘斗士 前半部）`, url: `https://www.b-ch.com/titles/4080/${String(reference).padStart(3, '0')}` }
+  }),
+  bank('samurai-champloo', '混沌武士', '限定2004–2005年电视动画第 1–26 集的正版分集剧情，含旅途往事与终章交战剧透；不采用未核验的终局细节或漫画独有情节。', champlooEntries, (reference) => {
+    if (typeof reference !== 'number' || !Number.isInteger(reference) || reference < 1 || reference > 26) throw new Error('samurai-champloo source outside its scope')
+    return { label: `万代频道第 ${reference} 集简介（混沌武士）`, url: `https://www.b-ch.com/titles/328/${String(reference).padStart(3, '0')}` }
+  }),
+  bank('my-hero-academia-season-5', '我的英雄学院 第五季', '限定电视动画第五季累计第 89–113 集，含联合训练、黑鞭、事务所实习和敌联盟篇剧透；按动画播出顺序并注明回忆时间，不含第六季、OVA或电影。', heroSeasonFiveEntries, (reference) => {
+    if (typeof reference !== 'number' || !Number.isInteger(reference) || reference < 89 || reference > 113) throw new Error('my-hero-academia-season-5 source outside its scope')
+    return { label: `万代频道第 ${reference} 集简介（我的英雄学院 第五季）`, url: `https://www.b-ch.com/titles/7275/${String(reference - 88).padStart(3, '0')}` }
+  }),
 ]
 
 const seriesPresentation: Partial<Record<AnimeSeriesId, { titles: [string, string, string]; scene: OriginalScene }>> = {
+  'chunibyo-season-1': { titles: ['人物与校园入门', '幻想与心意', '人物细节与制作'], scene: 'eyepatch' },
+  'seraph-of-the-end': { titles: ['月鬼组入门', '契约与新宿战役', '身份与制作知识'], scene: 'blood-moon' },
+  'classroom-of-the-elite': { titles: ['校园制度入门', '证言与无人岛', '班级关系与制作'], scene: 'merit-class' },
+  'madoka-magica': { titles: ['魔法少女入门', '契约与心意', '记忆与制作知识'], scene: 'soul-gem' },
+  'tokyo-revengers': { titles: ['东卍人物入门', '抗争与营救', '时间线与旧日约定'], scene: 'time-rider' },
+  'princess-mononoke': { titles: ['人物与电影入门', '森林冲突与配音', '声音与制作探究'], scene: 'forest-spirit' },
+  'dororo': { titles: ['旅人与身世入门', '鬼神与行动', '人物细节与醍醐城'], scene: 'prosthetic-sword' },
+  'jojo-stardust-crusaders': { titles: ['替身与伙伴入门', '远行与敌袭', '条件与线索辨析'], scene: 'star-journey' },
+  'samurai-champloo': { titles: ['三人旅途入门', '委托与往事', '旅途细节与终章'], scene: 'sunflower' },
+  'my-hero-academia-season-5': { titles: ['联合训练入门', '配合与能力', '实习与敌联盟'], scene: 'hero-training' },
   durarara: { titles: ['人物与池袋入门', '都市传说与行动线索', '调查与组织冲突'], scene: 'urban-rider' },
   'kaguya-sama-season-2': { titles: ['新学生会与校园入门', '竞选与体育祭', '心意与音乐细节'], scene: 'student-council' },
   bakemonogatari: { titles: ['人物与怪异入门', '篇章与求助线索', '终盘与创作知识'], scene: 'oddities' },

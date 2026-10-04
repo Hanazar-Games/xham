@@ -623,10 +623,10 @@ test('My Hero Academia preserves season one with fifty illustrated exam question
   const dialog = page.getByRole('dialog')
   await dialog.getByLabel('目录分段').selectOption('all')
   await dialog.getByLabel('目录作品搜索').fill('My Hero Academia')
-  await expect(dialog.getByRole('button', { name: /^进入题库：/ })).toHaveCount(4)
+  await expect(dialog.getByRole('button', { name: /^进入题库：/ })).toHaveCount(5)
   await expect(dialog.locator('[data-number="25"]')).toContainText('50 / 50')
   for (const number of [110]) {
-    await expect(dialog.locator(`[data-number="${number}"]`)).toContainText('待制作')
+    await expect(dialog.locator(`[data-number="${number}"]`)).toContainText('50 / 50')
   }
   await dialog.getByRole('button', { name: '进入题库：My Hero Academia', exact: true }).click()
   await expect(page.locator('#exam-title')).toHaveText('我的英雄学院 第一季 · 模拟考试')
@@ -638,7 +638,7 @@ test('My Hero Academia preserves season one with fifty illustrated exam question
   await page.keyboard.press('Escape')
   await page.getByRole('button', { name: '全部专区', exact: true }).click()
   await page.getByRole('textbox', { name: '搜索 Quiz' }).fill('我英')
-  await expect(page.locator('.quiz-card')).toHaveCount(12)
+  await expect(page.locator('.quiz-card')).toHaveCount(15)
 })
 
 test('catalog preserves all ten batches and only opens existing question banks', async ({ page }) => {
@@ -647,8 +647,8 @@ test('catalog preserves all ten batches and only opens existing question banks',
   await opener.click()
   const dialog = page.getByRole('dialog', { name: '动漫题库制作目录' })
   await expect(dialog.locator('.catalog-item')).toHaveCount(20)
-  await expect(dialog.locator('.catalog-summary')).toContainText('101 / 200')
-  await expect(dialog.locator('.catalog-summary')).toContainText('5,050 / 10,000')
+  await expect(dialog.locator('.catalog-summary')).toContainText('111 / 200')
+  await expect(dialog.locator('.catalog-summary')).toContainText('5,550 / 10,000')
   await expect(dialog.locator('.catalog-item').first()).toContainText('Attack on Titan')
   await expect(dialog.locator('.catalog-item').first().getByRole('button')).toHaveCount(1)
   for (let batch = 1; batch <= 10; batch++) {
@@ -1104,7 +1104,7 @@ test('jojo-2012 TV bank opens fifty illustrated questions on mobile', async ({ p
 })
 
 
-test('JoJo completes batch three while later JoJo arcs stay planned', async ({ page }) => {
+test('JoJo opens Stardust Crusaders while its later arcs stay planned', async ({ page }) => {
   await page.goto('/')
   await page.getByRole('button', { name: '查看 200 条目制作目录', exact: true }).click()
   const dialog = page.getByRole('dialog')
@@ -1115,10 +1115,11 @@ test('JoJo completes batch three while later JoJo arcs stay planned', async ({ p
   await dialog.getByLabel('目录分段').selectOption('all')
   await dialog.getByLabel('目录作品搜索').fill('JoJo')
   await expect(dialog.locator('.catalog-item')).toHaveCount(5)
-  for (const number of [108, 129, 133, 146]) {
+  await expect(dialog.locator('[data-number="108"]')).toContainText('50 / 50')
+  for (const number of [129, 133, 146]) {
     await expect(dialog.locator(`[data-number="${number}"]`)).toContainText('待制作')
   }
-  await expect(dialog.getByRole('button', { name: /^进入题库：/ })).toHaveCount(1)
+  await expect(dialog.getByRole('button', { name: /^进入题库：/ })).toHaveCount(2)
 })
 
 test('darling-in-the-franxx TV bank opens fifty illustrated questions on mobile', async ({ page }) => {

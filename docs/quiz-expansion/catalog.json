@@ -107,7 +107,17 @@
     "title-005": "demon-slayer",
     "title-009": "naruto",
     "title-017": "one-piece",
-    "title-113": "frieren"
+    "title-113": "frieren",
+    "title-101": "chunibyo-season-1",
+    "title-102": "seraph-of-the-end",
+    "title-103": "classroom-of-the-elite",
+    "title-104": "madoka-magica",
+    "title-105": "tokyo-revengers",
+    "title-106": "princess-mononoke",
+    "title-107": "dororo",
+    "title-108": "jojo-stardust-crusaders",
+    "title-109": "samurai-champloo",
+    "title-110": "my-hero-academia-season-5"
   },
   "entries": [
     {"number": 1, "id": "title-001", "batch": 1, "title": "Attack on Titan"},

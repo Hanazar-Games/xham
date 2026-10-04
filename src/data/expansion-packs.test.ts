@@ -1083,6 +1083,16 @@ describe('catalog additions', () => {
     sources['bakemonogatari'] = /^https:\/\/(?:www\.b-ch\.com\/titles\/2774\/0(?:0[1-9]|1[0-5])|www\.monogatari-series\.com\/bakemonogatari\/(?:chara\/(?:c0[2-7]\.html)?|staff\/|music\/|pac\/bd-box\.html))$/
     sources['howls-moving-castle'] = /^https:\/\/(?:www\.ghibli\.jp\/works\/howl\/|www\.viz\.com\/(?:howl-s-moving-castle|manga-books\/(?:film-comic\/howls-moving-castle-film-comics-volume-[1-4]-0\/product\/50[6-9]|art-book\/art-of-howls-moving-castle\/product\/510))|kinro\.ntv\.co\.jp\/article\/detail\/(?:20241213|2022121601))$/
     sources['hyouka'] = /^https:\/\/www\.kyotoanimation\.co\.jp\/kotenbu\/(?:character\/|staff-cast\/|interview\/|story\/(?:(?:0[1-9]|1\d|2[0-2])\/)?)$/
+    sources['chunibyo-season-1'] = /^https:\/\/(?:www\.b-ch\.com\/titles\/3630\/0(?:0[1-9]|1[0-2])|www\.anime-chu-2\.com\/tv\/(?:staff-cast\/|character\/(?:yuta|rikka|nibutani|kumin|dekomori|yuta_mom|kuzuha|yumeha|isshiki|nanase|toka)\/))$/
+    sources['seraph-of-the-end'] = /^https:\/\/(?:www\.b-ch\.com\/titles\/4529\/0(?:0[1-9]|1[0-2])|owarino-seraph\.jp\/(?:staff\/index|chara\/(?:yu|mika|guren|shinoa|yoichi|kimizuki|mitsuba|ferid|krul|asuramaru))\.html)$/
+    sources['classroom-of-the-elite'] = /^https:\/\/(?:www\.b-ch\.com\/titles\/5689\/0(?:0[1-9]|1[0-2])|you-zitsu\.com\/1st\/(?:character|staffcast)\/)$/
+    sources['madoka-magica'] = /^https:\/\/(?:www\.b-ch\.com\/titles\/3071\/0(?:0[1-9]|1[0-2])|www\.madoka-magica\.com\/tv\/youtube-streaming\/(?:(?:character|staff)\/)?)$/
+    sources['tokyo-revengers'] = /^https:\/\/www\.b-ch\.com\/titles\/7265\/0(?:0[1-9]|1\d|2[0-4])$/
+    sources['princess-mononoke'] = /^https:\/\/(?:www\.ghibli\.jp\/(?:works\/mononoke\/|diary_m\/(?:97[2346]\.html|ceska\/))|kinro\.ntv\.co\.jp\/article\/detail\/(?:20250725|20230616)|www\.viz\.com\/manga-books\/(?:manga\/princess-mononoke-film-comic-all-in-one-edition\/product\/8678|film-comic\/princess-mononoke-film-comics-volume-[2-5]-0\/product\/(?:73[89]|74[01])))$/
+    sources['dororo'] = /^https:\/\/(?:www\.b-ch\.com\/titles\/7546\/0(?:0[1-9]|1\d|2[0-4])|dororo-anime\.com\/character\.html)$/
+    sources['jojo-stardust-crusaders'] = /^https:\/\/www\.b-ch\.com\/titles\/4080\/0(?:0[1-9]|1\d|2[0-4])$/
+    sources['samurai-champloo'] = /^https:\/\/www\.b-ch\.com\/titles\/328\/0(?:0[1-9]|1\d|2[0-6])$/
+    sources['my-hero-academia-season-5'] = /^https:\/\/www\.b-ch\.com\/titles\/7275\/0(?:0[1-9]|1\d|2[0-5])$/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)
