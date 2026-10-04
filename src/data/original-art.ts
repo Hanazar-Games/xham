@@ -60,6 +60,16 @@ export const originalScenes = {
   arena: '竞技场与交叉的训练剑',
   volleyball: '排球、球网与室内球场的原创示意图',
   creatures: '森林中的原创圆形小生物',
+  'ancient-magus': '魔法书、鹿角与契约圆环的原创奇幻示意图',
+  'hellsing-ultimate': '教堂彩窗、十字徽记与夜战阴影的原创示意图',
+  'five-centimeters': '铁路线、樱花与远方月台的原创青春示意图',
+  'blue-spring-ride': '校园走廊、单车与春日蓝天的原创示意图',
+  'darker-than-black': '雨夜高楼、面具与电光的原创都市示意图',
+  'overlord3': '王座、城堡与魔法晶石的原创奇幻示意图',
+  'danganronpa': '黑白熊徽章、审判台与线索卡的原创推理示意图',
+  'komi-cant-communicate': '黑板、便签与校园窗光的原创日常示意图',
+  'fate-stay-night': '圣杯、魔法阵与交叉武器的原创战斗示意图',
+  'god-of-high-school': '擂台、拳套与能量轨迹的原创格斗示意图',
 } as const
 
 export type OriginalScene = keyof typeof originalScenes

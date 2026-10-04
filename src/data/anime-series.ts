@@ -186,4 +186,15 @@ export const animeSeries: { id: AnimeSeriesId; title: string; subtitle: string; 
   { id: 'plastic-memories' as AnimeSeriesId, title: '可塑性记忆', subtitle: 'Giftia · 记忆与离别', aliases: 'Plastic Memories 可塑性记忆 水柿司 艾拉' },
   { id: 'oshi-no-ko' as AnimeSeriesId, title: '我推的孩子', subtitle: '偶像与真相 · 舞台与调查', aliases: 'Oshi no Ko 我推的孩子 星野爱 阿奎亚 露比' },
   { id: 'cyberpunk' as AnimeSeriesId, title: '赛博朋克：边缘行者', subtitle: '夜之城 · 义体与选择', aliases: 'Cyberpunk Edgerunners 赛博朋克边缘行者 大卫 露西 夜之城' },
+
+  { id: 'ancient-magus' as AnimeSeriesId, title: '魔法使的新娘', subtitle: '魔法与契约 · 旅途', aliases: 'The Ancient Magus Bride 魔法使的新娘' },
+  { id: 'hellsing-ultimate' as AnimeSeriesId, title: 'Hellsing Ultimate', subtitle: '动画专题 · 角色与剧情', aliases: 'Hellsing Ultimate' },
+  { id: 'five-centimeters' as AnimeSeriesId, title: '秒速五厘米', subtitle: '动画专题 · 角色与剧情', aliases: '秒速五厘米' },
+  { id: 'blue-spring-ride' as AnimeSeriesId, title: '青春之旅', subtitle: '动画专题 · 角色与剧情', aliases: '青春之旅' },
+  { id: 'darker-than-black' as AnimeSeriesId, title: '黑之契约者', subtitle: '动画专题 · 角色与剧情', aliases: '黑之契约者' },
+  { id: 'overlord3' as AnimeSeriesId, title: 'Overlord 第三季', subtitle: '动画专题 · 角色与剧情', aliases: 'Overlord 第三季' },
+  { id: 'danganronpa' as AnimeSeriesId, title: '弹丸论破', subtitle: '动画专题 · 角色与剧情', aliases: '弹丸论破' },
+  { id: 'komi-cant-communicate' as AnimeSeriesId, title: '古见同学', subtitle: '动画专题 · 角色与剧情', aliases: '古见同学' },
+  { id: 'fate-stay-night' as AnimeSeriesId, title: 'Fate/stay night', subtitle: '动画专题 · 角色与剧情', aliases: 'Fate/stay night' },
+  { id: 'god-of-high-school' as AnimeSeriesId, title: '高校之神', subtitle: '动画专题 · 角色与剧情', aliases: '高校之神' },
 ]

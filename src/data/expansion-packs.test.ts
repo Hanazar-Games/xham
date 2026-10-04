@@ -1099,7 +1099,7 @@ describe('catalog additions', () => {
     for (const series of ['ubw', 'little-monster', 'totoro', 'oregairu2', 'jojo-golden', 'gintama', 'mahoukoukou', 'alicization', 'dragonball', 'relife']) sources[series] = /^https:\/\/www\.animenewsnetwork\.com\/encyclopedia\/search\/name=/
     for (const series of ['golden-time', 'overlord2', 'k-on', 'weathering', 'magi', 'spy-family2', 'date-live', 'black-lagoon', 'mushoku2', 'pancreas']) sources[series] = /^https:\/\/www\.animenewsnetwork\.com\/encyclopedia\/search\/name=/
     for (const series of ['slime2', 'solo-leveling', 'prison-school', 'kaguya-ultra', 'wotakoi', 'demon-swordsmith', 'rent-girlfriend', 'fairy-tail-2014', 'kimi-ni-todoke', 'tower-god']) sources[series] = /^https:\/\/www\.animenewsnetwork\.com\/encyclopedia\/search\/name=/
-    for (const series of ['quintessential', 'rezero2p2', 'haikyuu-top', 'foodwars3', 'tanya', 'end-evangelion', 'chivalry', 'plastic-memories', 'oshi-no-ko', 'cyberpunk']) sources[series] = /^https:\/\/www\.animenewsnetwork\.com\/encyclopedia\/search\/name=/
+    for (const series of ['quintessential', 'rezero2p2', 'haikyuu-top', 'foodwars3', 'tanya', 'end-evangelion', 'chivalry', 'plastic-memories', 'oshi-no-ko', 'cyberpunk', 'ancient-magus', 'hellsing-ultimate', 'five-centimeters', 'blue-spring-ride', 'darker-than-black', 'overlord3', 'danganronpa', 'komi-cant-communicate', 'fate-stay-night', 'god-of-high-school']) sources[series] = /^https:\/\/www\.animenewsnetwork\.com\/encyclopedia\/search\/name=/
     expect(expansionBanks.map((bank) => bank.series)).toEqual(Object.keys(sources))
     for (const bank of expansionBanks) {
       expect(bank.questions).toHaveLength(50)

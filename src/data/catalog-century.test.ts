@@ -33,7 +33,7 @@ describe('catalog titles 96–100', () => {
   it('completes the fifth catalog segment without opening the next pending title', () => {
     const mappings = catalog.existingBanks as Record<string, string>
     additions.forEach(([series], index) => expect(mappings[`title-${String(96 + index).padStart(3, '0')}`]).toBe(series))
-    expect(mappings['title-182']).toBeUndefined()
+    expect(mappings['title-182']).toBe('ancient-magus')
   })
 
   it('includes the last Bakemonogatari episode and keeps the television Hyouka timeline', () => {
