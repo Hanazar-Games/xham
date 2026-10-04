@@ -17,6 +17,7 @@ import { batchEntries as batch162Entries } from './batch-162-171'
 import { batchEntries as batch172Entries } from './batch-172-181'
 import { batchEntries as batch182Entries } from './batch-182-191'
 import { batchEntries as batch192Entries } from './batch-192-201'
+import { batchEntries as batch202Entries } from './batch-202-221'
 import { difficulties, difficultySeconds, type AnimeSeriesId, type Question, type Quiz } from '../types'
 import type { BankQuestion, QuestionBank } from './question-banks'
 import type { ExpansionEntry } from './expansion-entry'
@@ -766,11 +767,32 @@ export const expansionBanks = [
   ] as const).map(([series,title,scope])=>bank(series as AnimeSeriesId,title,scope,batch172Entries[series],()=>({label:'作品资料页',url:`https://www.animenewsnetwork.com/encyclopedia/search/name=${series}`}))),
   ...(['ancient-magus','hellsing-ultimate','five-centimeters','blue-spring-ride','darker-than-black','overlord3','danganronpa','komi-cant-communicate','fate-stay-night','god-of-high-school'].map((series)=>bank(series as AnimeSeriesId,series,'限定本作品动画公开剧情，包含剧透。',batch182Entries[series],()=>({label:'作品资料页',url:`https://www.animenewsnetwork.com/encyclopedia/search/name=${series}`})))),
   ...(['promised-neverland2','nozaki-kun','to-your-eternity','tokyo-ghoul-re2','nichijou','haruhi','black-bullet','masamune-kun','highschool-dxd-new','kiznaiver'].map((series)=>bank(series as AnimeSeriesId,series,'限定本作品动画公开剧情，包含剧透。',batch192Entries[series],()=>({label:'作品资料页',url:`https://www.animenewsnetwork.com/encyclopedia/search/name=${series}`})))),
+  ...(['inuyasha','sailor-moon','yu-yu-hakusho','katekyo-hitman-reborn','gintama2','drifters','golden-kamuy','land-of-the-lustrous','princess-principal','promare','odd-taxi','sonny-boy','wonder-egg-priority','sk8-infinity','link-click','ranking-of-kings','vivy','lycoris-recoil','bocchi-the-rock','heavenly-delusion'].map((series)=>bank(series as AnimeSeriesId,series,'限定本作品动画公开剧情，包含剧透。',batch202Entries[series],()=>({label:'作品资料页',url:`https://www.animenewsnetwork.com/encyclopedia/search/name=${series}`})))),
 ]
 
 const seriesPresentation: Partial<Record<AnimeSeriesId, {
   titles: [string, string, string]; scene: OriginalScene }>> = {
   ['promised-neverland2' as AnimeSeriesId]:{titles:['农园与人物入门','情报与合作线索','信任与计划辨析'],scene:'promised-neverland2'},['nozaki-kun' as AnimeSeriesId]:{titles:['校园与人物入门','漫画与误会线索','关系与创作辨析'],scene:'nozaki-kun'},['to-your-eternity' as AnimeSeriesId]:{titles:['旅途与人物入门','生命与变化线索','记忆与选择辨析'],scene:'to-your-eternity'},['tokyo-ghoul-re2' as AnimeSeriesId]:{titles:['喰种与人物入门','组织与战斗线索','身份与真相辨析'],scene:'tokyo-ghoul-re2'},['nichijou' as AnimeSeriesId]:{titles:['校园与人物入门','日常与事件线索','笑点与关系辨析'],scene:'nichijou'},['haruhi' as AnimeSeriesId]:{titles:['团长与人物入门','事件与观察线索','时间与世界辨析'],scene:'haruhi'},['black-bullet' as AnimeSeriesId]:{titles:['民警与人物入门','原肠动物与战斗线索','区域与身份辨析'],scene:'black-bullet'},['masamune-kun' as AnimeSeriesId]:{titles:['校园与人物入门','计划与关系线索','记忆与动机辨析'],scene:'masamune-kun'},['highschool-dxd-new' as AnimeSeriesId]:{titles:['恶魔与人物入门','战斗与阵营线索','契约与能力辨析'],scene:'highschool-dxd-new'},['kiznaiver' as AnimeSeriesId]:{titles:['实验与人物入门','连接与冲突线索','感情与选择辨析'],scene:'kiznaiver'},
+  ['inuyasha' as AnimeSeriesId]:{titles:['人物与世界入门','事件与能力线索','关系与选择辨析'],scene:'inuyasha'},
+  ['sailor-moon' as AnimeSeriesId]:{titles:['人物与世界入门','事件与能力线索','关系与选择辨析'],scene:'sailor-moon'},
+  ['yu-yu-hakusho' as AnimeSeriesId]:{titles:['人物与世界入门','事件与能力线索','关系与选择辨析'],scene:'yu-yu-hakusho'},
+  ['katekyo-hitman-reborn' as AnimeSeriesId]:{titles:['人物与世界入门','事件与能力线索','关系与选择辨析'],scene:'katekyo-hitman-reborn'},
+  ['gintama2' as AnimeSeriesId]:{titles:['人物与世界入门','事件与能力线索','关系与选择辨析'],scene:'gintama2'},
+  ['drifters' as AnimeSeriesId]:{titles:['人物与世界入门','事件与能力线索','关系与选择辨析'],scene:'drifters'},
+  ['golden-kamuy' as AnimeSeriesId]:{titles:['人物与世界入门','事件与能力线索','关系与选择辨析'],scene:'golden-kamuy'},
+  ['land-of-the-lustrous' as AnimeSeriesId]:{titles:['人物与世界入门','事件与能力线索','关系与选择辨析'],scene:'land-of-the-lustrous'},
+  ['princess-principal' as AnimeSeriesId]:{titles:['人物与世界入门','事件与能力线索','关系与选择辨析'],scene:'princess-principal'},
+  ['promare' as AnimeSeriesId]:{titles:['人物与世界入门','事件与能力线索','关系与选择辨析'],scene:'promare'},
+  ['odd-taxi' as AnimeSeriesId]:{titles:['人物与世界入门','事件与能力线索','关系与选择辨析'],scene:'odd-taxi'},
+  ['sonny-boy' as AnimeSeriesId]:{titles:['人物与世界入门','事件与能力线索','关系与选择辨析'],scene:'sonny-boy'},
+  ['wonder-egg-priority' as AnimeSeriesId]:{titles:['人物与世界入门','事件与能力线索','关系与选择辨析'],scene:'wonder-egg-priority'},
+  ['sk8-infinity' as AnimeSeriesId]:{titles:['人物与世界入门','事件与能力线索','关系与选择辨析'],scene:'sk8-infinity'},
+  ['link-click' as AnimeSeriesId]:{titles:['人物与世界入门','事件与能力线索','关系与选择辨析'],scene:'link-click'},
+  ['ranking-of-kings' as AnimeSeriesId]:{titles:['人物与世界入门','事件与能力线索','关系与选择辨析'],scene:'ranking-of-kings'},
+  ['vivy' as AnimeSeriesId]:{titles:['人物与世界入门','事件与能力线索','关系与选择辨析'],scene:'vivy'},
+  ['lycoris-recoil' as AnimeSeriesId]:{titles:['人物与世界入门','事件与能力线索','关系与选择辨析'],scene:'lycoris-recoil'},
+  ['bocchi-the-rock' as AnimeSeriesId]:{titles:['人物与世界入门','事件与能力线索','关系与选择辨析'],scene:'bocchi-the-rock'},
+  ['heavenly-delusion' as AnimeSeriesId]:{titles:['人物与世界入门','事件与能力线索','关系与选择辨析'],scene:'heavenly-delusion'},
   ['ancient-magus' as AnimeSeriesId]:{titles:['魔法与人物入门','契约与旅途线索','身份与代价辨析'],scene:'ancient-magus'},['hellsing-ultimate' as AnimeSeriesId]:{titles:['组织与人物入门','吸血鬼与作战线索','立场与战局辨析'],scene:'hellsing-ultimate'},['five-centimeters' as AnimeSeriesId]:{titles:['人物与距离入门','记忆与旅途线索','时间与选择辨析'],scene:'five-centimeters'},['blue-spring-ride' as AnimeSeriesId]:{titles:['校园与人物入门','重逢与关系线索','心意与成长辨析'],scene:'blue-spring-ride'},['darker-than-black' as AnimeSeriesId]:{titles:['契约者与组织入门','任务与能力线索','代价与身份辨析'],scene:'darker-than-black'},['overlord3' as AnimeSeriesId]:{titles:['纳萨力克与人物入门','王国与战斗线索','能力与统治辨析'],scene:'overlord3'},['danganronpa' as AnimeSeriesId]:{titles:['学园与人物入门','推理与审判线索','证据与动机辨析'],scene:'danganronpa'},['komi-cant-communicate' as AnimeSeriesId]:{titles:['校园与人物入门','交流与朋友线索','心意与成长辨析'],scene:'komi-cant-communicate'},['fate-stay-night' as AnimeSeriesId]:{titles:['魔术与人物入门','圣杯战争线索','契约与愿望辨析'],scene:'fate-stay-night'},['god-of-high-school' as AnimeSeriesId]:{titles:['格斗与人物入门','比赛与能力线索','战术与愿望辨析'],scene:'god-of-high-school'},
   ['quintessential' as AnimeSeriesId]:{titles:['五姐妹与校园入门','家庭与考试线索','心意与选择辨析'],scene:'quintessential'},['rezero2p2' as AnimeSeriesId]:{titles:['圣域与人物入门','试炼与循环线索','选择与代价辨析'],scene:'rezero2p2'},['haikyuu-top' as AnimeSeriesId]:{titles:['球队与赛场入门','比赛与战术线索','位置与协作辨析'],scene:'haikyuu-top'},['foodwars3' as AnimeSeriesId]:{titles:['远月与料理入门','选拔与对决线索','技巧与评审辨析'],scene:'foodwars3'},['tanya' as AnimeSeriesId]:{titles:['军人和世界入门','战线与魔法线索','命令与选择辨析'],scene:'tanya'},['end-evangelion' as AnimeSeriesId]:{titles:['机体与人物入门','作战与真相线索','结局与制作辨析'],scene:'end-evangelion'},['chivalry' as AnimeSeriesId]:{titles:['骑士与学院入门','剑技与比赛线索','能力与关系辨析'],scene:'chivalry'},['plastic-memories' as AnimeSeriesId]:{titles:['终端与人物入门','记忆与工作线索','时间与离别辨析'],scene:'plastic-memories'},['oshi-no-ko' as AnimeSeriesId]:{titles:['偶像与人物入门','舞台与调查线索','秘密与选择辨析'],scene:'oshi-no-ko'},['cyberpunk' as AnimeSeriesId]:{titles:['夜之城与人物入门','义体与任务线索','选择与代价辨析'],scene:'cyberpunk'},
   ['slime2' as AnimeSeriesId]:{titles:['伙伴与魔王入门','国家与战斗线索','技能与阵营辨析'],scene:'slime2'},['solo-leveling' as AnimeSeriesId]:{titles:['猎人与系统入门','升级与副本线索','能力与选择辨析'],scene:'solo-leveling'},['prison-school' as AnimeSeriesId]:{titles:['校园与人物入门','监狱与规则线索','逃脱与关系辨析'],scene:'prison-school'},['kaguya-ultra' as AnimeSeriesId]:{titles:['学生会与人物入门','竞赛与心理战','心意与选择辨析'],scene:'kaguya-ultra'},['wotakoi' as AnimeSeriesId]:{titles:['职场与人物入门','兴趣与关系线索','恋爱与日常辨析'],scene:'wotakoi'},['demon-swordsmith' as AnimeSeriesId]:{titles:['刀匠村与人物入门','呼吸与战斗线索','锻造与阵营辨析'],scene:'demon-swordsmith'},['rent-girlfriend' as AnimeSeriesId]:{titles:['人物与委托入门','约会与关系线索','承诺与选择辨析'],scene:'rent-girlfriend'},['fairy-tail-2014' as AnimeSeriesId]:{titles:['公会与人物入门','任务与魔法线索','伙伴与战局辨析'],scene:'fairy-tail-2014'},['kimi-ni-todoke' as AnimeSeriesId]:{titles:['人物与校园入门','信件与关系线索','误解与成长辨析'],scene:'kimi-ni-todoke'},['tower-god' as AnimeSeriesId]:{titles:['塔与人物入门','试炼与规则线索','伙伴与选择辨析'],scene:'tower-god'},
