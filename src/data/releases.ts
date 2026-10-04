@@ -13,17 +13,24 @@ interface Release {
 export const currentRelease: Release = {
   version: manifest.version,
   date: '2026-10-04',
-  title: '继续扩充十部题库，新增500道配图题',
-  summary: `新增《约定的梦幻岛 第二季》《月刊少女野崎君》《致不灭的你》《东京喰种:re 第二季》《日常》《凉宫春日的忧郁》《黑色子弹》《政宗君的复仇》《High School DxD New》和《羁绊者》，全站${questionBanks.reduce((total, bank) => total + bank.questions.length, 0)}题、${quizzes.length}套练习卷。`,
+  title: '透明次元背景与全屏主题视觉',
+  summary: `优化二次元专区的透明背景、全屏主题插画层和内容可读性，全站${questionBanks.reduce((total, bank) => total + bank.questions.length, 0)}题、${quizzes.length}套练习卷。`,
   changes: [
-    '每部独立50题，简单18、中等17、困难15；新增30套练习卷和10个完整50题考试入口。',
-    '500题均配本地原创示意图、独立解析及资料来源，新增十幅主题插画；题图不使用官方剧照。',
-    '严格区分季度、续作和改编版本，题库范围均在专区说明中标注并提示剧透。',
-    '制作目录完成200／200条目，独立题目达到10050／10000；新增题库仍保留独立来源和难度分布。',
+    '页面主背景改为透明叠加，加入全屏原创主题视觉层，桌面端和手机端均保持内容清晰。',
+    '新增右下角半透明主题插画层，避免遮挡按钮、题卡、搜索和公告内容。',
+    '保留本地 SVG 和原创署名，不依赖外部图片请求；图片失败时不影响答题。',
+    '回归图片、键盘、SFX、BGM、焦点、响应式布局与公告弹窗。',
   ],
 }
 
 export const releaseHistory: Release[] = [
+  {
+    version: '0.114.0',
+    date: '2026-10-04',
+    title: '继续扩充二十套题库',
+    summary: '新增20套题库、1000道配图题和60套练习卷。',
+    changes: ['每题包含本地原创 SVG 配图、解析和来源。', 'v0.113.0公告原文移入历史公告。'],
+  },
   {
     version: '0.110.0',
     date: '2026-10-04',
