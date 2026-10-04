@@ -18,6 +18,10 @@
   background: #edf4e4;
   border-color: #bdcfaa;
 }
+.audio-state {
+  font-size: 10px;
+  color: #7b8b6a;
+}
 .music-dot {
   width: 6px;
   height: 6px;
@@ -203,6 +207,9 @@
 @media (max-width: 760px) {
   .audio-button > span,
   .pause-button > span {
+    display: none;
+  }
+  .audio-button .audio-state {
     display: none;
   }
   .audio-button,

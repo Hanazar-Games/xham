@@ -1,11 +1,23 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { Dialog } from '../components/Dialog'
 import { Icon } from '../components/Icon'
 import { useAudio } from './AudioProvider'
 
 export function AudioSettings({ onClose, paused = false }: { onClose: () => void; paused?: boolean }) {
   const { options, configure, play, stopSfx, unlock, unavailable } = useAudio()
-  useEffect(() => stopSfx, [stopSfx])
+  const previewToken = useRef(0)
+  useEffect(
+    () => () => {
+      previewToken.current += 1
+      stopSfx()
+    },
+    [stopSfx],
+  )
+  const preview = async (cue: 'correct' | 'tap' = 'tap', force = false) => {
+    if ((!force && !options.sfx) || options.volume === 0) return
+    const token = ++previewToken.current
+    if ((await unlock()) && token === previewToken.current) play(cue)
+  }
   return (
     <Dialog title="给冒险配一点声音。" onClose={onClose}>
       <p className="dialog-description">{paused ? '计时已暂停，调好声音后继续答题。' : '轻柔的旋律和及时的反馈，节奏由你决定。'}</p>
@@ -22,7 +34,11 @@ export function AudioSettings({ onClose, paused = false }: { onClose: () => void
           role="switch"
           aria-checked={options.sfx}
           aria-label="游戏音效"
-          onClick={() => configure({ sfx: !options.sfx })}
+          onClick={() => {
+            const next = !options.sfx
+            configure({ sfx: next })
+            if (next) void preview('correct', true)
+          }}
         >
           <span />
         </button>
@@ -61,6 +77,10 @@ export function AudioSettings({ onClose, paused = false }: { onClose: () => void
           step="5"
           value={Math.round(options.volume * 100)}
           onChange={(event) => configure({ volume: Number(event.target.value) / 100 })}
+          onPointerUp={() => void preview('tap')}
+          onKeyUp={(event) => {
+            if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'].includes(event.key)) void preview('tap')
+          }}
         />
       </label>
       {unavailable && (
@@ -72,10 +92,7 @@ export function AudioSettings({ onClose, paused = false }: { onClose: () => void
         <button
           className="secondary-button"
           disabled={!options.sfx || options.volume === 0}
-          onClick={() => {
-            void unlock()
-            play('correct')
-          }}
+          onClick={() => void preview('correct')}
         >
           <Icon name="volume" size={18} />
           试听音效
@@ -85,7 +102,7 @@ export function AudioSettings({ onClose, paused = false }: { onClose: () => void
           <Icon name="check" size={18} />
         </button>
       </div>
-      <p className="audio-note">切换到其他标签页时自动静音<br />设置仅在本次访问生效</p>
+      <p className="audio-note">开启音效或调整音量会给出短提示<br />切换标签页时自动静音，设置仅在本次访问生效</p>
     </Dialog>
   )
 }
@@ -93,10 +110,12 @@ export function AudioSettings({ onClose, paused = false }: { onClose: () => void
 export function AudioButton({ onClick }: { onClick: () => void }) {
   const { options, unavailable } = useAudio()
   const muted = unavailable || (!options.sfx && !options.music) || options.volume === 0
+  const state = unavailable ? '不可用' : muted ? '静音' : options.music ? '音乐开启' : '音效开启'
   return (
-    <button className="audio-button" onClick={onClick} aria-label="声音设置" title="声音设置">
+    <button className="audio-button" onClick={onClick} aria-label="声音设置" title={`声音设置 · ${state}`}>
       <Icon name={muted ? 'muted' : 'volume'} size={18} />
       <span>声音</span>
+      <span className="audio-state">{state}</span>
       {!unavailable && options.music && options.volume > 0 && <i className="music-dot" />}
     </button>
   )
