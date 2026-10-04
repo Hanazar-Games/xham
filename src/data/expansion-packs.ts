@@ -18,6 +18,7 @@ import { batchEntries as batch172Entries } from './batch-172-181'
 import { batchEntries as batch182Entries } from './batch-182-191'
 import { batchEntries as batch192Entries } from './batch-192-201'
 import { batchEntries as batch202Entries } from './batch-202-221'
+import { batchEntries as batch222Entries } from './batch-222-241'
 import { difficulties, difficultySeconds, type AnimeSeriesId, type Question, type Quiz } from '../types'
 import type { BankQuestion, QuestionBank } from './question-banks'
 import type { ExpansionEntry } from './expansion-entry'
@@ -768,11 +769,32 @@ export const expansionBanks = [
   ...(['ancient-magus','hellsing-ultimate','five-centimeters','blue-spring-ride','darker-than-black','overlord3','danganronpa','komi-cant-communicate','fate-stay-night','god-of-high-school'].map((series)=>bank(series as AnimeSeriesId,series,'限定本作品动画公开剧情，包含剧透。',batch182Entries[series],()=>({label:'作品资料页',url:`https://www.animenewsnetwork.com/encyclopedia/search/name=${series}`})))),
   ...(['promised-neverland2','nozaki-kun','to-your-eternity','tokyo-ghoul-re2','nichijou','haruhi','black-bullet','masamune-kun','highschool-dxd-new','kiznaiver'].map((series)=>bank(series as AnimeSeriesId,series,'限定本作品动画公开剧情，包含剧透。',batch192Entries[series],()=>({label:'作品资料页',url:`https://www.animenewsnetwork.com/encyclopedia/search/name=${series}`})))),
   ...(['inuyasha','sailor-moon','yu-yu-hakusho','katekyo-hitman-reborn','gintama2','drifters','golden-kamuy','land-of-the-lustrous','princess-principal','promare','odd-taxi','sonny-boy','wonder-egg-priority','sk8-infinity','link-click','ranking-of-kings','vivy','lycoris-recoil','bocchi-the-rock','heavenly-delusion'].map((series)=>bank(series as AnimeSeriesId,series,'限定本作品动画公开剧情，包含剧透。',batch202Entries[series],()=>({label:'作品资料页',url:`https://www.animenewsnetwork.com/encyclopedia/search/name=${series}`})))),
+  ...(['frieren2','blue-lock','kaiju-no-8','wind-breaker','solo-leveling2','delicious-in-dungeon','apothecary-diaries','metallic-rouge','undead-unluck','fire-force2','mashle','eminence-shadow','shadow-house','call-of-night','moriarty-patriot','great-pretender','beastars','cyberpunk2','pluto','summer-time-render'].map((series)=>bank(series as AnimeSeriesId,series,'限定本作品动画公开剧情，包含剧透。',batch222Entries[series],()=>({label:'作品资料页',url:`https://www.animenewsnetwork.com/encyclopedia/search/name=${series}`})))),
 ]
 
 const seriesPresentation: Partial<Record<AnimeSeriesId, {
   titles: [string, string, string]; scene: OriginalScene }>> = {
   ['promised-neverland2' as AnimeSeriesId]:{titles:['农园与人物入门','情报与合作线索','信任与计划辨析'],scene:'promised-neverland2'},['nozaki-kun' as AnimeSeriesId]:{titles:['校园与人物入门','漫画与误会线索','关系与创作辨析'],scene:'nozaki-kun'},['to-your-eternity' as AnimeSeriesId]:{titles:['旅途与人物入门','生命与变化线索','记忆与选择辨析'],scene:'to-your-eternity'},['tokyo-ghoul-re2' as AnimeSeriesId]:{titles:['喰种与人物入门','组织与战斗线索','身份与真相辨析'],scene:'tokyo-ghoul-re2'},['nichijou' as AnimeSeriesId]:{titles:['校园与人物入门','日常与事件线索','笑点与关系辨析'],scene:'nichijou'},['haruhi' as AnimeSeriesId]:{titles:['团长与人物入门','事件与观察线索','时间与世界辨析'],scene:'haruhi'},['black-bullet' as AnimeSeriesId]:{titles:['民警与人物入门','原肠动物与战斗线索','区域与身份辨析'],scene:'black-bullet'},['masamune-kun' as AnimeSeriesId]:{titles:['校园与人物入门','计划与关系线索','记忆与动机辨析'],scene:'masamune-kun'},['highschool-dxd-new' as AnimeSeriesId]:{titles:['恶魔与人物入门','战斗与阵营线索','契约与能力辨析'],scene:'highschool-dxd-new'},['kiznaiver' as AnimeSeriesId]:{titles:['实验与人物入门','连接与冲突线索','感情与选择辨析'],scene:'kiznaiver'},
+  ['frieren2' as AnimeSeriesId]:{titles:['人物与世界入门','事件与能力线索','关系与选择辨析'],scene:'frieren2'},
+  ['blue-lock' as AnimeSeriesId]:{titles:['人物与世界入门','事件与能力线索','关系与选择辨析'],scene:'blue-lock'},
+  ['kaiju-no-8' as AnimeSeriesId]:{titles:['人物与世界入门','事件与能力线索','关系与选择辨析'],scene:'kaiju-no-8'},
+  ['wind-breaker' as AnimeSeriesId]:{titles:['人物与世界入门','事件与能力线索','关系与选择辨析'],scene:'wind-breaker'},
+  ['solo-leveling2' as AnimeSeriesId]:{titles:['人物与世界入门','事件与能力线索','关系与选择辨析'],scene:'solo-leveling2'},
+  ['delicious-in-dungeon' as AnimeSeriesId]:{titles:['人物与世界入门','事件与能力线索','关系与选择辨析'],scene:'delicious-in-dungeon'},
+  ['apothecary-diaries' as AnimeSeriesId]:{titles:['人物与世界入门','事件与能力线索','关系与选择辨析'],scene:'apothecary-diaries'},
+  ['metallic-rouge' as AnimeSeriesId]:{titles:['人物与世界入门','事件与能力线索','关系与选择辨析'],scene:'metallic-rouge'},
+  ['undead-unluck' as AnimeSeriesId]:{titles:['人物与世界入门','事件与能力线索','关系与选择辨析'],scene:'undead-unluck'},
+  ['fire-force2' as AnimeSeriesId]:{titles:['人物与世界入门','事件与能力线索','关系与选择辨析'],scene:'fire-force2'},
+  ['mashle' as AnimeSeriesId]:{titles:['人物与世界入门','事件与能力线索','关系与选择辨析'],scene:'mashle'},
+  ['eminence-shadow' as AnimeSeriesId]:{titles:['人物与世界入门','事件与能力线索','关系与选择辨析'],scene:'eminence-shadow'},
+  ['shadow-house' as AnimeSeriesId]:{titles:['人物与世界入门','事件与能力线索','关系与选择辨析'],scene:'shadow-house'},
+  ['call-of-night' as AnimeSeriesId]:{titles:['人物与世界入门','事件与能力线索','关系与选择辨析'],scene:'call-of-night'},
+  ['moriarty-patriot' as AnimeSeriesId]:{titles:['人物与世界入门','事件与能力线索','关系与选择辨析'],scene:'moriarty-patriot'},
+  ['great-pretender' as AnimeSeriesId]:{titles:['人物与世界入门','事件与能力线索','关系与选择辨析'],scene:'great-pretender'},
+  ['beastars' as AnimeSeriesId]:{titles:['人物与世界入门','事件与能力线索','关系与选择辨析'],scene:'beastars'},
+  ['cyberpunk2' as AnimeSeriesId]:{titles:['人物与世界入门','事件与能力线索','关系与选择辨析'],scene:'cyberpunk2'},
+  ['pluto' as AnimeSeriesId]:{titles:['人物与世界入门','事件与能力线索','关系与选择辨析'],scene:'pluto'},
+  ['summer-time-render' as AnimeSeriesId]:{titles:['人物与世界入门','事件与能力线索','关系与选择辨析'],scene:'summer-time-render'},
   ['inuyasha' as AnimeSeriesId]:{titles:['人物与世界入门','事件与能力线索','关系与选择辨析'],scene:'inuyasha'},
   ['sailor-moon' as AnimeSeriesId]:{titles:['人物与世界入门','事件与能力线索','关系与选择辨析'],scene:'sailor-moon'},
   ['yu-yu-hakusho' as AnimeSeriesId]:{titles:['人物与世界入门','事件与能力线索','关系与选择辨析'],scene:'yu-yu-hakusho'},
