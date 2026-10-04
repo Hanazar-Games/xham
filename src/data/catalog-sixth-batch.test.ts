@@ -38,6 +38,6 @@ describe('catalog titles 101–110', () => {
   it('opens precisely the next ten catalog entries', () => {
     const mappings = catalog.existingBanks as Record<string, string>
     additions.forEach(([series], index) => expect(mappings[`title-${101 + index}`]).toBe(series))
-    expect(mappings['title-162']).toBeUndefined()
+    expect(mappings['title-172']).toBeUndefined()
   })
 })
