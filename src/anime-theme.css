@@ -1,7 +1,29 @@
 .anime-page {
   --line: #e6ddf0;
-  background: radial-gradient(ellipse at 100% 5%, #e3d2ff 0, transparent 40%),
-    radial-gradient(ellipse at 0 45%, #ffdce9 0, transparent 36%), #f9f5ff;
+  position: relative;
+  isolation: isolate;
+  background: transparent;
+}
+.anime-page::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background: linear-gradient(90deg, #f9f5ffef, #f9f5ffd9), url('/images/original/adventure.svg') center / cover no-repeat;
+  opacity: .92;
+}
+.anime-page::after {
+  content: '';
+  position: fixed;
+  right: -7vw;
+  bottom: -8vh;
+  width: min(42vw, 560px);
+  aspect-ratio: 800 / 450;
+  z-index: -1;
+  pointer-events: none;
+  background: url('/images/original/academy.svg') center / contain no-repeat;
+  opacity: .16;
 }
 .anime-page .sidebar { background: #fffafeee; border-color: #e5d4ed; }
 .anime-page .topbar { background: #fffafbe8; border-color: #e5d4ed; }
